@@ -228,6 +228,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/09/MySQL主从复制同步/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/09/MySQL主从复制同步/" class="post-title-link" itemprop="url">MySQL主从复制同步检查</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-09 17:08:00 / 修改时间：17:09:30" itemprop="dateCreated datePublished" datetime="2019-11-09T17:08:00+08:00">2019-11-09</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MySQL主从复制同步检查"><a href="#MySQL主从复制同步检查" class="headerlink" title="MySQL主从复制同步检查"></a>MySQL主从复制同步检查</h2><h3 id="关于-seconds-behind-master-参数"><a href="#关于-seconds-behind-master-参数" class="headerlink" title="关于 seconds_behind_master 参数"></a>关于 seconds_behind_master 参数</h3><p><img src="/2019/11/09/MySQL主从复制同步/sbm.png" alt="sbm"></p>
+<ul>
+<li>sbm参数事从服务器落后与主服务器的时间</li>
+<li>由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已经很慢，不能通过这个时间直接判断<ol>
+<li>sbm出现NULL值：<ul>
+<li>出现空值时主从复制就断了或者停止工作</li>
+</ul>
+</li>
+<li>sbm值大于等于0：<ul>
+<li>大于0时，则主从服务器已经数据不一致，有滞后现象</li>
+<li>等于0时，只能说明SQL解析线程relay_log到目前为止没有延迟</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="稍微准确的方法"><a href="#稍微准确的方法" class="headerlink" title="稍微准确的方法"></a>稍微准确的方法</h3><p><img src="/2019/11/09/MySQL主从复制同步/sbm2.png" alt="sbm2"></p>
+<ol>
+<li>首先查看master_log_file参数，同relay_master_log_file参数的差异，比较日志的同步情况</li>
+<li>其次查看read_master_log_pos和exec_master_log_pos参数的差异，比较日志的读取和执行差异</li>
+<li>最后查看seconds_behind_master参数</li>
+</ol>
+<h3 id="较新的GTID和pt工具"><a href="#较新的GTID和pt工具" class="headerlink" title="较新的GTID和pt工具"></a>较新的GTID和pt工具</h3><ol>
+<li>较新的GIID的复制方式有更好的方式来判断时间点主从复制的差异</li>
+<li>pt工具中的beatheart判断<ul>
+<li>pt工具：在主服务器上有一个库表，定时写入数据，从服务器读取来分析差异</li>
+</ul>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/09/git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -524,7 +636,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-09 16:22:32" itemprop="dateModified" datetime="2019-11-09T16:22:32+08:00">2019-11-09</time>
+                <time title="修改时间：2019-11-09 16:26:13" itemprop="dateModified" datetime="2019-11-09T16:26:13+08:00">2019-11-09</time>
               </span>
             
           
@@ -1090,7 +1202,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1116,7 +1228,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
