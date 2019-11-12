@@ -228,6 +228,131 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/12/RHCE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/12/RHCE/" class="post-title-link" itemprop="url">RHCE备考</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-12 20:06:00 / 修改时间：20:07:32" itemprop="dateCreated datePublished" datetime="2019-11-12T20:06:00+08:00">2019-11-12</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置防火墙对于ssh的访问"><a href="#设置防火墙对于ssh的访问" class="headerlink" title="设置防火墙对于ssh的访问"></a>设置防火墙对于ssh的访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' service name='ssh' accept"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.17.10.0/24' service name='ssh' reject"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --list-all</span></span><br><span class="line">public (default, active)</span><br><span class="line">  interfaces: eth0</span><br><span class="line">  sources:</span><br><span class="line">  services: dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.17.10.0/24"</span> service name=<span class="string">"ssh"</span> reject</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.25.0.0/24"</span> service name=<span class="string">"ssh"</span> accept</span><br></pre></td></tr></table></figure>
+
+<h3 id="在eth0口上配置ipv6地址"><a href="#在eth0口上配置ipv6地址" class="headerlink" title="在eth0口上配置ipv6地址"></a>在eth0口上配置ipv6地址</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># nmcli connection modify eth0 ipv6.method manual ipv6.addresses fddb:fe2a:ab1e::c0a8:2/64 connection.autoconnect yes</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart network</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># ping6 -c 4 fddb:fe2a:ab1e::c0a8:1</span></span><br><span class="line">PING fddb:fe2a:ab1e::c0a8:1(fddb:fe2a:ab1e::c0a8:1) 56 data bytes</span><br><span class="line">64 bytes from fddb:fe2a:ab1e::c0a8:1: icmp_seq=1 ttl=64 time=2.09 ms</span><br><span class="line">[root@desktop0 ~]<span class="comment"># ping -c 4 172.25.0.11</span></span><br><span class="line">PING 172.25.0.11 (172.25.0.11) 56(84) bytes of data.</span><br><span class="line">64 bytes from 172.25.0.11: icmp_seq=1 ttl=64 time=0.346 ms</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置链路聚合"><a href="#配置链路聚合" class="headerlink" title="配置链路聚合"></a>配置链路聚合</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># nmcli connection add type team con-name team1 ifname team1-master  config '&#123;"runner": &#123;"name": "activebackup"&#125;&#125;'</span></span><br><span class="line">[root@server0 ~]<span class="comment"># nmcli connection add type team-slave con-name team1-slave1 ifname eth1 master team1-master</span></span><br><span class="line">[root@server0 ~]<span class="comment"># nmcli connection add type team-slave con-name team1-slave2 ifname eth2 master team1-master</span></span><br><span class="line">[root@server0 ~]<span class="comment"># nmcli connection modify team1 ipv4.method manual ipv4.addresses 192.168.0.101/24 connection.autoconnect yes</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart netwrok</span></span><br><span class="line">[root@server0 ~]<span class="comment"># teamdctl team1-master state</span></span><br><span class="line">setup:</span><br><span class="line">  runner: activebackup</span><br><span class="line">ports:</span><br><span class="line">  eth1</span><br><span class="line">    link watches:</span><br><span class="line">      link summary: up</span><br><span class="line">      instance[link_watch_0]:</span><br><span class="line">        name: ethtool</span><br><span class="line">        link: up</span><br><span class="line">  eth2</span><br><span class="line">    link watches:</span><br><span class="line">      link summary: up</span><br><span class="line">      instance[link_watch_0]:</span><br><span class="line">        name: ethtool</span><br><span class="line">        link: up</span><br><span class="line">runner:</span><br><span class="line">  active port: eth1</span><br><span class="line">[root@server0 ~]<span class="comment"># ip a | grep team1-master</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置用户自定义环境"><a href="#设置用户自定义环境" class="headerlink" title="设置用户自定义环境"></a>设置用户自定义环境</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/bashrc</span></span><br><span class="line"><span class="built_in">alias</span> qstat=<span class="string">'/bin/ps –Ao pid,tt,user,fname,rsz'</span></span><br><span class="line">[root@server0 ~]<span class="comment"># bash /etc/bashrc</span></span><br><span class="line">开启新窗口验证</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置本地邮件服务"><a href="#配置本地邮件服务" class="headerlink" title="配置本地邮件服务"></a>配置本地邮件服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/postfix/main.cf</span></span><br><span class="line">mydestination = <span class="string">''</span></span><br><span class="line">mydomain = example.com</span><br><span class="line">myorigin = <span class="variable">$mydomain</span></span><br><span class="line">relayhost = [classroom.example.com]</span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mail -S 'student' student@classroom.example.com</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置端口转发"><a href="#设置端口转发" class="headerlink" title="设置端口转发"></a>设置端口转发</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' forward-port port=5423 protocol=tcp to-port=80"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' forward-port port=5423 protocol=udp to-port=80"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置smb共享目录"><a href="#设置smb共享目录" class="headerlink" title="设置smb共享目录"></a>设置smb共享目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y samba samba-client</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/samba/smb.conf</span></span><br><span class="line">    workgroup = STAFF</span><br><span class="line">    hosts allow = 127. 172.25.0.        <span class="comment">#只有example.com域内可访问</span></span><br><span class="line">    [common]</span><br><span class="line">    path = /common</span><br><span class="line">    browseable = yes            <span class="comment">#common必须可浏览</span></span><br><span class="line">    writable = no</span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /common</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd harry</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:r-x /common/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># smbpasswd -a harry</span></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br><span class="line">Added user harry.</span><br><span class="line">[root@server0 ~]<span class="comment"># pdbedit -L</span></span><br><span class="line">harry:1001:</span><br><span class="line">[root@server0 ~]<span class="comment"># chcon -t samba_share_t /common/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setsebool -P samba_export_all_ro 1</span></span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable smb nmb</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart smb nmb</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=samba</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># smbclient //server0.example.com/common -U harry</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置多用户smb挂载"><a href="#配置多用户smb挂载" class="headerlink" title="配置多用户smb挂载"></a>配置多用户smb挂载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir /devops</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/samba/smb.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd natasha</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:r-x,u:natasha:rwx /devops/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># smbpasswd -a natasha</span></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br><span class="line">Added user natasha.</span><br><span class="line">[root@server0 ~]<span class="comment"># pdbedit -L</span></span><br><span class="line">harry:1001:</span><br><span class="line">natasha:1002:</span><br><span class="line">[root@server0 ~]<span class="comment"># chcon -t samba_share_t /devops</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setsebool -P samba_export_all_rw 1</span></span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart smb nmb</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@desktop0 ~]<span class="comment"># useradd harry</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># useradd natasha</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkdir /mnt/multi</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  //server0.example.com/devops  /mnt/multi  cifs  defaults,credentials=/root/mysmb,multiuser  0 0</span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /root/mysmb</span></span><br><span class="line">  username=harry</span><br><span class="line">  password=redhat</span><br><span class="line">[root@desktop0 ~]<span class="comment"># yum install -y cifs-utils.x86_64</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># cifscreds add server0 -u natasha</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置nfs服务"><a href="#配置nfs服务" class="headerlink" title="配置nfs服务"></a>配置nfs服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir /public</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/exports</span></span><br><span class="line">  /public 172.25.0.0/24(ro,sync)</span><br><span class="line">[root@server0 ~]<span class="comment"># chown nfsnobody /public/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /protected</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/exports</span></span><br><span class="line">  /protected 172.25.0.0/24(rw,sync,sec=krb5p)</span><br><span class="line">[root@server0 ~]<span class="comment"># chown nfsnobody /protected/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/pub/keytabs/server0.keytab -O /etc/krb5.keytab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /protected/project</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chown ldapuser0:nfsnobody /protected/project/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:ldapuser0:rwx /protected/project/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable nfs-server.service '</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable nfs-secure-server.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart nfs-server.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart nfs-secure-server.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=mountd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=nfs</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=rpc-bind</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkdir /mnt/nfsmount</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkdir /mnt/nfssecure</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  server0.example.com:/public /mnt/nfsmount defaults 0  0</span><br><span class="line">  server0.example.com:/protected  /mnt/nfssecure  defaults,sec=krb5p  0 0</span><br><span class="line">[root@desktop0 ~]<span class="comment"># wget http://classroom.example.com/pub/keytabs/desktop0.keytab -O /etc/krb5.keytab</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable nfs-secure.service</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart nfs-secure.service</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># su - ldapuser0</span></span><br><span class="line">[ldapuser0@desktop0 ~]$ kinit</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置web服务器"><a href="#配置web服务器" class="headerlink" title="配置web服务器"></a>配置web服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y httpd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable httpd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/station.html -O /var/www/html/index.html</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' service name='http' accept"</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.17.10.0/24' service name='http' reject"</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置安全访问"><a href="#配置安全访问" class="headerlink" title="配置安全访问"></a>配置安全访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y mod_ssl</span></span><br><span class="line">[root@server0 ~]<span class="comment"># cd /etc/httpd/</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># wget http://classroom.example.com/pub/tls/certs/server0.crt</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># wget http://classroom.example.com/pub/tls/private/server0.key</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># wget http://classroom.example.com/pub/example-ca.crt</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># vim /etc/httpd/conf.d/ssl.conf</span></span><br><span class="line">    SSLCertificateFile /etc/httpd/server0.crt</span><br><span class="line">    SSLCertificateKeyFile /etc/httpd/server0.key</span><br><span class="line">    SSLCACertificateFile /etc/httpd/example-ca.crt</span><br><span class="line">[root@server0 httpd]<span class="comment"># systemctl restart httpd</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># firewall-cmd --permanent --add-service=https</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># firewall-cmd --reload</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置虚拟主机"><a href="#配置虚拟主机" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir /var/www/virtual</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/www.html -O /var/www/virtual/index.html</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim  /etc/httpd/conf.d/vhost.conf</span></span><br><span class="line">  &lt;VirtualHost _default_:80&gt;</span><br><span class="line">  	DocumentRoot /var/www/html</span><br><span class="line">  	ServerName server0.example.com</span><br><span class="line">  &lt;/VirtualHost&gt;</span><br><span class="line">  &lt;VirtualHost *:80&gt;</span><br><span class="line">  	DocumentRoot /var/www/virtual</span><br><span class="line">  	ServerName www0.example.com</span><br><span class="line">  &lt;/VirtualHost&gt;</span><br><span class="line">[root@server0 ~]<span class="comment"># useradd floyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:floyd:rwx /var/www/virtual/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置web内容的访问"><a href="#配置web内容的访问" class="headerlink" title="配置web内容的访问"></a>配置web内容的访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /var/www/html/private</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/private.html -O /var/www/html/private/index.html</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/httpd/conf.d/vhost.conf</span></span><br><span class="line">  &lt;Directory <span class="string">'/var/www/html/private'</span>&gt;</span><br><span class="line">  	require <span class="built_in">local</span></span><br><span class="line">  &lt;/Directory&gt;</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置web动态网页"><a href="#配置web动态网页" class="headerlink" title="配置web动态网页"></a>配置web动态网页</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y mod_wsgi</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/webinfo.wsgi -O /var/www/webinfo.wsgi</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/httpd/conf.d/vhost.conf</span></span><br><span class="line">  Listen 8908</span><br><span class="line">  &lt;VirtualHost *:8908&gt;</span><br><span class="line">  	ServerName webapp0.example.com</span><br><span class="line">  	WSGIScriptAlias / /var/www/webinfo.wsgi</span><br><span class="line">  &lt;/VirtualHost&gt;</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># semanage port -a -t http_port_t -p tcp 8908</span></span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建一个脚本"><a href="#创建一个脚本" class="headerlink" title="创建一个脚本"></a>创建一个脚本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /root/foo.sh</span></span><br><span class="line">  <span class="comment">#!/bin/bash</span></span><br><span class="line">  <span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">  	redhat)</span><br><span class="line">  		<span class="built_in">echo</span> <span class="string">'fedora'</span></span><br><span class="line">  	;;</span><br><span class="line">  	fedora)</span><br><span class="line">  		<span class="built_in">echo</span> <span class="string">'redhat'</span></span><br><span class="line">  	;;</span><br><span class="line">  	*)</span><br><span class="line">  		<span class="built_in">echo</span> <span class="string">'/root/foo.sh redhat|fedora'</span></span><br><span class="line">  	;;</span><br><span class="line">  <span class="keyword">esac</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod +x /root/foo.sh</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建一个创建用户的脚本"><a href="#创建一个创建用户的脚本" class="headerlink" title="创建一个创建用户的脚本"></a>创建一个创建用户的脚本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /root/batchusers</span></span><br><span class="line">  <span class="comment">#!/bin/bash</span></span><br><span class="line">  <span class="keyword">if</span> [ <span class="variable">$#</span> -eq 0 ];<span class="keyword">then</span></span><br><span class="line">  	<span class="built_in">echo</span> <span class="string">'Usage: /root/batusers userfile'</span></span><br><span class="line">  	<span class="built_in">exit</span> 1</span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="keyword">if</span> [ ! -e <span class="variable">$1</span> ];<span class="keyword">then</span></span><br><span class="line">  	<span class="built_in">echo</span> <span class="string">'Input file not found'</span></span><br><span class="line">  	<span class="built_in">exit</span> 2</span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> `cat <span class="variable">$1</span>`;<span class="keyword">do</span></span><br><span class="line">  	useradd -s /sbin/nologin <span class="variable">$i</span></span><br><span class="line">  <span class="keyword">done</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod +x /root/batchusers</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/userlist</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建iscsi服务器"><a href="#创建iscsi服务器" class="headerlink" title="创建iscsi服务器"></a>创建iscsi服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]yum install targetcli -y</span><br><span class="line">[root@server0 ~]systemctl <span class="built_in">enable</span> targetcli</span><br><span class="line">[root@server0 ~]systemctl restart targetcli</span><br><span class="line">[root@server0 ~]fdisk /dev/sdb</span><br><span class="line">  n</span><br><span class="line">  一路回车</span><br><span class="line">  t</span><br><span class="line">  L</span><br><span class="line">  8e</span><br><span class="line">[root@server0 ~]partprobe</span><br><span class="line">[root@server0 ~]pvcreate /dev/sdb1</span><br><span class="line">[root@server0 ~]vgcreate RHCE</span><br><span class="line">[root@server0 ~]lvcreate -n iscsi_store -L 3G RHCE</span><br><span class="line"></span><br><span class="line">客户端：cat /etc/iscsi/initiatorname.iscsi</span><br><span class="line">复制选项后面acl时候用</span><br><span class="line"></span><br><span class="line">[root@server0 ~]targetcli</span><br><span class="line">    /&gt; /backstores/block create iscsi_store /dev/RHCE/iscsi_store</span><br><span class="line">    /&gt; /iscsi create iqn.2017-02.com.example:system1</span><br><span class="line">    /&gt; /iscsi/iqn.2017-02.com.example:system1/tpg1/luns create /backstores/block/iscsi_store</span><br><span class="line">    /&gt; /iscsi/iqn.2017-02.com.example:system1/tpg1/portals create ip_address=172.25.0.11</span><br><span class="line">    /&gt; /iscsi/iqn.2017-02.com.example:system1/tpg1/acls create iqn.1994-05.com.redhat:d15b2c548ac</span><br><span class="line">    /&gt; saveconfig</span><br><span class="line">    /&gt; <span class="built_in">exit</span></span><br><span class="line">[root@server0 ~]systemctl restart targetcli</span><br><span class="line">[root@server0 ~]firewall-cmd --permanent --add-port=3206/tcp</span><br><span class="line">[root@server0 ~]firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<h3 id="iscsi客户端配置"><a href="#iscsi客户端配置" class="headerlink" title="iscsi客户端配置"></a>iscsi客户端配置</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/bashrc</span></span><br><span class="line">iscsiadm --mode discoverydb --<span class="built_in">type</span> sendtargets --portal 172.25.0.11 --discover</span><br><span class="line">iscsiadm --mode node --targetname iqn.2017-02.com.example:system1 --portal 172.25.0.11:3260 --login</span><br><span class="line">[root@desktop0 ~]<span class="comment"># bash /etc/bashr</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># fdisk /dev/sdc</span></span><br><span class="line">  n</span><br><span class="line">  p</span><br><span class="line">  1</span><br><span class="line">  回车</span><br><span class="line">  +2100M</span><br><span class="line">  w</span><br><span class="line">[root@desktop0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkfs.xfs /dev/sdc1</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># blkid /dev/sdc1</span></span><br><span class="line">UUID=xxxxxx</span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  UUID=2a276924-796d-4268-828d-5586a0f2ffec	/mnt/data	xfs	defaults,_netdev	0	0</span><br><span class="line">[root@desktop0 ~]<span class="comment"># mount -a</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="部署mariadb服务器"><a href="#部署mariadb服务器" class="headerlink" title="部署mariadb服务器"></a>部署mariadb服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># yum install -y mariadb*</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable mariadb</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart mariadb</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mysql_secure_installation</span></span><br><span class="line">  回车</span><br><span class="line">  设置密码</span><br><span class="line">  一路回车</span><br><span class="line">[root@desktop0 ~]<span class="comment"># wget http://content.example.com/courses/rhce/rhel7.0/materials/mariadb/mariadb.dump</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mysql -root -p</span></span><br><span class="line">  MariaDB [(none)]&gt; grant select on legacy.* to bob@localhost identified by <span class="string">'redhat'</span>;</span><br><span class="line">  MariaDB [(none)]&gt; use legacy;</span><br><span class="line">  MariaDB [(none)]&gt; <span class="built_in">source</span> /root/mariadb.dump;</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/11/图解HTTP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1383,169 +1508,12 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/09/hexo-github快速搭建博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/09/hexo-github快速搭建博客/" class="post-title-link" itemprop="url">hexo+github快速搭建博客</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-09 19:52:01" itemprop="dateCreated datePublished" datetime="2019-10-09T19:52:01+08:00">2019-10-09</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-10-10 09:14:49" itemprop="dateModified" datetime="2019-10-10T09:14:49+08:00">2019-10-10</time>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="hexo-Github-快速搭建博客（基于-centos-7）"><a href="#hexo-Github-快速搭建博客（基于-centos-7）" class="headerlink" title="hexo + Github 快速搭建博客（基于 centos 7）"></a>hexo + Github 快速搭建博客（基于 centos 7）</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
-<li>node.js 安装</li>
-<li>git 安装</li>
-<li>hexo 安装并设置</li>
-<li>github 仓库建立和设置</li>
-</ol>
-<h4 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h4><ol>
-<li><p>node.js 官网下载二进制压缩包: <a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压二进制包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# tar -xvf node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加 node.js 的环境变量</p>
-<ol>
-<li><p>进入解压好的目录，然后进入 bin 目录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# cd node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用 pwd 获取 node.js 可执行文件路径</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun bin]# pwd</span><br><span class="line">/root/Softwares/node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将获取到的路径追加到环境变量配置文件最后</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# vim /etc/profile</span><br><span class="line">export PATH=$PATH:/root/Softwares/node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>验证设置成功,出现版本号即配置成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# node -v</span><br><span class="line">v10.16.3</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-</li>
-</ol>
-<h4 id="git-安装"><a href="#git-安装" class="headerlink" title="git 安装"></a>git 安装</h4><ol>
-<li><p>git 安装: <a href="https://git-scm.com" target="_blank" rel="noopener">https://git-scm.com</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# yum install -y git-core</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>设置 git 的全局名称和邮箱</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# git config --global user.name &quot;your name&quot;</span><br><span class="line">[root@aliyun ~]# git config --global user.email &quot;your email address&quot;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h4><ol>
-<li><p>hexo 安装: <a href="https://hexo.io" target="_blank" rel="noopener">https://hexo.io</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>hexo 初始化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun blog_file]# hexo init blog_file</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun blog_file]# npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="github-仓库建立"><a href="#github-仓库建立" class="headerlink" title="github 仓库建立"></a>github 仓库建立</h4><ol>
-<li><p>新建一个仓库</p>
-</li>
-<li><p>命名时需要注意，命名规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">例如：你的 github 账户名为 jeff</span><br><span class="line">博客仓库名为： jeff.github.io  (如果用户名为 margin 则为 margin.gtihub.io)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>服务器端生成 ssh 密钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# ssh-keygen -t rsa -C emailaddress  # -C 后的参数为你的 github 注册时的邮箱</span><br><span class="line"># 如果提示覆盖则直接覆盖</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>复制刚刚的密钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# less ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在 github 上添加刚刚复制的 ssh 密钥: <a href="https://github.com/settings/ssh" target="_blank" rel="noopener">https://github.com/settings/ssh</a></p>
-</li>
-</ol>
-<h4 id="hexo-与-github-的连接"><a href="#hexo-与-github-的连接" class="headerlink" title="hexo 与 github 的连接"></a>hexo 与 github 的连接</h4><ol>
-<li>修改 hexo 的配置文件（注意：配置文件在冒号后需要有一个空格不让会报错）</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# vim _config.yml</span><br><span class="line"></span><br><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># Site</span><br><span class="line">title: JeffQi‘s Blog # 标题</span><br><span class="line">subtitle: Nice to see you! # 浏览器显示的信息</span><br><span class="line">description: good good study, day day up! # 博客描述</span><br><span class="line">keywords:</span><br><span class="line">author: JeffQi # 作者</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://yoursite.com/child</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: true</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Home page setting</span><br><span class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</span><br><span class="line"># per_page: Posts displayed per page. (0 = disable pagination)</span><br><span class="line"># order_by: Posts order. (Order by date descending by default)</span><br><span class="line">index_generator:</span><br><span class="line">  path: &apos;&apos;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"></span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: Fan</span><br><span class="line"></span><br><span class="line"># Deployment # 在这里设置你的 github 的连接</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git # 方式</span><br><span class="line">  repo: https://github.com/Jeff-Qi/Jeff.github.io.git # 你的 github 仓库 URL</span><br><span class="line">  banch: master</span><br></pre></td></tr></table></figure>
-
-<h4 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h4><ol>
-<li>编译静态资源，更新到 github</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# hexo g</span><br><span class="line">[root@aliyun blog_file]# hexo d</span><br></pre></td></tr></table></figure>
-
-<h4 id="访问博客"><a href="#访问博客" class="headerlink" title="访问博客"></a>访问博客</h4><ol>
-<li>通过设置的 github 的仓库名就能访问了</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jeff.github.io</span><br></pre></td></tr></table></figure>
-
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1589,7 +1557,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
