@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
+<meta name="keywords" content="Others">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RHCSA备考">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/15/RHCSA/index.html">
+<meta property="og:site_name" content="JeffQi‘s Blog">
+<meta property="og:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-15T06:09:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RHCSA备考">
+<meta name="twitter:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/15/RHCSA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>RHCSA备考 | JeffQi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JeffQi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/15/RHCSA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">RHCSA备考
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-15 14:09:00 / 修改时间：14:09:54" itemprop="dateCreated datePublished" datetime="2019-11-15T14:09:00+08:00">2019-11-15</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="调整逻辑卷"><a href="#调整逻辑卷" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 770M /dev/vg/lvm1</span><br><span class="line">xfs_growfs /dev/vg/lvm1</span><br><span class="line"><span class="comment">#resize2fs /dev/vg/lvm1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户和用户组"><a href="#创建用户和用户组" class="headerlink" title="创建用户和用户组"></a>创建用户和用户组</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># groupadd -g 40000 adminuser</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -G 40000 natasha</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -G 40000 harry</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -s /sbin/nologin sarah</span></span><br><span class="line">[root@server0 ~]<span class="comment"># echo 'glegunge' | passwd --stdin natasha</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件权限设定"><a href="#文件权限设定" class="headerlink" title="文件权限设定"></a>文件权限设定</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># cp -a /etc/fstab /var/tmp/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># ll /var/tmp/fstab</span></span><br><span class="line">-rw-r--r--. 1 root root 438 Nov  1  2017 /var/tmp/fstab</span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:---,u:natasha:rwx,o::r-x /var/tmp/fstab</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="建立计划任务"><a href="#建立计划任务" class="headerlink" title="建立计划任务"></a>建立计划任务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># crontab -e -u natasha</span></span><br><span class="line">no crontab <span class="keyword">for</span> natasha - using an empty one</span><br><span class="line">crontab: installing new crontab</span><br><span class="line">[root@server0 ~]<span class="comment"># crontab -l -u natasha</span></span><br><span class="line">23 14 * * * /bin/<span class="built_in">echo</span> <span class="string">'rhcsa'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件特殊权限设定"><a href="#文件特殊权限设定" class="headerlink" title="文件特殊权限设定"></a>文件特殊权限设定</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /home/admins</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chgrp adminuser /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod 770 /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod g+s /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># ll -d /home/admins/</span></span><br><span class="line">drwxrws---. 2 root adminuser 1024 Nov 15 09:29 /home/admins/</span><br></pre></td></tr></table></figure>
+
+<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># rpm -ivh http://content.example.com/rhel7.0/x86_64/errata/Packages/kernel-3.10.0-123.1.2.el7.x86_64.rpm</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chrony</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chrony</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置LDAP客户端"><a href="#配置LDAP客户端" class="headerlink" title="配置LDAP客户端"></a>配置LDAP客户端</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install sssd krb5-workstation.x86_64 authconfig-gtk.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># authconfig-gtk</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置autofs挂载"><a href="#配置autofs挂载" class="headerlink" title="配置autofs挂载"></a>配置autofs挂载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y autofs.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /home/guests</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/auto.master</span></span><br><span class="line">  /home/guests  /etc/ldap.misc</span><br><span class="line">[root@server0 ~]<span class="comment"># cp -a /etc/auto.misc /etc/ldap.misc</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/ldap.misc</span></span><br><span class="line">  ldapuser0   -fstype=nfs,v3,rw classroom.example.com:/home/guests/ldapuser0</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable autofs.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart autofs.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># su - ldapuser0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># tar -jcvf /root/syyconfig.tar.bz2 /etc/sysconfig/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># useradd -u 3456 alex</span></span><br><span class="line">[root@server0 ~]<span class="comment"># echo 'glegunge' | passwd --stdin alex</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建swap分区"><a href="#创建swap分区" class="headerlink" title="创建swap分区"></a>创建swap分区</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line">[root@server0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkswap /dev/sda5</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># swapon -a</span></span><br><span class="line">[root@server0 ~]<span class="comment"># free -h</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># find / -user ira -exec cp -a &#123;&#125; /root/findfiles/ \;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="过滤文件"><a href="#过滤文件" class="headerlink" title="过滤文件"></a>过滤文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># grep 'seismic' /usr/share/dict/words &gt; /root/wordlist</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建逻辑卷"><a href="#创建逻辑卷" class="headerlink" title="创建逻辑卷"></a>创建逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line">[root@server0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@server0 ~]<span class="comment"># pvcreate /dev/sda6</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vgcreate rhcsa -s 16M /dev/sda6</span></span><br><span class="line">[root@server0 ~]<span class="comment"># lvcreate -n lvm2 -l 8 rhcsa</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkfs.xfs /dev/rhcsa/lvm2</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  /dev/rhcsa/lvm2   /exam/lvm2  xfs   defaults  0 0</span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /exam/lvm2</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@server0 ~]<span class="comment"># df -Th</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="调整逻辑卷-1"><a href="#调整逻辑卷-1" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 1000M /dev/exam/home</span><br><span class="line">resize2fs /dev/exam/home</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">umount /dev/exam/src</span><br><span class="line">e2fsck -f /dev/exam/src</span><br><span class="line">resize2fs /dev/exam/src 400M</span><br><span class="line">lvreduce -L 400M /dev/exam/src</span><br><span class="line">mount -a</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Others/" rel="tag"># Others</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/13/图解HTTP_3/" rel="next" title="图解HTTP_3">
+                  <i class="fa fa-chevron-left"></i> 图解HTTP_3
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RHCSA"><span class="nav-number">1.</span> <span class="nav-text">RHCSA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重置root密码，救援模式"><span class="nav-number">1.1.</span> <span class="nav-text">重置root密码，救援模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置SELinux"><span class="nav-number">1.2.</span> <span class="nav-text">配置SELinux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置yum仓库"><span class="nav-number">1.3.</span> <span class="nav-text">配置yum仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整逻辑卷"><span class="nav-number">1.4.</span> <span class="nav-text">调整逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用户和用户组"><span class="nav-number">1.5.</span> <span class="nav-text">创建用户和用户组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件权限设定"><span class="nav-number">1.6.</span> <span class="nav-text">文件权限设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立计划任务"><span class="nav-number">1.7.</span> <span class="nav-text">建立计划任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件特殊权限设定"><span class="nav-number">1.8.</span> <span class="nav-text">文件特殊权限设定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#升级内核"><span class="nav-number">1.9.</span> <span class="nav-text">升级内核</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置NTP服务"><span class="nav-number">1.10.</span> <span class="nav-text">配置NTP服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置LDAP客户端"><span class="nav-number">1.11.</span> <span class="nav-text">配置LDAP客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置autofs挂载"><span class="nav-number">1.12.</span> <span class="nav-text">配置autofs挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打包"><span class="nav-number">1.13.</span> <span class="nav-text">打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加用户"><span class="nav-number">1.14.</span> <span class="nav-text">添加用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建swap分区"><span class="nav-number">1.15.</span> <span class="nav-text">创建swap分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找文件"><span class="nav-number">1.16.</span> <span class="nav-text">查找文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤文件"><span class="nav-number">1.17.</span> <span class="nav-text">过滤文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建逻辑卷"><span class="nav-number">1.18.</span> <span class="nav-text">创建逻辑卷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整逻辑卷-1"><span class="nav-number">1.19.</span> <span class="nav-text">调整逻辑卷</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">JeffQi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JeffQi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
