@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="JeffQi‘s Blog">
 <meta property="og:description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色  通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-12T14:13:31.857Z">
+<meta property="og:updated_time" content="2019-11-15T11:12:43.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图解HTTP_1">
 <meta name="twitter:description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色  通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选">
@@ -269,7 +269,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-12 22:13:31" itemprop="dateModified" datetime="2019-11-12T22:13:31+08:00">2019-11-12</time>
+                <time title="修改时间：2019-11-15 19:12:43" itemprop="dateModified" datetime="2019-11-15T19:12:43+08:00">2019-11-15</time>
               </span>
             
           
@@ -359,10 +359,8 @@
 <h3 id="持久连接"><a href="#持久连接" class="headerlink" title="持久连接"></a>持久连接</h3><ol>
 <li>HTTP 协议的初始版本中，每进行一次HTTP 通信就要断开一次TCP连接</li>
 <li>HTTP/1.1 和一部分的HTTP/1.0 想出了持久连接（HTTP Persistent Connections，也称为HTTP keep-alive 或HTTP connection reuse）的方法。持久连接的特点是，只要任意一端<br>没有明确提出断开连接，则保持TCP 连接状态<ol>
-<li>持久连接旨在建立1 次TCP 连接后进行多次请求和响应的交互<ol start="2">
+<li>持久连接旨在建立1 次TCP 连接后进行多次请求和响应的交互</li>
 <li>减少了TCP 连接的重复建立和断开所造成的额外开销，减轻了服务器端的负载。另外，减少开销的那部分时间，使HTTP 请求和响应能够更早地结束，这样Web 页面的显示速度也就相应提高</li>
-</ol>
-</li>
 </ol>
 </li>
 </ol>
@@ -477,7 +475,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
