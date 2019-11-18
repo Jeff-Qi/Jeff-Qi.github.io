@@ -489,7 +489,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-18 14:35:01" itemprop="dateModified" datetime="2019-11-18T14:35:01+08:00">2019-11-18</time>
+                <time title="修改时间：2019-11-18 14:38:08" itemprop="dateModified" datetime="2019-11-18T14:38:08+08:00">2019-11-18</time>
               </span>
             
           
@@ -536,7 +536,7 @@
 
 <h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># rpm -ivh http://content.example.com/rhel7.0/x86_64/errata/Packages/kernel-3.10.0-123.1.2.el7.x86_64.rpm</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chrony</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chrony</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
+<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
 
 <h3 id="配置LDAP客户端"><a href="#配置LDAP客户端" class="headerlink" title="配置LDAP客户端"></a>配置LDAP客户端</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install sssd krb5-workstation.x86_64 authconfig-gtk.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># authconfig-gtk</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br></pre></td></tr></table></figure>
 
@@ -921,11 +921,19 @@
                 
               
 
-              <time title="创建时间：2019-11-12 20:06:00 / 修改时间：20:07:32" itemprop="dateCreated datePublished" datetime="2019-11-12T20:06:00+08:00">2019-11-12</time>
+              <time title="创建时间：2019-11-12 20:06:00" itemprop="dateCreated datePublished" datetime="2019-11-12T20:06:00+08:00">2019-11-12</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-18 14:44:03" itemprop="dateModified" datetime="2019-11-18T14:44:03+08:00">2019-11-18</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -965,7 +973,7 @@
 
 <h3 id="设置用户自定义环境"><a href="#设置用户自定义环境" class="headerlink" title="设置用户自定义环境"></a>设置用户自定义环境</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/bashrc</span></span><br><span class="line"><span class="built_in">alias</span> qstat=<span class="string">'/bin/ps –Ao pid,tt,user,fname,rsz'</span></span><br><span class="line">[root@server0 ~]<span class="comment"># bash /etc/bashrc</span></span><br><span class="line">开启新窗口验证</span><br></pre></td></tr></table></figure>
 
-<h3 id="配置本地邮件服务"><a href="#配置本地邮件服务" class="headerlink" title="配置本地邮件服务"></a>配置本地邮件服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/postfix/main.cf</span></span><br><span class="line">mydestination = <span class="string">''</span></span><br><span class="line">mydomain = example.com</span><br><span class="line">myorigin = <span class="variable">$mydomain</span></span><br><span class="line">relayhost = [classroom.example.com]</span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mail -S 'student' student@classroom.example.com</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置本地邮件服务"><a href="#配置本地邮件服务" class="headerlink" title="配置本地邮件服务"></a>配置本地邮件服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/postfix/main.cf</span></span><br><span class="line">mydestination = <span class="string">''</span></span><br><span class="line">mydomain = example.com</span><br><span class="line">myorigin = <span class="variable">$mydomain</span></span><br><span class="line">relayhost = [classroom.example.com]</span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mail -s 'student' student@classroom.example.com</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="设置端口转发"><a href="#设置端口转发" class="headerlink" title="设置端口转发"></a>设置端口转发</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' forward-port port=5423 protocol=tcp to-port=80"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' forward-port port=5423 protocol=udp to-port=80"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br></pre></td></tr></table></figure>
 

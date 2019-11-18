@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="JeffQi‘s Blog">
 <meta property="og:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-18T06:35:01.363Z">
+<meta property="og:updated_time" content="2019-11-18T06:38:08.179Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RHCSA备考">
 <meta name="twitter:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
@@ -269,7 +269,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-18 14:35:01" itemprop="dateModified" datetime="2019-11-18T14:35:01+08:00">2019-11-18</time>
+                <time title="修改时间：2019-11-18 14:38:08" itemprop="dateModified" datetime="2019-11-18T14:38:08+08:00">2019-11-18</time>
               </span>
             
           
@@ -316,7 +316,7 @@
 
 <h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># rpm -ivh http://content.example.com/rhel7.0/x86_64/errata/Packages/kernel-3.10.0-123.1.2.el7.x86_64.rpm</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chrony</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chrony</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
+<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
 
 <h3 id="配置LDAP客户端"><a href="#配置LDAP客户端" class="headerlink" title="配置LDAP客户端"></a>配置LDAP客户端</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install sssd krb5-workstation.x86_64 authconfig-gtk.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># authconfig-gtk</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br></pre></td></tr></table></figure>
 
