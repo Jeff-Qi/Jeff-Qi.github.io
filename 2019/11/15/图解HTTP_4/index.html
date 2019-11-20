@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等  响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段  HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段  非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，">
+<meta name="keywords" content="Others">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP首部">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/15/图解HTTP_4/index.html">
+<meta property="og:site_name" content="JeffQi‘s Blog">
+<meta property="og:description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等  响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段  HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段  非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-20T11:15:02.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP首部">
+<meta name="twitter:description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等  响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段  HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段  非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/15/图解HTTP_4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>HTTP首部 | JeffQi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JeffQi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/15/图解HTTP_4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">HTTP首部
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-15 16:01:00" itemprop="dateCreated datePublished" datetime="2019-11-15T16:01:00+08:00">2019-11-15</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-20 19:15:02" itemprop="dateModified" datetime="2019-11-20T19:15:02+08:00">2019-11-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="HTTP首部"><a href="#HTTP首部" class="headerlink" title="HTTP首部"></a>HTTP首部</h2><h3 id="HTTP报文首部"><a href="#HTTP报文首部" class="headerlink" title="HTTP报文首部"></a>HTTP报文首部</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><ol>
+<li>组成：方法、URI、HTTP 版本、HTTP 首部字段等</li>
+</ol>
+<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
+<li>组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段</li>
+</ol>
+<h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
+<li>通用首部字段</li>
+<li>请求首部字段</li>
+<li>响应首部字段</li>
+<li>实体首部字段</li>
+</ol>
+<h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
+<li>端到端首部（End-to-end Header）<ul>
+<li>首部会转发给请求/ 响应对应的最终接收目标，且必须保存在由缓存生成的响应中，另外规定必须被转发</li>
+</ul>
+</li>
+<li>逐跳首部（Hop-by-hop Header）<ul>
+<li>首部只对单次转发有效，会因通过缓存或代理而不再转发</li>
+<li>使用hop-by-hop 首部，需提供Connection 首部字段</li>
+</ul>
+</li>
+</ol>
+<h3 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h3><h4 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h4><ul>
+<li><p>作用：通过指定首部字段Cache-Control 的指令，操作缓存的工作</p>
+</li>
+<li><p>缓存指令：</p>
+<ol>
+<li>public<ul>
+<li>当指定使用public 指令时，则明确表明其他用户也可利用缓存</li>
+</ul>
+</li>
+<li>private<ul>
+<li>当指定private 指令后，响应只以特定的用户作为对象</li>
+</ul>
+</li>
+<li>no-cache<ul>
+<li>防止从缓存中返回过期的资源<ol>
+<li>客户端将不会接收缓存过的响应。需要将请求转发给源服务器</li>
+<li>服务器返回响应包含no-cache指令，则缓存服务器不能对资源进行缓存</li>
+</ol>
+</li>
+<li>no-chche=location<ol>
+<li>字段被指定参数值则客户端不能缓存响应报文。无参数值的首部字段可以使用缓存。只能在响应指令中指定该参数</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>no-store<ul>
+<li>暗示请求（和对应的响应）或响应中包含机密信息</li>
+<li>no-cache 代表不缓存过期的资源，缓存会向源服务器进行有效期确认后处理资源；no-store才是不进行缓存</li>
+<li>该指令规定缓存不能在本地存储请求或响应的任一部分</li>
+</ul>
+</li>
+<li>s-maxage和max-age<ul>
+<li>客户端：允许返回过期一定时间的缓存</li>
+<li>服务端：一定时间内缓存服务器自己处理缓存，不用向源服务器确认</li>
+<li>不同：smaxage指令只适用于供多位用户使用的公共缓存服务器</li>
+</ul>
+</li>
+<li>min-fresh<ul>
+<li>要求缓存服务器返回至少还未过指定时间的缓存资源。返回的资源较新</li>
+</ul>
+</li>
+<li>max-stale<ul>
+<li>过期的资源还能被接收</li>
+</ul>
+</li>
+<li>only-if-cache<ul>
+<li>客户端仅在缓存服务器本地缓存目标资源的情况下才会要求其返回；否则返回504 gateway timeout状态码</li>
+</ul>
+</li>
+<li>must-revalidate<ul>
+<li>必须再次确认返回的响应缓存的有效性</li>
+</ul>
+</li>
+<li>proxy-revalidate<ul>
+<li>缓存服务器在接收到客户端带有该指令的请求返回响应之前，必须再次验证缓存的有效性</li>
+</ul>
+</li>
+<li>no-transform<ul>
+<li>缓存都不能改变实体主体的媒体类型</li>
+</ul>
+</li>
+<li>cache-control扩展<ul>
+<li>Cache-Control 首部字段本身没有community 这个指令。借助extension tokens 实现了该指令的添加</li>
+<li>extension tokens 仅对能理解它的缓存服务器来说是有意义的</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h4><ul>
+<li>管理不在转发给代理的首部字段</li>
+<li>管理持久连接<ol>
+<li>指定Connection 首部字段的值为Keep-Alive</li>
+</ol>
+</li>
+</ul>
+<h4 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h4><ul>
+<li>报文创建时间</li>
+</ul>
+<h4 id="Pragma"><a href="#Pragma" class="headerlink" title="Pragma"></a>Pragma</h4><ul>
+<li>客户端会要求所有的中间服务器不返回缓存的资源</li>
+<li>属于通用首部字段，但只用在客户端发送的请求中</li>
+</ul>
+<h4 id="Trailer"><a href="#Trailer" class="headerlink" title="Trailer"></a>Trailer</h4><ul>
+<li>事先说明在报文主体后记录了哪些首部字段。该首部字段可应用在HTTP/1.1 版本分块传输编码时</li>
+</ul>
+<h4 id="Transfer-Encoding"><a href="#Transfer-Encoding" class="headerlink" title="Transfer-Encoding"></a>Transfer-Encoding</h4><ul>
+<li>定了传输报文主体时采用的编码方式</li>
+<li>HTTP/1.1 的传输编码方式仅对分块传输编码有效</li>
+</ul>
+<h4 id="Upgrand"><a href="#Upgrand" class="headerlink" title="Upgrand"></a>Upgrand</h4><ul>
+<li>检测HTTP协议及其他协议是否可以使用更高的协议通信</li>
+</ul>
+<h4 id="Via"><a href="#Via" class="headerlink" title="Via"></a>Via</h4><ul>
+<li>记录报文的传输路径</li>
+</ul>
+<h4 id="Warning"><a href="#Warning" class="headerlink" title="Warning"></a>Warning</h4><ul>
+<li>告知用户一些与缓存相关的问题警告</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Others/" rel="tag"># Others</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/15/RHCSA/" rel="next" title="RHCSA备考">
+                  <i class="fa fa-chevron-left"></i> RHCSA备考
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/20/图解HTTP_5/" rel="prev" title="请求首部字段">
+                  请求首部字段 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP首部"><span class="nav-number">1.</span> <span class="nav-text">HTTP首部</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP报文首部"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP报文首部</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#请求报文"><span class="nav-number">1.1.1.</span> <span class="nav-text">请求报文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#响应报文"><span class="nav-number">1.1.2.</span> <span class="nav-text">响应报文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP首部字段"><span class="nav-number">1.2.</span> <span class="nav-text">HTTP首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4类HTTP首部字段类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">4类HTTP首部字段类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非HTTP-1-1首部字段"><span class="nav-number">1.2.2.</span> <span class="nav-text">非HTTP/1.1首部字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用首部字段"><span class="nav-number">1.3.</span> <span class="nav-text">通用首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache-control"><span class="nav-number">1.3.1.</span> <span class="nav-text">Cache-control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Connection"><span class="nav-number">1.3.2.</span> <span class="nav-text">Connection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Date"><span class="nav-number">1.3.3.</span> <span class="nav-text">Date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pragma"><span class="nav-number">1.3.4.</span> <span class="nav-text">Pragma</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trailer"><span class="nav-number">1.3.5.</span> <span class="nav-text">Trailer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transfer-Encoding"><span class="nav-number">1.3.6.</span> <span class="nav-text">Transfer-Encoding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Upgrand"><span class="nav-number">1.3.7.</span> <span class="nav-text">Upgrand</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Via"><span class="nav-number">1.3.8.</span> <span class="nav-text">Via</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Warning"><span class="nav-number">1.3.9.</span> <span class="nav-text">Warning</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">JeffQi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JeffQi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
