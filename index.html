@@ -268,7 +268,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-25 15:39:41" itemprop="dateModified" datetime="2019-11-25T15:39:41+08:00">2019-11-25</time>
+                <time title="修改时间：2019-11-25 16:45:12" itemprop="dateModified" datetime="2019-11-25T16:45:12+08:00">2019-11-25</time>
               </span>
             
           
@@ -343,6 +343,16 @@
 </ol>
 </li>
 </ol>
+</li>
+</ol>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li><p>在MySQL8.0中无法在其他数据目录下创建tablespace</p>
+<ul>
+<li>需要配置 innodb_directories 参数：官方文档链接(<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_directories" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_directories</a>)</li>
+<li>定义要在启动时扫描的表空间文件的目录。当服务器脱机时将表空间文件移动或还原到新位置时，将使用此选项。它还用于指定使用绝对路径创建或位于数据目录外部的表空间文件的目录</li>
+</ul>
+</li>
+<li><p>在MySQL8.0中，将表创建在其他地方，不会在当前数据目录下创建任何东西，无 .isl 文件</p>
 </li>
 </ol>
 
