@@ -55,18 +55,26 @@
   };
 </script>
 
-  <meta name="description" content="实验有问题MySQL外部表 使用MySQL的外部表进行数据的迁移可扩展  使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中  实验实例 源数据库位于 /var/lib/mysql/mysql_pre_database 中 外部表库位于 /root/mysql_extend/mysql_pre_database 中  实验扩展 创建扩展库123456CREAT">
+  <meta name="description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展  使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中  实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database   新建的表，位于新的存储位置 123456CREATE T">
 <meta name="keywords" content="MySQL技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL磁盘扩展与介质迁移">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="实验有问题MySQL外部表 使用MySQL的外部表进行数据的迁移可扩展  使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中  实验实例 源数据库位于 /var/lib/mysql/mysql_pre_database 中 外部表库位于 /root/mysql_extend/mysql_pre_database 中  实验扩展 创建扩展库123456CREAT">
+<meta property="og:description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展  使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中  实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database   新建的表，位于新的存储位置 123456CREATE T">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-23T12:18:42.000Z">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend1.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend2.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend3.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/tra1.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/tra2.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/tra3.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/tra4.png">
+<meta property="og:updated_time" content="2019-11-25T07:39:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL磁盘扩展与介质迁移">
-<meta name="twitter:description" content="实验有问题MySQL外部表 使用MySQL的外部表进行数据的迁移可扩展  使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中  实验实例 源数据库位于 /var/lib/mysql/mysql_pre_database 中 外部表库位于 /root/mysql_extend/mysql_pre_database 中  实验扩展 创建扩展库123456CREAT">
+<meta name="twitter:description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展  使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中  实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database   新建的表，位于新的存储位置 123456CREATE T">
+<meta name="twitter:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend1.png">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/">
 
 
@@ -258,11 +266,19 @@
                 
               
 
-              <time title="创建时间：2019-11-23 18:50:00 / 修改时间：20:18:42" itemprop="dateCreated datePublished" datetime="2019-11-23T18:50:00+08:00">2019-11-23</time>
+              <time title="创建时间：2019-11-23 18:50:00" itemprop="dateCreated datePublished" datetime="2019-11-23T18:50:00+08:00">2019-11-23</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-25 15:39:41" itemprop="dateModified" datetime="2019-11-25T15:39:41+08:00">2019-11-25</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -290,7 +306,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="实验有问题"><a href="#实验有问题" class="headerlink" title="实验有问题"></a>实验有问题</h1><h2 id="MySQL外部表"><a href="#MySQL外部表" class="headerlink" title="MySQL外部表"></a>MySQL外部表</h2><ul>
+        <h2 id="MySQL外部表（MySQL8-0）"><a href="#MySQL外部表（MySQL8-0）" class="headerlink" title="MySQL外部表（MySQL8.0）"></a>MySQL外部表（MySQL8.0）</h2><ul>
 <li>使用MySQL的外部表进行数据的迁移可扩展</li>
 </ul>
 <h3 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h3><ul>
@@ -298,21 +314,44 @@
 <li>存储介质更新，需要迁移到更块的介质中</li>
 </ul>
 <h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
-<li>源数据库位于 /var/lib/mysql/mysql_pre_database 中</li>
-<li>外部表库位于 /root/mysql_extend/mysql_pre_database 中</li>
+<li>源数据库位于 /var/lib/mysql/pre_database</li>
+<li>外部表库位于 /var/lib/mysql_extend/pre_database</li>
 </ul>
-<h3 id="实验扩展"><a href="#实验扩展" class="headerlink" title="实验扩展"></a>实验扩展</h3><ol>
-<li>创建扩展库<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mysql_extend_table`</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">age <span class="built_in">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">21</span></span><br><span class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4 <span class="keyword">DATA</span> <span class="keyword">DIRECTORY</span> = <span class="string">'/root/mysql_extend'</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>新建的表，位于新的存储位置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mysql_extend_table`</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">age <span class="built_in">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">21</span></span><br><span class="line">)<span class="keyword">DATA</span> <span class="keyword">DIRECTORY</span> = <span class="string">'/var/lib/mysql_extend'</span>;</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend1.png" alt="权限"></p>
+</li>
+<li><p>可以看见，新建的表已经在指定的存储位置</p>
+<p><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend2.png" alt="权限"></p>
+</li>
+<li><p><strong>注意相应文件夹权限要够</strong><br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend3.png" alt="权限"></p>
 </li>
 </ol>
-<h3 id="实验迁移"><a href="#实验迁移" class="headerlink" title="实验迁移"></a>实验迁移</h3><ol>
+<h3 id="实验迁移（MySQL5-7）"><a href="#实验迁移（MySQL5-7）" class="headerlink" title="实验迁移（MySQL5.7）"></a>实验迁移（MySQL5.7）</h3><ol>
+<li><p>转移前<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra1.png" alt="转移前"></p>
+</li>
 <li><p>创建表空间</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">tablespace</span> mysql_pre_table</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">datafile</span> <span class="string">'/root/mysql_extend/mysql_pre_database/mysql_pre_table.ibd'</span></span><br><span class="line"><span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">tablespace</span> mysql_pre_table</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">datafile</span> <span class="string">'/var/lib/mysql_extend/pre_database/tra_table.ibd'</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra2.png" alt="创建"></p>
 </li>
 <li><p>迁移表</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mysql_pre_table <span class="keyword">tablespace</span> mysql_pre_table;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结果:原pre_table转移为现在的now_table<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra3.png" alt="转移后"></p>
+</li>
+<li><p>查看表空间</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> information_schema.INNODB_SYS_TABLESPACES;</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra4.png" alt="tablespace"></p>
+<ol>
+<li>FILE_FORMAT:ANY ROW_FORMAT:ANY SPACE_TYPE:General 表明：<ol>
+<li>这个表空间并不是 per_table 的，是可以多个表公用的存储空间</li>
+</ol>
+</li>
+</ol>
 </li>
 </ol>
 
@@ -394,7 +433,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验有问题"><span class="nav-number">1.</span> <span class="nav-text">实验有问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL外部表"><span class="nav-number">1.1.</span> <span class="nav-text">MySQL外部表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用原因"><span class="nav-number">1.1.1.</span> <span class="nav-text">使用原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验实例"><span class="nav-number">1.2.</span> <span class="nav-text">实验实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验扩展"><span class="nav-number">1.2.1.</span> <span class="nav-text">实验扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验迁移"><span class="nav-number">1.2.2.</span> <span class="nav-text">实验迁移</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL外部表（MySQL8-0）"><span class="nav-number">1.</span> <span class="nav-text">MySQL外部表（MySQL8.0）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用原因"><span class="nav-number">1.1.</span> <span class="nav-text">使用原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验实例"><span class="nav-number">2.</span> <span class="nav-text">实验实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验迁移（MySQL5-7）"><span class="nav-number">2.1.</span> <span class="nav-text">实验迁移（MySQL5.7）</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
