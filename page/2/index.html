@@ -228,6 +228,137 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/15/RHCSA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/15/RHCSA/" class="post-title-link" itemprop="url">RHCSA备考</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-15 14:09:00" itemprop="dateCreated datePublished" datetime="2019-11-15T14:09:00+08:00">2019-11-15</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-18 14:38:08" itemprop="dateModified" datetime="2019-11-18T14:38:08+08:00">2019-11-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
+
+<h3 id="调整逻辑卷"><a href="#调整逻辑卷" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 770M /dev/vg/lvm1</span><br><span class="line">xfs_growfs /dev/vg/lvm1</span><br><span class="line"><span class="comment">#resize2fs /dev/vg/lvm1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建用户和用户组"><a href="#创建用户和用户组" class="headerlink" title="创建用户和用户组"></a>创建用户和用户组</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># groupadd -g 40000 adminuser</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -G 40000 natasha</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -G 40000 harry</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -s /sbin/nologin sarah</span></span><br><span class="line">[root@server0 ~]<span class="comment"># echo 'glegunge' | passwd --stdin natasha</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件权限设定"><a href="#文件权限设定" class="headerlink" title="文件权限设定"></a>文件权限设定</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># cp -a /etc/fstab /var/tmp/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># ll /var/tmp/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod -x /var/tmp/fstab</span></span><br><span class="line">-rw-r--r--. 1 root root 438 Nov  1  2017 /var/tmp/fstab</span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:---,u:natasha:rw-,o::r-- /var/tmp/fstab</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="建立计划任务"><a href="#建立计划任务" class="headerlink" title="建立计划任务"></a>建立计划任务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># crontab -e -u natasha</span></span><br><span class="line">no crontab <span class="keyword">for</span> natasha - using an empty one</span><br><span class="line">crontab: installing new crontab</span><br><span class="line">[root@server0 ~]<span class="comment"># crontab -l -u natasha</span></span><br><span class="line">23 14 * * * /bin/<span class="built_in">echo</span> <span class="string">'rhcsa'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件特殊权限设定"><a href="#文件特殊权限设定" class="headerlink" title="文件特殊权限设定"></a>文件特殊权限设定</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /home/admins</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chgrp adminuser /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod 770 /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod g+s /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># ll -d /home/admins/</span></span><br><span class="line">drwxrws---. 2 root adminuser 1024 Nov 15 09:29 /home/admins/</span><br></pre></td></tr></table></figure>
+
+<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># rpm -ivh http://content.example.com/rhel7.0/x86_64/errata/Packages/kernel-3.10.0-123.1.2.el7.x86_64.rpm</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置LDAP客户端"><a href="#配置LDAP客户端" class="headerlink" title="配置LDAP客户端"></a>配置LDAP客户端</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install sssd krb5-workstation.x86_64 authconfig-gtk.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># authconfig-gtk</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置autofs挂载"><a href="#配置autofs挂载" class="headerlink" title="配置autofs挂载"></a>配置autofs挂载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y autofs.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /home/guests</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/auto.master</span></span><br><span class="line">  /home/guests  /etc/ldap.misc</span><br><span class="line">[root@server0 ~]<span class="comment"># cp -a /etc/auto.misc /etc/ldap.misc</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/ldap.misc</span></span><br><span class="line">  ldapuser0   -fstype=nfs,v3,rw classroom.example.com:/home/guests/ldapuser0</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable autofs.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart autofs.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># su - ldapuser0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># tar -jcvf /root/syyconfig.tar.bz2 /etc/sysconfig/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># useradd -u 3456 alex</span></span><br><span class="line">[root@server0 ~]<span class="comment"># echo 'glegunge' | passwd --stdin alex</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建swap分区"><a href="#创建swap分区" class="headerlink" title="创建swap分区"></a>创建swap分区</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line">[root@server0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkswap /dev/sda5</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># swapon -a</span></span><br><span class="line">[root@server0 ~]<span class="comment"># free -h</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># find / -user ira -exec cp -a &#123;&#125; /root/findfiles/ \;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="过滤文件"><a href="#过滤文件" class="headerlink" title="过滤文件"></a>过滤文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># grep 'seismic' /usr/share/dict/words &gt; /root/wordlist</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建逻辑卷"><a href="#创建逻辑卷" class="headerlink" title="创建逻辑卷"></a>创建逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line">[root@server0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@server0 ~]<span class="comment"># pvcreate /dev/sda6</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vgcreate rhcsa -s 16M /dev/sda6</span></span><br><span class="line">[root@server0 ~]<span class="comment"># lvcreate -n lvm2 -l 8 rhcsa</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkfs.xfs /dev/rhcsa/lvm2</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  /dev/rhcsa/lvm2   /exam/lvm2  xfs   defaults  0 0</span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /exam/lvm2</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@server0 ~]<span class="comment"># df -Th</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="调整逻辑卷-1"><a href="#调整逻辑卷-1" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 1000M /dev/exam/home</span><br><span class="line">resize2fs /dev/exam/home</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">umount /dev/exam/src</span><br><span class="line">e2fsck -f /dev/exam/src</span><br><span class="line">resize2fs /dev/exam/src 400M</span><br><span class="line">lvreduce -L 400M /dev/exam/src</span><br><span class="line">mount -a</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
+
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/13/图解HTTP_3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1541,138 +1672,6 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/13/Index索引/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/13/Index索引/" class="post-title-link" itemprop="url">Index 索引</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-13 09:05:12 / 修改时间：09:05:47" itemprop="dateCreated datePublished" datetime="2019-10-13T09:05:12+08:00">2019-10-13</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Index-索引"><a href="#Index-索引" class="headerlink" title="Index 索引"></a>Index 索引</h2><h3 id="Index-索引-1"><a href="#Index-索引-1" class="headerlink" title="Index 索引"></a>Index 索引</h3><ul>
-<li>索引是特殊的数据结构</li>
-<li>索引可以加速数据库对数据的检索速度，对数据进行排序</li>
-<li>索引就是对数据进行排序加速检索速度的特殊数据结构</li>
-</ul>
-<h3 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h3><ul>
-<li>优点</li>
-</ul>
-<ol>
-<li>建立索引可以加速对于数据的检索速度</li>
-<li>可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源</li>
-<li>可以较低磁盘的 IO 读写</li>
-</ol>
-<ul>
-<li>缺点</li>
-</ul>
-<ol>
-<li>索引实质还是一张表，建立索引意味着额外的资源开销</li>
-<li>维护许多索引需要较大的内存等资源开销</li>
-<li>索引加快了读操作，但是降低了写操作的速度，因为修改表的操作同时需要对索引进行修改</li>
-<li>需要花费更多的时间来建立一个优秀的索引</li>
-</ol>
-<h3 id="MySQL-索引分类"><a href="#MySQL-索引分类" class="headerlink" title="MySQL 索引分类"></a>MySQL 索引分类</h3><ul>
-<li>MySQL 有众多索引类型</li>
-</ul>
-<ol>
-<li>单值索引：对一列建立索引，一张表可以有多个</li>
-<li>复合索引：一个索引同时包含一张表的多个列（最多16列）</li>
-<li>唯一索引：该索引只允许每个值出现一次（NULL除外）</li>
-</ol>
-<h3 id="MySQL-索引建立语法"><a href="#MySQL-索引建立语法" class="headerlink" title="MySQL 索引建立语法"></a>MySQL 索引建立语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX ON TABLE_NAME(COLUMN_NAME);</span><br><span class="line">ALTER TABLE TABLE_NAME ADD INDEX index_name ON (COLUMN_NAME);</span><br><span class="line">SHOW index FROM TABLE_NAME;</span><br></pre></td></tr></table></figure>
-
-<h3 id="索引建立建议"><a href="#索引建立建议" class="headerlink" title="索引建立建议"></a>索引建立建议</h3><ul>
-<li>需要建立索引</li>
-</ul>
-<ol>
-<li>该列频繁被检索，但是数据不会经常改动</li>
-<li>主键自动生成</li>
-<li>在连接表的条件列</li>
-<li>查询中可能需要排序的列</li>
-</ol>
-<ul>
-<li>不需要建立索引的列</li>
-</ul>
-<ol>
-<li>数据频繁改动</li>
-<li>表记录少</li>
-<li>数据分布平均</li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
@@ -1722,7 +1721,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
