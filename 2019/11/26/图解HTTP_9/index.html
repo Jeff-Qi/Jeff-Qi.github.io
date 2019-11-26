@@ -55,23 +55,25 @@
   };
 </script>
 
-  <meta name="description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
-<meta name="keywords" content="Networks">
+  <meta name="description" content="基于HTTP 的功能追加协议http瓶颈 原因 一条连接上只可发送一个请求 请求只能从客户端开始。客户端不可以接收除响应以外的指令。 请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。 发送冗长的首部。每次互相发送相同的首部造成的浪费较多。 可任意选择数据压缩格式。非强制压缩发送。    解决方法Ajax 局部Web 页面替换加载的异步通信手段  Comet 通过延迟应答，模拟实现服务器端向客">
+<meta name="keywords" content="Network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="身份认证">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_8/index.html">
+<meta property="og:title" content="HTTP追加协议">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_9/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
+<meta property="og:description" content="基于HTTP 的功能追加协议http瓶颈 原因 一条连接上只可发送一个请求 请求只能从客户端开始。客户端不可以接收除响应以外的指令。 请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。 发送冗长的首部。每次互相发送相同的首部造成的浪费较多。 可任意选择数据压缩格式。非强制压缩发送。    解决方法Ajax 局部Web 页面替换加载的异步通信手段  Comet 通过延迟应答，模拟实现服务器端向客">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.1.png">
-<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.2.png">
-<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.3.png">
-<meta property="og:updated_time" content="2019-11-26T06:06:46.640Z">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_9/9.1.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_9/9.2.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_9/9.3.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_9/9.4.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_9/9.5.png">
+<meta property="og:updated_time" content="2019-11-26T07:39:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="身份认证">
-<meta name="twitter:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
-<meta name="twitter:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.1.png">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_8/">
+<meta name="twitter:title" content="HTTP追加协议">
+<meta name="twitter:description" content="基于HTTP 的功能追加协议http瓶颈 原因 一条连接上只可发送一个请求 请求只能从客户端开始。客户端不可以接收除响应以外的指令。 请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。 发送冗长的首部。每次互相发送相同的首部造成的浪费较多。 可任意选择数据压缩格式。非强制压缩发送。    解决方法Ajax 局部Web 页面替换加载的异步通信手段  Comet 通过延迟应答，模拟实现服务器端向客">
+<meta name="twitter:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_9/9.1.png">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_9/">
 
 
 <script id="page-configurations">
@@ -85,7 +87,7 @@
   };
 </script>
 
-  <title>身份认证 | JeffQi‘s Blog</title>
+  <title>HTTP追加协议 | JeffQi‘s Blog</title>
   
 
 
@@ -234,7 +236,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_8/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JeffQi">
@@ -246,7 +248,7 @@
       <meta itemprop="name" content="JeffQi‘s Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">身份认证
+        <h1 class="post-title" itemprop="name headline">HTTP追加协议
 
           
         </h1>
@@ -262,7 +264,7 @@
                 
               
 
-              <time title="创建时间：2019-11-26 15:45:28 / 修改时间：14:06:46" itemprop="dateCreated datePublished" datetime="2019-11-26T15:45:28+08:00">2019-11-26</time>
+              <time title="创建时间：2019-11-26 15:23:00 / 修改时间：15:39:01" itemprop="dateCreated datePublished" datetime="2019-11-26T15:23:00+08:00">2019-11-26</time>
             </span>
           
             
@@ -294,38 +296,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
-<li>计算机不能判断使用者的具体身份，需要认证使用</li>
-</ul>
-<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
-<li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.1.png" alt="basic"></li>
-<li>非加密处理</li>
-</ul>
-<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
-<li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.2.png" alt="digest"></li>
-<li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
-</ul>
-<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
-<li>借由HTTPS 的客户端证书完成认证的方式</li>
-<li>认证过程<ol>
-<li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
-<li>用户选择将发送的客户端证书后，客户端会把客户端证书信息以Client Certificate 报文方式发送给服务器</li>
-<li>服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始HTTPS 加密通信</li>
+        <h2 id="基于HTTP-的功能追加协议"><a href="#基于HTTP-的功能追加协议" class="headerlink" title="基于HTTP 的功能追加协议"></a>基于HTTP 的功能追加协议</h2><h3 id="http瓶颈"><a href="#http瓶颈" class="headerlink" title="http瓶颈"></a>http瓶颈</h3><ul>
+<li>原因<ol>
+<li>一条连接上只可发送一个请求</li>
+<li>请求只能从客户端开始。客户端不可以接收除响应以外的指令。</li>
+<li>请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。</li>
+<li>发送冗长的首部。每次互相发送相同的首部造成的浪费较多。</li>
+<li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/图解HTTP_9/9.1.png" alt="http"></li>
 </ol>
 </li>
-<li>认证采用双因素认证<ul>
-<li>采用证书认证和表单认证相结合</li>
-<li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
 </ul>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
+<li>局部Web 页面替换加载的异步通信手段<br><img src="/2019/11/26/图解HTTP_9/9.2.png" alt="Ajax"></li>
+</ul>
+<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
+<li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
+<li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2019/11/26/图解HTTP_9/9.3.png" alt="Comet"></li>
+</ul>
+<h4 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h4><ul>
+<li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2019/11/26/图解HTTP_9/9.4.png" alt="SPDY"></p>
 </li>
-</ul>
-<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
-<li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.3.png" alt="session"><ol>
-<li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
-<li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
-<li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
+<li><p>设计</p>
+<ol>
+<li>多路复用流：通过单一的TCP 连接，可以无限制处理多个HTTP 请求</li>
+<li>设置优先级</li>
+<li>压缩HTTP首部</li>
+<li>推送与服务器提示功能：支持服务器主动向客户端推送数据的功能；服务器可以主动提示客户端请求所需的资源</li>
 </ol>
 </li>
+</ul>
+<h3 id="全双工通信的-WebSocket"><a href="#全双工通信的-WebSocket" class="headerlink" title="全双工通信的 WebSocket"></a>全双工通信的 WebSocket</h3><ul>
+<li>Web 浏览器与Web 服务器之间全双工通信标准<ol>
+<li>推送功能</li>
+<li>减少通信量：一直保持连接状态</li>
+</ol>
+</li>
+<li>使用http首部中的upgrade首部字段实现连接<ol>
+<li>握手请求</li>
+<li>握手响应</li>
+</ol>
+</li>
+<li>通信过程<br><img src="/2019/11/26/图解HTTP_9/9.5.png" alt="WebSocket通信"></li>
 </ul>
 
     </div>
@@ -342,7 +353,7 @@
           
           <div class="post-tags">
             
-              <a href="/tags/Networks/" rel="tag"># Networks</a>
+              <a href="/tags/Network/" rel="tag"># Network</a>
             
           </div>
         
@@ -352,8 +363,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/11/26/图解HTTP_9/" rel="next" title="HTTP追加协议">
-                  <i class="fa fa-chevron-left"></i> HTTP追加协议
+                <a href="/2019/11/23/MySQL磁盘扩展与介质迁移/" rel="next" title="MySQL磁盘扩展与介质迁移">
+                  <i class="fa fa-chevron-left"></i> MySQL磁盘扩展与介质迁移
                 </a>
               
             </div>
@@ -362,8 +373,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/11/26/图解HTTP_10/" rel="prev" title="构建Web内容的技术">
-                  构建Web内容的技术 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/11/26/图解HTTP_8/" rel="prev" title="身份认证">
+                  身份认证 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -410,7 +421,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#确认访问用户身份的认证"><span class="nav-number">1.</span> <span class="nav-text">确认访问用户身份的认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http认证方式"><span class="nav-number">1.1.</span> <span class="nav-text">http认证方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BASIC认证（基本认证）"><span class="nav-number">1.1.1.</span> <span class="nav-text">BASIC认证（基本认证）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DIGEST-认证（摘要认证）"><span class="nav-number">1.1.2.</span> <span class="nav-text">DIGEST 认证（摘要认证）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL-客户端认证"><span class="nav-number">1.1.3.</span> <span class="nav-text">SSL 客户端认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FormBase-认证（基于表单认证）"><span class="nav-number">1.1.4.</span> <span class="nav-text">FormBase 认证（基于表单认证）</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于HTTP-的功能追加协议"><span class="nav-number">1.</span> <span class="nav-text">基于HTTP 的功能追加协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http瓶颈"><span class="nav-number">1.1.</span> <span class="nav-text">http瓶颈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ajax"><span class="nav-number">1.2.1.</span> <span class="nav-text">Ajax</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Comet"><span class="nav-number">1.2.2.</span> <span class="nav-text">Comet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPDY"><span class="nav-number">1.2.3.</span> <span class="nav-text">SPDY</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全双工通信的-WebSocket"><span class="nav-number">1.3.</span> <span class="nav-text">全双工通信的 WebSocket</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
