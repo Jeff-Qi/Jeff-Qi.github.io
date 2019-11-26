@@ -55,21 +55,21 @@
   };
 </script>
 
-  <meta name="description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理   DIGEST 认证（摘要认证）   认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式   SSL 客户端认证   借由HTTPS 的客户端证书完成认证的方式">
+  <meta name="description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
 <meta name="keywords" content="Networks">
 <meta property="og:type" content="article">
 <meta property="og:title" content="身份认证">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_8/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理   DIGEST 认证（摘要认证）   认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式   SSL 客户端认证   借由HTTPS 的客户端证书完成认证的方式">
+<meta property="og:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.1.png">
 <meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.2.png">
 <meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.3.png">
-<meta property="og:updated_time" content="2019-11-26T06:03:15.000Z">
+<meta property="og:updated_time" content="2019-11-26T06:06:46.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="身份认证">
-<meta name="twitter:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理   DIGEST 认证（摘要认证）   认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式   SSL 客户端认证   借由HTTPS 的客户端证书完成认证的方式">
+<meta name="twitter:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
 <meta name="twitter:image" content="http://jeff-qi.github.io/2019/11/26/图解HTTP_8/8.1.png">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_8/">
 
@@ -262,12 +262,8 @@
                 
               
 
-              <time title="创建时间：2019-11-26 14:04:34 / 修改时间：14:03:15" itemprop="dateCreated datePublished" datetime="2019-11-26T14:04:34+08:00">2019-11-26</time>
+              <time title="创建时间：2019-11-26 14:06:46" itemprop="dateCreated datePublished" datetime="2019-11-26T14:06:46+08:00">2019-11-26</time>
             </span>
-          
-            
-
-            
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -301,17 +297,11 @@
 <li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.1.png" alt="basic"></li>
 <li>非加密处理</li>
 </ul>
-<ol start="2">
-<li>DIGEST 认证（摘要认证）</li>
-</ol>
-<ul>
+<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
 <li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.2.png" alt="digest"></li>
 <li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
 </ul>
-<ol start="3">
-<li>SSL 客户端认证</li>
-</ol>
-<ul>
+<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
 <li>借由HTTPS 的客户端证书完成认证的方式</li>
 <li>认证过程<ol>
 <li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
@@ -325,10 +315,7 @@
 </ul>
 </li>
 </ul>
-<ol start="4">
-<li>FormBase 认证（基于表单认证）</li>
-</ol>
-<ul>
+<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
 <li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.3.png" alt="session"><ol>
 <li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
 <li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
@@ -415,7 +402,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#确认访问用户身份的认证"><span class="nav-number">1.</span> <span class="nav-text">确认访问用户身份的认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http认证方式"><span class="nav-number">1.1.</span> <span class="nav-text">http认证方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BASIC认证（基本认证）"><span class="nav-number">1.1.1.</span> <span class="nav-text">BASIC认证（基本认证）</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#确认访问用户身份的认证"><span class="nav-number">1.</span> <span class="nav-text">确认访问用户身份的认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http认证方式"><span class="nav-number">1.1.</span> <span class="nav-text">http认证方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BASIC认证（基本认证）"><span class="nav-number">1.1.1.</span> <span class="nav-text">BASIC认证（基本认证）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DIGEST-认证（摘要认证）"><span class="nav-number">1.1.2.</span> <span class="nav-text">DIGEST 认证（摘要认证）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL-客户端认证"><span class="nav-number">1.1.3.</span> <span class="nav-text">SSL 客户端认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FormBase-认证（基于表单认证）"><span class="nav-number">1.1.4.</span> <span class="nav-text">FormBase 认证（基于表单认证）</span></a></li></ol></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
