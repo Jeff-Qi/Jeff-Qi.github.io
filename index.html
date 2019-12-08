@@ -228,6 +228,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/08/MySQL日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/08/MySQL日志/" class="post-title-link" itemprop="url">MySQL日志</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-08 21:33:00 / 修改时间：22:09:38" itemprop="dateCreated datePublished" datetime="2019-12-08T21:33:00+08:00">2019-12-08</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MySQL日志模块"><a href="#MySQL日志模块" class="headerlink" title="MySQL日志模块"></a>MySQL日志模块</h2><h3 id="redo-log（重做日志）"><a href="#redo-log（重做日志）" class="headerlink" title="redo-log（重做日志）"></a>redo-log（重做日志）</h3><ul>
+<li>MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高</li>
+<li>MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么繁忙时再将内存中数据写入磁盘</li>
+<li>redo-log大小固定，类似循环队列</li>
+<li>为MySQL提供cache-safe功能，中途crash也能恢复</li>
+</ul>
+<h3 id="binlog（归档日志）"><a href="#binlog（归档日志）" class="headerlink" title="binlog（归档日志）"></a>binlog（归档日志）</h3><ul>
+<li>MySQL 整体来看，其实就有两块：一块是 Server 层，它主要做的是 MySQL 功能层面的事情；还有一块是引擎层，负责存储相关的具体事宜。上面我们聊到的粉板 redo log 是 InnoDB 引擎特有的日志，而 Server 层也有自己的日志，称为 binlog（归档日志</li>
+</ul>
+<h3 id="两种日志比较"><a href="#两种日志比较" class="headerlink" title="两种日志比较"></a>两种日志比较</h3><ol>
+<li>redo-log是innodb存储引擎的日志系统；binlog是MySQL的server层的日志系统</li>
+<li>redo-log是物理日志，记录数据库那个页上发生了改变；binlog是逻辑日志，记录某一条具体的数据库操作</li>
+<li>redo-log大小固定，循环写，类似循环队列；binlog采用追加方式，写满后跳转下一个日志文件，不会覆盖前面的文件</li>
+</ol>
+<h3 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h3><ul>
+<li>prepare状态与commit状态</li>
+<li>如果不使用“两阶段提交”，那么数据库的状态就有可能和用它的日志恢复出来的库的状态不一致</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><p>redo log 用于保证 crash-safe 能力</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">innodb_flush_log_at_trx_commit=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘</span><br><span class="line"></span><br><span class="line">sync_binlog=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>两阶段提交保证两个日志保持逻辑上一致</p>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/29/初识Docker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1585,191 +1693,6 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/图解HTTP_5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/20/图解HTTP_5/" class="post-title-link" itemprop="url">请求首部字段</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-20 19:13:00" itemprop="dateCreated datePublished" datetime="2019-11-20T19:13:00+08:00">2019-11-20</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-23 16:14:34" itemprop="dateModified" datetime="2019-11-23T16:14:34+08:00">2019-11-23</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h3><ul>
-<li>从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容</li>
-</ul>
-<h4 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h4><ul>
-<li>通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级<ol>
-<li>使用type/subtype 这种形式，一次指定多种媒体类型</li>
-<li>使用q= 来额外表示权重值权重值q 的范围是0~1（可精确到小数点后3 位），且1 为最大值</li>
-<li>首先返回权重值最高的媒体类型</li>
-</ol>
-</li>
-</ul>
-<h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><ul>
-<li>通知服务器用户代理支持的字符集及字符集的相对优先顺序</li>
-</ul>
-<h4 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h4><ul>
-<li>告知服务器用户代理支持的内容编码及内容编码的优先级顺序<ol>
-<li>同accept一样，可有权重</li>
-</ol>
-</li>
-</ul>
-<h4 id="Accept-Language"><a href="#Accept-Language" class="headerlink" title="Accept-Language"></a>Accept-Language</h4><ul>
-<li>告知服务器用户代理能够处理的自然语言集（指中文或英文等）<ol>
-<li>有权重</li>
-</ol>
-</li>
-</ul>
-<h4 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h4><ul>
-<li>告知服务器，用户代理的认证信息（证书值）<ol>
-<li>客户端与服务器</li>
-</ol>
-</li>
-</ul>
-<h4 id="Proxy-Authorization"><a href="#Proxy-Authorization" class="headerlink" title="Proxy-Authorization"></a>Proxy-Authorization</h4><ul>
-<li>接收到从代理服务器发来的认证质询时，客户端会发送包含首部字段Proxy-Authorization的请求，以告知服务器认证所需要的信息<ol>
-<li>客户端与代理服务器</li>
-</ol>
-</li>
-</ul>
-<h4 id="Expect"><a href="#Expect" class="headerlink" title="Expect"></a>Expect</h4><ul>
-<li>告知服务器，期望出现的某种特定行为</li>
-</ul>
-<h4 id="From"><a href="#From" class="headerlink" title="From"></a>From</h4><ul>
-<li>告知服务器，期望出现的某种特定行为</li>
-</ul>
-<h4 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h4><ul>
-<li>告知服务器，请求的资源所处的互联网主机名和端口号<ol>
-<li>唯一一个必须被包含在请求内的首部字段</li>
-</ol>
-</li>
-</ul>
-<h4 id="If-Match"><a href="#If-Match" class="headerlink" title="If-Match"></a>If-Match</h4><ul>
-<li>服务器接收到附带条件的请求后，只有判断指定条件为真时，才会执行请求<ol>
-<li>ETag：实体标记是与特定资源关联的确定值。资源更新变化后ETag随着改变</li>
-<li>服务器会比对If-Match 的字段值和资源的ETag 值，仅当两者一致时，才会执行请求</li>
-<li>可以使用星号(*)指定If-Match 的字段值。针对这种情况，服务器将会忽略ETag 的值，只要资源存在就处理请求</li>
-</ol>
-</li>
-</ul>
-<h4 id="If-None-Match"><a href="#If-None-Match" class="headerlink" title="If-None_Match"></a>If-None_Match</h4><ul>
-<li>资源不存在时返回响应，通常用来获取最新的资源</li>
-</ul>
-<h4 id="If-Modified-Since"><a href="#If-Modified-Since" class="headerlink" title="If-Modified-Since"></a>If-Modified-Since</h4><ul>
-<li>如果在If-Modified-Since 字段指定的日期时间后，资源发生了更新，服务器会接受请求</li>
-</ul>
-<h4 id="If-Unmodified-Since"><a href="#If-Unmodified-Since" class="headerlink" title="If-Unmodified-Since"></a>If-Unmodified-Since</h4><ul>
-<li>告知服务器，指定的请求资源只有在字段值内指定的日期时间之后，未发生更新的情况下，才能处理请求<h4 id="If-Range"><a href="#If-Range" class="headerlink" title="If-Range"></a>If-Range</h4></li>
-<li>告知服务器若指定的IfRange字段值（ETag 值或者时间）和请求资源的ETag 值或时间相一致时，则作为范围请求处理。反之，则返回全体资源</li>
-</ul>
-<h4 id="Max-Forwards"><a href="#Max-Forwards" class="headerlink" title="Max-Forwards"></a>Max-Forwards</h4><ul>
-<li>以十进制整数形式指定可经过的服务器最大数目</li>
-</ul>
-<h4 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h4><ul>
-<li>只需获取部分资源的范围请求<ol>
-<li>处理请求后返回范围资源响应</li>
-<li>无法处理时，返回全部资源响应</li>
-</ol>
-</li>
-</ul>
-<h4 id="Refere"><a href="#Refere" class="headerlink" title="Refere"></a>Refere</h4><ul>
-<li>告知服务器请求的原始资源的URI</li>
-</ul>
-<h4 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h4><ul>
-<li>告知服务器客户端能够处理响应的传输编码方式及相对优先级<ol>
-<li>用于传输编码</li>
-<li>指定伴随trailer 字段的分块传输编码的方式<ul>
-<li>需要将trailers赋值给该字段</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h4><ul>
-<li>将创建请求的浏览器和用户代理名称等信息传达给服务器</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
@@ -1819,7 +1742,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
