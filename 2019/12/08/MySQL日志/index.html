@@ -56,14 +56,14 @@
 </script>
 
   <meta name="description" content="MySQL日志模块redo-log（重做日志） MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高 MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么">
-<meta name="keywords" content="MySQL技巧">
+<meta name="keywords" content="MySQL知识">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL日志">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/12/08/MySQL日志/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
 <meta property="og:description" content="MySQL日志模块redo-log（重做日志） MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高 MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-08T14:09:38.000Z">
+<meta property="og:updated_time" content="2019-12-09T13:16:27.665Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL日志">
 <meta name="twitter:description" content="MySQL日志模块redo-log（重做日志） MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高 MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么">
@@ -258,11 +258,19 @@
                 
               
 
-              <time title="创建时间：2019-12-08 21:33:00 / 修改时间：22:09:38" itemprop="dateCreated datePublished" datetime="2019-12-08T21:33:00+08:00">2019-12-08</time>
+              <time title="创建时间：2019-12-08 21:33:00" itemprop="dateCreated datePublished" datetime="2019-12-08T21:33:00+08:00">2019-12-08</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-09 21:16:27" itemprop="dateModified" datetime="2019-12-09T21:16:27+08:00">2019-12-09</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -330,7 +338,7 @@
           
           <div class="post-tags">
             
-              <a href="/tags/MySQL技巧/" rel="tag"># MySQL技巧</a>
+              <a href="/tags/MySQL知识/" rel="tag"># MySQL知识</a>
             
           </div>
         
