@@ -228,6 +228,237 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/10/图解HTTP_8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/10/图解HTTP_8/" class="post-title-link" itemprop="url">身份认证</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-10 18:46:37" itemprop="dateCreated datePublished" datetime="2019-12-10T18:46:37+08:00">2019-12-10</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
+<li>计算机不能判断使用者的具体身份，需要认证使用</li>
+</ul>
+<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
+<li>认证过程<br><img src="/2019/12/10/图解HTTP_8/8.1.png" alt="basic"></li>
+<li>非加密处理</li>
+</ul>
+<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
+<li>认证过程<br><img src="/2019/12/10/图解HTTP_8/8.2.png" alt="digest"></li>
+<li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
+</ul>
+<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
+<li>借由HTTPS 的客户端证书完成认证的方式</li>
+<li>认证过程<ol>
+<li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
+<li>用户选择将发送的客户端证书后，客户端会把客户端证书信息以Client Certificate 报文方式发送给服务器</li>
+<li>服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始HTTPS 加密通信</li>
+</ol>
+</li>
+<li>认证采用双因素认证<ul>
+<li>采用证书认证和表单认证相结合</li>
+<li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
+</ul>
+</li>
+</ul>
+<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
+<li>认证过程<br><img src="/2019/12/10/图解HTTP_8/8.3.png" alt="session"><ol>
+<li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
+<li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
+<li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
+</ol>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/10/MySQL索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/10/MySQL索引/" class="post-title-link" itemprop="url">MySQL索引</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-10 14:51:00 / 修改时间：18:43:41" itemprop="dateCreated datePublished" datetime="2019-12-10T14:51:00+08:00">2019-12-10</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
+<li>索引是用来加速数据查询数据的数据结构</li>
+</ul>
+<h3 id="常见索引类型"><a href="#常见索引类型" class="headerlink" title="常见索引类型"></a>常见索引类型</h3><h4 id="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"><a href="#哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据" class="headerlink" title="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"></a>哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据</h4><ol>
+<li>无序索引,数据添加容易,直接追加</li>
+<li>适合等值查找，范围查找性能差<h4 id="有序数组：按照字段排序来确定存放位置"><a href="#有序数组：按照字段排序来确定存放位置" class="headerlink" title="有序数组：按照字段排序来确定存放位置"></a>有序数组：按照字段排序来确定存放位置</h4></li>
+</ol>
+<ul>
+<li>采用N叉树：B+ 树能够很好地配合磁盘的读写特性，减少单次查询的磁盘访问次数</li>
+</ul>
+<ol>
+<li>有序索引，范围查找更优秀</li>
+<li>适用于静态存储引擎</li>
+<li>插入数据删除数据时存在一定问题，可能会导致页分裂和页合并，造成数据的空洞</li>
+</ol>
+<h3 id="Innodb的索引模型"><a href="#Innodb的索引模型" class="headerlink" title="Innodb的索引模型"></a>Innodb的索引模型</h3><ul>
+<li>InnoDB 中，表都是根据主键顺序以索引的形式存放</li>
+<li>主键为聚簇索引：主键索引的叶子节点存的是整行数据</li>
+<li>非主键索引：非主键索引的叶子节点内容是主键的值（二级索引）</li>
+<li>回表：在非主键索引中找到主键，然后回到主键索引树搜索的操作</li>
+</ul>
+<h4 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h4><ul>
+<li>在这个查询里面，索引 k 已经“覆盖了”我们的查询需求，我们称为覆盖索引</li>
+<li>覆盖索引可以减少树的搜索次数，显著提升查询性能</li>
+</ul>
+<h4 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h4><ul>
+<li>利用索引的“最左前缀”，来定位记录</li>
+<li>如果通过调整顺序，可以少维护一个索引，那么这个顺序往往就是需要优先考虑采用的</li>
+</ul>
+<h4 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h4><ul>
+<li>在索引遍历过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>普通索引重建时可以提高磁盘利用率，使索引更紧凑</li>
+<li>重建主键的过程不合理。不论是删除主键还是创建主键，都会将整个表重建；建议使用 “alter table T engine=InnoDB”</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/09/MySQL隔离级别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -257,11 +488,19 @@
                 
               
 
-              <time title="创建时间：2019-12-09 20:50:00 / 修改时间：21:15:07" itemprop="dateCreated datePublished" datetime="2019-12-09T20:50:00+08:00">2019-12-09</time>
+              <time title="创建时间：2019-12-09 20:50:00" itemprop="dateCreated datePublished" datetime="2019-12-09T20:50:00+08:00">2019-12-09</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-10 18:48:26" itemprop="dateModified" datetime="2019-12-10T18:48:26+08:00">2019-12-10</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -320,7 +559,11 @@
 
 </li>
 </ol>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>参数：transaction_isolation：查看数据库当前隔离状态</li>
+<li>参数：MAX_EXECUTION_TIME：set MAX_EXECUTION_TIME来设置事务最大执行时间</li>
+</ul>
+
         
       
     </div>
@@ -382,7 +625,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-09 21:16:27" itemprop="dateModified" datetime="2019-12-09T21:16:27+08:00">2019-12-09</time>
+                <time title="修改时间：2019-12-09 21:30:18" itemprop="dateModified" datetime="2019-12-09T21:30:18+08:00">2019-12-09</time>
               </span>
             
           
@@ -434,6 +677,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">innodb_flush_log_at_trx_commit=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘</span><br><span class="line"></span><br><span class="line">sync_binlog=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>两阶段提交保证两个日志保持逻辑上一致</p>
+</li>
+<li><p>一日一备相比一周一备的好处在于RTO；一日一备的最长恢复时间更短</p>
 </li>
 </ul>
 
@@ -875,122 +1120,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/26/图解HTTP_8/" class="post-title-link" itemprop="url">身份认证</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-26 15:45:28 / 修改时间：14:06:46" itemprop="dateCreated datePublished" datetime="2019-11-26T15:45:28+08:00">2019-11-26</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
-<li>计算机不能判断使用者的具体身份，需要认证使用</li>
-</ul>
-<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
-<li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.1.png" alt="basic"></li>
-<li>非加密处理</li>
-</ul>
-<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
-<li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.2.png" alt="digest"></li>
-<li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
-</ul>
-<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
-<li>借由HTTPS 的客户端证书完成认证的方式</li>
-<li>认证过程<ol>
-<li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
-<li>用户选择将发送的客户端证书后，客户端会把客户端证书信息以Client Certificate 报文方式发送给服务器</li>
-<li>服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始HTTPS 加密通信</li>
-</ol>
-</li>
-<li>认证采用双因素认证<ul>
-<li>采用证书认证和表单认证相结合</li>
-<li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
-</ul>
-</li>
-</ul>
-<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
-<li>认证过程<br><img src="/2019/11/26/图解HTTP_8/8.3.png" alt="session"><ol>
-<li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
-<li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
-<li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
-</ol>
-</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1396,197 +1525,6 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/21/图解HTTP_6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/21/图解HTTP_6/" class="post-title-link" itemprop="url">HTTP响应首部与实体首部字段</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-21 09:22:00" itemprop="dateCreated datePublished" datetime="2019-11-21T09:22:00+08:00">2019-11-21</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-23 16:14:45" itemprop="dateModified" datetime="2019-11-23T16:14:45+08:00">2019-11-23</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h3><ul>
-<li>由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息</li>
-</ul>
-<h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
-<li>告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源<ol>
-<li>可处理范围请求时指定其为bytes</li>
-<li>不能处理则指定其为none</li>
-</ol>
-</li>
-</ul>
-<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
-<li>告知客户端，源服务器在多久前创建了响应<ol>
-<li>创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值</li>
-</ol>
-</li>
-</ul>
-<h4 id="ETage"><a href="#ETage" class="headerlink" title="ETage"></a>ETage</h4><ul>
-<li>告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式<ol>
-<li>当资源更新时，ETag 值也需要更新</li>
-<li>强ETag 值和弱Tag 值<ul>
-<li>强ETag：细微的变化都会改变其值</li>
-<li>弱ETag：只有资源发生了根本改变，产生差异时才会改变ETag 值。字段值最开始处附加W/</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h4><ul>
-<li>将响应接收方引导至某个与请求URI 位置不同的资源</li>
-</ul>
-<h4 id="Proxy-Authenticate"><a href="#Proxy-Authenticate" class="headerlink" title="Proxy-Authenticate"></a>Proxy-Authenticate</h4><ul>
-<li>把由代理服务器所要求的认证信息发送给客户端</li>
-</ul>
-<h4 id="Retry-After"><a href="#Retry-After" class="headerlink" title="Retry-After"></a>Retry-After</h4><ul>
-<li>告知客户端应该在多久之后再次发送请求</li>
-</ul>
-<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><ul>
-<li>告知客户端当前服务器上安装的HTTP 服务器应用程序的信息</li>
-</ul>
-<h4 id="Vary"><a href="#Vary" class="headerlink" title="Vary"></a>Vary</h4><ul>
-<li>代理服务器接收到带有Vary 首部字段指定获取资源的请求时，如果使用的Accept-Language字段的值相同，那么就直接从缓存返回响应。反之，则需要先从源服务器端获取资源后才能作为121响应返回</li>
-</ul>
-<h4 id="WWW-Authenticate"><a href="#WWW-Authenticate" class="headerlink" title="WWW-Authenticate"></a>WWW-Authenticate</h4><ul>
-<li>用于HTTP 访问认证<ol>
-<li>告知客户端适用于访问请求URI 所指定资源的认证方案（Basic 或是Digest）和带参数提示的质询（challenge）</li>
-</ol>
-</li>
-</ul>
-<h3 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h3><ul>
-<li>实体首部字段是包含在请求报文和响应报文中的实体部分所使用的首部，用于补充内容的更新时间等与实体相关的信息</li>
-</ul>
-<h4 id="Allow"><a href="#Allow" class="headerlink" title="Allow"></a>Allow</h4><ul>
-<li>通知客户端能够支持Request-URI 指定资源的所有HTTP 方法</li>
-</ul>
-<h4 id="Content-Encoding"><a href="#Content-Encoding" class="headerlink" title="Content-Encoding"></a>Content-Encoding</h4><ul>
-<li>告知客户端服务器对实体的主体部分选用的内容编码方式</li>
-</ul>
-<h4 id="Content-Language"><a href="#Content-Language" class="headerlink" title="Content-Language"></a>Content-Language</h4><ul>
-<li>告知客户端，实体主体使用的自然语言</li>
-</ul>
-<h4 id="Content-Length"><a href="#Content-Length" class="headerlink" title="Content-Length"></a>Content-Length</h4><ul>
-<li>实体主体部分的大小</li>
-</ul>
-<h4 id="Content-Location"><a href="#Content-Location" class="headerlink" title="Content-Location"></a>Content-Location</h4><ul>
-<li>给出与报文主体部分相对应的URI<ol>
-<li>当返回的页面内容与实际请求的对象不同时，首部字段Content-Location内会写明URI</li>
-</ol>
-</li>
-</ul>
-<h4 id="Content-MD5"><a href="#Content-MD5" class="headerlink" title="Content-MD5"></a>Content-MD5</h4><ul>
-<li>检查报文主体在传输过程中是否保持完整，以及确认传输到达</li>
-</ul>
-<h4 id="Content-Range"><a href="#Content-Range" class="headerlink" title="Content-Range"></a>Content-Range</h4><ul>
-<li>告知客户端作为响应返回的实体的哪个部分符合范围请求</li>
-</ul>
-<h4 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h4><ul>
-<li>说明了实体主体内对象的媒体类型</li>
-</ul>
-<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><ul>
-<li>将资源失效的日期告知客户端</li>
-</ul>
-<h4 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h4><ul>
-<li>指明资源最终修改的时间</li>
-</ul>
-<h3 id="为Cookie-服务的首部字段"><a href="#为Cookie-服务的首部字段" class="headerlink" title="为Cookie 服务的首部字段"></a>为Cookie 服务的首部字段</h3><h4 id="Set-Cookie"><a href="#Set-Cookie" class="headerlink" title="Set-Cookie"></a>Set-Cookie</h4><ul>
-<li>当服务器准备开始管理客户端的状态时，会事先告知各种信息<ul>
-<li>属性<ol>
-<li>expires：指定浏览器可发送Cookie 的有效期</li>
-<li>path：用于限制指定Cookie 的发送范围的文件目录</li>
-<li>domain：通过Cookie 的domain 属性指定的域名可做到与结尾匹配一致</li>
-<li>secure：限制Web 页面仅在HTTPS 安全连接时，才可以发送Cookie</li>
-<li>HttpOnly：使JavaScript 脚本无法获得Cookie。防止XSS跨站脚本攻击对cookie的窃取</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
-<li>告知服务器，当客户端想获得HTTP 状态管理支持时，就会在请求中包含从服务器接收到的Cookie</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
@@ -1636,7 +1574,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1662,7 +1600,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
