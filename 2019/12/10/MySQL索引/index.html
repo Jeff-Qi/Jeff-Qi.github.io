@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="JeffQi‘s Blog">
 <meta property="og:description" content="索引 索引是用来加速数据查询数据的数据结构  常见索引类型哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据 无序索引,数据添加容易,直接追加 适合等值查找，范围查找性能差有序数组：按照字段排序来确定存放位置   采用N叉树：B+ 树能够很好地配合磁盘的读写特性，减少单次查询的磁盘访问次数   有序索引，范围查找更优秀 适用于静态存储引擎 插入数据删除数据时存在一定问题，可">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-03T11:35:48.647Z">
+<meta property="og:updated_time" content="2020-02-03T11:42:09.088Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL索引">
 <meta name="twitter:description" content="索引 索引是用来加速数据查询数据的数据结构  常见索引类型哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据 无序索引,数据添加容易,直接追加 适合等值查找，范围查找性能差有序数组：按照字段排序来确定存放位置   采用N叉树：B+ 树能够很好地配合磁盘的读写特性，减少单次查询的磁盘访问次数   有序索引，范围查找更优秀 适用于静态存储引擎 插入数据删除数据时存在一定问题，可">
@@ -269,7 +269,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-03 19:35:48" itemprop="dateModified" datetime="2020-02-03T19:35:48+08:00">2020-02-03</time>
+                <time title="修改时间：2020-02-03 19:42:09" itemprop="dateModified" datetime="2020-02-03T19:42:09+08:00">2020-02-03</time>
               </span>
             
           
@@ -349,13 +349,13 @@
 <li><p>两种统计方法置参数 innodb_stats_persistent</p>
 <ol>
 <li>设置为 on 的时候，表示统计信息会持久化存储。这时，默认的 N 是 20，M 是 10。</li>
-<li>设置为 off 的时候，表示统计信息只存储在内存中。这时，默认的 N 是 8，M 是 16。<h2 id="字符串索引创建"><a href="#字符串索引创建" class="headerlink" title="字符串索引创建"></a>字符串索引创建</h2></li>
+<li>设置为 off 的时候，表示统计信息只存储在内存中。这时，默认的 N 是 8，M 是 16。</li>
 </ol>
 </li>
 </ol>
 </li>
 </ul>
-<ol>
+<h2 id="字符串索引创建"><a href="#字符串索引创建" class="headerlink" title="字符串索引创建"></a>字符串索引创建</h2><ol>
 <li>直接索引，使用较大存储空间</li>
 <li>前缀索引，增加回表次数，无法使用覆盖索引</li>
 <li>倒叙再前缀索引，弥补前缀索引区分度不够</li>
