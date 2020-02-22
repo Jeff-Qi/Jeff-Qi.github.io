@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="简介 Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行  使用简单实践例子 默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段 1234[root@aliyun">
+  <meta name="description" content="MySQL高可用主备延迟 主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；  查看主备延迟 1show slave stauts;  /*second_behind_master 参数*/  关于 seconds_behind_master 参数  sbm参数事从服务器落后与主服务器的时间 由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已">
 <meta property="og:type" content="article">
-<meta property="og:title" content="awk">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2019/10/11/awk/index.html">
+<meta property="og:title" content="MySQL高可用">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="简介 Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行  使用简单实践例子 默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段 1234[root@aliyun">
+<meta property="og:description" content="MySQL高可用主备延迟 主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；  查看主备延迟 1show slave stauts;  /*second_behind_master 参数*/  关于 seconds_behind_master 参数  sbm参数事从服务器落后与主服务器的时间 由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-22T04:23:54.372Z">
+<meta property="og:updated_time" content="2020-02-22T03:50:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="awk">
-<meta name="twitter:description" content="简介 Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行  使用简单实践例子 默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段 1234[root@aliyun">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/10/11/awk/">
+<meta name="twitter:title" content="MySQL高可用">
+<meta name="twitter:description" content="MySQL高可用主备延迟 主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；  查看主备延迟 1show slave stauts;  /*second_behind_master 参数*/  关于 seconds_behind_master 参数  sbm参数事从服务器落后与主服务器的时间 由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用/">
 
 
 <script id="page-configurations">
@@ -80,7 +80,7 @@
   };
 </script>
 
-  <title>awk | JeffQi‘s Blog</title>
+  <title>MySQL高可用 | JeffQi‘s Blog</title>
   
 
 
@@ -229,7 +229,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/11/awk/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JeffQi">
@@ -241,7 +241,7 @@
       <meta itemprop="name" content="JeffQi‘s Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">awk
+        <h1 class="post-title" itemprop="name headline">MySQL高可用
 
           
         </h1>
@@ -257,7 +257,7 @@
                 
               
 
-              <time title="创建时间：2019-10-11 19:46:07" itemprop="dateCreated datePublished" datetime="2019-10-11T19:46:07+08:00">2019-10-11</time>
+              <time title="创建时间：2020-02-20 19:53:00" itemprop="dateCreated datePublished" datetime="2020-02-20T19:53:00+08:00">2020-02-20</time>
             </span>
           
             
@@ -268,7 +268,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+                <time title="修改时间：2020-02-22 11:50:29" itemprop="dateModified" datetime="2020-02-22T11:50:29+08:00">2020-02-22</time>
               </span>
             
           
@@ -278,7 +278,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -297,19 +297,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行</li>
+        <h2 id="MySQL高可用"><a href="#MySQL高可用" class="headerlink" title="MySQL高可用"></a>MySQL高可用</h2><h3 id="主备延迟"><a href="#主备延迟" class="headerlink" title="主备延迟"></a>主备延迟</h3><ul>
+<li><p>主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；</p>
+</li>
+<li><p>查看主备延迟</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">slave</span> stauts;  <span class="comment">/*second_behind_master 参数*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关于 seconds_behind_master 参数</p>
+<ul>
+<li>sbm参数事从服务器落后与主服务器的时间</li>
+<li>由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已经很慢，不能通过这个时间直接判断<ol>
+<li>sbm出现NULL值：<ul>
+<li>出现空值时主从复制就断了或者停止工作</li>
 </ul>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="简单实践"><a href="#简单实践" class="headerlink" title="简单实践"></a>简单实践</h2><h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ol>
-<li><p>默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# echo &apos;Hello awk, nice to see you&apos; | awk -F , &apos;&#123;print $1,$3&#125;&apos;</span><br><span class="line">Hello nice</span><br><span class="line">[root@aliyun ~]# echo &apos;Hello awk, nice to see you&apos; | awk -F &apos;,&apos; &apos;&#123;print $1,$3&#125;&apos;</span><br><span class="line">Hello awk</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>awk中内置的$NF变量代表字段的数量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# echo &apos;Hello awk, nice to see you&apos; | awk &apos;&#123;print $NF&#125;&apos;</span><br><span class="line">you</span><br></pre></td></tr></table></figure>
+<li>sbm值大于等于0：<ul>
+<li>大于0时，则主从服务器已经数据不一致，有滞后现象</li>
+<li>等于0时，只能说明SQL解析线程relay_log到目前为止没有延迟</li>
+</ul>
 </li>
-<li><p>维持跨行状态，END代表的是我们在执行完每行的处理之后只处理下面的代码块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# echo -e &apos;a 1\nb 2\nc 3&apos; | awk &apos;&#123;print $2&#125;&apos;</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">[root@aliyun ~]# echo -e &apos;one 1\ntwo 2&apos; | awk &apos;&#123;sum+=$2&#125; END &#123;print sum&#125;&apos;&apos;</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
-
+</ol>
+</li>
+<li>稍微准确的方法<ol>
+<li>首先查看master_log_file参数，同relay_master_log_file参数的差异，比较日志的同步情况</li>
+<li>其次查看read_master_log_pos和exec_master_log_pos参数的差异，比较日志的读取和执行差异</li>
+<li>最后查看seconds_behind_master参数</li>
+</ol>
+</li>
+<li>较新的GTID和pt工具<ol>
+<li>较新的GIID的复制方式有更好的方式来判断时间点主从复制的差异</li>
+<li>pt工具中的beatheart判断<ul>
+<li>pt工具：在主服务器上有一个库表，定时写入数据，从服务器读取来分析差异</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>主备延迟来源：</p>
+<ol>
+<li>主备数据库服务器性能差距大</li>
+<li>备库压力大，大量 DML 操作</li>
+<li>大事务的执行是将过长</li>
+<li>大表做 DDL 操作</li>
+</ol>
+</li>
+</ul>
+<h3 id="主备切换策略"><a href="#主备切换策略" class="headerlink" title="主备切换策略"></a>主备切换策略</h3><ol>
+<li>可靠性优先策略<ul>
+<li>数据一致性良好，但是可能照成数据库处于不可用状态。还可能照成数据暂时性丢失；</li>
+</ul>
+</li>
+<li>可用性优先策略<ul>
+<li>数据库不存在不可用状态，但是会造成数据不一致；</li>
+</ul>
 </li>
 </ol>
 
@@ -328,8 +369,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/09/hexo-github快速搭建博客/" rel="next" title="hexo+github快速搭建博客">
-                  <i class="fa fa-chevron-left"></i> hexo+github快速搭建博客
+                <a href="/2020/02/12/MySQL_lock/" rel="next" title="MySQL全局锁与表锁">
+                  <i class="fa fa-chevron-left"></i> MySQL全局锁与表锁
                 </a>
               
             </div>
@@ -338,8 +379,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/11/07/阿里yum-epel源替换/" rel="prev" title="阿里yum-epel源替换">
-                  阿里yum-epel源替换 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/02/20/MySQL高可用之MHA搭建/" rel="prev" title="MySQL高可用之MHA搭建">
+                  MySQL高可用之MHA搭建 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -386,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单实践"><span class="nav-number">2.1.</span> <span class="nav-text">简单实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">2.1.1.</span> <span class="nav-text">例子</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL高可用"><span class="nav-number">1.</span> <span class="nav-text">MySQL高可用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主备延迟"><span class="nav-number">1.1.</span> <span class="nav-text">主备延迟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主备切换策略"><span class="nav-number">1.2.</span> <span class="nav-text">主备切换策略</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->

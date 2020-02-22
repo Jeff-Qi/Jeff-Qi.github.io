@@ -55,18 +55,22 @@
   };
 </script>
 
-  <meta name="description" content="简介 Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行  使用简单实践例子 默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段 1234[root@aliyun">
+  <meta name="description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
 <meta property="og:type" content="article">
-<meta property="og:title" content="awk">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2019/10/11/awk/index.html">
+<meta property="og:title" content="身份认证">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="简介 Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行  使用简单实践例子 默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段 1234[root@aliyun">
+<meta property="og:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-22T04:23:54.372Z">
+<meta property="og:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.1.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.2.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.3.png">
+<meta property="og:updated_time" content="2020-02-22T04:23:54.388Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="awk">
-<meta name="twitter:description" content="简介 Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行  使用简单实践例子 默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段 1234[root@aliyun">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/10/11/awk/">
+<meta name="twitter:title" content="身份认证">
+<meta name="twitter:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
+<meta name="twitter:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.1.png">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/">
 
 
 <script id="page-configurations">
@@ -80,7 +84,7 @@
   };
 </script>
 
-  <title>awk | JeffQi‘s Blog</title>
+  <title>身份认证 | JeffQi‘s Blog</title>
   
 
 
@@ -229,7 +233,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/11/awk/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JeffQi">
@@ -241,7 +245,7 @@
       <meta itemprop="name" content="JeffQi‘s Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">awk
+        <h1 class="post-title" itemprop="name headline">身份认证
 
           
         </h1>
@@ -257,20 +261,8 @@
                 
               
 
-              <time title="创建时间：2019-10-11 19:46:07" itemprop="dateCreated datePublished" datetime="2019-10-11T19:46:07+08:00">2019-10-11</time>
+              <time title="创建时间：2020-02-22 12:23:54" itemprop="dateCreated datePublished" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
             </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,7 +270,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
 
                 
                 
@@ -297,21 +289,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><ul>
-<li>Awk是一种小巧的编程语言及命令行工具。（其名称得自于它的创始人Alfred Aho、Peter Weinberger 和 Brian Kernighan姓氏的首个字母）。它非常适合服务器上的日志处理，主要是因为Awk可以对文件进行操作，通常以可读文本构建行</li>
+        <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
+<li>计算机不能判断使用者的具体身份，需要认证使用</li>
 </ul>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="简单实践"><a href="#简单实践" class="headerlink" title="简单实践"></a>简单实践</h2><h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ol>
-<li><p>默认情况下，awk通过空格分隔输入，使用 -F 指定分割符。选择输入的第的字段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# echo &apos;Hello awk, nice to see you&apos; | awk -F , &apos;&#123;print $1,$3&#125;&apos;</span><br><span class="line">Hello nice</span><br><span class="line">[root@aliyun ~]# echo &apos;Hello awk, nice to see you&apos; | awk -F &apos;,&apos; &apos;&#123;print $1,$3&#125;&apos;</span><br><span class="line">Hello awk</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>awk中内置的$NF变量代表字段的数量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# echo &apos;Hello awk, nice to see you&apos; | awk &apos;&#123;print $NF&#125;&apos;</span><br><span class="line">you</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>维持跨行状态，END代表的是我们在执行完每行的处理之后只处理下面的代码块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# echo -e &apos;a 1\nb 2\nc 3&apos; | awk &apos;&#123;print $2&#125;&apos;</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">[root@aliyun ~]# echo -e &apos;one 1\ntwo 2&apos; | awk &apos;&#123;sum+=$2&#125; END &#123;print sum&#125;&apos;&apos;</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
-
-</li>
+<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
+<li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.1.png" alt="basic"></li>
+<li>非加密处理</li>
+</ul>
+<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
+<li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.2.png" alt="digest"></li>
+<li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
+</ul>
+<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
+<li>借由HTTPS 的客户端证书完成认证的方式</li>
+<li>认证过程<ol>
+<li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
+<li>用户选择将发送的客户端证书后，客户端会把客户端证书信息以Client Certificate 报文方式发送给服务器</li>
+<li>服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始HTTPS 加密通信</li>
 </ol>
+</li>
+<li>认证采用双因素认证<ul>
+<li>采用证书认证和表单认证相结合</li>
+<li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
+</ul>
+</li>
+</ul>
+<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
+<li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.3.png" alt="session"><ol>
+<li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
+<li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
+<li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
+</ol>
+</li>
+</ul>
 
     </div>
 
@@ -328,8 +338,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/09/hexo-github快速搭建博客/" rel="next" title="hexo+github快速搭建博客">
-                  <i class="fa fa-chevron-left"></i> hexo+github快速搭建博客
+                <a href="/2020/02/22/hello-world/" rel="next" title="Hello World">
+                  <i class="fa fa-chevron-left"></i> Hello World
                 </a>
               
             </div>
@@ -337,10 +347,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/11/07/阿里yum-epel源替换/" rel="prev" title="阿里yum-epel源替换">
-                  阿里yum-epel源替换 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -386,7 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单实践"><span class="nav-number">2.1.</span> <span class="nav-text">简单实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">2.1.1.</span> <span class="nav-text">例子</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#确认访问用户身份的认证"><span class="nav-number">1.</span> <span class="nav-text">确认访问用户身份的认证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http认证方式"><span class="nav-number">1.1.</span> <span class="nav-text">http认证方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BASIC认证（基本认证）"><span class="nav-number">1.1.1.</span> <span class="nav-text">BASIC认证（基本认证）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DIGEST-认证（摘要认证）"><span class="nav-number">1.1.2.</span> <span class="nav-text">DIGEST 认证（摘要认证）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL-客户端认证"><span class="nav-number">1.1.3.</span> <span class="nav-text">SSL 客户端认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FormBase-认证（基于表单认证）"><span class="nav-number">1.1.4.</span> <span class="nav-text">FormBase 认证（基于表单认证）</span></a></li></ol></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->

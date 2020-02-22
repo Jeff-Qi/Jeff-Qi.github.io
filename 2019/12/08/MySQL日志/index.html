@@ -56,14 +56,13 @@
 </script>
 
   <meta name="description" content="MySQL日志模块redo-log（重做日志） MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高 MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么">
-<meta name="keywords" content="MySQL知识">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL日志">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/12/08/MySQL日志/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
 <meta property="og:description" content="MySQL日志模块redo-log（重做日志） MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高 MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-09T13:30:18.788Z">
+<meta property="og:updated_time" content="2020-02-22T04:23:54.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL日志">
 <meta name="twitter:description" content="MySQL日志模块redo-log（重做日志） MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高 MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么">
@@ -269,7 +268,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-09 21:30:18" itemprop="dateModified" datetime="2019-12-09T21:30:18+08:00">2019-12-09</time>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
               </span>
             
           
@@ -335,15 +334,6 @@
       
 
       <footer class="post-footer">
-          
-            
-          
-          <div class="post-tags">
-            
-              <a href="/tags/MySQL知识/" rel="tag"># MySQL知识</a>
-            
-          </div>
-        
 
         
 
@@ -439,19 +429,6 @@
         
         <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span>
-        </a>
-      </div>
-    
-      
-      
-      <div class="site-state-item site-state-tags">
-        
-          
-            <a href="/tags/">
-          
-        
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">标签</span>
         </a>
       </div>
     

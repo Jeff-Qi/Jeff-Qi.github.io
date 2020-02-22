@@ -228,6 +228,511 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/22/图解HTTP_8/" class="post-title-link" itemprop="url">身份认证</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-22 12:23:54" itemprop="dateCreated datePublished" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
+<li>计算机不能判断使用者的具体身份，需要认证使用</li>
+</ul>
+<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
+<li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.1.png" alt="basic"></li>
+<li>非加密处理</li>
+</ul>
+<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
+<li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.2.png" alt="digest"></li>
+<li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
+</ul>
+<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
+<li>借由HTTPS 的客户端证书完成认证的方式</li>
+<li>认证过程<ol>
+<li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
+<li>用户选择将发送的客户端证书后，客户端会把客户端证书信息以Client Certificate 报文方式发送给服务器</li>
+<li>服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始HTTPS 加密通信</li>
+</ol>
+</li>
+<li>认证采用双因素认证<ul>
+<li>采用证书认证和表单认证相结合</li>
+<li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
+</ul>
+</li>
+</ul>
+<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
+<li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.3.png" alt="session"><ol>
+<li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
+<li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
+<li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
+</ol>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/22/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/22/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-22 12:23:54" itemprop="dateCreated datePublished" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用之MHA搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/20/MySQL高可用之MHA搭建/" class="post-title-link" itemprop="url">MySQL高可用之MHA搭建</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-20 20:46:00" itemprop="dateCreated datePublished" datetime="2020-02-20T20:46:00+08:00">2020-02-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-21 20:12:38" itemprop="dateModified" datetime="2020-02-21T20:12:38+08:00">2020-02-21</time>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MHA"><a href="#MHA" class="headerlink" title="MHA"></a>MHA</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>MHA（Master High Availability）目前在MySQL高可用方面是一个相对成熟的解决方案；是一套优秀的作为MySQL高可用性环境下故障切换和主从提升的高可用软件。在MySQL故障切换过程中，MHA能做到在0~30秒之内自动完成数据库的故障切换操作，并且在进行故障切换的过程中，MHA能在最大程度上保证数据的一致性，以达到真正意义上的高可用；</li>
+</ul>
+<h3 id="组成与工作原理"><a href="#组成与工作原理" class="headerlink" title="组成与工作原理"></a>组成与工作原理</h3><ul>
+<li>该软件由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点）</li>
+<li>MHA Manager会定时探测集群中的master节点，当master出现故障时，它可以自动将最新数据的slave提升为新的master，然后将所有其他的slave重新指向新的master。整个故障转移过程对应用程序完全透明；</li>
+<li>在MHA自动故障切换过程中，MHA试图从宕机的主服务器上保存二进制日志，最大程度的保证数据的不丢失；但是如果发生了硬件故障等就无法获取到日志，导致数据丢失。MHA可以与半同步复制结合起来。如果只有一个slave已经收到了最新的二进制日志，MHA可以将最新的二进制日志应用于其他所有的slave服务器上，因此可以保证所有节点的数据一致性；</li>
+<li>至少需要三台服务器完成</li>
+</ul>
+<h3 id="工作过秤"><a href="#工作过秤" class="headerlink" title="工作过秤"></a>工作过秤</h3><ol>
+<li>从宕机崩溃的master保存二进制日志事件（binlog events）;</li>
+<li>识别含有最新更新的slave；</li>
+<li>应用差异的中继日志（relay log）到其他的slave；</li>
+<li>应用从master保存的二进制日志事件（binlog events）；</li>
+<li>提升一个slave为新的master；</li>
+<li>使其他的slave连接新的master进行复制；</li>
+</ol>
+<h3 id="MHA软件"><a href="#MHA软件" class="headerlink" title="MHA软件"></a>MHA软件</h3><ul>
+<li><p>MHA软件由两部分组成，Manager工具包和Node工具包</p>
+<ol>
+<li><p>Manager工具包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_ssh              检查MHA的SSH配置状况</span><br><span class="line">masterha_check_repl             检查MySQL复制状况</span><br><span class="line">masterha_manager                启动MHA</span><br><span class="line">masterha_check_status           检测当前MHA运行状态</span><br><span class="line">masterha_master_monitor         检测master是否宕机</span><br><span class="line">masterha_master_switch          控制故障转移（自动或者手动）</span><br><span class="line">masterha_conf_host              添加或删除配置的server信息</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Node工具包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">save_binary_logs                保存和复制master的二进制日志</span><br><span class="line">apply_diff_relay_logs           识别差异的中继日志事件并将其差异的事件应用于其他的slave</span><br><span class="line">filter_mysqlbinlog              去除不必要的ROLLBACK事件（MHA已不再使用这个工具）</span><br><span class="line">purge_relay_logs                清除中继日志（不会阻塞SQL线程）</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>为了尽可能的减少主库硬件损坏宕机造成的数据丢失，因此在配置MHA的同时建议配置成MySQL 5.5的半同步复制</p>
+</li>
+</ul>
+<h2 id="部署MHA"><a href="#部署MHA" class="headerlink" title="部署MHA"></a>部署MHA</h2><ul>
+<li>准备：四台服务器（一个manager节点，一个master节点，两个slave节点</li>
+</ul>
+<h3 id="配置主从复制"><a href="#配置主从复制" class="headerlink" title="配置主从复制"></a>配置主从复制</h3><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>开启二进制日志功能与中继日志</li>
+<li>从节点显示开启read-only只读设置，并设置relay_log_purge = 0 清理中继日志的功能</li>
+<li>每个节点的server-id不同</li>
+</ol>
+<h4 id="节点配置"><a href="#节点配置" class="headerlink" title="节点配置"></a>节点配置</h4><ul>
+<li><p>master节点配置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server-id=1</span><br><span class="line">port=3306</span><br><span class="line">bind-address=0.0.0.0</span><br><span class="line">user=mysql</span><br><span class="line">log_bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">relay-log=relay-bin</span><br><span class="line">relay-log-index=relay-bin.index</span><br><span class="line">binlog_format=row</span><br><span class="line">basedir=/usr</span><br><span class="line">tmpdir=/tmp</span><br><span class="line">relay_log_purge=0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>slave-1节点配置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server-id=2</span><br><span class="line">port=3306</span><br><span class="line">bind-address=0.0.0.0</span><br><span class="line">user=mysql</span><br><span class="line">log_bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">relay-log=relay-bin</span><br><span class="line">relay-log-index=relay-bin.index</span><br><span class="line">binlog_format=row</span><br><span class="line">basedir=/usr</span><br><span class="line">tmpdir=/tmp</span><br><span class="line">read-only</span><br><span class="line">relay_log_purge=0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>slave-2节点配置</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server-id=3</span><br><span class="line">port=3306</span><br><span class="line">bind-address=0.0.0.0</span><br><span class="line">user=mysql</span><br><span class="line">log_bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">relay-log=relay-bin</span><br><span class="line">relay-log-index=relay-bin.index</span><br><span class="line">binlog_format=row</span><br><span class="line">basedir=/usr</span><br><span class="line">tmpdir=/tmp</span><br><span class="line">read-only</span><br><span class="line">relay_log_purge=0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置完成后重启 MySQL 服务</p>
+</li>
+</ul>
+<h3 id="配置MHA"><a href="#配置MHA" class="headerlink" title="配置MHA"></a>配置MHA</h3><ul>
+<li><p>管理节点安装manager和node软件；数据库节点安装node软件</p>
+</li>
+<li><p>软件地址：</p>
+<ul>
+<li><p>mha4mysql-manager</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/yoshinorim/mha4mysql-manager</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mha4mysql-node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/yoshinorim/mha4mysql-node</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>安装rpm包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum localinstall ...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置manager节点mha配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mha/cluster1.conf #没有文件需要自己创建</span><br><span class="line"></span><br><span class="line">[server default]</span><br><span class="line">user=test    #管理用户为数据库上的账户</span><br><span class="line">password=Hjqme525+   #管理密码</span><br><span class="line">manager_workdir=/data/mastermha/cluster1/     #mha工作路径</span><br><span class="line">manager_log=/data/mastermha/cluster1/manager.log   #mha日志文件</span><br><span class="line">remote_workdir=/data/mastermha/cluster1/      #每个远程主机的工作目录</span><br><span class="line">ssh_user=root</span><br><span class="line">repl_user=repl_user        #主从复制用户名称</span><br><span class="line">repl_password=Hjqme525+    #复制用户数据库密码</span><br><span class="line">ping_interval=1            #ping时间时长</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[server1]</span><br><span class="line">hostname=192.168.80.129  #主服务器IP地址</span><br><span class="line">candidate_master=1  #优先选为master节点</span><br><span class="line">[server2]</span><br><span class="line">hostname=192.168.80.130   #候选主服务器IP地址</span><br><span class="line">candidate_master=1  #优先选为master节点</span><br><span class="line">[server3]</span><br><span class="line">hostname=192.168.80.131</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置上所有节点见免密登陆，通过密钥对进行登陆</p>
+</li>
+</ul>
+<h2 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h2><ol>
+<li><p>检验SSH登陆</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_ssh --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检验主从复制状况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_repl --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动MHA(前台开启)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_manager --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看MHA运行状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_status --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/20/MySQL高可用/" class="post-title-link" itemprop="url">MySQL高可用</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-20 19:53:00" itemprop="dateCreated datePublished" datetime="2020-02-20T19:53:00+08:00">2020-02-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-22 11:50:29" itemprop="dateModified" datetime="2020-02-22T11:50:29+08:00">2020-02-22</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MySQL高可用"><a href="#MySQL高可用" class="headerlink" title="MySQL高可用"></a>MySQL高可用</h2><h3 id="主备延迟"><a href="#主备延迟" class="headerlink" title="主备延迟"></a>主备延迟</h3><ul>
+<li><p>主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；</p>
+</li>
+<li><p>查看主备延迟</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">slave</span> stauts;  <span class="comment">/*second_behind_master 参数*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关于 seconds_behind_master 参数</p>
+<ul>
+<li>sbm参数事从服务器落后与主服务器的时间</li>
+<li>由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已经很慢，不能通过这个时间直接判断<ol>
+<li>sbm出现NULL值：<ul>
+<li>出现空值时主从复制就断了或者停止工作</li>
+</ul>
+</li>
+<li>sbm值大于等于0：<ul>
+<li>大于0时，则主从服务器已经数据不一致，有滞后现象</li>
+<li>等于0时，只能说明SQL解析线程relay_log到目前为止没有延迟</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>稍微准确的方法<ol>
+<li>首先查看master_log_file参数，同relay_master_log_file参数的差异，比较日志的同步情况</li>
+<li>其次查看read_master_log_pos和exec_master_log_pos参数的差异，比较日志的读取和执行差异</li>
+<li>最后查看seconds_behind_master参数</li>
+</ol>
+</li>
+<li>较新的GTID和pt工具<ol>
+<li>较新的GIID的复制方式有更好的方式来判断时间点主从复制的差异</li>
+<li>pt工具中的beatheart判断<ul>
+<li>pt工具：在主服务器上有一个库表，定时写入数据，从服务器读取来分析差异</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>主备延迟来源：</p>
+<ol>
+<li>主备数据库服务器性能差距大</li>
+<li>备库压力大，大量 DML 操作</li>
+<li>大事务的执行是将过长</li>
+<li>大表做 DDL 操作</li>
+</ol>
+</li>
+</ul>
+<h3 id="主备切换策略"><a href="#主备切换策略" class="headerlink" title="主备切换策略"></a>主备切换策略</h3><ol>
+<li>可靠性优先策略<ul>
+<li>数据一致性良好，但是可能照成数据库处于不可用状态。还可能照成数据暂时性丢失；</li>
+</ul>
+</li>
+<li>可用性优先策略<ul>
+<li>数据库不存在不可用状态，但是会造成数据不一致；</li>
+</ul>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/12/MySQL_lock/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -257,11 +762,19 @@
                 
               
 
-              <time title="创建时间：2020-02-12 19:26:00 / 修改时间：15:55:19" itemprop="dateCreated datePublished" datetime="2020-02-12T19:26:00+08:00">2020-02-12</time>
+              <time title="创建时间：2020-02-12 19:26:00" itemprop="dateCreated datePublished" datetime="2020-02-12T19:26:00+08:00">2020-02-12</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -471,254 +984,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/03/MySQL参数/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/02/03/MySQL参数/" class="post-title-link" itemprop="url">MySQL参数</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-03 13:50:00 / 修改时间：19:35:54" itemprop="dateCreated datePublished" datetime="2020-02-03T13:50:00+08:00">2020-02-03</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="MySQL参数表"><a href="#MySQL参数表" class="headerlink" title="MySQL参数表"></a>MySQL参数表</h1><h2 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h2><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>参数</th>
-<th>详解</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>磁盘IO能力</td>
-<td>innodb_io_capacity</td>
-<td>传递给MySQL的磁盘IO能力，用于判断系统的能力</td>
-</tr>
-<tr>
-<td>脏页比例</td>
-<td>innodb_max_dirty_pages_pct</td>
-<td>默认值是 75%。InnoDB 会根据当前的脏页比例（假设为 M），算出一个范围在 0 到 100 之间的数字。用于判断刷脏页的辅助判断</td>
-</tr>
-<tr>
-<td>脏页邻居刷新</td>
-<td>innodb_flush_neighbors</td>
-<td>在准备刷一个脏页的时候，如果这个数据页旁边的数据页刚好是脏页，就会把这个“邻居”也带着一起刷掉。具有连坐特性。设为 0 则不刷新邻居脏页</td>
-</tr>
-<tr>
-<td>刷新日志</td>
-<td>innodb_flush_log_at_trx_commit</td>
-<td>设置为1时在事务提交的时候需要将日志写入磁盘</td>
-</tr>
-</tbody></table>
-<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><table>
-<thead>
-<tr>
-<th>名称</th>
-<th>参数</th>
-<th>详解</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>脏页数</td>
-<td>Innodb_buffer_pool_pages_dirty</td>
-<td></td>
-</tr>
-<tr>
-<td>buff pool 总页数</td>
-<td>Innodb_buffer_pool_pages_total</td>
-<td></td>
-</tr>
-<tr>
-<td>表数据存储位置</td>
-<td>innodb_file_per_table</td>
-<td>设置为 OFF 表示的是，表的数据放在系统共享表空间，也就是跟数据字典放在一起；设置为 ON 表示的是，每个 InnoDB 表数据存储在一个以 .ibd 为后缀的文件中。当存在于共享表空间中时通过drop操作无法释放表空间。</td>
-</tr>
-</tbody></table>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/10/图解HTTP_8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/12/10/图解HTTP_8/" class="post-title-link" itemprop="url">身份认证</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-12-10 18:46:37" itemprop="dateCreated datePublished" datetime="2019-12-10T18:46:37+08:00">2019-12-10</time>
-            </span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
-<li>计算机不能判断使用者的具体身份，需要认证使用</li>
-</ul>
-<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
-<li>认证过程<br><img src="/2019/12/10/图解HTTP_8/8.1.png" alt="basic"></li>
-<li>非加密处理</li>
-</ul>
-<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
-<li>认证过程<br><img src="/2019/12/10/图解HTTP_8/8.2.png" alt="digest"></li>
-<li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
-</ul>
-<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
-<li>借由HTTPS 的客户端证书完成认证的方式</li>
-<li>认证过程<ol>
-<li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
-<li>用户选择将发送的客户端证书后，客户端会把客户端证书信息以Client Certificate 报文方式发送给服务器</li>
-<li>服务器验证客户端证书验证通过后方可领取证书内客户端的公开密钥，然后开始HTTPS 加密通信</li>
-</ol>
-</li>
-<li>认证采用双因素认证<ul>
-<li>采用证书认证和表单认证相结合</li>
-<li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
-</ul>
-</li>
-</ul>
-<h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
-<li>认证过程<br><img src="/2019/12/10/图解HTTP_8/8.3.png" alt="session"><ol>
-<li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
-<li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
-<li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
-</ol>
-</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/10/MySQL索引/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -759,7 +1024,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-12 15:55:03" itemprop="dateModified" datetime="2020-02-12T15:55:03+08:00">2020-02-12</time>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
               </span>
             
           
@@ -956,7 +1221,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-10 18:48:26" itemprop="dateModified" datetime="2019-12-10T18:48:26+08:00">2019-12-10</time>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
               </span>
             
           
@@ -1082,7 +1347,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-09 21:30:18" itemprop="dateModified" datetime="2019-12-09T21:30:18+08:00">2019-12-09</time>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
               </span>
             
           
@@ -1200,7 +1465,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-04 00:03:26" itemprop="dateModified" datetime="2019-12-04T00:03:26+08:00">2019-12-04</time>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
               </span>
             
           
@@ -1381,11 +1646,19 @@
                 
               
 
-              <time title="创建时间：2019-11-26 19:00:00 / 修改时间：21:07:41" itemprop="dateCreated datePublished" datetime="2019-11-26T19:00:00+08:00">2019-11-26</time>
+              <time title="创建时间：2019-11-26 19:00:00" itemprop="dateCreated datePublished" datetime="2019-11-26T19:00:00+08:00">2019-11-26</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -1442,244 +1715,6 @@
 
 </li>
 </ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_10/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/26/图解HTTP_10/" class="post-title-link" itemprop="url">构建Web内容的技术</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-26 15:46:00 / 修改时间：16:26:38" itemprop="dateCreated datePublished" datetime="2019-11-26T15:46:00+08:00">2019-11-26</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="构建Web内容的技术"><a href="#构建Web内容的技术" class="headerlink" title="构建Web内容的技术"></a>构建Web内容的技术</h2><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
-<li>为了发送Web 上的超文本（Hypertext）而开发的标记语言。超文本是一种文档系统，可将文档中任意位置的信息与其他信息（文本或图片等）建立关联，即超链接文本。标记语言是指通过在文档的某部分穿插特别的字符串标签，用来修饰文档的语言。我们把出现在HTML 文档内的这种特殊字符串叫做HTML 标签（Tag）</li>
-</ul>
-<h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
-<li>CSS（Cascading Style Sheets，层叠样式表）可以指定如何展现HTML内的各种元素，属于样式表标准之一</li>
-<li>CSS的理念就是让文档的结构和设计分离，达到解耦的目的</li>
-</ul>
-<h3 id="动态HTML"><a href="#动态HTML" class="headerlink" title="动态HTML"></a>动态HTML</h3><ul>
-<li>通过调用客户端脚本语言JavaScript，实现对HTML 的Web 页面的动态改造</li>
-</ul>
-<h3 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h3><ul>
-<li>用以操作HTML 文档和XML 文档的API（Application Programming Interface，应用编程接口）</li>
-</ul>
-<h3 id="Web应用"><a href="#Web应用" class="headerlink" title="Web应用"></a>Web应用</h3><ul>
-<li>通过Web 功能提供的应用程序</li>
-</ul>
-<h4 id="CGI"><a href="#CGI" class="headerlink" title="CGI"></a>CGI</h4><ul>
-<li>Web 服务器在接收到客户端发送过来的请求后转发给程序的一组机制<br><img src="/2019/11/26/图解HTTP_10/10.1.png" alt="CGI"></li>
-</ul>
-<h4 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h4><ul>
-<li>一种能在服务器上创建动态内容的程序</li>
-<li>CGI，由于每次接到请求，程序都要跟着启动一次;而Servlet 运行在与Web 服务器相同的进程中，因此受到的负载较小<br><img src="/2019/11/26/图解HTTP_10/10.2.png" alt="Servlet"></li>
-</ul>
-<h3 id="数据发布的格式及语言"><a href="#数据发布的格式及语言" class="headerlink" title="数据发布的格式及语言"></a>数据发布的格式及语言</h3><h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><ul>
-<li>按应用目标进行扩展的通用标记语言</li>
-<li>XML和HTML一样，使用标签构成树形结构，并且可自定义扩展标签</li>
-</ul>
-<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><ul>
-<li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/图解HTTP_9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/26/图解HTTP_9/" class="post-title-link" itemprop="url">HTTP追加协议</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-26 15:23:00 / 修改时间：15:39:01" itemprop="dateCreated datePublished" datetime="2019-11-26T15:23:00+08:00">2019-11-26</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="基于HTTP-的功能追加协议"><a href="#基于HTTP-的功能追加协议" class="headerlink" title="基于HTTP 的功能追加协议"></a>基于HTTP 的功能追加协议</h2><h3 id="http瓶颈"><a href="#http瓶颈" class="headerlink" title="http瓶颈"></a>http瓶颈</h3><ul>
-<li>原因<ol>
-<li>一条连接上只可发送一个请求</li>
-<li>请求只能从客户端开始。客户端不可以接收除响应以外的指令。</li>
-<li>请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。</li>
-<li>发送冗长的首部。每次互相发送相同的首部造成的浪费较多。</li>
-<li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/图解HTTP_9/9.1.png" alt="http"></li>
-</ol>
-</li>
-</ul>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
-<li>局部Web 页面替换加载的异步通信手段<br><img src="/2019/11/26/图解HTTP_9/9.2.png" alt="Ajax"></li>
-</ul>
-<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
-<li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
-<li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2019/11/26/图解HTTP_9/9.3.png" alt="Comet"></li>
-</ul>
-<h4 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h4><ul>
-<li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2019/11/26/图解HTTP_9/9.4.png" alt="SPDY"></p>
-</li>
-<li><p>设计</p>
-<ol>
-<li>多路复用流：通过单一的TCP 连接，可以无限制处理多个HTTP 请求</li>
-<li>设置优先级</li>
-<li>压缩HTTP首部</li>
-<li>推送与服务器提示功能：支持服务器主动向客户端推送数据的功能；服务器可以主动提示客户端请求所需的资源</li>
-</ol>
-</li>
-</ul>
-<h3 id="全双工通信的-WebSocket"><a href="#全双工通信的-WebSocket" class="headerlink" title="全双工通信的 WebSocket"></a>全双工通信的 WebSocket</h3><ul>
-<li>Web 浏览器与Web 服务器之间全双工通信标准<ol>
-<li>推送功能</li>
-<li>减少通信量：一直保持连接状态</li>
-</ol>
-</li>
-<li>使用http首部中的upgrade首部字段实现连接<ol>
-<li>握手请求</li>
-<li>握手响应</li>
-</ol>
-</li>
-<li>通信过程<br><img src="/2019/11/26/图解HTTP_9/9.5.png" alt="WebSocket通信"></li>
-</ul>
 
         
       
@@ -1762,19 +1797,6 @@
         
         <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span>
-        </a>
-      </div>
-    
-      
-      
-      <div class="site-state-item site-state-tags">
-        
-          
-            <a href="/tags/">
-          
-        
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">标签</span>
         </a>
       </div>
     
