@@ -228,6 +228,1815 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/29/平均负载均衡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/29/平均负载均衡/" class="post-title-link" itemprop="url">平均负载</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-29 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-29T00:15:00+08:00">2020-03-29</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-20 00:17:44" itemprop="dateModified" datetime="2020-03-20T00:17:44+08:00">2020-03-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#平均负载均衡">平均负载均衡</a><ul>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="平均负载均衡"><a href="#平均负载均衡" class="headerlink" title="平均负载均衡"></a>平均负载均衡</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
+</li>
+<li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
+<ul>
+<li>可运行状态（R）：正在使用 CPU 或者正在等待 CPU 的进程</li>
+<li>不可中断状态（D）：进程则是正处于内核态关键流程中的进程，并且这些流程是不可打断的（io写入的进程）</li>
+</ul>
+</li>
+<li><p>比如当平均负载为 2 时，意味着什么呢？</p>
+<ul>
+<li>在只有 2 个 CPU 的系统上，意味着所有的 CPU 都刚好被完全占用。</li>
+<li>在 4 个 CPU 的系统上，意味着 CPU 有 50% 的空闲。</li>
+<li>而在只有 1 个 CPU 的系统中，则意味着有一半的进程竞争不到 CPU。</li>
+</ul>
+</li>
+<li><p>查看CPU核数</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo | wc -l</span><br><span class="line"><span class="comment"># lscpu</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一般负载超过70%就需要排查</p>
+</li>
+<li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
+</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
+<li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
+<li>pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。</li>
+</ol>
+</li>
+<li>stress：压力测试工具</li>
+<li><strong>模拟cpu密集型服务器压力测试</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用一个cpu，占满100%，时间600s</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 1 --timeout 600</span></span><br><span class="line">stress: info: [2319] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据$</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5     </span></span><br><span class="line">11:31:59 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:32:00 PM  all   50.50    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.50</span><br><span class="line">11:32:00 PM    0  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">11:32:00 PM    1    0.00    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出占用cpu的进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1      </span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:34:37 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:34:42 PM     0      2320   99.40    0.00    0.00   99.40     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      2320   99.40    0.00    0.00   99.40     -  stress</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>模拟io压力</strong><ul>
+<li>iowait无法升高的问题，是因为案例中stress使用的是 sync() 系统调用，它的作用是刷新缓冲区内存到磁盘中。对于新安装的虚拟机，缓冲区可能比较小，无法产生大的IO压力，这样大部分就都是系统调用的消耗了。所以，你会看到只有系统CPU使用率升高。解决方法是使用stress的下一代stress-ng，它支持更丰富的选项，比如 stress-ng -i 1 –hdd 1 –timeout 600（–hdd表示读写临时文件）。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">占满io，时间600s</span><br><span class="line">[root@node1 ~]<span class="comment"># stress-ng --hdd -i 1 --timeout 600</span></span><br><span class="line">stress: info: [3143] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示所有的cpu和内存的使用情况</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5</span></span><br><span class="line">11:30:05 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:30:08 AM  all    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line">11:30:08 AM    0    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">Average:     all    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line">Average:       0    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@baidu ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-957.27.2.el7.x86_64 (baidu) 	03/18/2020 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">11:33:26 AM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:33:31 AM     0     25768    0.00   18.38    0.00   18.38     0  stress-ng-hdd</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0     25790    0.35   21.75    0.00   22.11     -  stress-ng-hdd</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>大量进程模拟</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启多个线程大于核数</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 4 --timeout 600</span></span><br><span class="line">stress: info: [3607] dispatching hogs: 4 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:47:34 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:47:39 PM     0      3608   54.76    0.00    0.00   54.76     1  stress</span><br><span class="line">11:47:39 PM     0      3609   45.24    0.00    0.00   45.24     1  stress</span><br><span class="line">11:47:39 PM     0      3610   47.62    0.00    0.00   47.62     0  stress</span><br><span class="line">11:47:39 PM     0      3611   50.00    0.20    0.00   50.20     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      3608   54.76    0.00    0.00   54.76     -  stress</span><br><span class="line">Average:        0      3609   45.24    0.00    0.00   45.24     -  stress</span><br><span class="line">Average:        0      3610   47.62    0.00    0.00   47.62     -  stress</span><br><span class="line">Average:        0      3611   50.00    0.20    0.00   50.20     -  stress</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><strong>总结</strong><ul>
+<li>平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况</li>
+<li>平均负载高有可能是 CPU 密集型进程导致的；</li>
+<li>平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了；</li>
+<li>当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源。</li>
+</ul>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/上下文切换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/20/上下文切换/" class="post-title-link" itemprop="url">上下文切换</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-20 00:15:00 / 修改时间：00:17:28" itemprop="dateCreated datePublished" datetime="2020-03-20T00:15:00+08:00">2020-03-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol>
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench.jpg" alt="sysbench"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"></li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/python_base/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/20/python_base/" class="post-title-link" itemprop="url">Python基础</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-20 00:15:00 / 修改时间：00:23:30" itemprop="dateCreated datePublished" datetime="2020-03-20T00:15:00+08:00">2020-03-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><ol>
+<li><p>打开一个文件包含两部分资源：操作系统级打开的文件+应用程序的变量。在操作完毕一个文件时，必须把与该文件的这两部分资源一个不落地回收</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. 打开文件，得到文件句柄并赋值给一个变量</span></span><br><span class="line">f=open(<span class="string">'a.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>) <span class="comment">#默认打开模式就为r</span></span><br><span class="line"><span class="comment">#2. 通过句柄对文件进行操作</span></span><br><span class="line">data=f.read()</span><br><span class="line"><span class="comment">#3. 关闭文件</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'a.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> read_f,open(<span class="string">'b.txt'</span>,<span class="string">'w'</span>) <span class="keyword">as</span> write_f:</span><br><span class="line">  data=read_f.read()</span><br><span class="line">  write_f.write(data)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件打开模式和编码</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>只读模式【默认模式，文件必须存在，不存在则抛出异常】</td>
+</tr>
+<tr>
+<td>w</td>
+<td>只写模式【不可读；不存在则创建；存在则清空内容】</td>
+</tr>
+<tr>
+<td>a</td>
+<td>只追加写模式【不可读；不存在则创建；存在则只追加内容】</td>
+</tr>
+<tr>
+<td>*b</td>
+<td>r、w、a + b 使用二进制方式打开</td>
+</tr>
+<tr>
+<td>r+</td>
+<td>读写【可读，可写】覆盖写</td>
+</tr>
+<tr>
+<td>w+</td>
+<td>写读【可写，可读】覆盖写</td>
+</tr>
+<tr>
+<td>a+</td>
+<td>写读【可写，可读】追加写</td>
+</tr>
+<tr>
+<td>r+b</td>
+<td>读写【可读，可写】</td>
+</tr>
+<tr>
+<td>w+b</td>
+<td>写读【可写，可读】</td>
+</tr>
+<tr>
+<td>a+b</td>
+<td>写读【可写，可读】</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li><p>文件输入与输出</p>
+<ol>
+<li><p>输出</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f.read(size)：读多少字节，默认为一次性读完</span><br><span class="line">f.readline()：读一行，默认为‘\n’符号</span><br><span class="line">f.readlines()：读所有行，符号为 \n</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>输入</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f.write(<span class="string">'xxxx'</span>)：写入</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>f.tell()：返回当前文件指正</p>
+</li>
+<li><p>f.seek()：如果要改变文件当前的位置, 可以使用 f.seek(offset, from_what) 函数。from_what 的值, 如果是 0 表示开头, 如果是 1 表示当前位置, 2 表示文件的结尾</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">seek(x,<span class="number">0</span>) ： 从起始位置即文件首行首字符开始移动 x 个字符</span><br><span class="line">seek(x,<span class="number">1</span>) ： 表示从当前位置往后移动x个字符</span><br><span class="line">seek(-x,<span class="number">2</span>)：表示从文件的结尾往前移动x个字符</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ol>
+<li><p>return关键字的作用</p>
+<ol>
+<li>return 是一个关键字，这个词翻译过来就是“返回”，所以我们管写在return后面的值叫“返回值”。</li>
+<li>不写return的情况下，会默认返回一个None</li>
+<li>一旦遇到return，结束整个函数。</li>
+<li>返回的多个值会被组织成元组被返回，也可以用多个值来接收</li>
+</ol>
+</li>
+<li><p>函数的参数</p>
+<ol>
+<li><p>按照位置传值：位置参数</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fname</span><span class="params">(x, y)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span>   </span><br><span class="line"><span class="comment">##</span></span><br><span class="line">fname(<span class="number">1</span>, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关键字参数：在调用函数时，按照key=value的形式定义的实参，称为关键字参数</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(x, y)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line">fun(x=<span class="number">1</span>,y=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>位置、关键字形式混着用：混合传参；结合上面两种</p>
+<ol>
+<li><strong>位置参数必须在关键字参数的前面<br>对于一个形参只能赋值一次</strong></li>
+</ol>
+</li>
+<li><p>默认参数:<strong>默认参数是一个可变数据类型</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fname</span><span class="params">(x=<span class="number">1</span>)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line">fname()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>动态参数：动态参数，也叫不定长传参，就是你需要传给函数的参数很多，<strong>不定个数</strong>，那这种情况下，你就用<em>args，*</em>kwargs接收，<strong>args是元祖形式</strong>，接收除去键值对以外的所有参数，<strong>kwargs接收的只是键值对的参数</strong>，并保存在字典中</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fname</span><span class="params">(*arg, **kwargs)</span>:</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line">fname(<span class="string">'aaron'</span>,<span class="number">1</span>,<span class="number">3</span>,[<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">2</span>],&#123;<span class="string">'a'</span>:<span class="number">123</span>,<span class="string">'b'</span>:<span class="number">321</span>&#125;,country=<span class="string">'china'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>形参、实参：</p>
+<ol>
+<li>形参：定义函数时的参数</li>
+<li>实参：调用函数时的参数</li>
+<li>根据实际参数类型不同，将实际参数传递给形参的方式有两种：值传递和引用传递<ol>
+<li>值传递：实参为不可变对象，传递给形参后，形参的值改变，实参值不变。如fun（a），传递的只是a的值，没有影响a对象本身。比如在 fun（a）内部修改 a 的值，只是修改另一个复制的对象，不会影响 a 本身。</li>
+<li>引用传递：实参为可变对象，传递给形参后，形参的值改变，实参值改变。如 fun（la），则是将 la 真正的传过去，修改后fun外部的la也会受影响</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>形式参数前加 * 号表示可变长参数，实参前加 * 号表示解包，将list或者tuple内的元素提取出来</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(a, *args)</span>:</span></span><br><span class="line">  print(<span class="string">'a:%s'</span> % a)</span><br><span class="line">  print(<span class="string">'args:'</span>, end=<span class="string">' '</span>)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> args:</span><br><span class="line">      print(i, end=<span class="string">' '</span>)</span><br><span class="line">li = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">fun(*li)</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">a:<span class="number">1</span></span><br><span class="line">args: <span class="number">2</span> <span class="number">3</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="命名空间和作用域"><a href="#命名空间和作用域" class="headerlink" title="命名空间和作用域"></a>命名空间和作用域</h1><ol>
+<li><p>创建的存储“变量名与值的关系”的空间叫做全局命名空间；在函数的运行中开辟的临时的空间叫做局部命名空间</p>
+</li>
+<li><p>类型：</p>
+<ol>
+<li>全局</li>
+<li>局部</li>
+<li>内置</li>
+</ol>
+</li>
+<li><p>调用顺序</p>
+<ol>
+<li>局部调用：局部&gt;全局&gt;内置</li>
+<li>全局调用：全局&gt;内置</li>
+</ol>
+</li>
+<li><p>作用域</p>
+<ol>
+<li>全局作用域：包含内置名称空间、全局名称空间，在整个文件的任意位置都能被引用、全局有效</li>
+<li>局部作用域：局部名称空间，只能在局部范围内生效</li>
+</ol>
+</li>
+<li><p>globals和locals方法</p>
+<ol>
+<li><p>global</p>
+<ol>
+<li>声明一个全局变量。</li>
+<li>在局部作用域想要对全局作用域的全局变量进行修改时，需要用到 global(限于字符串，数字)。可变数据类型可以直接引用<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">global</span> a</span><br><span class="line">  a = <span class="number">3</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line">func()</span><br><span class="line">print(a)</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">count = <span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> count</span><br><span class="line">    count = <span class="number">2</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line">search()</span><br><span class="line">print(count)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>local</p>
+<ol>
+<li>不能修改全局变量</li>
+<li>在局部作用域中，对父级作用域（或者更外层作用域非全局作用域）的变量进行引用和修改，并且引用的哪层，从那层及以下此变量全部发生改变<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_b</span><span class="params">()</span>:</span></span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span><span class="params">()</span>:</span></span><br><span class="line">        b = <span class="number">10</span></span><br><span class="line">        print(b)</span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">dd_nolocal</span><span class="params">()</span>:</span></span><br><span class="line">            <span class="keyword">nonlocal</span> b <span class="comment"># 父级改变</span></span><br><span class="line">            b = b + <span class="number">20</span></span><br><span class="line">            print(b)</span><br><span class="line">        dd_nolocal()</span><br><span class="line">        print(b)</span><br><span class="line">    do_global()</span><br><span class="line">    print(b)</span><br><span class="line">add_b()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="函数-1"><a href="#函数-1" class="headerlink" title="函数"></a>函数</h1><ol>
+<li>函数名本质上就是函数的内存地址；可以被引用；可以当做容器元素存在如list中；可以作为返回值</li>
+<li>闭包：内层函数对于外层函数定义的变量的调用<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">out</span><span class="params">()</span>:</span></span><br><span class="line">  name = <span class="string">'hjq'</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">    print(name)</span><br><span class="line">  print(inner.__closure__)</span><br><span class="line">  <span class="keyword">return</span> inner</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h1><ol>
+<li><p>让其他函数在不需要做任何代码变动的前提下，增加额外的功能，装饰器的返回值也是一个函数对象。装饰器的应用场景：比如插入日志，性能测试，事务处理，缓存等等场景</p>
+</li>
+<li><p>函数可以作为参数传递给另一个函数，但是使用比较麻烦；使用装饰器更加简便</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">timer</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        func()</span><br><span class="line">        print(time.time() - start)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="meta">@timer</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    print(<span class="string">'in func1'</span>)</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">func1()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加上装饰器后函数的信息就失效了，可以使用 @wrap(fun_name) 装饰器保留原函数的信息</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deco</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args,**kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> func(*args,**kwargs)</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>开放封闭原则</strong></p>
+<ol>
+<li>开放封闭原则的核心的思想是软件实体是可扩展，而不可修改的。<ol>
+<li>对扩展是开放的</li>
+<li>对修改是封闭的</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>多个装饰器</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper1</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        print(<span class="string">'第一个装饰器，在程序运行之前'</span>)</span><br><span class="line">        func()</span><br><span class="line">        print(<span class="string">'第一个装饰器，在程序运行之后'</span>)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper2</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        print(<span class="string">'第二个装饰器，在程序运行之前'</span>)</span><br><span class="line">        func()</span><br><span class="line">        print(<span class="string">'第二个装饰器，在程序运行之后'</span>)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="meta">@wrapper1</span></span><br><span class="line"><span class="meta">@wrapper2</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'Hello'</span>)</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">f()</span><br><span class="line"><span class="comment">## 结果</span></span><br><span class="line">第一个装饰器，在程序运行之前</span><br><span class="line">第二个装饰器，在程序运行之前</span><br><span class="line">Hello</span><br><span class="line">第二个装饰器，在程序运行之后</span><br><span class="line">第一个装饰器，在程序运行之后</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="迭代器生成器"><a href="#迭代器生成器" class="headerlink" title="迭代器生成器"></a>迭代器生成器</h1><ol>
+<li>可迭代对象：可以使用for循环遍历的对象</li>
+<li>可迭代协议：可以被迭代要满足的要求就叫做可迭代协议。可迭代协议的定义非常简单，就是内部实现了iter方法来返回一个迭代器对象</li>
+<li>迭代器：内部实现了iter方法和next方法；迭代器惰性计算，同一时刻在内存中只出现一条数据，极大限度的节省了内存；只有在需要时才会生成</li>
+<li>for循环遍历可迭代对象<ol>
+<li>将可迭代对象转化成迭代器。（可迭代对象.iter()）</li>
+<li>内部使用next方法，一个一个取值。</li>
+<li>加了异常处理功能，取值到底后自动停止。</li>
+</ol>
+</li>
+<li>生成器：常规函数定义，但是，使用yield语句而不是return语句返回结果。yield语句一次返回一个结果，在每个结果中间，挂起函数的状态，以便下次重它离开的地方继续执行</li>
+<li>生成器协议：类似于列表推导，但是，生成器返回按需产生结果的一个对象，而不是一次构建一个结果列表</li>
+</ol>
+<h1 id="推导式"><a href="#推导式" class="headerlink" title="推导式"></a>推导式</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;k.lower():dic1.get(k.lower(),<span class="number">0</span>) + dic1.get(k.upper(),<span class="number">0</span>) <span class="keyword">for</span> k <span class="keyword">in</span> dic1.keys()&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="内置函数和匿名函数"><a href="#内置函数和匿名函数" class="headerlink" title="内置函数和匿名函数"></a>内置函数和匿名函数</h1><ol>
+<li><p>作用域相关</p>
+<ul>
+<li>locals():函数会以字典的类型返回当前位置的全部局部变量</li>
+<li>globals():：函数以字典的类型返回全部全局变量</li>
+</ul>
+</li>
+<li><p>字符串类型代码的执行 eval，exec，complie</p>
+<ul>
+<li><p>eval：执行字符串代码返回结果；只能执行一行代码</p>
+  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ret = eval(<span class="string">'2 + 2'</span>)</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exec：执行字符串代码；可以执行多行代码，但是拿不到结果</p>
+  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'''</span></span><br><span class="line"><span class="string">for i in range(5):</span></span><br><span class="line"><span class="string">    print(i)</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">exec(s</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>complie：:将字符串类型的代码编译。代码对象能够通过exec语句来执行或者eval()进行求值</p>
+<ol>
+<li>数source：字符串。即需要动态执行的代码段。</li>
+<li>参数 filename：代码文件名称，如果不是从文件读取代码则传递一些可辨认的值。当传入了source参数时，filename参数传入空字符即可。</li>
+<li>参数model：指定编译代码的种类，可以指定为 ‘exec’,’eval’,’single’。<strong>当source中包含流程语句时，model应指定为‘exec’；当source中只包含一个简单的求值表达式，model应指定为‘eval’；当source中包含了交互式命令语句，model应指定为’single’</strong><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">"for i in range(0,10): print(i)"</span></span><br><span class="line">c = compile(str,<span class="string">''</span>,<span class="string">'exec'</span>)</span><br><span class="line">exec(c)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>输入输出</p>
+<ul>
+<li>input():函数接受一个标准输入数据，返回为 string 类型</li>
+<li>print():标准输出</li>
+</ul>
+</li>
+<li><p>内存相关</p>
+<ul>
+<li>hash()：获取对象（可哈希对象：int，str，Bool，tuple）的hash值</li>
+<li>id()：获取内存地址</li>
+</ul>
+</li>
+<li><p>文件操作相关</p>
+<ul>
+<li>open()：函数用于打开一个文件，创建一个 file 对象，相关的方法才可以调用它进行读写</li>
+</ul>
+</li>
+<li><p>调用相关</p>
+<ul>
+<li>callable：函数用于检查一个对象是否是可调用  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo1</span><span class="params">(a, b)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">print(callable(demo1))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>内置属性</p>
+<ul>
+<li>dir()：函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。如果参数包含方法</li>
+</ul>
+</li>
+<li><p>迭代器生成器相关</p>
+<ul>
+<li>range：函数可创建一个整数对象，一般用在 for 循环中。</li>
+<li>next：内部实际使用了<strong>next</strong>方法，返回迭代器的下一个项目</li>
+</ul>
+</li>
+<li><p>基础数据类型</p>
+<ul>
+<li>bool ：用于将给定参数转换为布尔类型，如果没有参数，返回 False。</li>
+<li>int：函数用于将一个字符串或数字转换为整型。</li>
+<li>float：函数用于将整数和字符串转换成浮点数。</li>
+<li>complex：函数用于创建一个值为 real + imag * j 的复数或者转化一个字符串或数为复数。如果第一个参数为字符串，则不需要指定第二个参数。。</li>
+</ul>
+</li>
+<li><p>进制转换</p>
+<ul>
+<li>bin：将十进制转换成二进制并返回。</li>
+<li>oct：将十进制转化成八进制字符串并返回。</li>
+<li>hex：将十进制转化成十六进制字符串并返回。</li>
+</ul>
+</li>
+<li><p>数学运算</p>
+<ul>
+<li>abs：函数返回数字的绝对值。</li>
+<li>divmod：计算除数与被除数的结果，返回一个包含商和余数的元组(a // b, a % b)。</li>
+<li>round：保留浮点数的小数位数，默认保留整数。</li>
+<li>pow：函数是计算x的y次方，如果z在存在，则再对结果进行取模，其结果等效于pow(x,y) %z）</li>
+<li>sum：对可迭代对象进行求和计算（可设置初始值）。</li>
+<li>min：返回可迭代对象的最小值（可加key，key为函数名，通过函数的规则，返回最小值）。</li>
+<li>max：返回可迭代对象的最大值（可加key，key为函数名，通过函数的规则，返回最大值）</li>
+</ul>
+</li>
+<li><p>数据结构</p>
+<ul>
+<li>list()：将一个可迭代对象转化成列表（如果是字典，默认将key作为列表的元素）。</li>
+<li>tuple()：将一个可迭代对象转化成元祖（如果是字典，默认将key作为元祖的元素）。</li>
+<li>dict()：创建一个字典。</li>
+<li>set()：创建一个集合。</li>
+<li>frozenset()：返回一个冻结的集合，冻结后集合不能再添加或删除任何元素。</li>
+</ul>
+</li>
+<li><p>内置函数</p>
+<ul>
+<li><p>reversed()：翻转一个列表生成<strong>迭代器</strong></p>
+</li>
+<li><p>str()：将数据转化成字符串。</p>
+</li>
+<li><p>bytes():用于不同编码之间转换</p>
+  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'你好'</span></span><br><span class="line">bs = s.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">print(bs)</span><br><span class="line">s1 = bs.decode(<span class="string">'utf-8'</span>)</span><br><span class="line">print(s1)</span><br><span class="line">bs = bytes(s, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">print(bs)</span><br><span class="line">b = <span class="string">'你好'</span>.encode(<span class="string">'gbk'</span>)</span><br><span class="line">b1 = b.decode(<span class="string">'gbk'</span>)</span><br><span class="line">print(b1.encode(<span class="string">'utf-8'</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>len():返回一个对象中元素的个数。</p>
+</li>
+<li><p>sorted()：对所有可迭代的对象进行排序操作</p>
+  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(sorted(l, key=<span class="keyword">lambda</span> x:x[<span class="number">1</span>], reverse=<span class="literal">True</span>)) <span class="comment"># 降序</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>filter()：用于过滤序列，过滤掉不符合条件的元素，返回由符合条件元素组成的新列表。</p>
+  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(x)</span>:</span> <span class="keyword">return</span> x%<span class="number">2</span> == <span class="number">0</span></span><br><span class="line">ret = filter(func,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>])</span><br><span class="line">print(ret)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> ret:</span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>匿名函数</p>
+<ul>
+<li>为了解决那些功能很简单的需求而设计的一句话函数</li>
+<li>函数名 = lambda 参数 ：返回值<ol>
+<li>参数可以有多个，用逗号隔开</li>
+<li>匿名函数不管逻辑多复杂，只能写一行，且逻辑执行结束后的内容就是返回值</li>
+<li>返回值和正常的函数一样可以是任意数据类型<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">l=[<span class="number">3</span>,<span class="number">2</span>,<span class="number">100</span>,<span class="number">999</span>,<span class="number">213</span>,<span class="number">1111</span>,<span class="number">31121</span>,<span class="number">333</span>]</span><br><span class="line">print(max(l))</span><br><span class="line">dic=&#123;<span class="string">'k1'</span>:<span class="number">10</span>,<span class="string">'k2'</span>:<span class="number">100</span>,<span class="string">'k3'</span>:<span class="number">30</span>&#125;</span><br><span class="line">print(max(dic))</span><br><span class="line">print(dic[max(dic,key=<span class="keyword">lambda</span> k:dic[k])])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="模块和包"><a href="#模块和包" class="headerlink" title="模块和包"></a>模块和包</h1><ol>
+<li><p>什么是模块</p>
+<ul>
+<li>使用python编写的代码（.py文件）</li>
+<li>已被编译为共享库或DLL的C或C++扩展</li>
+<li>包好一组模块的包</li>
+<li>使用C编写并链接到python解释器的内置模块</li>
+</ul>
+</li>
+<li><p>为什么要使用模块</p>
+<ol>
+<li>实现代码和功能的复用性</li>
+</ol>
+</li>
+<li><p>import module_name</p>
+<ul>
+<li>模块可以包含可执行的语句和函数的定义，这些语句的目的是初始化模块，<strong>它们只在模块名第一次遇到导入import语句时才执行</strong></li>
+<li>第一次导入后就将模块名加载到内存了，后续的import语句仅是对已经加载大内存中的模块对象增加了一次引用，不会重新执行模块内的语句</li>
+</ul>
+</li>
+<li><p>import时做的事情</p>
+<ol>
+<li>为模块创建新的命名空间</li>
+<li>在新的命名空间中执行模块中的代码函数</li>
+<li><strong>创建名字来引用这个命名空间</strong></li>
+</ol>
+</li>
+<li><p>from import</p>
+<ul>
+<li>from 语句相当于import，也会创建新的名称空间，<strong>但是将my_module中的名字直接导入到当前的名称空间中</strong>，在当前名称空间中，直接使用名字就可以了</li>
+<li>from my_module import * 把<strong>my_module中所有的不是以下划线(_)开头的名字都导入到当前位置</strong>，这样做可能造成覆盖掉你之前的定义的名字</li>
+<li>想从包api中导入所有，实际上该语句只会导入包api下<strong>init</strong>.py文件中定义的名字，我们可以在这个文件中定义<strong>all</strong>  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">  print(<span class="string">'from api.__init.py'</span>)</span><br><span class="line">__all__=[<span class="string">'x'</span>,<span class="string">'func'</span>,<span class="string">'policy'</span>]</span><br><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="keyword">from</span> glance.api <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>模块搜索路径</p>
+<ol>
+<li>内存中已经加载的模块-&gt;内置模块-&gt;sys.path路径中包含的模块</li>
+</ol>
+</li>
+<li><p>编译python文件</p>
+<ul>
+<li>为了提高加载模块的速度，python解释器会在<strong>pycache</strong>目录中下缓存每个模块编译后的版本</li>
+</ul>
+</li>
+<li><p>绝对导入和相对导入</p>
+<ol>
+<li>绝对导入<ol>
+<li>优点：执行文件与被导入的模块中都可以使用</li>
+<li>缺点：比较麻烦写入路径名称</li>
+</ol>
+</li>
+<li>相对导入<ol>
+<li>优点：方便</li>
+<li>缺点：只能在导入包中的模块时才能使用</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="常用的模块"><a href="#常用的模块" class="headerlink" title="常用的模块"></a>常用的模块</h1><h2 id="json模块"><a href="#json模块" class="headerlink" title="json模块"></a>json模块</h2><ol>
+<li>Json模块提供了四个功能：dumps、dump、loads、load</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ensure_ascii</td>
+<td>当它为True的时候，所有非ASCII码字符显示为\uXXXX序列，只需在dump时将ensure_ascii设置为False即可，此时存入json的中文即可正常显示。</td>
+</tr>
+<tr>
+<td>separators</td>
+<td>分隔符，实际上是(item_separator, dict_separator)的一个元组，默认的就是(‘,’,’:’)；这表示dictionary内keys之间用“,”隔开，而KEY和value之间用“：”隔开。</td>
+</tr>
+</tbody></table>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">data = &#123;<span class="string">'name'</span>:<span class="string">'陈松'</span>,<span class="string">'sex'</span>:<span class="string">'female'</span>,<span class="string">'age'</span>:<span class="number">88</span>&#125;</span><br><span class="line">json_dic2 = json.dumps(data,sort_keys=<span class="literal">True</span>,indent=<span class="number">2</span>,separators=(<span class="string">','</span>,<span class="string">':'</span>),ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">print(json_dic2)</span><br></pre></td></tr></table></figure>
+
+<h2 id="pickle模块"><a href="#pickle模块" class="headerlink" title="pickle模块"></a>pickle模块</h2><ol>
+<li><p>pickle模块提供了四个功能：dumps、dump(序列化，存）、loads（反序列化，读）、load<br>不仅可以序列化字典，列表…可以把python中任意的数据类型序列化</p>
+</li>
+<li><p>区别</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>区别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>json</td>
+<td>用于字符串 和 python数据类型间进行转换</td>
+</tr>
+<tr>
+<td>pickle</td>
+<td>用于python特有的类型 和 python的数据类型间进行转换</td>
+</tr>
+</tbody></table>
+<h2 id="hashlib模块"><a href="#hashlib模块" class="headerlink" title="hashlib模块"></a>hashlib模块</h2><ol>
+<li>Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等。</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="comment">##</span></span><br><span class="line">md5 = hashlib.md5()</span><br><span class="line">md5.update(<span class="string">'how to use md5 in python hashlib?'</span>.encode(<span class="string">'utf-8'</span>))</span><br><span class="line"><span class="comment"># md5.update('how to use md5 in python hashlib?'.encode('utf-8')) # 多次调用</span></span><br><span class="line">print(md5.hexdigest())</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>如果数据大，可以分块多次调用update()，最后计算的结果是一样的</li>
+</ol>
+<h2 id="logging模块"><a href="#logging模块" class="headerlink" title="logging模块"></a>logging模块</h2><ol>
+<li>日志等级<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging  </span><br><span class="line">logging.debug(<span class="string">'debug message'</span>)  </span><br><span class="line">logging.info(<span class="string">'info message'</span>)  </span><br><span class="line">logging.warning(<span class="string">'warning message'</span>)  <span class="comment"># （默认）</span></span><br><span class="line">logging.error(<span class="string">'error message'</span>)  </span><br><span class="line">logging.critical(<span class="string">'critical message'</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(level=logging.DEBUG,</span><br><span class="line">                    format=<span class="string">'%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'</span>,</span><br><span class="line">                    datefmt=<span class="string">'%a, %d %b %Y %H:%M:%S'</span>,</span><br><span class="line">                    filename=<span class="string">'test.log'</span>,</span><br><span class="line">                    filemode=<span class="string">'w'</span>)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">logging.debug(<span class="string">'debug message'</span>)</span><br><span class="line">logging.info(<span class="string">'info message'</span>)</span><br><span class="line">logging.warning(<span class="string">'warning message'</span>)</span><br><span class="line">logging.error(<span class="string">'error message'</span>)</span><br><span class="line">logging.critical(<span class="string">'critical message'</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>解释</p>
+<ol>
+<li>logging.basicConfig()函数中可通过具体参数来更改logging模块默认行为，可用参数有：</li>
+<li>filename：用指定的文件名创建FiledHandler，这样日志会被存储在指定的文件中。</li>
+<li>filemode：文件打开方式，在指定了filename时使用这个参数，默认值为“a”还可指定为“w”。</li>
+<li>format：指定handler使用的日志显示格式。</li>
+<li>datefmt：指定日期时间格式。</li>
+<li>level：设置rootlogger（后边会讲解具体概念）的日志级别</li>
+<li>stream：用指定的stream创建StreamHandler。可以指定输出到sys.stderr,sys.stdout或者文件(f=open- (‘test.log’,’w’))，默认为sys.stderr。若同时列出了filename和stream两个参数，则stream参数会被忽略。</li>
+<li>format参数中可能用到的格式化串：<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">%(name)s Logger的名字</span><br><span class="line">%(levelno)s 数字形式的日志级别</span><br><span class="line">%(levelname)s 文本形式的日志级别</span><br><span class="line">%(pathname)s 调用日志输出函数的模块的完整路径名，可能没有</span><br><span class="line">%(filename)s 调用日志输出函数的模块的文件名</span><br><span class="line">%(module)s 调用日志输出函数的模块名</span><br><span class="line">%(funcName)s 调用日志输出函数的函数名</span><br><span class="line">%(lineno)d 调用日志输出函数的语句所在的代码行</span><br><span class="line">%(created)f 当前时间，用UNIX标准的表示时间的浮 点数表示</span><br><span class="line">%(relativeCreated)d 输出日志信息时的，自Logger创建以 来的毫秒数</span><br><span class="line">%(asctime)s 字符串形式的当前时间。默认格式是 “<span class="number">2003</span><span class="number">-07</span><span class="number">-08</span> <span class="number">16</span>:<span class="number">49</span>:<span class="number">45</span>,<span class="number">896</span>”。逗号后面的是毫秒</span><br><span class="line">%(thread)d 线程ID。可能没有</span><br><span class="line">%(threadName)s 线程名。可能没有</span><br><span class="line">%(process)d 进程ID。可能没有</span><br><span class="line">%(message)s用户输出的消息</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>logger对象设置</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">logger = logging.getLogger()</span><br><span class="line"><span class="comment"># 创建一个handler，用于写入日志文件</span></span><br><span class="line">fh = logging.FileHandler(<span class="string">'test.log'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># 再创建一个handler，用于输出到控制台</span></span><br><span class="line">ch = logging.StreamHandler()</span><br><span class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</span><br><span class="line">fh.setLevel(logging.DEBUG)</span><br><span class="line"><span class="comment">#</span></span><br><span class="line">fh.setFormatter(formatter)</span><br><span class="line">ch.setFormatter(formatter)</span><br><span class="line">logger.addHandler(fh) <span class="comment">#logger对象可以添加多个fh和ch对象</span></span><br><span class="line">logger.addHandler(ch)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="collections模块"><a href="#collections模块" class="headerlink" title="collections模块"></a>collections模块</h2><ol>
+<li><p>在内置数据类型（dict、list、set、tuple）的基础上，collections模块还提供了几个额外的数据类型：Counter、deque、defaultdict、namedtuple和OrderedDict等</p>
+<ol>
+<li>namedtuple: 生成可以使用名字来访问元素内容的tuple</li>
+<li>deque: 双端队列，可以快速的从另外一侧追加和推出对象</li>
+<li>Counter: 计数器，主要用来计数</li>
+<li>OrderedDict: 有序字典</li>
+<li>defaultdict: 带有默认值的字典</li>
+</ol>
+</li>
+<li><p>namedtuple</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line">point = namedtuple(<span class="string">'point'</span>,[<span class="string">'x'</span>,<span class="string">'y'</span>])</span><br><span class="line">p = point(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">print(p.x)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>deque</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> deque</span><br><span class="line"></span><br><span class="line">q = deque([<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>])</span><br><span class="line">q.append(<span class="string">'x'</span>)</span><br><span class="line">q.appendleft(<span class="string">'y'</span>)</span><br><span class="line"></span><br><span class="line">print(q)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>OrderedDict</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"></span><br><span class="line">d = dict([(<span class="string">'a'</span>,<span class="number">1</span>),(<span class="string">'b'</span>,<span class="number">2</span>),(<span class="string">'c'</span>,<span class="number">3</span>)])</span><br><span class="line">print(d)</span><br><span class="line"></span><br><span class="line">od = OrderedDict([(<span class="string">'a'</span>,<span class="number">1</span>),(<span class="string">'b'</span>,<span class="number">2</span>),(<span class="string">'c'</span>,<span class="number">3</span>)])</span><br><span class="line">print(od)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>defaultdict</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line">li = [<span class="number">11</span>,<span class="number">22</span>,<span class="number">33</span>,<span class="number">44</span>,<span class="number">55</span>,<span class="number">77</span>,<span class="number">88</span>,<span class="number">99</span>,<span class="number">90</span>]</span><br><span class="line">result=defaultdict(list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> li:</span><br><span class="line">    <span class="keyword">if</span> row &gt; <span class="number">66</span>:</span><br><span class="line">        result[<span class="string">'key1'</span>].append(row)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        result[<span class="string">'key2'</span>].append(row)</span><br><span class="line"></span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>counter</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line">c = Counter(<span class="string">'qazxswqazxswqazxswsxaqwsxaqws'</span>)</span><br><span class="line">print(c)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="时间模块"><a href="#时间模块" class="headerlink" title="时间模块"></a>时间模块</h2><ol>
+<li>time.sleep(secs)：(线程)推迟指定的时间运行。单位为秒。</li>
+<li>time.time()：获取当前时间戳</li>
+<li>格式：时间戳、元祖、格式化显示</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>格式化</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%y</td>
+<td>两位数的年份表示（00-99）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>四位数的年份表示（000-9999）</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月份（01-12）</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月内中的一天（0-31）</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>24小时制小时数（0-23）</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>12小时制小时数（01-12）</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>分钟数（00=59）</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒（00-59）</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>时间转换<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 格式化时间 ----&gt;  结构化时间</span></span><br><span class="line">ft = time.strftime(<span class="string">'%Y/%m/%d %H:%M:%S'</span>)</span><br><span class="line">st = time.strptime(ft,<span class="string">'%Y/%m/%d %H:%M:%S'</span>)</span><br><span class="line">print(st)</span><br><span class="line"><span class="comment"># 结构化时间 ---&gt; 时间戳</span></span><br><span class="line">t = time.mktime(st)</span><br><span class="line">print(t)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 时间戳 ----&gt; 结构化时间</span></span><br><span class="line">t = time.time()</span><br><span class="line">st = time.localtime(t)</span><br><span class="line">print(st)</span><br><span class="line"><span class="comment"># 结构化时间 ---&gt; 格式化时间</span></span><br><span class="line">ft = time.strftime(<span class="string">'%Y/%m/%d %H:%M:%S'</span>,st)</span><br><span class="line">print(ft)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="random模块"><a href="#random模块" class="headerlink" title="random模块"></a>random模块</h2><ol>
+<li>随机模块<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">random.randint(m, n)：m、n之间的随机数</span><br><span class="line">random.randrange(m, n, s)：m、n之间的随机数，步长s</span><br><span class="line">random.choice(argv)：从argv中随机选择其中的数据</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="OS模块"><a href="#OS模块" class="headerlink" title="OS模块"></a>OS模块</h2><ol>
+<li>os模块是与操作系统交互的一个接口</li>
+</ol>
+<h2 id="sys模块"><a href="#sys模块" class="headerlink" title="sys模块"></a>sys模块</h2><ol>
+<li>sys模块是与python解释器交互的一个接口</li>
+</ol>
+<h2 id="re正则模块"><a href="#re正则模块" class="headerlink" title="re正则模块"></a>re正则模块</h2><ol>
+<li>re.match(pattern, string, flags=0)：re.match 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。</li>
+<li>re.search(pattern, string, flags=0)：扫描整个字符串并返回第一个成功的匹配</li>
+<li>findall(string[, pos[, endpos]])：在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果没有找到匹配的，则返回空列表；<strong>match 和 search 是匹配一次 findall 匹配所有。</strong></li>
+</ol>
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><ol>
+<li><p>为每一种异常定制了一个类型，然后提供了一种特定的语法结构用来进行异常处理</p>
+</li>
+<li><p>基本语法</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">     被检测的代码块</span><br><span class="line"><span class="keyword">except</span> 异常类型：</span><br><span class="line">     执行的操作</span><br><span class="line"><span class="comment">#try中一旦检测到异常，就执行这个位置的逻辑</span></span><br><span class="line"><span class="comment">## 多分支，通用异常，else方法，finally</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:  <span class="comment"># 通用异常捕获</span></span><br><span class="line">   print(e)</span><br><span class="line"><span class="keyword">else</span>:   <span class="comment"># try 正常执行时，跳转到这个</span></span><br><span class="line">    print(<span class="string">'try内代码块没有异常则执行我'</span>)</span><br><span class="line"><span class="keyword">finally</span>:  <span class="comment"># 无论如何都会运行</span></span><br><span class="line">    print(<span class="string">'无论异常与否,都会执行该模块,通常是进行清理工作'</span>)</span><br><span class="line"><span class="comment">## 主动抛出异常</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">raise</span> TypeError(<span class="string">'类型错误'</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>异常操作的优点</p>
+<ol>
+<li>把错误处理和真正的工作分开来</li>
+<li>代码更易组织，更清晰，复杂的工作任务更容易实现</li>
+<li>毫无疑问，更安全了，不至于由于一些小的疏忽而使程序意外崩溃了</li>
+</ol>
+</li>
+</ol>
+<h1 id="面向对象编程"><a href="#面向对象编程" class="headerlink" title="面向对象编程"></a>面向对象编程</h1><ol>
+<li><p>面向对象编程的优点</p>
+<ol>
+<li>少代码的重用性。</li>
+<li>增强代码的可读性。</li>
+</ol>
+</li>
+<li><p>构造</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassName</span><span class="params">(object)</span>:</span></span><br><span class="line">  <span class="string">"""docstring for ."""</span></span><br><span class="line">  var = <span class="string">'string'</span>  <span class="comment"># 静态变量，静态属性</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, arg)</span>:</span>  <span class="comment"># 方法、函数、动态属性</span></span><br><span class="line">    super(, self).__init__()</span><br><span class="line">    self.arg = arg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建对象</p>
+<ol>
+<li>在内存中开辟了一个对象空间。</li>
+<li>自动执行类中的init方法，并将这个对象空间（内存地址）传给了init方法的第一个位置参数self。</li>
+<li>在init 方法中通过self给对象空间添加属性。</li>
+</ol>
+</li>
+<li><p>操作和类中的属性：通过万能的点 . 进行操作；查看对象和类中的所有内容可以通过 <strong>dic</strong> 来查看</p>
+</li>
+<li><p>类中的方法都会有一个self参数。因为一般情况下这些方法都是通过对象来执行的。在执行的时候将对象的地址空间传给第一个参数，这个self就是对象本省</p>
+</li>
+</ol>
+<h1 id="类空间问题以及类之间的关系"><a href="#类空间问题以及类之间的关系" class="headerlink" title="类空间问题以及类之间的关系"></a>类空间问题以及类之间的关系</h1><ol>
+<li><p>类和对象都可以在内外部添加</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">    self.name = name</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(self, sex)</span>:</span></span><br><span class="line">    self.sex = sex</span><br><span class="line">A.age = <span class="string">'12'</span>  <span class="comment"># 类内部</span></span><br><span class="line">A.func(<span class="string">'男'</span>) <span class="comment"># 类外部</span></span><br><span class="line">a = A(<span class="string">'margin'</span>) <span class="comment"># 对象</span></span><br><span class="line">a.age = <span class="string">'20'</span>  <span class="comment"># 对象内部</span></span><br><span class="line">a.func(<span class="string">'女'</span>) <span class="comment"># 对象外部</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如何找到属性</p>
+<ol>
+<li>对象空间<ol>
+<li>产生这个对象空间，并有一个类对象指针</li>
+<li>执行<strong>init</strong>方法，给对象封装属性</li>
+</ol>
+</li>
+<li>对象查找属性的顺序：先从对象空间找 ——&gt; 类空间找 ——&gt; 父类空间找 ——-&gt;…</li>
+<li>类名查找属性的顺序：先从本类空间找 ——-&gt; 父类空间找——–&gt; …</li>
+</ol>
+</li>
+<li><p>类之间关系</p>
+<ol>
+<li>依赖关系<ol>
+<li>将大象装进冰箱，需要大象类和冰箱类相互依赖</li>
+</ol>
+</li>
+<li>关联关系、组合关系、聚合关系<ol>
+<li>关联关系. 两种事物必须是互相关联的. 但是在某些特殊情况下是<strong>可以更改和更换的</strong></li>
+<li>聚合关系. 属于关联关系中的⼀种特例. <strong>侧重点是xxx和xxx聚合成xxx. 各⾃有各⾃的声明周期</strong>. 比如电脑. 电脑⾥有CPU, 硬盘, 内存等等. 电脑挂了. CPU还是好的. 还是完整的个体</li>
+<li>组合关系. 属于关联关系中的⼀种特例. 写法上差不多. <strong>组合关系比聚合还要紧密</strong>. 比如⼈的⼤脑, ⼼脏, 各个器官. 这些器官组合成⼀个⼈. 这时. ⼈如果挂了. 其他的东⻄也跟着挂了（<strong>将一个类的对象封装到另一个类的对象的属性中，就叫组合</strong>）</li>
+</ol>
+</li>
+<li>实现关系</li>
+<li>继承关系(类的三大特性之一：继承。)</li>
+</ol>
+</li>
+</ol>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ol>
+<li>优点<ol>
+<li>增加了类的耦合性（耦合性不宜多，宜精）。</li>
+<li>减少了重复代码。</li>
+<li>使得代码更加规范化，合理化。</li>
+</ol>
+</li>
+<li>python中类的类型<ol>
+<li>⼀个叫经典类. 在python2.2之前. ⼀直使⽤的是经典类. 经典类在基类的根如果什么都不写.</li>
+<li>⼀个叫新式类. 在python2.2之后出现了新式类. 新式类的特点是基类的根是object类。</li>
+<li>python3中使⽤的都是新式类. 如果基类谁都不继承. 那这个类会默认继承 object</li>
+</ol>
+</li>
+<li>执行顺序<ol>
+<li>子类中重新方法就会覆盖</li>
+<li>子类中调用父类方法<ol>
+<li>父类名.方法</li>
+<li>super().方法</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>多继承<ol>
+<li>经典类的计算：深度优先</li>
+<li>新式类的计算：mro算法<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mro(Child(Base1，Base2)) = [ Child ] + merge( mro(Base1), mro(Base2), [ Base1, Base2] )</span><br><span class="line"><span class="number">1</span>-merge不为空，取出第一个列表列表①的表头E，进行判断                              </span><br><span class="line">各个列表的表尾分别是[O], [E,F,O]，E在这些表尾的集合中，因而跳过当前当前列表</span><br><span class="line"><span class="number">2</span>-取出列表②的表头C，进行判断</span><br><span class="line">C不在各个列表的集合中，因而将C拿出到merge外，并从所有表头删除</span><br><span class="line">merge( [E,O], [C,E,F,O], [C]) = [C] + merge( [E,O], [E,F,O] )</span><br><span class="line"><span class="number">3</span>-进行下一次新的merge操作 ......</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="面向对象编程特性：继承，封装，多态"><a href="#面向对象编程特性：继承，封装，多态" class="headerlink" title="面向对象编程特性：继承，封装，多态"></a>面向对象编程特性：继承，封装，多态</h1><ol>
+<li>封装：把很多数据封装到⼀个对象中。把固定功能的代码封装到⼀个代码块，函数，对象，打包成模块</li>
+<li>继承： ⼦类可以⾃动拥有⽗类中除了私有属性外的其他所有内容；两个类具有相同的功能或者特征的时候就可以使用继承，提高代码的重用率</li>
+<li>多态： 同⼀个对象，多种形态；子类可以使用父类的方法也可以重写父类的方法</li>
+<li>类的约束<ol>
+<li>取⽗类：然后在⽗类中定义好⽅法。在这个⽅法中什么都不⽤⼲。就抛⼀个异常就可以了。这样所有的⼦类都必须重写这个⽅法。否则。访问的时候就会报错。⼈为抛出异常的⽅案</li>
+<li>使⽤元类来描述⽗类：在元类中给出⼀个抽象⽅法。这样⼦类就不得不给出抽象⽅法的具体实现。也可以起到约束的效果。  </li>
+</ol>
+</li>
+<li>super()深入了解？？？？？？？？</li>
+</ol>
+<h1 id="类的成员"><a href="#类的成员" class="headerlink" title="类的成员"></a>类的成员</h1><ol>
+<li><p>对于这些<strong>私有</strong>成员来说,他们<strong>只能在类的内部使用,不能在类的外部以及派生类中使用</strong></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    company_name = <span class="string">'陈松'</span>  <span class="comment"># 静态变量(静态字段)</span></span><br><span class="line">    __iphone = <span class="string">'132333xxxx'</span>  <span class="comment"># 私有静态变量(私有静态字段)</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span> <span class="comment">#特殊方法</span></span><br><span class="line">        self.name = name  <span class="comment">#对象属性(普通字段)</span></span><br><span class="line">        self.__age = age  <span class="comment"># 私有对象属性(私有普通字段)</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(self)</span>:</span>  <span class="comment"># 普通方法</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment">##</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__func</span><span class="params">(self)</span>:</span> <span class="comment">#私有方法</span></span><br><span class="line">        print(<span class="number">666</span>)</span><br><span class="line">    <span class="comment">##</span></span><br><span class="line"><span class="meta">    @classmethod  # 类方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">class_func</span><span class="params">(cls)</span>:</span></span><br><span class="line">        <span class="string">""" 定义类方法，至少有一个cls参数 """</span></span><br><span class="line">        print(<span class="string">'类方法'</span>)</span><br><span class="line">    <span class="comment">##</span></span><br><span class="line"><span class="meta">    @staticmethod  #静态方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">static_func</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="string">""" 定义静态方法 ，无默认参数"""</span></span><br><span class="line">        print(<span class="string">'静态方法'</span>)</span><br><span class="line">    <span class="comment">##</span></span><br><span class="line"><span class="meta">    @property  # 属性</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法：普通方法、静态方法和类方法，三种方法在内存中都归属于类</p>
+<ol>
+<li><p>实例方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">定义：第一个参数必须是实例对象，该参数名一般约定为“self”，通过它来传递实例的属性和方法（也可以传类的属性和方法）；</span><br><span class="line">调用：只能由实例对象调用。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类方法：通过类调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">定义：使用装饰器@classmethod。第一个参数必须是当前类对象，该参数名一般约定为“cls”，通过它来传递类的属性和方法（不能传实例的属性和方法）；</span><br><span class="line">调用：实例对象和类对象都可以调用。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>静态方法：逻辑上属于类，但是和类本身没有关系，也就是说在静态方法中，不会涉及到类中的属性和方法的操作。可以理解为，静态方法是个独立的、单纯的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">定义：使用装饰器@staticmethod。参数随意，没有“self”和“cls”参数，但是方法体中不能使用类或实例的任何属性和方法；</span><br><span class="line">调用：实例对象和类对象都可以调用。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>属性：property：property是一种特殊的属性，访问它时会执行一段功能（函数）然后返回值；将一个类的函数定义成特性以后，对象再去使用的时候obj.name,根本<strong>无法察觉自己的name是执行了一个函数然后计算出来的</strong>，这种特性的使用方式遵循了统一访问的原则</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">AAA</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'get的时候运行我啊'</span>)</span><br><span class="line"><span class="meta">    @AAA.setter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">AAA</span><span class="params">(self,value)</span>:</span></span><br><span class="line">        print(<span class="string">'set的时候运行我啊'</span>)</span><br><span class="line"><span class="meta">    @AAA.deleter</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">AAA</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'delete的时候运行我啊'</span>)</span><br><span class="line"><span class="comment">#只有在属性AAA定义property后才能定义AAA.setter,AAA.deleter</span></span><br><span class="line">f1=Foo()</span><br><span class="line">f1.AAA</span><br><span class="line">f1.AAA=<span class="string">'aaa'</span></span><br><span class="line"><span class="keyword">del</span> f1.AAA</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>isinstance(a,b)：判断a是否是b类（或者b类的派生类）实例化的对象</p>
+</li>
+<li><p>issubclass(a,b)： 判断a类是否是b类（或者b的派生类）的派生类</p>
+</li>
+</ol>
+<h1 id="对象反射"><a href="#对象反射" class="headerlink" title="对象反射"></a>对象反射</h1><ol>
+<li>通过字符串的形式操作对象相关的属性<ol>
+<li>hasattr()：判断是否有属性</li>
+<li>getattr()：获取这个属性</li>
+</ol>
+</li>
+<li>函数和方法的区别<ol>
+<li>数的是显式传递数据的。如我们要指明为len()函数传递一些要处理数据。</li>
+<li><strong>函数则跟对象无关。</strong></li>
+<li>方法中的数据则是隐式传递的。</li>
+<li>方法可以操作类内部的数据。</li>
+<li><strong>方法跟对象是关联的</strong>。如我们在用strip()方法是，是不是都是要通过str对象调用，比如我们有字符串s,然后s.strip()这样调用。是的，strip()方法属于str对象</li>
+</ol>
+</li>
+</ol>
+<h1 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h1><ol>
+<li><p>在程序运行的过程中，所有的变量都是在内存中，程序结束后全部回收，没有吧变量存储下来；我们把变量从内存中变成可存储或传输的过程称之为序列化；python的pickle模块可以将变量序列化存储到磁盘中；但是这个只适用于python，无法在其他语言中恢复</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line">d = dict(name=<span class="string">'Bob'</span>, age=<span class="number">20</span>, score=<span class="number">88</span>)</span><br><span class="line">pickle.dumps(d)</span><br><span class="line">f = open(<span class="string">'dump.txt'</span>, <span class="string">'wb'</span>)</span><br><span class="line">pickle.dump(d, f)</span><br><span class="line">f.close()</span><br><span class="line">f = open(<span class="string">'dump.txt'</span>, <span class="string">'rb'</span>)</span><br><span class="line">d = pickle.load(f)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>JSON提供一种通用的序列化格式；dict对象可以直接序列化为JSON的{}</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>JSON类型</th>
+<th>Python类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>{}</td>
+<td>dict</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>list</td>
+</tr>
+<tr>
+<td>“string”</td>
+<td>str</td>
+</tr>
+<tr>
+<td>1234.56</td>
+<td>int或float</td>
+</tr>
+<tr>
+<td>true/false</td>
+<td>True/False</td>
+</tr>
+<tr>
+<td>null</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li><p>JSON模块：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> json</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>d = dict(name=<span class="string">'Bob'</span>, age=<span class="number">20</span>, score=<span class="number">88</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>json.dumps(d)</span><br><span class="line"><span class="string">'&#123;"age": 20, "score": 88, "name": "Bob"&#125;'</span> <span class="comment"># 返回一个str</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>json_str = <span class="string">'&#123;"age": 20, "score": 88, "name": "Bob"&#125;'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>json.loads(json_str)</span><br><span class="line">&#123;<span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'score'</span>: <span class="number">88</span>, <span class="string">'name'</span>: <span class="string">'Bob'</span>&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在序列化对象的时候，我们需要将其字典化</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">student2dict</span><span class="params">(std)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">'name'</span>: std.name,</span><br><span class="line">        <span class="string">'age'</span>: std.age,</span><br><span class="line">        <span class="string">'score'</span>: std.score</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(json.dumps(s, default=student2dict))</span><br><span class="line">&#123;<span class="string">"age"</span>: <span class="number">20</span>, <span class="string">"name"</span>: <span class="string">"Bob"</span>, <span class="string">"score"</span>: <span class="number">88</span>&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/网络性能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/19/网络性能/" class="post-title-link" itemprop="url">网络参数</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-19 22:15:00" itemprop="dateCreated datePublished" datetime="2020-03-19T22:15:00+08:00">2020-03-19</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-20 00:18:25" itemprop="dateModified" datetime="2020-03-20T00:18:25+08:00">2020-03-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#零碎知识点">零碎知识点</a><ul>
+<li><a href="#网络内核参数">网络内核参数</a><ul>
+<li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
+<li>arp_ignore和arp_announce参数都和<strong>ARP协议相关</strong>，主要用于<strong>控制系统返回arp响应和发送arp请求时的动作</strong>。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。</li>
+</ul>
+<ol>
+<li><strong>arp_ignore</strong>：控制系统在收到外部的arp请求时，是否要返回arp响应<ul>
+<li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>响应任意网卡上接收到的对本机IP地址的arp请求（包括环回网卡上的地址），而不管该目的IP是否在接收网卡上。</td>
+</tr>
+<tr>
+<td>1</td>
+<td>只响应目的IP地址为接收网卡上的本地地址的arp请求。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>只响应目的IP地址为接收网卡上的本地地址的arp请求，并且arp请求的源IP必须和接收网卡同网段。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>如果ARP请求数据包所请求的IP地址对应的本地地址其作用域（scope）为主机（host），则不回应ARP响应数据包，如果作用域为全局（global）或链路（link），则回应ARP响应数据包。</td>
+</tr>
+<tr>
+<td>4~7</td>
+<td>保留未使用</td>
+</tr>
+<tr>
+<td>8</td>
+<td>不回应所有的arp请求</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li><strong>arp_announce</strong>：控制系统在对外发送arp请求时，如何选择arp请求数据包的源IP地址<ul>
+<li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>允许使用任意网卡上的IP地址作为arp请求的源IP，通常就是使用数据包a的源IP。</td>
+</tr>
+<tr>
+<td>1</td>
+<td>尽量避免使用不属于该发送网卡子网的本地地址作为发送arp请求的源IP地址。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>忽略IP数据包的源IP地址，选择该发送网卡上最合适的本地地址作为arp请求的源IP地址。</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>参考网址：<a href="https://www.cnblogs.com/lipengxiang2009/p/7451050.html" target="_blank" rel="noopener">https://www.cnblogs.com/lipengxiang2009/p/7451050.html</a></li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/26/redis-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/26/redis-install/" class="post-title-link" itemprop="url">redis 安装</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-26 11:49:24" itemprop="dateCreated datePublished" datetime="2020-02-26T11:49:24+08:00">2020-02-26</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="install-redis-on-centos7"><a href="#install-redis-on-centos7" class="headerlink" title="install redis on centos7"></a>install redis on centos7</h2><ol>
+<li><p>下载安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis官网：http://download.redis.io/</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.7.tar.gz</span><br><span class="line">tar -xzvf redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">make</span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /src</span><br><span class="line">./redis-server  # 默认配置启动</span><br><span class="line">./redis-server &amp;  # 后台启动</span><br><span class="line"># ./redis-server ../redis.conf  # redis.conf 为默认配置文件，可以修改</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./redis-cli</span><br><span class="line">commond</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/25/MySQL高可用之MyCat读写分离/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/25/MySQL高可用之MyCat读写分离/" class="post-title-link" itemprop="url">未命名</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-25 22:15:00" itemprop="dateCreated datePublished" datetime="2020-02-25T22:15:00+08:00">2020-02-25</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-26 11:47:14" itemprop="dateModified" datetime="2020-02-26T11:47:14+08:00">2020-02-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MyCat"><a href="#MyCat" class="headerlink" title="MyCat"></a>MyCat</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>mycat是一个数据库中间件，也可以理解为是数据库代理。在架构体系中是位于数据库和应用层之间的一个组件，并且对于应用层是透明的，即数据库感受不到mycat的存在，认为是直接连接的mysql数据库（实际上是连接的mycat,mycat实现了mysql的原生协议）</li>
+<li>mycat的三大功能：分表、读写分离、主从切换</li>
+</ul>
+<h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><ol>
+<li><p>下载安装 Java jdk</p>
+<ul>
+<li>网址：<a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a></li>
+<li>解压，添加环境变量/etc/profile  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/local/java/jdk1.8.0_241</span><br><span class="line">CLASSPATH=$JAVA_HOME/lib/</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line">export PATH JAVA_HOME CLASSPATH</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>下载安装 MyCat</p>
+<ul>
+<li><p>网址：<a href="https://github.com/MyCATApache/Mycat-download" target="_blank" rel="noopener">https://github.com/MyCATApache/Mycat-download</a></p>
+</li>
+<li><p>解压，完成安装</p>
+</li>
+<li><p>指令：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">linux：</span><br><span class="line">./mycat start 启动</span><br><span class="line">./mycat stop 停止</span><br><span class="line">./mycat console 前台运行</span><br><span class="line">./mycat install 添加到系统自动启动（暂未实现）</span><br><span class="line">./mycat remove 取消随系统自动启动（暂未实现）</span><br><span class="line">./mycat restart 重启服务</span><br><span class="line">./mycat pause 暂停</span><br><span class="line">./mycat status 查看启动状态</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试连接—Mycat连接测试：测试mycat与测试mysql完全一致</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="MyCat-配置文件"><a href="#MyCat-配置文件" class="headerlink" title="MyCat 配置文件"></a>MyCat 配置文件</h3><h4 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--bin 启动目录</span><br><span class="line">--conf 配置文件存放配置文件：</span><br><span class="line">  --server.xml：是Mycat服务器参数调整和用户授权的配置文件。</span><br><span class="line">  --schema.xml：是逻辑库定义和表以及分片定义的配置文件。</span><br><span class="line">  --rule.xml：  是分片规则的配置文件，分片规则的具体一些参数信息单独存放为文件，也在这个目录下，配置文件修改需要重启MyCAT。</span><br><span class="line">  --log4j.xml： 日志存放在logs/log中，每天一个文件，日志的配置是在conf/log4j.xml中，根据自己的需要可以调整输出级别为debug；debug级别下，会输出更多的信息，方便排查问题。</span><br><span class="line">  --autopartition-long.txt,partition-hash-int.txt,sequence_conf.properties， sequence_db_conf.properties 分片相关的id分片规则配置文件</span><br><span class="line">  --lib	    MyCAT自身的jar包或依赖的jar包的存放目录。</span><br><span class="line">  --logs        MyCAT日志的存放目录。日志存放在logs/log中，每天一个文件</span><br></pre></td></tr></table></figure>
+
+<h4 id="三大组件"><a href="#三大组件" class="headerlink" title="三大组件"></a>三大组件</h4><ol>
+<li><p>server.xml</p>
+<ul>
+<li>添加两个mycat逻辑库：user,pay: system 参数是所有的mycat参数配置，比如添加解析器：defaultSqlParser，其他类推 user 是用户参数。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;system&gt;</span><br><span class="line">	&lt;property name=&quot;defaultSqlParser&quot;&gt;druidparser&lt;/property&gt;</span><br><span class="line">&lt;/system&gt;</span><br><span class="line">&lt;user name=&quot;mycat&quot;&gt;</span><br><span class="line">	&lt;property name=&quot;password&quot;&gt;mycat&lt;/property&gt;</span><br><span class="line">	&lt;property name=&quot;schemas&quot;&gt;user,pay&lt;/property&gt;</span><br><span class="line">&lt;/user&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>schema.xml</p>
+<ul>
+<li>修改dataHost和schema对应的连接信息，user,pay 垂直切分后的配置如下所示：schema 是实际逻辑库的配置，user，pay分别对应两个逻辑库，多个schema代表多个逻辑库。dataNode是逻辑库对应的分片，如果配置多个分片只需要多个dataNode即可。dataHost是实际的物理库配置地址，可以配置多主主从等其他配置，多个dataHost代表分片对应的物理库地址，下面的writeHost、readHost代表该分片是否配置多写，主从，读写分离等高级特性。以下例子配置了两个writeHost为主从。  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;schema name=&quot;user&quot; checkSQLschema=&quot;false&quot; sqlMaxLimit=&quot;100&quot; dataNode=&quot;user&quot; /&gt;</span><br><span class="line">&lt;schema name=&quot;pay&quot;  checkSQLschema=&quot;false&quot; sqlMaxLimit=&quot;100&quot; dataNode=&quot;pay&quot; &gt;</span><br><span class="line">   &lt;table name=&quot;order&quot; dataNode=&quot;pay1,pay2&quot; rule=&quot;rule1&quot;/&gt;</span><br><span class="line">&lt;/schema&gt;</span><br><span class="line"></span><br><span class="line">&lt;dataNode name=&quot;user&quot; dataHost=&quot;host&quot; database=&quot;user&quot; /&gt;</span><br><span class="line">&lt;dataNode name=&quot;pay1&quot; dataHost=&quot;host&quot; database=&quot;pay1&quot; /&gt;</span><br><span class="line">&lt;dataNode name=&quot;pay2&quot; dataHost=&quot;host&quot; database=&quot;pay2&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&lt;dataHost name=&quot;host&quot; maxCon=&quot;1000&quot; minCon=&quot;10&quot; balance=&quot;0&quot;</span><br><span class="line">   writeType=&quot;0&quot; dbType=&quot;mysql&quot; dbDriver=&quot;native&quot;&gt;</span><br><span class="line">   &lt;heartbeat&gt;select 1&lt;/heartbeat&gt;</span><br><span class="line">   &lt;!-- can have multi write hosts --&gt;</span><br><span class="line">   &lt;writeHost host=&quot;hostM1&quot; url=&quot;192.168.0.2:3306&quot; user=&quot;root&quot; password=&quot;root&quot; /&gt;</span><br><span class="line">   &lt;writeHost host=&quot;hostM2&quot; url=&quot;192.168.0.3:3306&quot; user=&quot;root&quot; password=&quot;root&quot; /&gt;</span><br><span class="line">&lt;/dataHost&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>rule.xml</p>
+<ul>
+<li>该规则配置了order表的数据切分方式，及数据切分字段。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;mycat:rule xmlns:mycat=&quot;http://org.opencloudb/&quot;&gt;</span><br><span class="line">  &lt;tableRule name=&quot;rule1&quot;&gt;</span><br><span class="line">    &lt;rule&gt;</span><br><span class="line">       &lt;columns&gt;user_id&lt;/columns&gt;</span><br><span class="line">       &lt;algorithm&gt;func1&lt;/algorithm&gt;</span><br><span class="line">    &lt;/rule&gt;</span><br><span class="line">  &lt;/tableRule&gt;</span><br><span class="line">  &lt;function name=&quot;func1&quot; class=&quot;org.opencloudb.route.function.PartitionByLong&quot;&gt;</span><br><span class="line">     &lt;property name=&quot;partitionCount&quot;&gt;2&lt;/property&gt;</span><br><span class="line">     &lt;property name=&quot;partitionLength&quot;&gt;512&lt;/property&gt;</span><br><span class="line">  &lt;/function&gt;</span><br><span class="line">&lt;/mycat:rule&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/24/docker-machine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/24/docker-machine/" class="post-title-link" itemprop="url">docker machine</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-24 13:42:00" itemprop="dateCreated datePublished" datetime="2020-02-24T13:42:00+08:00">2020-02-24</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-26 11:46:28" itemprop="dateModified" datetime="2020-02-26T11:46:28+08:00">2020-02-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="docker-machine"><a href="#docker-machine" class="headerlink" title="docker machine"></a>docker machine</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>短时间内在本地或云环境中搭建一套 Docker 主机集群；负责实现对Docker 运行环境进行安装和管理</li>
+<li>基本功能<ol>
+<li>在指定节点或平台上安装Docker 引擎，配置其为可使用的Docker 环境；</li>
+<li>集中管理（包括启动、查看等）所安装的 Docker 环境</li>
+</ol>
+</li>
+</ul>
+<h3 id="安装Machine"><a href="#安装Machine" class="headerlink" title="安装Machine"></a>安装Machine</h3><ol>
+<li><p>下载编译好的二进制文件</p>
+<ul>
+<li>docker machine安装教程 git 网址：<a href="https://github.com/docker/machine/releases/" target="_blank" rel="noopener">https://github.com/docker/machine/releases/</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-machine-`uname -s`-`uname -m` &gt; /tmp/docker-machine &amp;&amp;</span><br><span class="line">chmod +x /tmp/docker-machine &amp;&amp;</span><br><span class="line">sudo cp /tmp/docker-machine /usr/local/bin/docker-machine</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>检查安装是否完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine version</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建docker主机</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine -d 驱动 --generic-ip-address=&apos;ip&apos; nam</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/23/docker-compose/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/23/docker-compose/" class="post-title-link" itemprop="url">docker compose</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-23 11:04:00" itemprop="dateCreated datePublished" datetime="2020-02-23T11:04:00+08:00">2020-02-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-26 11:46:27" itemprop="dateModified" datetime="2020-02-26T11:46:27+08:00">2020-02-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker compose"></a>docker compose</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>负责实现对Docker 容器集群的快速编排</li>
+<li>允许用户通过一个单独的docker-compose.yml 模板文件（YAML 格式）来定义一组相关联的应用容器为一个项目（project）</li>
+<li>compose 中有两个重要的概念：<ol>
+<li>任务（task）：一个容器被称为一个任务。任务拥有独一无二的ID ，在同一个服务中的多个任务序号依次递增。</li>
+<li>服务（service）：某个相同应用镜像的容器副本集合，一个服务可以横向扩展为多个容器实例。</li>
+<li>服务栈（stack）：由多个服务组成，相互配合完成特定业务，如Web 应用服务、数据库服务共同构成Web 服务钱，一般由一个docker-cornpose . yaml 文件定义</li>
+</ol>
+</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>pip安装  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install -U docker-compose</span><br><span class="line">docker-compose version</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="文件及目录创建"><a href="#文件及目录创建" class="headerlink" title="文件及目录创建"></a>文件及目录创建</h3><h4 id="项目目录"><a href="#项目目录" class="headerlink" title="项目目录"></a>项目目录</h4><ol>
+<li><p>编写 docker-compose.yml 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">version: &apos;2&apos;</span><br><span class="line">services:</span><br><span class="line">    mysql:</span><br><span class="line">        network_mode: &quot;bridge&quot;</span><br><span class="line">        environment:</span><br><span class="line">            MYSQL_ROOT_PASSWORD: &quot;Hjqme525-&quot;</span><br><span class="line">            MYSQL_USER: &quot;jerqi&quot;</span><br><span class="line">            MYSQL_PASS: &quot;Hjqme525+&quot;</span><br><span class="line">        image: &quot;docker.io/mysql:latest&quot;</span><br><span class="line">        restart: always</span><br><span class="line">        volumes:</span><br><span class="line">            - &quot;./data:/var/lib/mysql&quot;</span><br><span class="line">            - &quot;./conf/my.cnf:/etc/my.cnf&quot;</span><br><span class="line">            - &quot;./init:/docker-entrypoint-initdb.d/&quot;</span><br><span class="line">        ports:</span><br><span class="line">            - &quot;6363:3306&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写 my.cnf 配置文件（安装MySQL）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">user=mysql</span><br><span class="line">default-storage-engine=INNODB</span><br><span class="line">character-set-server=utf8</span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写初始化文件 init.sql（MySQL初始化）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">alter user &apos;root&apos;@&apos;localhost&apos; identified with &apos;mysql_native_password&apos; by &apos;Hjqme525-&apos;;</span><br><span class="line">update user set host = &apos;%&apos; where user = &apos;root&apos;;</span><br><span class="line">flush privileges;</span><br><span class="line">update mysql set host = &apos;%&apos; where user = &apos;root&apos;;</span><br><span class="line">create database `test`;</span><br><span class="line">use test;</span><br><span class="line">create table `t1`</span><br><span class="line">(</span><br><span class="line">id int primary key auto_increment,</span><br><span class="line">age int check &apos;age &gt;= 1&apos;</span><br><span class="line">);</span><br><span class="line">insert into `t1`</span><br><span class="line">values</span><br><span class="line">(1,1),(2,2),(3,3),(4,4);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker_mysql</span><br><span class="line">├── conf</span><br><span class="line">│   └── my.cnf</span><br><span class="line">├── data</span><br><span class="line">├── docker-compose.yml</span><br><span class="line">└── init</span><br><span class="line">    └── init.sql</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
+<li><p>下拉镜像</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose pull</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -415,1329 +2224,11 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用之MHA搭建/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/02/20/MySQL高可用之MHA搭建/" class="post-title-link" itemprop="url">MySQL高可用之MHA搭建</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-20 20:46:00" itemprop="dateCreated datePublished" datetime="2020-02-20T20:46:00+08:00">2020-02-20</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-21 20:12:38" itemprop="dateModified" datetime="2020-02-21T20:12:38+08:00">2020-02-21</time>
-              </span>
-            
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MHA"><a href="#MHA" class="headerlink" title="MHA"></a>MHA</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
-<li>MHA（Master High Availability）目前在MySQL高可用方面是一个相对成熟的解决方案；是一套优秀的作为MySQL高可用性环境下故障切换和主从提升的高可用软件。在MySQL故障切换过程中，MHA能做到在0~30秒之内自动完成数据库的故障切换操作，并且在进行故障切换的过程中，MHA能在最大程度上保证数据的一致性，以达到真正意义上的高可用；</li>
-</ul>
-<h3 id="组成与工作原理"><a href="#组成与工作原理" class="headerlink" title="组成与工作原理"></a>组成与工作原理</h3><ul>
-<li>该软件由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点）</li>
-<li>MHA Manager会定时探测集群中的master节点，当master出现故障时，它可以自动将最新数据的slave提升为新的master，然后将所有其他的slave重新指向新的master。整个故障转移过程对应用程序完全透明；</li>
-<li>在MHA自动故障切换过程中，MHA试图从宕机的主服务器上保存二进制日志，最大程度的保证数据的不丢失；但是如果发生了硬件故障等就无法获取到日志，导致数据丢失。MHA可以与半同步复制结合起来。如果只有一个slave已经收到了最新的二进制日志，MHA可以将最新的二进制日志应用于其他所有的slave服务器上，因此可以保证所有节点的数据一致性；</li>
-<li>至少需要三台服务器完成</li>
-</ul>
-<h3 id="工作过秤"><a href="#工作过秤" class="headerlink" title="工作过秤"></a>工作过秤</h3><ol>
-<li>从宕机崩溃的master保存二进制日志事件（binlog events）;</li>
-<li>识别含有最新更新的slave；</li>
-<li>应用差异的中继日志（relay log）到其他的slave；</li>
-<li>应用从master保存的二进制日志事件（binlog events）；</li>
-<li>提升一个slave为新的master；</li>
-<li>使其他的slave连接新的master进行复制；</li>
-</ol>
-<h3 id="MHA软件"><a href="#MHA软件" class="headerlink" title="MHA软件"></a>MHA软件</h3><ul>
-<li><p>MHA软件由两部分组成，Manager工具包和Node工具包</p>
-<ol>
-<li><p>Manager工具包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_ssh              检查MHA的SSH配置状况</span><br><span class="line">masterha_check_repl             检查MySQL复制状况</span><br><span class="line">masterha_manager                启动MHA</span><br><span class="line">masterha_check_status           检测当前MHA运行状态</span><br><span class="line">masterha_master_monitor         检测master是否宕机</span><br><span class="line">masterha_master_switch          控制故障转移（自动或者手动）</span><br><span class="line">masterha_conf_host              添加或删除配置的server信息</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Node工具包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">save_binary_logs                保存和复制master的二进制日志</span><br><span class="line">apply_diff_relay_logs           识别差异的中继日志事件并将其差异的事件应用于其他的slave</span><br><span class="line">filter_mysqlbinlog              去除不必要的ROLLBACK事件（MHA已不再使用这个工具）</span><br><span class="line">purge_relay_logs                清除中继日志（不会阻塞SQL线程）</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-<li><p>为了尽可能的减少主库硬件损坏宕机造成的数据丢失，因此在配置MHA的同时建议配置成MySQL 5.5的半同步复制</p>
-</li>
-</ul>
-<h2 id="部署MHA"><a href="#部署MHA" class="headerlink" title="部署MHA"></a>部署MHA</h2><ul>
-<li>准备：四台服务器（一个manager节点，一个master节点，两个slave节点</li>
-</ul>
-<h3 id="配置主从复制"><a href="#配置主从复制" class="headerlink" title="配置主从复制"></a>配置主从复制</h3><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
-<li>开启二进制日志功能与中继日志</li>
-<li>从节点显示开启read-only只读设置，并设置relay_log_purge = 0 清理中继日志的功能</li>
-<li>每个节点的server-id不同</li>
-</ol>
-<h4 id="节点配置"><a href="#节点配置" class="headerlink" title="节点配置"></a>节点配置</h4><ul>
-<li><p>master节点配置</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server-id=1</span><br><span class="line">port=3306</span><br><span class="line">bind-address=0.0.0.0</span><br><span class="line">user=mysql</span><br><span class="line">log_bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">relay-log=relay-bin</span><br><span class="line">relay-log-index=relay-bin.index</span><br><span class="line">binlog_format=row</span><br><span class="line">basedir=/usr</span><br><span class="line">tmpdir=/tmp</span><br><span class="line">relay_log_purge=0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>slave-1节点配置</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server-id=2</span><br><span class="line">port=3306</span><br><span class="line">bind-address=0.0.0.0</span><br><span class="line">user=mysql</span><br><span class="line">log_bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">relay-log=relay-bin</span><br><span class="line">relay-log-index=relay-bin.index</span><br><span class="line">binlog_format=row</span><br><span class="line">basedir=/usr</span><br><span class="line">tmpdir=/tmp</span><br><span class="line">read-only</span><br><span class="line">relay_log_purge=0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>slave-2节点配置</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server-id=3</span><br><span class="line">port=3306</span><br><span class="line">bind-address=0.0.0.0</span><br><span class="line">user=mysql</span><br><span class="line">log_bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">relay-log=relay-bin</span><br><span class="line">relay-log-index=relay-bin.index</span><br><span class="line">binlog_format=row</span><br><span class="line">basedir=/usr</span><br><span class="line">tmpdir=/tmp</span><br><span class="line">read-only</span><br><span class="line">relay_log_purge=0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置完成后重启 MySQL 服务</p>
-</li>
-</ul>
-<h3 id="配置MHA"><a href="#配置MHA" class="headerlink" title="配置MHA"></a>配置MHA</h3><ul>
-<li><p>管理节点安装manager和node软件；数据库节点安装node软件</p>
-</li>
-<li><p>软件地址：</p>
-<ul>
-<li><p>mha4mysql-manager</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/yoshinorim/mha4mysql-manager</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>mha4mysql-node</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/yoshinorim/mha4mysql-node</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>安装rpm包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum localinstall ...</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置manager节点mha配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/mha/cluster1.conf #没有文件需要自己创建</span><br><span class="line"></span><br><span class="line">[server default]</span><br><span class="line">user=test    #管理用户为数据库上的账户</span><br><span class="line">password=Hjqme525+   #管理密码</span><br><span class="line">manager_workdir=/data/mastermha/cluster1/     #mha工作路径</span><br><span class="line">manager_log=/data/mastermha/cluster1/manager.log   #mha日志文件</span><br><span class="line">remote_workdir=/data/mastermha/cluster1/      #每个远程主机的工作目录</span><br><span class="line">ssh_user=root</span><br><span class="line">repl_user=repl_user        #主从复制用户名称</span><br><span class="line">repl_password=Hjqme525+    #复制用户数据库密码</span><br><span class="line">ping_interval=1            #ping时间时长</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[server1]</span><br><span class="line">hostname=192.168.80.129  #主服务器IP地址</span><br><span class="line">candidate_master=1  #优先选为master节点</span><br><span class="line">[server2]</span><br><span class="line">hostname=192.168.80.130   #候选主服务器IP地址</span><br><span class="line">candidate_master=1  #优先选为master节点</span><br><span class="line">[server3]</span><br><span class="line">hostname=192.168.80.131</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置上所有节点见免密登陆，通过密钥对进行登陆</p>
-</li>
-</ul>
-<h2 id="检验"><a href="#检验" class="headerlink" title="检验"></a>检验</h2><ol>
-<li><p>检验SSH登陆</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_ssh --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>检验主从复制状况</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_repl --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动MHA(前台开启)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_manager --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看MHA运行状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">masterha_check_status --conf=/etc/mha/cluster1.cnf</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/20/MySQL高可用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/02/20/MySQL高可用/" class="post-title-link" itemprop="url">MySQL高可用</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-20 19:53:00" itemprop="dateCreated datePublished" datetime="2020-02-20T19:53:00+08:00">2020-02-20</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 11:50:29" itemprop="dateModified" datetime="2020-02-22T11:50:29+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL高可用"><a href="#MySQL高可用" class="headerlink" title="MySQL高可用"></a>MySQL高可用</h2><h3 id="主备延迟"><a href="#主备延迟" class="headerlink" title="主备延迟"></a>主备延迟</h3><ul>
-<li><p>主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；</p>
-</li>
-<li><p>查看主备延迟</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">slave</span> stauts;  <span class="comment">/*second_behind_master 参数*/</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>关于 seconds_behind_master 参数</p>
-<ul>
-<li>sbm参数事从服务器落后与主服务器的时间</li>
-<li>由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已经很慢，不能通过这个时间直接判断<ol>
-<li>sbm出现NULL值：<ul>
-<li>出现空值时主从复制就断了或者停止工作</li>
-</ul>
-</li>
-<li>sbm值大于等于0：<ul>
-<li>大于0时，则主从服务器已经数据不一致，有滞后现象</li>
-<li>等于0时，只能说明SQL解析线程relay_log到目前为止没有延迟</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>稍微准确的方法<ol>
-<li>首先查看master_log_file参数，同relay_master_log_file参数的差异，比较日志的同步情况</li>
-<li>其次查看read_master_log_pos和exec_master_log_pos参数的差异，比较日志的读取和执行差异</li>
-<li>最后查看seconds_behind_master参数</li>
-</ol>
-</li>
-<li>较新的GTID和pt工具<ol>
-<li>较新的GIID的复制方式有更好的方式来判断时间点主从复制的差异</li>
-<li>pt工具中的beatheart判断<ul>
-<li>pt工具：在主服务器上有一个库表，定时写入数据，从服务器读取来分析差异</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><p>主备延迟来源：</p>
-<ol>
-<li>主备数据库服务器性能差距大</li>
-<li>备库压力大，大量 DML 操作</li>
-<li>大事务的执行是将过长</li>
-<li>大表做 DDL 操作</li>
-</ol>
-</li>
-</ul>
-<h3 id="主备切换策略"><a href="#主备切换策略" class="headerlink" title="主备切换策略"></a>主备切换策略</h3><ol>
-<li>可靠性优先策略<ul>
-<li>数据一致性良好，但是可能照成数据库处于不可用状态。还可能照成数据暂时性丢失；</li>
-</ul>
-</li>
-<li>可用性优先策略<ul>
-<li>数据库不存在不可用状态，但是会造成数据不一致；</li>
-</ul>
-</li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/12/MySQL_lock/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/02/12/MySQL_lock/" class="post-title-link" itemprop="url">MySQL全局锁与表锁</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-12 19:26:00" itemprop="dateCreated datePublished" datetime="2020-02-12T19:26:00+08:00">2020-02-12</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h2><ul>
-<li>计算机协调多个进程或线程并发访问同一资源的机制</li>
-<li>MySQL 里面的锁大致可以分成全局锁、表级锁和行锁三类</li>
-<li>锁分类<ol>
-<li>表锁：开销小，性能差</li>
-<li>页锁：介于行锁与表锁之间</li>
-<li>行锁：开销大，性能好，适于高并发</li>
-<li>间隙锁：解决幻读的锁</li>
-</ol>
-</li>
-<li>读锁：阻塞写不阻塞读，只能操作自己上锁表和数据</li>
-<li>写锁：同时阻塞读写，其他会话的写操作会阻塞</li>
-</ul>
-<h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><ul>
-<li><p>命令</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">flush</span> <span class="keyword">tables</span> <span class="keyword">with</span> <span class="keyword">read</span> <span class="keyword">lock</span>;  <span class="comment">/*此时整个库处于只读状态*/</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>不加锁的话，备份系统备份的得到的库不是一个逻辑时间点，这个视图是逻辑不一致的</p>
-</li>
-<li><p>MySQL中的innodb支持事务：当 mysqldump 使用参数：–single-transaction 的时候，导数据之前就会启动一个事务，来确保拿到一致性视图；同时过程中数据可更新</p>
-</li>
-<li><p>推荐使用ftwrl命令，少用set global variable readonly=true</p>
-<ol>
-<li>readonly 的值会被用来做其他逻辑，比如用来判断一个库是主库还是备库</li>
-<li>执行 FTWRL 命令之后由于客户端发生异常断开，那么 MySQL 会自动释放这个全局锁；而后者则会一直持有锁不会自动释放</li>
-</ol>
-</li>
-</ul>
-<ol>
-<li><p>查看加锁表</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">open</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看分析表锁</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'Table_lock%'</span>;</span><br><span class="line">table_lock_immediate  <span class="comment">/*累计加锁次数*/</span></span><br><span class="line">table_lock_waited <span class="comment">/*正在等待的加索的进程*/</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h3><h4 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h4><ul>
-<li>语法<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lock</span> <span class="keyword">tables</span> … <span class="keyword">read</span>/write <span class="comment">#加锁</span></span><br><span class="line"><span class="keyword">unlock</span> <span class="keyword">tables</span> <span class="comment">#释放</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h4 id="元数据锁"><a href="#元数据锁" class="headerlink" title="元数据锁"></a>元数据锁</h4><ul>
-<li>访问一个表的时候会被自动加上。MDL 的作用是，保证读写的正确性</li>
-<li>当对一个表做增删改查操作的时候，加 MDL 读锁；当要对表做结构变更操作的时候，加 MDL 写锁<ul>
-<li>读锁之间不互斥，因此你可以有多个线程同时对一张表增删改查</li>
-<li>读写锁之间、写锁之间是互斥的，用来保证变更表结构操作的安全性</li>
-<li><strong>事务中的 MDL 锁，在语句执行开始时申请，但是语句结束后并不会马上释放，而会等到整个事务提交后再释放</strong>，需要小心使用避免误操作使数据库挂掉。在拿不到MDL使需要进行处理<ul>
-<li>这个指定的等待时间里面能够拿到 MDL 写锁最好，拿不到也不要阻塞后面的业务语句，先放弃</li>
-<li>DDL NOWAIT/WAIT n 语法<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">NOWAIT</span> <span class="keyword">add</span> <span class="keyword">column</span> ...</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">WAIT</span> N <span class="keyword">add</span> <span class="keyword">column</span> ...</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h3><h4 id="行锁-1"><a href="#行锁-1" class="headerlink" title="行锁"></a>行锁</h4><ul>
-<li>行锁实现于存储引擎层</li>
-</ul>
-<ol>
-<li><p>事务的ACID特性（原子性，一致性，隔离性，持久性）</p>
-</li>
-<li><p>事务隔离级别（read uncommited,read commited,repeatable read,lock read）</p>
-<table>
-<thead>
-<tr>
-<th>隔离级别</th>
-<th>脏读</th>
-<th>不可重复读</th>
-<th>幻读</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>read uncommited</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-<tr>
-<td>read commited</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-<tr>
-<td>repeatable read</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-<tr>
-<td>lock read</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>查看当前事务隔离级别</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">variables</span> lik <span class="string">'transaction_isolation'</span>;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>索引失效会导致行锁变为表锁；例如使用类型转换</p>
-</li>
-<li><p>间隙锁会在锁定一个范围导致一些操作无法操作</p>
-</li>
-<li><p>锁定一行</p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> s <span class="keyword">for</span> <span class="keyword">update</span>;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="间隙锁（gap锁）"><a href="#间隙锁（gap锁）" class="headerlink" title="间隙锁（gap锁）"></a>间隙锁（gap锁）</h4><ul>
-<li>为了解决幻读问题，InnoDB 引入新的锁，也就是间隙锁 (Gap Lock)</li>
-<li>间隙锁，锁的就是两个值之间的空隙</li>
-<li>跟间隙锁存在冲突关系的，是“往这个间隙中插入一个记录”这个操作。间隙锁之间都不存在冲突关系</li>
-<li>间隙锁和行锁合称 next-key lock，每个 next-key lock 是前开后闭区间</li>
-<li>gap锁是一个动态概念，数据修改后可能会扩展范围</li>
-<li>间隙锁的引入，解决了幻读的问题。但是导致同样的语句锁住更大的范围，影响了并发度</li>
-<li>你如果把隔离级别设置为读提交，就没有间隙锁了。但同时需要解决可能出现的数据和日志不一致问题，需要把 binlog 格式设置为 row</li>
-</ul>
-<h4 id="两阶段锁"><a href="#两阶段锁" class="headerlink" title="两阶段锁"></a>两阶段锁</h4><ul>
-<li>innodb中行锁在需要时加上，事务提交时释放</li>
-<li><strong>如果需要锁多行，则需要将并发度高的放后面</strong></li>
-</ul>
-<h4 id="死锁于死锁检测"><a href="#死锁于死锁检测" class="headerlink" title="死锁于死锁检测"></a>死锁于死锁检测</h4><ul>
-<li>死锁：由于不同线程出现资源相互等待而进入无限循环状态<ul>
-<li>解决方法：<ol>
-<li>等待超时：参数：innodb_lock_wait_timeout：设置等待超时时间</li>
-<li>死锁检测：参数：innodb_deadlock_detect：设置开启死锁检测</li>
-</ol>
-</li>
-<li>解决方案的优缺点</li>
-</ul>
-</li>
-<li>提高并发度建议：<ol>
-<li>关闭死锁检测</li>
-<li>控制并发数</li>
-<li>逻辑上通过将一行使用多行来代替</li>
-</ol>
-</li>
-</ul>
-<h3 id="加锁规则（两原则，两优化，一bug）"><a href="#加锁规则（两原则，两优化，一bug）" class="headerlink" title="加锁规则（两原则，两优化，一bug）"></a>加锁规则（两原则，两优化，一bug）</h3><ol>
-<li>原则 1：加锁的基本单位是 next-key lock。next-key lock 是前开后闭区间</li>
-<li>原则 2：查找过程中访问到的对象才会加锁</li>
-<li>优化 1：索引上的等值查询，给唯一索引加锁的时候，next-key lock 退化为行锁</li>
-<li>优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁</li>
-<li>一个 bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止</li>
-</ol>
-<h4 id="上锁注意点"><a href="#上锁注意点" class="headerlink" title="上锁注意点"></a>上锁注意点</h4><ul>
-<li>锁是加载在索引上。执行 for update 时，系统会认为你接下来要更新数据，因此会顺便给主键索引上满足条件的行加上行锁</li>
-<li>删除数据的时候尽量加 limit。这样不仅可以控制删除数据的条数，让操作更安全，还可以减小加锁的范围</li>
-<li>next-key lock 先是加间隙锁，加锁成功；然后加上行锁</li>
-<li>读提交隔离级别下：语句执行过程中加上的行锁，在语句执行完成后，就要把“不满足条件的行”上的行锁直接释放了，不需要等到事务提交</li>
-</ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li>MySQL全局锁与表级锁</li>
-<li>备库时看是否支持事务，选择锁库方式</li>
-<li>注意MDL元数据表锁的使用</li>
-<li>数据库出现 lock tables 语句时，需要引起注意。检查存储引擎和业务代码</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/10/MySQL索引/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/12/10/MySQL索引/" class="post-title-link" itemprop="url">MySQL索引</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-12-10 14:51:00" itemprop="dateCreated datePublished" datetime="2019-12-10T14:51:00+08:00">2019-12-10</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
-<li>索引是特殊的数据结构</li>
-<li>索引可以加速数据库对数据的检索速度，对数据进行排序</li>
-<li>索引就是对数据进行排序加速检索速度的特殊数据结构</li>
-</ul>
-<h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><ul>
-<li>优点<ol>
-<li>建立索引可以加速对于数据的检索速度</li>
-<li>可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源</li>
-<li>可以较低磁盘的 IO 读写</li>
-</ol>
-</li>
-<li>缺点<ol>
-<li>索引实质还是一张表，建立索引意味着额外的资源开销</li>
-<li>维护许多索引需要较大的内存等资源开销</li>
-<li>索引加快了读操作，但是降低了写操作的速度，因为修改表的操作同时需要对索引进行修改</li>
-<li>需要花费更多的时间来建立一个优秀的索引</li>
-</ol>
-</li>
-</ul>
-<h3 id="常见索引类型"><a href="#常见索引类型" class="headerlink" title="常见索引类型"></a>常见索引类型</h3><h4 id="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"><a href="#哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据" class="headerlink" title="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"></a>哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据</h4><ol>
-<li>无序索引,数据添加容易,直接追加</li>
-<li>适合等值查找，范围查找性能差<h4 id="有序数组：按照字段排序来确定存放位置"><a href="#有序数组：按照字段排序来确定存放位置" class="headerlink" title="有序数组：按照字段排序来确定存放位置"></a>有序数组：按照字段排序来确定存放位置</h4></li>
-</ol>
-<ul>
-<li>采用N叉树：B+ 树能够很好地配合磁盘的读写特性，减少单次查询的磁盘访问次数</li>
-</ul>
-<ol>
-<li>有序索引，范围查找更优秀</li>
-<li>适用于静态存储引擎</li>
-<li>插入数据删除数据时存在一定问题，可能会导致页分裂和页合并，造成数据的空洞</li>
-</ol>
-<h3 id="Innodb的索引模型"><a href="#Innodb的索引模型" class="headerlink" title="Innodb的索引模型"></a>Innodb的索引模型</h3><ul>
-<li>InnoDB 中，表都是根据主键顺序以索引的形式存放</li>
-<li>主键为聚簇索引：主键索引的叶子节点存的是整行数据</li>
-<li>非主键索引：非主键索引的叶子节点内容是主键的值（二级索引）</li>
-<li>回表：在非主键索引中找到主键，然后回到主键索引树搜索的操作</li>
-</ul>
-<h4 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h4><ul>
-<li>在这个查询里面，索引 k 已经“覆盖了”我们的查询需求，我们称为覆盖索引</li>
-<li>覆盖索引可以减少树的搜索次数，显著提升查询性能</li>
-</ul>
-<h4 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h4><ul>
-<li>利用索引的“最左前缀”，来定位记录</li>
-<li>如果通过调整顺序，可以少维护一个索引，那么这个顺序往往就是需要优先考虑采用的</li>
-</ul>
-<h4 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h4><ul>
-<li>在索引遍历过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数</li>
-</ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li>普通索引重建时可以提高磁盘利用率，使索引更紧凑</li>
-<li>重建主键的过程不合理。不论是删除主键还是创建主键，都会将整个表重建；建议使用 “alter table T engine=InnoDB”</li>
-</ul>
-<h2 id="索引选择出错"><a href="#索引选择出错" class="headerlink" title="索引选择出错"></a>索引选择出错</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> long_query_time=<span class="number">0</span>;    //开启慢查询</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">where</span> a <span class="keyword">between</span> <span class="number">10000</span> <span class="keyword">and</span> <span class="number">20000</span>;    //普通查询</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> t <span class="keyword">force</span> <span class="keyword">index</span>(a) <span class="keyword">where</span> a <span class="keyword">between</span> <span class="number">10000</span> <span class="keyword">and</span> <span class="number">20000</span>;   //强制索引查询</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>由优化器选择出最有索引，通过扫描行数来决定最优的，越少则访问磁盘次数最少</p>
-</li>
-<li><p>区分度：索引统计信息，索引的不同值的多少。不同值越多，区分度愈大。区分度大好</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">index</span> <span class="keyword">from</span> table_nane;//查看基数值</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>通过局部估算来获得基数值。InnoDB 默认会选择 N 个数据页，统计这些页面上的不同值，得到一个平均值，然后乘以这个索引的页面数。当数据库修改的数据超过阈值 1/M 时会重新计算基数值。也可以手动重新计算基数值。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">analyze</span> <span class="keyword">table</span> table_name;//重新计算基数值</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>两种统计方法置参数 innodb_stats_persistent</p>
-<ol>
-<li>设置为 on 的时候，表示统计信息会持久化存储。这时，默认的 N 是 20，M 是 10。</li>
-<li>设置为 off 的时候，表示统计信息只存储在内存中。这时，默认的 N 是 8，M 是 16。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="字符串索引创建"><a href="#字符串索引创建" class="headerlink" title="字符串索引创建"></a>字符串索引创建</h2><ol>
-<li>直接索引，使用较大存储空间</li>
-<li>前缀索引，增加回表次数，无法使用覆盖索引</li>
-<li>倒叙再前缀索引，弥补前缀索引区分度不够</li>
-<li>hash索引，性能稳定，额外开销</li>
-</ol>
-<h2 id="索引失效案例"><a href="#索引失效案例" class="headerlink" title="索引失效案例"></a>索引失效案例</h2><h3 id="条件函数操作"><a href="#条件函数操作" class="headerlink" title="条件函数操作"></a>条件函数操作</h3><ol>
-<li><p>如果在 sql 语句中条件不部分使用了函数操作，则会导致索引失效，走全盘扫描。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> tradelog <span class="keyword">where</span> <span class="keyword">month</span>(t_modified)=<span class="number">7</span>;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>对索引字段做函数操作，可能会破坏索引值的有序性，优化器就决定放弃走树搜索功能</p>
-</li>
-<li><p>对于索引右边的数据可以进行函数操作</p>
-</li>
-<li><p><strong>解决</strong>：避免在 where 条件中左边使用函数操作</p>
-</li>
-</ul>
-</li>
-<li><p>隐式类型转换</p>
-<ul>
-<li>字符串和数字做比较的话，是将字符串转换成数字（同使用了函数操作类似）</li>
-<li><strong>解决</strong>：写语句时注意字段类型</li>
-</ul>
-</li>
-<li><p>隐式字符编码转换</p>
-<ul>
-<li>关联表中的数据进行对比时如果不是一个字符集则需要进行类型转换</li>
-<li><strong>解决</strong>：连接过程中要求在被驱动表的索引字段上加函数操作，是直接导致对被驱动表做全表扫描的原因</li>
-</ul>
-</li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/09/MySQL隔离级别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/12/09/MySQL隔离级别/" class="post-title-link" itemprop="url">MySQL隔离级别</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-12-09 20:50:00" itemprop="dateCreated datePublished" datetime="2019-12-09T20:50:00+08:00">2019-12-09</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="隔离性与隔离级别"><a href="#隔离性与隔离级别" class="headerlink" title="隔离性与隔离级别"></a>隔离性与隔离级别</h2><ul>
-<li>当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题</li>
-</ul>
-<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
-<li>读未提交：一个事务还没提交时，它做的变更就能被别的事务看到</li>
-<li>读提交：一个事务提交之后，它做的变更才会被其他事务看到</li>
-<li>可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的</li>
-<li>串行化：对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行</li>
-<li><strong>隔离级别越高，并发性能越低</strong></li>
-</ul>
-<h4 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h4><ul>
-<li>数据库在事务启动时会创建一个视图，整个事务过程都需要使用</li>
-<li>“读未提交”隔离级别下直接返回记录上的最新值，没有视图概念</li>
-<li>“串行化”隔离级别下直接用加锁的方式来避免并行访问</li>
-<li>事务启动时的视图可以认为是静态的，不受其他事务更新的影响</li>
-</ul>
-<h4 id="事务隔离实现"><a href="#事务隔离实现" class="headerlink" title="事务隔离实现"></a>事务隔离实现</h4><ul>
-<li>实现：每条记录在更新时都记录有一条回滚操作，记录上的新值通过回滚操作回到上一个状态的值</li>
-<li>回滚日志删除：系统判断没有比当前回滚日志更早的视图时自动删除</li>
-<li><strong>避免使用长事务：</strong>长事务会使系统存在很老的视图，所以会一直保留回滚日志。照成较大的存储空间浪费；同时还有可能照成锁的占用，拖垮数据库</li>
-</ul>
-<h4 id="事务启动方式"><a href="#事务启动方式" class="headerlink" title="事务启动方式"></a>事务启动方式</h4><ol>
-<li>显示启动事务：通过begin或者start transaction来启动事务，通过commit提交或rollback回滚</li>
-<li>隐式自动提交事务：系统设置 set autocommit=1 自动提交事务<ul>
-<li>显示开启事务：使用 commit work and chain 来提交事务并自动开启下一个事务</li>
-</ul>
-</li>
-<li>查看时间超过60s的长事务<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx</span><br><span class="line"><span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li>参数：transaction_isolation：查看数据库当前隔离状态</li>
-<li>参数：MAX_EXECUTION_TIME：set MAX_EXECUTION_TIME来设置事务最大执行时间</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/08/MySQL日志/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/12/08/MySQL日志/" class="post-title-link" itemprop="url">MySQL日志</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-12-08 21:33:00" itemprop="dateCreated datePublished" datetime="2019-12-08T21:33:00+08:00">2019-12-08</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL日志模块"><a href="#MySQL日志模块" class="headerlink" title="MySQL日志模块"></a>MySQL日志模块</h2><h3 id="redo-log（重做日志）"><a href="#redo-log（重做日志）" class="headerlink" title="redo-log（重做日志）"></a>redo-log（重做日志）</h3><ul>
-<li>MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高</li>
-<li>MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么繁忙时再将内存中数据写入磁盘</li>
-<li>redo-log大小固定，类似循环队列</li>
-<li>为MySQL提供cache-safe功能，中途crash也能恢复</li>
-</ul>
-<h3 id="binlog（归档日志）"><a href="#binlog（归档日志）" class="headerlink" title="binlog（归档日志）"></a>binlog（归档日志）</h3><ul>
-<li>MySQL 整体来看，其实就有两块：一块是 Server 层，它主要做的是 MySQL 功能层面的事情；还有一块是引擎层，负责存储相关的具体事宜。上面我们聊到的粉板 redo log 是 InnoDB 引擎特有的日志，而 Server 层也有自己的日志，称为 binlog（归档日志</li>
-</ul>
-<h3 id="两种日志比较"><a href="#两种日志比较" class="headerlink" title="两种日志比较"></a>两种日志比较</h3><ol>
-<li>redo-log是innodb存储引擎的日志系统；binlog是MySQL的server层的日志系统</li>
-<li>redo-log是物理日志，记录数据库那个页上发生了改变；binlog是逻辑日志，记录某一条具体的数据库操作</li>
-<li>redo-log大小固定，循环写，类似循环队列；binlog采用追加方式，写满后跳转下一个日志文件，不会覆盖前面的文件</li>
-</ol>
-<h3 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h3><ul>
-<li>prepare状态与commit状态</li>
-<li>如果不使用“两阶段提交”，那么数据库的状态就有可能和用它的日志恢复出来的库的状态不一致</li>
-</ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li><p>redo log 用于保证 crash-safe 能力</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">innodb_flush_log_at_trx_commit=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘</span><br><span class="line"></span><br><span class="line">sync_binlog=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>两阶段提交保证两个日志保持逻辑上一致</p>
-</li>
-<li><p>一日一备相比一周一备的好处在于RTO；一日一备的最长恢复时间更短</p>
-</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/29/初识Docker/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/29/初识Docker/" class="post-title-link" itemprop="url">初始Docker</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-29 11:07:00" itemprop="dateCreated datePublished" datetime="2019-11-29T11:07:00+08:00">2019-11-29</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Docker第一步"><a href="#Docker第一步" class="headerlink" title="Docker第一步"></a>Docker第一步</h2><h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><ol>
-<li><p>安装必要工具</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils \</span><br><span class="line">device-mapper-persistent-data.x86_64 \</span><br><span class="line">lvm2</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建yum源repo文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">--add-repo \</span><br><span class="line">https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>更新并安装</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum install docker-ce</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="创建docker用户组"><a href="#创建docker用户组" class="headerlink" title="创建docker用户组"></a>创建docker用户组</h3><ul>
-<li>默认情况下，docker 命令会使用Unix socket与Docker引擎通讯。而只有root用户和docker 组的用户才可以访问Docker引擎的Unix socket</li>
-<li>使普通用户也能使用docker所以需要将用户加入docker用户组中</li>
-</ul>
-<h2 id="Docker国内镜像加速"><a href="#Docker国内镜像加速" class="headerlink" title="Docker国内镜像加速"></a>Docker国内镜像加速</h2><ol>
-<li><p>镜像加速页</p>
-<ul>
-<li><a href="https://cr.console.aliyun.com/" target="_blank" rel="noopener">https://cr.console.aliyun.com/</a></li>
-</ul>
-</li>
-<li><p>选择镜像加速服务</p>
-</li>
-<li><p>启用</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><h3 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h3><ul>
-<li>定制每一层所添加的配置、文件</li>
-</ul>
-<h3 id="FROM-与-RUN-构建"><a href="#FROM-与-RUN-构建" class="headerlink" title="FROM 与 RUN 构建"></a>FROM 与 RUN 构建</h3><h4 id="FROM指定基础对象"><a href="#FROM指定基础对象" class="headerlink" title="FROM指定基础对象"></a>FROM指定基础对象</h4><ul>
-<li>Dockerfile 中FROM 是必备的指令，并且必须是第一条指令</li>
-</ul>
-<h4 id="RUN执行命令"><a href="#RUN执行命令" class="headerlink" title="RUN执行命令"></a>RUN执行命令</h4><ul>
-<li>执行命令行命令</li>
-<li>每一个指令都会建立一层</li>
-<li>确保每一层只添加真正需要添加的东西，任何无关的东西都应该清理掉</li>
-</ul>
-<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
-<li>创建一个镜像<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build [option] &lt;context上下文路劲&gt;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h4 id="构建上下文Context"><a href="#构建上下文Context" class="headerlink" title="构建上下文Context"></a>构建上下文Context</h4><ul>
-<li>一切都是使用的远程调用形式在服务端（Docker 引擎）完成</li>
-<li>docker build 命令得知这个路径后，会将路径下的所有内容打包，然后上传给Docker 引擎</li>
-</ul>
-<h3 id="Dockerfile指令详解"><a href="#Dockerfile指令详解" class="headerlink" title="Dockerfile指令详解"></a>Dockerfile指令详解</h3><h4 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h4><ul>
-<li><p>格式</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY &lt;源路径&gt;... &lt;目标路径&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用COPY 指令，源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等</p>
-</li>
-</ul>
-<h4 id="add"><a href="#add" class="headerlink" title="add"></a>add</h4><ul>
-<li>与copy相似</li>
-<li>ADD 指令将会自动解压缩这个压缩文件到&lt;目标路径&gt;</li>
-<li>ADD 指令会令镜像构建缓存失效，从而可能会令镜像构建变得比较缓慢</li>
-</ul>
-<h4 id="cmd"><a href="#cmd" class="headerlink" title="cmd"></a>cmd</h4><ul>
-<li>用于指定默认的容器主进程的启动命令</li>
-<li>对于容器而言，其启动程序就是容器应用进程，容器就是为了主进程而存在的，主进程退出，容器就失去了存在的意义，从而退出</li>
-</ul>
-<h4 id="entrypoint"><a href="#entrypoint" class="headerlink" title="entrypoint"></a>entrypoint</h4><ul>
-<li>指定容器启动程序及参数</li>
-<li>指定了ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将CMD 的内容作为参数传给ENTRYPOINT 指令</li>
-</ul>
-<h4 id="env与arg设置变量参数"><a href="#env与arg设置变量参数" class="headerlink" title="env与arg设置变量参数"></a>env与arg设置变量参数</h4><ul>
-<li>ARG 所设置的构建环境的环境变量，在将来容器运行时是不会存在这些环境变量的</li>
-</ul>
-<h4 id="volume"><a href="#volume" class="headerlink" title="volume"></a>volume</h4><ul>
-<li><p>尽量保持容器存储层不发生写操作</p>
-</li>
-<li><p>数据持久化</p>
-</li>
-<li><p>格式</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VOLUME [<span class="string">"&lt;路径1&gt;"</span>, <span class="string">"&lt;路径2&gt;"</span>...]</span><br><span class="line">VOLUME &lt;路径&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>匿名卷：任何写入操作都写入宿主机中不写入容器存储层。从而实现数据持久化</p>
-</li>
-</ul>
-<h4 id="expose"><a href="#expose" class="headerlink" title="expose"></a>expose</h4><ul>
-<li>声明运行时容器提供服务端口，在运行时并不会开启这个端口的服务</li>
-<li>-p参数是映射宿主端口和容器端口；EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射</li>
-</ul>
-<h4 id="workdir与user"><a href="#workdir与user" class="headerlink" title="workdir与user"></a>workdir与user</h4><ul>
-<li>workdir:指定工作目录</li>
-<li>user:指定当前用户</li>
-</ul>
-<h4 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a>healthcheck</h4><ul>
-<li>健康检查</li>
-<li>如果程序进入死锁状态，或者死循环状态，应用进程并不退出，但是该容器已经无法提供服务</li>
-<li>HEALTHCHECK 支持下列选项：<ol>
-<li>--interval=&lt;间隔&gt; ：两次健康检查的间隔，默认为30 秒；</li>
-<li>--timeout=&lt;时长&gt; ：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认30 秒；</li>
-<li>--retries=&lt;次数&gt; ：当连续失败指定次数后，则将容器状态视为unhealthy ，默认3 次</li>
-</ol>
-</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/MySQL数据备份/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/26/MySQL数据备份/" class="post-title-link" itemprop="url">MySQL数据备份</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-26 19:00:00" itemprop="dateCreated datePublished" datetime="2019-11-26T19:00:00+08:00">2019-11-26</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL备份"><a href="#MySQL备份" class="headerlink" title="MySQL备份"></a>MySQL备份</h2><h3 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h3><h4 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h4><ul>
-<li>全量备份</li>
-<li>增量备份</li>
-</ul>
-<h4 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h4><h4 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h4><h3 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h3><h4 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h4><ol>
-<li><p>备份单/多库保留建库语句</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>备份多库与全库</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--all-databases &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>还原数据库</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p &lt; /file/to/return</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="利用mysqlbinlog备份数据"><a href="#利用mysqlbinlog备份数据" class="headerlink" title="利用mysqlbinlog备份数据"></a>利用mysqlbinlog备份数据</h4><ol>
-<li><p>查看二进制日志文件</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog /binary/log</span><br><span class="line">mysqlbinlog <span class="comment">--base64-output=decode-rows --verbose /binary/log/path</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>at：可以理解为事务的执行点</li>
-</ul>
-</li>
-<li><p>选择还原点还原</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog <span class="comment">--stop-positon='point(at_point)' /binary/log/path</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1782,7 +2273,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1795,7 +2286,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

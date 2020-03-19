@@ -62,7 +62,7 @@
 <meta property="og:site_name" content="JeffQi‘s Blog">
 <meta property="og:description" content="MySQL高可用主备延迟 主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；  查看主备延迟 1show slave stauts;  /*second_behind_master 参数*/  关于 seconds_behind_master 参数  sbm参数事从服务器落后与主服务器的时间 由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-22T03:50:29.000Z">
+<meta property="og:updated_time" content="2020-02-26T03:47:41.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL高可用">
 <meta name="twitter:description" content="MySQL高可用主备延迟 主备延迟，就是同一个事务，在备库执行完成的时间和主库执行完成的时间之间的差值；  查看主备延迟 1show slave stauts;  /*second_behind_master 参数*/  关于 seconds_behind_master 参数  sbm参数事从服务器落后与主服务器的时间 由于主服务器性能或者网络等问题，可能导致，主服务器的日志到达从服务器的时候就已">
@@ -268,7 +268,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 11:50:29" itemprop="dateModified" datetime="2020-02-22T11:50:29+08:00">2020-02-22</time>
+                <time title="修改时间：2020-02-26 11:47:41" itemprop="dateModified" datetime="2020-02-26T11:47:41+08:00">2020-02-26</time>
               </span>
             
           
@@ -340,6 +340,16 @@
 <li>备库压力大，大量 DML 操作</li>
 <li>大事务的执行是将过长</li>
 <li>大表做 DDL 操作</li>
+</ol>
+</li>
+<li><p>主备延迟——过期读</p>
+<ol>
+<li>强制走主库</li>
+<li>sleep方法</li>
+<li>判断主备延迟方法</li>
+<li>配合使用semi-sync（半同步复制）</li>
+<li>等主库位点</li>
+<li>等GTID方法</li>
 </ol>
 </li>
 </ul>
@@ -443,7 +453,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -456,7 +466,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
