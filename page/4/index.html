@@ -228,6 +228,162 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/12/图解HTTP_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/12/图解HTTP_2/" class="post-title-link" itemprop="url">HTTP报文简介</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-12 22:12:00" itemprop="dateCreated datePublished" datetime="2019-11-12T22:12:00+08:00">2019-11-12</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="HTTP报文内的HTTP信息"><a href="#HTTP报文内的HTTP信息" class="headerlink" title="HTTP报文内的HTTP信息"></a>HTTP报文内的HTTP信息</h2><ul>
+<li>HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应</li>
+</ul>
+<h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
+<li>分类：<ul>
+<li>请求报文：客服端向服务端</li>
+<li>响应报文：服务端向客服端</li>
+</ul>
+</li>
+</ol>
+<h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
+<li>报文首部<ul>
+<li>请求行或状态行</li>
+<li>首部字段<ul>
+<li>请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>空行（CR + LF）</li>
+<li>报文主体（不一定存在）</li>
+</ol>
+<h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
+<li>传输过程中通过编码提升传输速率，可能消耗更多CPU资源</li>
+<li>报文主体和实体主体的差异<ol>
+<li>报文：HTTP 通信中的基本单位</li>
+<li>实体：请求或响应的有效载荷，由实体首部和实体主体构成</li>
+</ol>
+</li>
+<li>压缩传输的内容编码<ol>
+<li>内容编码指明应用在实体内容上的编码格式，并保持实体信息原样压缩。内容编码后的实体由客户端接收并负责解码</li>
+</ol>
+</li>
+</ul>
+<h3 id="分割发送的分块传输编码"><a href="#分割发送的分块传输编码" class="headerlink" title="分割发送的分块传输编码"></a>分割发送的分块传输编码</h3><ul>
+<li>通过将数据分割成多块进行传输，让浏览器逐步显示页面</li>
+</ul>
+<h3 id="发送多种数据的多部分对象集合"><a href="#发送多种数据的多部分对象集合" class="headerlink" title="发送多种数据的多部分对象集合"></a>发送多种数据的多部分对象集合</h3><ol>
+<li>解释：一次发送可以有不同的数据类型</li>
+<li>对部分对象集合包含的对象：<ul>
+<li>multipart/form-data（表单）</li>
+<li>multipart/byteranges（响应报文包含多个范围）</li>
+</ul>
+</li>
+<li>使用多部分对象集合时，需要在首部字段里加上Content-type<ul>
+<li>boundary 字符串来划分多部分对象集合指明的各类实体</li>
+<li>起始和结尾都加入“–”标记开始和结尾</li>
+<li><strong>多部分对象集合的每个部分类型中，都可以含有首部字段</strong></li>
+<li><strong>可以在某个部分中嵌套使用多部分对象集合</strong></li>
+</ul>
+</li>
+</ol>
+<h3 id="获取部分内容的范围请求"><a href="#获取部分内容的范围请求" class="headerlink" title="获取部分内容的范围请求"></a>获取部分内容的范围请求</h3><ul>
+<li>指定范围发送的请求叫做范围请求</li>
+<li>执行范围请求时，会用到首部字段Range 来指定资源的byte范围</li>
+</ul>
+<h3 id="内容协商返回最合适内容"><a href="#内容协商返回最合适内容" class="headerlink" title="内容协商返回最合适内容"></a>内容协商返回最合适内容</h3><ul>
+<li>内容协商机制是指客户端和服务器端就响应的资源内容进行交涉，然后提供给客户端最为适合的资源</li>
+<li>三种类型<ol>
+<li>服务端驱动协商</li>
+<li>客户端启动协商</li>
+<li>透明协商</li>
+</ol>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/12/RHCE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1429,7 +1585,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

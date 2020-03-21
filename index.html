@@ -387,7 +387,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/上下文切换/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/21/python内存管理机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JeffQi">
@@ -401,7 +401,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2020/03/20/上下文切换/" class="post-title-link" itemprop="url">上下文切换</a>
+            <a href="/2020/03/21/python内存管理机制/" class="post-title-link" itemprop="url">python内存管理机制</a>
           
         </h1>
 
@@ -416,7 +416,7 @@
                 
               
 
-              <time title="创建时间：2020-03-20 00:15:00 / 修改时间：00:17:28" itemprop="dateCreated datePublished" datetime="2020-03-20T00:15:00+08:00">2020-03-20</time>
+              <time title="创建时间：2020-03-21 20:58:00 / 修改时间：22:09:15" itemprop="dateCreated datePublished" datetime="2020-03-21T20:58:00+08:00">2020-03-21</time>
             </span>
           
             
@@ -429,7 +429,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
 
                 
                 
@@ -450,76 +450,69 @@
       
           <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+<li><a href="#内存管理和垃圾回收机制">内存管理和垃圾回收机制</a><ul>
+<li><a href="#内存管理">内存管理</a></li>
+<li><a href="#垃圾回收机制">垃圾回收机制</a><ul>
+<li><a href="#引用计数">引用计数</a></li>
+<li><a href="#标记清除">标记清除</a></li>
+<li><a href="#分代回收">分代回收</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
 </ul>
+<h1 id="内存管理和垃圾回收机制"><a href="#内存管理和垃圾回收机制" class="headerlink" title="内存管理和垃圾回收机制"></a>内存管理和垃圾回收机制</h1><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+<li>Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看<br><img src="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg" alt="python可变对象与不可变对象"></li>
+<li>python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如果频繁使用c中的new/malloc会导致大量内存碎片，导致效率下降；所有python中使用内存池机制来解决这个问题；内存池先申请一块内存空间，然后分割成等大小的块数；有新的内存需求时，就先从内存池中分配内存给这个需求，不够了之后再申请新的内存。这样做最显著的优势就是能够减少内存碎片，提升效率。<strong>Pymalloc会在内存池中申请空间，一般是少于256kb，如果是大的对象，则直接调用 new/malloc 来申请新的内存空间</strong></li>
+</ol>
+<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><ul>
+<li>Python 采用 GC 作为自动内存管理机制，GC要做的有2件事，<strong>一是找到内存中无用的垃圾对象资源，二是清除找到的这些垃圾对象，释放内存给其他对象使用</strong></li>
+<li>引用计数</li>
+<li>标记清除</li>
+<li>分代回收</li>
+<li>引用计数为主，其余两种为辅助回收机制</li>
+</ul>
+<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><ol>
+<li><p>查看源码，每一个对象，在源码里就是一个结构体表示，都会有一个计数字段.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> struct_object &#123;</span><br><span class="line">  <span class="keyword">int</span> ob_refcnt;    <span class="comment">//计数</span></span><br><span class="line">  struct_typeobject \*ob_type;</span><br><span class="line">&#125; PyObject;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PyObject是每个对象必有的内容，其中ob_refcnt就是做为引用计数。当一个对象有新的引用时，它的ob_refcnt就会增加，当引用它的对象被删除，它的ob_refcnt就会减少。一旦对象的引用计数为0，该对象立即被回收，对象占用的内存空间将被释放。</p>
+</li>
+</ol>
+<ul>
+<li>优点<ol>
+<li>简单</li>
+<li>实时性强，能够实时的无用的对象的内存进行释放</li>
+</ol>
+</li>
+<li>缺点<ol>
+<li>需要维护一个计数，占用额外的空间</li>
+<li>循环引用：两个对象相互引用，且没有任何外部引用</li>
+</ol>
 </li>
 </ul>
-<h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
+<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><ol>
+<li>为了解决循环引用带来的可能导致内存泄露的问题</li>
+<li><strong>第一阶段是标记阶段</strong>，GC会把所有的 活动对象 打上标记</li>
+<li><strong>第二阶段是清除阶段</strong>，把那些没有标记的对象 非活动对象 进行回收</li>
+<li>对象之间通过引用（指针）连在一起，构成一个有向图，对象构成这个有向图的节点，而引用关系构成这个有向图的边从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象。根对象就是全局变量、调用栈、寄存器。<br><img src="http://study.jeffqi.cn/python/mark-gc.jpg" alt="标记清除"></li>
+<li>如上图中，1、2、3是可到达的，而4、5就是不可到达的需要被清理掉</li>
+<li>标记清除主要是用来处理python中的容器对象如list、dict等；Python使用一个双向链表将这些容器对象组织起来</li>
+<li>清除非活动的对象前它必须顺序扫描整个堆内存，哪怕只剩下小部分活动对象也要扫描所有对象</li>
 </ol>
-</li>
+<h3 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h3><ol>
+<li>在python中没创建一个对象，就将对象放到一个链表中，如果有引用计数就加一；从而构成一个双向链表；这个链表就是零代链表；<br><img src="http://study.jeffqi.cn/python/gc-generator-1.png" alt="分代回收1"><br><img src="http://study.jeffqi.cn/python/gc-generator-2.png" alt="分代回收2"></li>
+<li>检测循环引用：python会遍历零代链表，给每个计数减一，将计数为零的对象的内存释放掉；活着的对象进入下一代链表（一代链表）<br><img src="http://study.jeffqi.cn/python/gc-generator-3.png" alt="分代回收3"><br><img src="http://study.jeffqi.cn/python/gc-generator-4.png" alt="分代回收4"></li>
+<li>弱代假说：在零代链表中的对象python默认会认为他们会很快更新，比如创建了一个临时对象；而经过一次筛选后的对象，python会认为他们会被经常使用到；同理在二代链表中也是如此；由于循环引用，导致分配计数和释放计数的比值越来越大，当到达一个阈值后，会触发收集器执行清理操作，对所有对象引用计数减一然后回收为零的对象，添加非零对象到下一代链表中；在下一代链表中也存在这一个阈值，不过python会认为下一代的使用时间更久，所以这个阈值会更大。</li>
 </ol>
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench.jpg" alt="sysbench"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"></li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.jianshu.com/p/fb1d4dc8e367" target="_blank" rel="noopener">https://www.jianshu.com/p/fb1d4dc8e367</a></li>
+<li><a href="https://www.jianshu.com/p/1e375fb40506" target="_blank" rel="noopener">https://www.jianshu.com/p/1e375fb40506</a></li>
+<li><a href="http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby" target="_blank" rel="noopener">http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby</a></li>
+</ul>
 
         
       
@@ -1386,6 +1379,161 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/上下文切换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/20/上下文切换/" class="post-title-link" itemprop="url">上下文切换</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-20 00:15:00 / 修改时间：00:17:28" itemprop="dateCreated datePublished" datetime="2020-03-20T00:15:00+08:00">2020-03-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol>
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench.jpg" alt="sysbench"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"></li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/网络性能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1667,7 +1815,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2020/02/25/MySQL高可用之MyCat读写分离/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/2020/02/25/MySQL高可用之MyCat读写分离/" class="post-title-link" itemprop="url">MySQL高可用之MyCat读写分离搭建</a>
           
         </h1>
 
@@ -1693,7 +1841,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-26 11:47:14" itemprop="dateModified" datetime="2020-02-26T11:47:14+08:00">2020-02-26</time>
+                <time title="修改时间：2020-03-21 22:13:39" itemprop="dateModified" datetime="2020-03-21T22:13:39+08:00">2020-03-21</time>
               </span>
             
           
@@ -2145,85 +2293,6 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/02/22/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/02/22/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-02-22 12:23:54" itemprop="dateCreated datePublished" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
@@ -2273,7 +2342,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
