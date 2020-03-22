@@ -228,165 +228,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/29/平均负载均衡/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/03/29/平均负载均衡/" class="post-title-link" itemprop="url">平均负载</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-29 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-29T00:15:00+08:00">2020-03-29</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-20 00:17:44" itemprop="dateModified" datetime="2020-03-20T00:17:44+08:00">2020-03-20</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#平均负载均衡">平均负载均衡</a><ul>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="平均负载均衡"><a href="#平均负载均衡" class="headerlink" title="平均负载均衡"></a>平均负载均衡</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
-</li>
-<li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
-<ul>
-<li>可运行状态（R）：正在使用 CPU 或者正在等待 CPU 的进程</li>
-<li>不可中断状态（D）：进程则是正处于内核态关键流程中的进程，并且这些流程是不可打断的（io写入的进程）</li>
-</ul>
-</li>
-<li><p>比如当平均负载为 2 时，意味着什么呢？</p>
-<ul>
-<li>在只有 2 个 CPU 的系统上，意味着所有的 CPU 都刚好被完全占用。</li>
-<li>在 4 个 CPU 的系统上，意味着 CPU 有 50% 的空闲。</li>
-<li>而在只有 1 个 CPU 的系统中，则意味着有一半的进程竞争不到 CPU。</li>
-</ul>
-</li>
-<li><p>查看CPU核数</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo | wc -l</span><br><span class="line"><span class="comment"># lscpu</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>一般负载超过70%就需要排查</p>
-</li>
-<li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
-</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
-<li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
-<li>pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。</li>
-</ol>
-</li>
-<li>stress：压力测试工具</li>
-<li><strong>模拟cpu密集型服务器压力测试</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用一个cpu，占满100%，时间600s</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 1 --timeout 600</span></span><br><span class="line">stress: info: [2319] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据$</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5     </span></span><br><span class="line">11:31:59 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:32:00 PM  all   50.50    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.50</span><br><span class="line">11:32:00 PM    0  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">11:32:00 PM    1    0.00    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出占用cpu的进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1      </span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:34:37 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:34:42 PM     0      2320   99.40    0.00    0.00   99.40     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      2320   99.40    0.00    0.00   99.40     -  stress</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li><strong>模拟io压力</strong><ul>
-<li>iowait无法升高的问题，是因为案例中stress使用的是 sync() 系统调用，它的作用是刷新缓冲区内存到磁盘中。对于新安装的虚拟机，缓冲区可能比较小，无法产生大的IO压力，这样大部分就都是系统调用的消耗了。所以，你会看到只有系统CPU使用率升高。解决方法是使用stress的下一代stress-ng，它支持更丰富的选项，比如 stress-ng -i 1 –hdd 1 –timeout 600（–hdd表示读写临时文件）。</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">占满io，时间600s</span><br><span class="line">[root@node1 ~]<span class="comment"># stress-ng --hdd -i 1 --timeout 600</span></span><br><span class="line">stress: info: [3143] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示所有的cpu和内存的使用情况</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5</span></span><br><span class="line">11:30:05 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:30:08 AM  all    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line">11:30:08 AM    0    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">Average:     all    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line">Average:       0    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@baidu ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-957.27.2.el7.x86_64 (baidu) 	03/18/2020 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">11:33:26 AM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:33:31 AM     0     25768    0.00   18.38    0.00   18.38     0  stress-ng-hdd</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0     25790    0.35   21.75    0.00   22.11     -  stress-ng-hdd</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><strong>大量进程模拟</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启多个线程大于核数</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 4 --timeout 600</span></span><br><span class="line">stress: info: [3607] dispatching hogs: 4 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:47:34 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:47:39 PM     0      3608   54.76    0.00    0.00   54.76     1  stress</span><br><span class="line">11:47:39 PM     0      3609   45.24    0.00    0.00   45.24     1  stress</span><br><span class="line">11:47:39 PM     0      3610   47.62    0.00    0.00   47.62     0  stress</span><br><span class="line">11:47:39 PM     0      3611   50.00    0.20    0.00   50.20     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      3608   54.76    0.00    0.00   54.76     -  stress</span><br><span class="line">Average:        0      3609   45.24    0.00    0.00   45.24     -  stress</span><br><span class="line">Average:        0      3610   47.62    0.00    0.00   47.62     -  stress</span><br><span class="line">Average:        0      3611   50.00    0.20    0.00   50.20     -  stress</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li><strong>总结</strong><ul>
-<li>平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况</li>
-<li>平均负载高有可能是 CPU 密集型进程导致的；</li>
-<li>平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了；</li>
-<li>当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源。</li>
-</ul>
-</li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/21/python内存管理机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1684,6 +1525,165 @@
 </tbody></table>
 <ol start="3">
 <li>参考网址：<a href="https://www.cnblogs.com/lipengxiang2009/p/7451050.html" target="_blank" rel="noopener">https://www.cnblogs.com/lipengxiang2009/p/7451050.html</a></li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/平均负载均衡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/19/平均负载均衡/" class="post-title-link" itemprop="url">平均负载</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-19 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-19T00:15:00+08:00">2020-03-19</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-22 09:56:33" itemprop="dateModified" datetime="2020-03-22T09:56:33+08:00">2020-03-22</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#平均负载">平均负载</a><ul>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
+</li>
+<li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
+<ul>
+<li>可运行状态（R）：正在使用 CPU 或者正在等待 CPU 的进程</li>
+<li>不可中断状态（D）：进程则是正处于内核态关键流程中的进程，并且这些流程是不可打断的（io写入的进程）</li>
+</ul>
+</li>
+<li><p>比如当平均负载为 2 时，意味着什么呢？</p>
+<ul>
+<li>在只有 2 个 CPU 的系统上，意味着所有的 CPU 都刚好被完全占用。</li>
+<li>在 4 个 CPU 的系统上，意味着 CPU 有 50% 的空闲。</li>
+<li>而在只有 1 个 CPU 的系统中，则意味着有一半的进程竞争不到 CPU。</li>
+</ul>
+</li>
+<li><p>查看CPU核数</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo | wc -l</span><br><span class="line"><span class="comment"># lscpu</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一般负载超过70%就需要排查</p>
+</li>
+<li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
+</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
+<li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
+<li>pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。</li>
+</ol>
+</li>
+<li>stress：压力测试工具</li>
+<li><strong>模拟cpu密集型服务器压力测试</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用一个cpu，占满100%，时间600s</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 1 --timeout 600</span></span><br><span class="line">stress: info: [2319] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据$</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5     </span></span><br><span class="line">11:31:59 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:32:00 PM  all   50.50    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.50</span><br><span class="line">11:32:00 PM    0  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">11:32:00 PM    1    0.00    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出占用cpu的进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1      </span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:34:37 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:34:42 PM     0      2320   99.40    0.00    0.00   99.40     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      2320   99.40    0.00    0.00   99.40     -  stress</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>模拟io压力</strong><ul>
+<li>iowait无法升高的问题，是因为案例中stress使用的是 sync() 系统调用，它的作用是刷新缓冲区内存到磁盘中。对于新安装的虚拟机，缓冲区可能比较小，无法产生大的IO压力，这样大部分就都是系统调用的消耗了。所以，你会看到只有系统CPU使用率升高。解决方法是使用stress的下一代stress-ng，它支持更丰富的选项，比如 stress-ng -i 1 –hdd 1 –timeout 600（–hdd表示读写临时文件）。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">占满io，时间600s</span><br><span class="line">[root@node1 ~]<span class="comment"># stress-ng --hdd -i 1 --timeout 600</span></span><br><span class="line">stress: info: [3143] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示所有的cpu和内存的使用情况</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5</span></span><br><span class="line">11:30:05 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:30:08 AM  all    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line">11:30:08 AM    0    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">Average:     all    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line">Average:       0    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@baidu ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-957.27.2.el7.x86_64 (baidu) 	03/18/2020 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">11:33:26 AM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:33:31 AM     0     25768    0.00   18.38    0.00   18.38     0  stress-ng-hdd</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0     25790    0.35   21.75    0.00   22.11     -  stress-ng-hdd</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>大量进程模拟</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启多个线程大于核数</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 4 --timeout 600</span></span><br><span class="line">stress: info: [3607] dispatching hogs: 4 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:47:34 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:47:39 PM     0      3608   54.76    0.00    0.00   54.76     1  stress</span><br><span class="line">11:47:39 PM     0      3609   45.24    0.00    0.00   45.24     1  stress</span><br><span class="line">11:47:39 PM     0      3610   47.62    0.00    0.00   47.62     0  stress</span><br><span class="line">11:47:39 PM     0      3611   50.00    0.20    0.00   50.20     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      3608   54.76    0.00    0.00   54.76     -  stress</span><br><span class="line">Average:        0      3609   45.24    0.00    0.00   45.24     -  stress</span><br><span class="line">Average:        0      3610   47.62    0.00    0.00   47.62     -  stress</span><br><span class="line">Average:        0      3611   50.00    0.20    0.00   50.20     -  stress</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><strong>总结</strong><ul>
+<li>平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况</li>
+<li>平均负载高有可能是 CPU 密集型进程导致的；</li>
+<li>平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了；</li>
+<li>当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源。</li>
+</ul>
+</li>
 </ol>
 
         
