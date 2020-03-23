@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="索引 索引是特殊的数据结构 索引可以加速数据库对数据的检索速度，对数据进行排序 索引就是对数据进行排序加速检索速度的特殊数据结构  索引的优缺点 优点 建立索引可以加速对于数据的检索速度 可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源 可以较低磁盘的 IO 读写   缺点 索引实质还是一张表，建立索引意味着额外的资源开销 维护许多索引需要较大的内存等资源开销 索引加快了读操作，但是">
+  <meta name="description" content="索引 索引是特殊的数据结构 索引可以加速数据库对数据的检索速度，对数据进行排序 索引就是对数据进行排序加速检索速度的特殊数据结构 索引的优缺点 优点 建立索引可以加速对于数据的检索速度 可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源 可以较低磁盘的 IO 读写   缺点 索引实质还是一张表，建立索引意味着额外的资源开销 维护许多索引需要较大的内存等资源开销 索引加快了读操作，但是降">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL索引">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/12/10/MySQL索引/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="索引 索引是特殊的数据结构 索引可以加速数据库对数据的检索速度，对数据进行排序 索引就是对数据进行排序加速检索速度的特殊数据结构  索引的优缺点 优点 建立索引可以加速对于数据的检索速度 可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源 可以较低磁盘的 IO 读写   缺点 索引实质还是一张表，建立索引意味着额外的资源开销 维护许多索引需要较大的内存等资源开销 索引加快了读操作，但是">
+<meta property="og:description" content="索引 索引是特殊的数据结构 索引可以加速数据库对数据的检索速度，对数据进行排序 索引就是对数据进行排序加速检索速度的特殊数据结构 索引的优缺点 优点 建立索引可以加速对于数据的检索速度 可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源 可以较低磁盘的 IO 读写   缺点 索引实质还是一张表，建立索引意味着额外的资源开销 维护许多索引需要较大的内存等资源开销 索引加快了读操作，但是降">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL索引">
-<meta name="twitter:description" content="索引 索引是特殊的数据结构 索引可以加速数据库对数据的检索速度，对数据进行排序 索引就是对数据进行排序加速检索速度的特殊数据结构  索引的优缺点 优点 建立索引可以加速对于数据的检索速度 可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源 可以较低磁盘的 IO 读写   缺点 索引实质还是一张表，建立索引意味着额外的资源开销 维护许多索引需要较大的内存等资源开销 索引加快了读操作，但是">
+<meta name="twitter:description" content="索引 索引是特殊的数据结构 索引可以加速数据库对数据的检索速度，对数据进行排序 索引就是对数据进行排序加速检索速度的特殊数据结构 索引的优缺点 优点 建立索引可以加速对于数据的检索速度 可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源 可以较低磁盘的 IO 读写   缺点 索引实质还是一张表，建立索引意味着额外的资源开销 维护许多索引需要较大的内存等资源开销 索引加快了读操作，但是降">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/12/10/MySQL索引/">
 
 
@@ -328,8 +328,7 @@
 <li>索引是特殊的数据结构</li>
 <li>索引可以加速数据库对数据的检索速度，对数据进行排序</li>
 <li>索引就是对数据进行排序加速检索速度的特殊数据结构</li>
-</ul>
-<h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><ul>
+</ul><h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><ul>
 <li>优点<ol>
 <li>建立索引可以加速对于数据的检索速度</li>
 <li>可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源</li>
@@ -343,7 +342,8 @@
 <li>需要花费更多的时间来建立一个优秀的索引</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
 <h3 id="常见索引类型"><a href="#常见索引类型" class="headerlink" title="常见索引类型"></a>常见索引类型</h3><h4 id="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"><a href="#哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据" class="headerlink" title="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"></a>哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据</h4><ol>
 <li>无序索引,数据添加容易,直接追加</li>
 <li>适合等值查找，范围查找性能差<h4 id="有序数组：按照字段排序来确定存放位置"><a href="#有序数组：按照字段排序来确定存放位置" class="headerlink" title="有序数组：按照字段排序来确定存放位置"></a>有序数组：按照字段排序来确定存放位置</h4></li>
@@ -520,7 +520,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,7 +533,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

@@ -255,6 +255,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/HTML5基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/20/HTML5基础/" class="post-title-link" itemprop="url">HTML5基础</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-20 20:27:00" itemprop="dateCreated datePublished" datetime="2019-11-20T20:27:00+08:00">2019-11-20</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTML5/" itemprop="url" rel="index"><span itemprop="name">HTML5</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="HTML5基础"><a href="#HTML5基础" class="headerlink" title="HTML5基础"></a>HTML5基础</h2><h3 id="HTML格式与部分元素"><a href="#HTML格式与部分元素" class="headerlink" title="HTML格式与部分元素"></a>HTML格式与部分元素</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 文档类型说明 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!Doctype html&gt;</span></span><br><span class="line"><span class="comment">&lt;!--根节点--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--头部信息--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--元信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--标题--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>HTML基础<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--包含页面内的所有主体内容--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--直接显示文本--&gt;</span></span><br><span class="line">    Hello Html5!</span><br><span class="line">    <span class="comment">&lt;!-- class:给元素添加一个或多个样式表类名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>here is title!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- contenteditable:表示文件是否可编辑 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span>可编辑<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 显示内容的开始位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">dir</span>=<span class="string">"rtl"</span>&gt;</span>在右边哟,不是在左边<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- id：元素的唯一标识 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"myheader"</span>&gt;</span>这是显示id的作用!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- style：行内元素的样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: blue;text-align: center"</span>&gt;</span>这是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span>这也是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: yellow;text-align: center;"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- tabindex：tab键的选取顺序 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span> <span class="attr">tabindex</span>=<span class="string">"1"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.aliyun.com/"</span> <span class="attr">tabindex</span>=<span class="string">"3"</span>&gt;</span>Aliyun<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.tencent.com/"</span> <span class="attr">tabindex</span>=<span class="string">"2"</span>&gt;</span>Tencent<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- title：鼠标悬停时显示的信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">title</span>=<span class="string">"http://www.jd.com/"</span>&gt;</span>JD<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/20/HTML5基础/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/图解HTTP_5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -326,99 +426,23 @@
       
           <h3 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h3><ul>
 <li>从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容</li>
-</ul>
-<h4 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h4><ul>
+</ul><h4 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h4><ul>
 <li>通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级<ol>
 <li>使用type/subtype 这种形式，一次指定多种媒体类型</li>
 <li>使用q= 来额外表示权重值权重值q 的范围是0~1（可精确到小数点后3 位），且1 为最大值</li>
 <li>首先返回权重值最高的媒体类型</li>
 </ol>
 </li>
-</ul>
-<h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><ul>
-<li>通知服务器用户代理支持的字符集及字符集的相对优先顺序</li>
-</ul>
-<h4 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h4><ul>
-<li>告知服务器用户代理支持的内容编码及内容编码的优先级顺序<ol>
-<li>同accept一样，可有权重</li>
-</ol>
-</li>
-</ul>
-<h4 id="Accept-Language"><a href="#Accept-Language" class="headerlink" title="Accept-Language"></a>Accept-Language</h4><ul>
-<li>告知服务器用户代理能够处理的自然语言集（指中文或英文等）<ol>
-<li>有权重</li>
-</ol>
-</li>
-</ul>
-<h4 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h4><ul>
-<li>告知服务器，用户代理的认证信息（证书值）<ol>
-<li>客户端与服务器</li>
-</ol>
-</li>
-</ul>
-<h4 id="Proxy-Authorization"><a href="#Proxy-Authorization" class="headerlink" title="Proxy-Authorization"></a>Proxy-Authorization</h4><ul>
-<li>接收到从代理服务器发来的认证质询时，客户端会发送包含首部字段Proxy-Authorization的请求，以告知服务器认证所需要的信息<ol>
-<li>客户端与代理服务器</li>
-</ol>
-</li>
-</ul>
-<h4 id="Expect"><a href="#Expect" class="headerlink" title="Expect"></a>Expect</h4><ul>
-<li>告知服务器，期望出现的某种特定行为</li>
-</ul>
-<h4 id="From"><a href="#From" class="headerlink" title="From"></a>From</h4><ul>
-<li>告知服务器，期望出现的某种特定行为</li>
-</ul>
-<h4 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h4><ul>
-<li>告知服务器，请求的资源所处的互联网主机名和端口号<ol>
-<li>唯一一个必须被包含在请求内的首部字段</li>
-</ol>
-</li>
-</ul>
-<h4 id="If-Match"><a href="#If-Match" class="headerlink" title="If-Match"></a>If-Match</h4><ul>
-<li>服务器接收到附带条件的请求后，只有判断指定条件为真时，才会执行请求<ol>
-<li>ETag：实体标记是与特定资源关联的确定值。资源更新变化后ETag随着改变</li>
-<li>服务器会比对If-Match 的字段值和资源的ETag 值，仅当两者一致时，才会执行请求</li>
-<li>可以使用星号(*)指定If-Match 的字段值。针对这种情况，服务器将会忽略ETag 的值，只要资源存在就处理请求</li>
-</ol>
-</li>
-</ul>
-<h4 id="If-None-Match"><a href="#If-None-Match" class="headerlink" title="If-None_Match"></a>If-None_Match</h4><ul>
-<li>资源不存在时返回响应，通常用来获取最新的资源</li>
-</ul>
-<h4 id="If-Modified-Since"><a href="#If-Modified-Since" class="headerlink" title="If-Modified-Since"></a>If-Modified-Since</h4><ul>
-<li>如果在If-Modified-Since 字段指定的日期时间后，资源发生了更新，服务器会接受请求</li>
-</ul>
-<h4 id="If-Unmodified-Since"><a href="#If-Unmodified-Since" class="headerlink" title="If-Unmodified-Since"></a>If-Unmodified-Since</h4><ul>
-<li>告知服务器，指定的请求资源只有在字段值内指定的日期时间之后，未发生更新的情况下，才能处理请求<h4 id="If-Range"><a href="#If-Range" class="headerlink" title="If-Range"></a>If-Range</h4></li>
-<li>告知服务器若指定的IfRange字段值（ETag 值或者时间）和请求资源的ETag 值或时间相一致时，则作为范围请求处理。反之，则返回全体资源</li>
-</ul>
-<h4 id="Max-Forwards"><a href="#Max-Forwards" class="headerlink" title="Max-Forwards"></a>Max-Forwards</h4><ul>
-<li>以十进制整数形式指定可经过的服务器最大数目</li>
-</ul>
-<h4 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h4><ul>
-<li>只需获取部分资源的范围请求<ol>
-<li>处理请求后返回范围资源响应</li>
-<li>无法处理时，返回全部资源响应</li>
-</ol>
-</li>
-</ul>
-<h4 id="Refere"><a href="#Refere" class="headerlink" title="Refere"></a>Refere</h4><ul>
-<li>告知服务器请求的原始资源的URI</li>
-</ul>
-<h4 id="TE"><a href="#TE" class="headerlink" title="TE"></a>TE</h4><ul>
-<li>告知服务器客户端能够处理响应的传输编码方式及相对优先级<ol>
-<li>用于传输编码</li>
-<li>指定伴随trailer 字段的分块传输编码的方式<ul>
-<li>需要将trailers赋值给该字段</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h4><ul>
-<li>将创建请求的浏览器和用户代理名称等信息传达给服务器</li>
-</ul>
-
+</ul><h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/20/图解HTTP_5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -511,17 +535,14 @@
       
           <h2 id="HTTP首部"><a href="#HTTP首部" class="headerlink" title="HTTP首部"></a>HTTP首部</h2><h3 id="HTTP报文首部"><a href="#HTTP报文首部" class="headerlink" title="HTTP报文首部"></a>HTTP报文首部</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><ol>
 <li>组成：方法、URI、HTTP 版本、HTTP 首部字段等</li>
-</ol>
-<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
+</ol><h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
 <li>组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段</li>
-</ol>
-<h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
+</ol><h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
 <li>通用首部字段</li>
 <li>请求首部字段</li>
 <li>响应首部字段</li>
 <li>实体首部字段</li>
-</ol>
-<h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
+</ol><h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
 <li>端到端首部（End-to-end Header）<ul>
 <li>首部会转发给请求/ 响应对应的最终接收目标，且必须保存在由缓存生成的响应中，另外规定必须被转发</li>
 </ul>
@@ -532,106 +553,15 @@
 </ul>
 </li>
 </ol>
-<h3 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h3><h4 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h4><ul>
-<li><p>作用：通过指定首部字段Cache-Control 的指令，操作缓存的工作</p>
-</li>
-<li><p>缓存指令：</p>
-<ol>
-<li>public<ul>
-<li>当指定使用public 指令时，则明确表明其他用户也可利用缓存</li>
-</ul>
-</li>
-<li>private<ul>
-<li>当指定private 指令后，响应只以特定的用户作为对象</li>
-</ul>
-</li>
-<li>no-cache<ul>
-<li>防止从缓存中返回过期的资源<ol>
-<li>客户端将不会接收缓存过的响应。需要将请求转发给源服务器</li>
-<li>服务器返回响应包含no-cache指令，则缓存服务器不能对资源进行缓存</li>
-</ol>
-</li>
-<li>no-chche=location<ol>
-<li>字段被指定参数值则客户端不能缓存响应报文。无参数值的首部字段可以使用缓存。只能在响应指令中指定该参数</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>no-store<ul>
-<li>暗示请求（和对应的响应）或响应中包含机密信息</li>
-<li>no-cache 代表不缓存过期的资源，缓存会向源服务器进行有效期确认后处理资源；no-store才是不进行缓存</li>
-<li>该指令规定缓存不能在本地存储请求或响应的任一部分</li>
-</ul>
-</li>
-<li>s-maxage和max-age<ul>
-<li>客户端：允许返回过期一定时间的缓存</li>
-<li>服务端：一定时间内缓存服务器自己处理缓存，不用向源服务器确认</li>
-<li>不同：smaxage指令只适用于供多位用户使用的公共缓存服务器</li>
-</ul>
-</li>
-<li>min-fresh<ul>
-<li>要求缓存服务器返回至少还未过指定时间的缓存资源。返回的资源较新</li>
-</ul>
-</li>
-<li>max-stale<ul>
-<li>过期的资源还能被接收</li>
-</ul>
-</li>
-<li>only-if-cache<ul>
-<li>客户端仅在缓存服务器本地缓存目标资源的情况下才会要求其返回；否则返回504 gateway timeout状态码</li>
-</ul>
-</li>
-<li>must-revalidate<ul>
-<li>必须再次确认返回的响应缓存的有效性</li>
-</ul>
-</li>
-<li>proxy-revalidate<ul>
-<li>缓存服务器在接收到客户端带有该指令的请求返回响应之前，必须再次验证缓存的有效性</li>
-</ul>
-</li>
-<li>no-transform<ul>
-<li>缓存都不能改变实体主体的媒体类型</li>
-</ul>
-</li>
-<li>cache-control扩展<ul>
-<li>Cache-Control 首部字段本身没有community 这个指令。借助extension tokens 实现了该指令的添加</li>
-<li>extension tokens 仅对能理解它的缓存服务器来说是有意义的</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h4><ul>
-<li>管理不在转发给代理的首部字段</li>
-<li>管理持久连接<ol>
-<li>指定Connection 首部字段的值为Keep-Alive</li>
-</ol>
-</li>
-</ul>
-<h4 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h4><ul>
-<li>报文创建时间</li>
-</ul>
-<h4 id="Pragma"><a href="#Pragma" class="headerlink" title="Pragma"></a>Pragma</h4><ul>
-<li>客户端会要求所有的中间服务器不返回缓存的资源</li>
-<li>属于通用首部字段，但只用在客户端发送的请求中</li>
-</ul>
-<h4 id="Trailer"><a href="#Trailer" class="headerlink" title="Trailer"></a>Trailer</h4><ul>
-<li>事先说明在报文主体后记录了哪些首部字段。该首部字段可应用在HTTP/1.1 版本分块传输编码时</li>
-</ul>
-<h4 id="Transfer-Encoding"><a href="#Transfer-Encoding" class="headerlink" title="Transfer-Encoding"></a>Transfer-Encoding</h4><ul>
-<li>定了传输报文主体时采用的编码方式</li>
-<li>HTTP/1.1 的传输编码方式仅对分块传输编码有效</li>
-</ul>
-<h4 id="Upgrand"><a href="#Upgrand" class="headerlink" title="Upgrand"></a>Upgrand</h4><ul>
-<li>检测HTTP协议及其他协议是否可以使用更高的协议通信</li>
-</ul>
-<h4 id="Via"><a href="#Via" class="headerlink" title="Via"></a>Via</h4><ul>
-<li>记录报文的传输路径</li>
-</ul>
-<h4 id="Warning"><a href="#Warning" class="headerlink" title="Warning"></a>Warning</h4><ul>
-<li>告知用户一些与缓存相关的问题警告</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/15/图解HTTP_4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -722,47 +652,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
-
-<h3 id="调整逻辑卷"><a href="#调整逻辑卷" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 770M /dev/vg/lvm1</span><br><span class="line">xfs_growfs /dev/vg/lvm1</span><br><span class="line"><span class="comment">#resize2fs /dev/vg/lvm1</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建用户和用户组"><a href="#创建用户和用户组" class="headerlink" title="创建用户和用户组"></a>创建用户和用户组</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># groupadd -g 40000 adminuser</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -G 40000 natasha</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -G 40000 harry</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd -s /sbin/nologin sarah</span></span><br><span class="line">[root@server0 ~]<span class="comment"># echo 'glegunge' | passwd --stdin natasha</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="文件权限设定"><a href="#文件权限设定" class="headerlink" title="文件权限设定"></a>文件权限设定</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># cp -a /etc/fstab /var/tmp/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># ll /var/tmp/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod -x /var/tmp/fstab</span></span><br><span class="line">-rw-r--r--. 1 root root 438 Nov  1  2017 /var/tmp/fstab</span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:---,u:natasha:rw-,o::r-- /var/tmp/fstab</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="建立计划任务"><a href="#建立计划任务" class="headerlink" title="建立计划任务"></a>建立计划任务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># crontab -e -u natasha</span></span><br><span class="line">no crontab <span class="keyword">for</span> natasha - using an empty one</span><br><span class="line">crontab: installing new crontab</span><br><span class="line">[root@server0 ~]<span class="comment"># crontab -l -u natasha</span></span><br><span class="line">23 14 * * * /bin/<span class="built_in">echo</span> <span class="string">'rhcsa'</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="文件特殊权限设定"><a href="#文件特殊权限设定" class="headerlink" title="文件特殊权限设定"></a>文件特殊权限设定</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /home/admins</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chgrp adminuser /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod 770 /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod g+s /home/admins/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># ll -d /home/admins/</span></span><br><span class="line">drwxrws---. 2 root adminuser 1024 Nov 15 09:29 /home/admins/</span><br></pre></td></tr></table></figure>
-
-<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># rpm -ivh http://content.example.com/rhel7.0/x86_64/errata/Packages/kernel-3.10.0-123.1.2.el7.x86_64.rpm</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置NTP服务"><a href="#配置NTP服务" class="headerlink" title="配置NTP服务"></a>配置NTP服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/chrony.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart chronyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chronyc</span></span><br><span class="line">  chronyc&gt; waitsync</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置LDAP客户端"><a href="#配置LDAP客户端" class="headerlink" title="配置LDAP客户端"></a>配置LDAP客户端</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install sssd krb5-workstation.x86_64 authconfig-gtk.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># authconfig-gtk</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置autofs挂载"><a href="#配置autofs挂载" class="headerlink" title="配置autofs挂载"></a>配置autofs挂载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y autofs.x86_64</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /home/guests</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/auto.master</span></span><br><span class="line">  /home/guests  /etc/ldap.misc</span><br><span class="line">[root@server0 ~]<span class="comment"># cp -a /etc/auto.misc /etc/ldap.misc</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/ldap.misc</span></span><br><span class="line">  ldapuser0   -fstype=nfs,v3,rw classroom.example.com:/home/guests/ldapuser0</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable autofs.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart autofs.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># su - ldapuser0</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># tar -jcvf /root/syyconfig.tar.bz2 /etc/sysconfig/</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># useradd -u 3456 alex</span></span><br><span class="line">[root@server0 ~]<span class="comment"># echo 'glegunge' | passwd --stdin alex</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建swap分区"><a href="#创建swap分区" class="headerlink" title="创建swap分区"></a>创建swap分区</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line">[root@server0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkswap /dev/sda5</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># swapon -a</span></span><br><span class="line">[root@server0 ~]<span class="comment"># free -h</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># find / -user ira -exec cp -a &#123;&#125; /root/findfiles/ \;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="过滤文件"><a href="#过滤文件" class="headerlink" title="过滤文件"></a>过滤文件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># grep 'seismic' /usr/share/dict/words &gt; /root/wordlist</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建逻辑卷"><a href="#创建逻辑卷" class="headerlink" title="创建逻辑卷"></a>创建逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># fdisk /dev/sda</span></span><br><span class="line">[root@server0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@server0 ~]<span class="comment"># pvcreate /dev/sda6</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vgcreate rhcsa -s 16M /dev/sda6</span></span><br><span class="line">[root@server0 ~]<span class="comment"># lvcreate -n lvm2 -l 8 rhcsa</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkfs.xfs /dev/rhcsa/lvm2</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  /dev/rhcsa/lvm2   /exam/lvm2  xfs   defaults  0 0</span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /exam/lvm2</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@server0 ~]<span class="comment"># df -Th</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="调整逻辑卷-1"><a href="#调整逻辑卷-1" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 1000M /dev/exam/home</span><br><span class="line">resize2fs /dev/exam/home</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">umount /dev/exam/src</span><br><span class="line">e2fsck -f /dev/exam/src</span><br><span class="line">resize2fs /dev/exam/src 400M</span><br><span class="line">lvreduce -L 400M /dev/exam/src</span><br><span class="line">mount -a</span><br><span class="line">df -Th</span><br></pre></td></tr></table></figure>
-
-
+          <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure><h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure><h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/15/RHCSA/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -855,8 +754,7 @@
       
           <h2 id="返回结果的HTTP-状态码"><a href="#返回结果的HTTP-状态码" class="headerlink" title="返回结果的HTTP 状态码"></a>返回结果的HTTP 状态码</h2><ul>
 <li>HTTP 状态码负责表示客户端HTTP 请求的返回结果、标记服务器端的处理是否正常、通知出现的错误等工作</li>
-</ul>
-<h3 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h3><ul>
+</ul><h3 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h3><ul>
 <li>2XX 的响应结果表明请求被正常处理了<ol>
 <li>200 OK<ul>
 <li>表示从客户端发来的请求在服务器端被正常处理</li>
@@ -874,67 +772,15 @@
 </ol>
 </li>
 </ul>
-<h3 id="3XX-重定向"><a href="#3XX-重定向" class="headerlink" title="3XX 重定向"></a>3XX 重定向</h3><ul>
-<li>3XX 响应结果表明浏览器需要执行某些特殊的处理以正确处理请求<ol>
-<li>301 Moved Permanently（永久重定向）<ul>
-<li>表示请求的资源已被分配了新的URI，以后应使用资源现在所指的URI</li>
-</ul>
-</li>
-<li>302 Found（零时重定向）<ul>
-<li>表示请求的资源已被分配了新的URI，希望用户（本次）能使用新的URI 访问</li>
-</ul>
-</li>
-<li>303 See Other<ul>
-<li>表示由于请求对应的资源存在着另一个URI，应使用GET方法定向获取请求的资源</li>
-<li>303 状态码明确表示客户端应当采用GET 方法获取资源</li>
-</ul>
-</li>
-<li>304 Not Modified<ul>
-<li>表示客户端发送附带条件的请求时，服务器端允许请求访问资源，但未满足条件的情况</li>
-</ul>
-</li>
-<li>307 Temporary Redirect（临时重定向）<ul>
-<li>该状态码与302 Found 有着相同的含义</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h3 id="4XX-客户端错误"><a href="#4XX-客户端错误" class="headerlink" title="4XX 客户端错误"></a>4XX 客户端错误</h3><ul>
-<li>4XX 的响应结果表明客户端是发生错误的原因所在<ol>
-<li>401 Bad Request<ul>
-<li>表示请求报文中存在语法错误</li>
-</ul>
-</li>
-<li>401 Unauthorized<ul>
-<li>该状态码表示发送的请求需要有通过HTTP认证</li>
-</ul>
-</li>
-<li>403 Forbidden<ul>
-<li>表明对请求资源的访问被服务器拒绝了</li>
-</ul>
-</li>
-<li>404 Not Found<ul>
-<li>标识服务器上无法找到请求的资源</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h3 id="5XX-服务器错误"><a href="#5XX-服务器错误" class="headerlink" title="5XX 服务器错误"></a>5XX 服务器错误</h3><ul>
-<li>5XX 的响应结果表明服务器本身发生错误<ol>
-<li>500 Internal Server Error<ul>
-<li>服务器在执行时发生错误</li>
-</ul>
-</li>
-<li>503 Service Unavailable<ul>
-<li>服务器暂时处于超负载或正在进行停机维护</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/13/图解HTTP_3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1027,15 +873,13 @@
       
           <h2 id="HTTP报文内的HTTP信息"><a href="#HTTP报文内的HTTP信息" class="headerlink" title="HTTP报文内的HTTP信息"></a>HTTP报文内的HTTP信息</h2><ul>
 <li>HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应</li>
-</ul>
-<h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
+</ul><h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
 <li>分类：<ul>
 <li>请求报文：客服端向服务端</li>
 <li>响应报文：服务端向客服端</li>
 </ul>
 </li>
-</ol>
-<h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
+</ol><h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
 <li>报文首部<ul>
 <li>请求行或状态行</li>
 <li>首部字段<ul>
@@ -1046,8 +890,7 @@
 </li>
 <li>空行（CR + LF）</li>
 <li>报文主体（不一定存在）</li>
-</ol>
-<h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
+</ol><h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
 <li>传输过程中通过编码提升传输速率，可能消耗更多CPU资源</li>
 <li>报文主体和实体主体的差异<ol>
 <li>报文：HTTP 通信中的基本单位</li>
@@ -1059,38 +902,15 @@
 </ol>
 </li>
 </ul>
-<h3 id="分割发送的分块传输编码"><a href="#分割发送的分块传输编码" class="headerlink" title="分割发送的分块传输编码"></a>分割发送的分块传输编码</h3><ul>
-<li>通过将数据分割成多块进行传输，让浏览器逐步显示页面</li>
-</ul>
-<h3 id="发送多种数据的多部分对象集合"><a href="#发送多种数据的多部分对象集合" class="headerlink" title="发送多种数据的多部分对象集合"></a>发送多种数据的多部分对象集合</h3><ol>
-<li>解释：一次发送可以有不同的数据类型</li>
-<li>对部分对象集合包含的对象：<ul>
-<li>multipart/form-data（表单）</li>
-<li>multipart/byteranges（响应报文包含多个范围）</li>
-</ul>
-</li>
-<li>使用多部分对象集合时，需要在首部字段里加上Content-type<ul>
-<li>boundary 字符串来划分多部分对象集合指明的各类实体</li>
-<li>起始和结尾都加入“–”标记开始和结尾</li>
-<li><strong>多部分对象集合的每个部分类型中，都可以含有首部字段</strong></li>
-<li><strong>可以在某个部分中嵌套使用多部分对象集合</strong></li>
-</ul>
-</li>
-</ol>
-<h3 id="获取部分内容的范围请求"><a href="#获取部分内容的范围请求" class="headerlink" title="获取部分内容的范围请求"></a>获取部分内容的范围请求</h3><ul>
-<li>指定范围发送的请求叫做范围请求</li>
-<li>执行范围请求时，会用到首部字段Range 来指定资源的byte范围</li>
-</ul>
-<h3 id="内容协商返回最合适内容"><a href="#内容协商返回最合适内容" class="headerlink" title="内容协商返回最合适内容"></a>内容协商返回最合适内容</h3><ul>
-<li>内容协商机制是指客户端和服务器端就响应的资源内容进行交涉，然后提供给客户端最为适合的资源</li>
-<li>三种类型<ol>
-<li>服务端驱动协商</li>
-<li>客户端启动协商</li>
-<li>透明协商</li>
-</ol>
-</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/12/图解HTTP_2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1181,49 +1001,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置防火墙对于ssh的访问"><a href="#设置防火墙对于ssh的访问" class="headerlink" title="设置防火墙对于ssh的访问"></a>设置防火墙对于ssh的访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' service name='ssh' accept"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.17.10.0/24' service name='ssh' reject"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --list-all</span></span><br><span class="line">public (default, active)</span><br><span class="line">  interfaces: eth0</span><br><span class="line">  sources:</span><br><span class="line">  services: dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.17.10.0/24"</span> service name=<span class="string">"ssh"</span> reject</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.25.0.0/24"</span> service name=<span class="string">"ssh"</span> accept</span><br></pre></td></tr></table></figure>
-
-<h3 id="在eth0口上配置ipv6地址"><a href="#在eth0口上配置ipv6地址" class="headerlink" title="在eth0口上配置ipv6地址"></a>在eth0口上配置ipv6地址</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># nmcli connection modify eth0 ipv6.method manual ipv6.addresses fddb:fe2a:ab1e::c0a8:2/64 connection.autoconnect yes</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart network</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># ping6 -c 4 fddb:fe2a:ab1e::c0a8:1</span></span><br><span class="line">PING fddb:fe2a:ab1e::c0a8:1(fddb:fe2a:ab1e::c0a8:1) 56 data bytes</span><br><span class="line">64 bytes from fddb:fe2a:ab1e::c0a8:1: icmp_seq=1 ttl=64 time=2.09 ms</span><br><span class="line">[root@desktop0 ~]<span class="comment"># ping -c 4 172.25.0.11</span></span><br><span class="line">PING 172.25.0.11 (172.25.0.11) 56(84) bytes of data.</span><br><span class="line">64 bytes from 172.25.0.11: icmp_seq=1 ttl=64 time=0.346 ms</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置链路聚合"><a href="#配置链路聚合" class="headerlink" title="配置链路聚合"></a>配置链路聚合</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># nmcli connection add type team con-name team1 ifname team1-master  config '&#123;"runner": &#123;"name": "activebackup"&#125;&#125;'</span></span><br><span class="line">[root@server0 ~]<span class="comment"># nmcli connection add type team-slave con-name team1-slave1 ifname eth1 master team1-master</span></span><br><span class="line">[root@server0 ~]<span class="comment"># nmcli connection add type team-slave con-name team1-slave2 ifname eth2 master team1-master</span></span><br><span class="line">[root@server0 ~]<span class="comment"># nmcli connection modify team1 ipv4.method manual ipv4.addresses 192.168.0.101/24 connection.autoconnect yes</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart netwrok</span></span><br><span class="line">[root@server0 ~]<span class="comment"># teamdctl team1-master state</span></span><br><span class="line">setup:</span><br><span class="line">  runner: activebackup</span><br><span class="line">ports:</span><br><span class="line">  eth1</span><br><span class="line">    link watches:</span><br><span class="line">      link summary: up</span><br><span class="line">      instance[link_watch_0]:</span><br><span class="line">        name: ethtool</span><br><span class="line">        link: up</span><br><span class="line">  eth2</span><br><span class="line">    link watches:</span><br><span class="line">      link summary: up</span><br><span class="line">      instance[link_watch_0]:</span><br><span class="line">        name: ethtool</span><br><span class="line">        link: up</span><br><span class="line">runner:</span><br><span class="line">  active port: eth1</span><br><span class="line">[root@server0 ~]<span class="comment"># ip a | grep team1-master</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置用户自定义环境"><a href="#设置用户自定义环境" class="headerlink" title="设置用户自定义环境"></a>设置用户自定义环境</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/bashrc</span></span><br><span class="line"><span class="built_in">alias</span> qstat=<span class="string">'/bin/ps –Ao pid,tt,user,fname,rsz'</span></span><br><span class="line">[root@server0 ~]<span class="comment"># bash /etc/bashrc</span></span><br><span class="line">开启新窗口验证</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置本地邮件服务"><a href="#配置本地邮件服务" class="headerlink" title="配置本地邮件服务"></a>配置本地邮件服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/postfix/main.cf</span></span><br><span class="line">mydestination = <span class="string">''</span></span><br><span class="line">mydomain = example.com</span><br><span class="line">myorigin = <span class="variable">$mydomain</span></span><br><span class="line">relayhost = [classroom.example.com]</span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart postfix</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mail -s 'student' student@classroom.example.com</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置端口转发"><a href="#设置端口转发" class="headerlink" title="设置端口转发"></a>设置端口转发</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' forward-port port=5423 protocol=tcp to-port=80"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' forward-port port=5423 protocol=udp to-port=80"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置smb共享目录"><a href="#设置smb共享目录" class="headerlink" title="设置smb共享目录"></a>设置smb共享目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y samba samba-client</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/samba/smb.conf</span></span><br><span class="line">    workgroup = STAFF</span><br><span class="line">    hosts allow = 127. 172.25.0.        <span class="comment">#只有example.com域内可访问</span></span><br><span class="line">    [common]</span><br><span class="line">    path = /common</span><br><span class="line">    browseable = yes            <span class="comment">#common必须可浏览</span></span><br><span class="line">    writable = no</span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /common</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd harry</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:r-x /common/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># smbpasswd -a harry</span></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br><span class="line">Added user harry.</span><br><span class="line">[root@server0 ~]<span class="comment"># pdbedit -L</span></span><br><span class="line">harry:1001:</span><br><span class="line">[root@server0 ~]<span class="comment"># chcon -t samba_share_t /common/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setsebool -P samba_export_all_ro 1</span></span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable smb nmb</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart smb nmb</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=samba</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># smbclient //server0.example.com/common -U harry</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置多用户smb挂载"><a href="#配置多用户smb挂载" class="headerlink" title="配置多用户smb挂载"></a>配置多用户smb挂载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir /devops</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/samba/smb.conf</span></span><br><span class="line">[root@server0 ~]<span class="comment"># useradd natasha</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:harry:r-x,u:natasha:rwx /devops/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># smbpasswd -a natasha</span></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br><span class="line">Added user natasha.</span><br><span class="line">[root@server0 ~]<span class="comment"># pdbedit -L</span></span><br><span class="line">harry:1001:</span><br><span class="line">natasha:1002:</span><br><span class="line">[root@server0 ~]<span class="comment"># chcon -t samba_share_t /devops</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setsebool -P samba_export_all_rw 1</span></span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart smb nmb</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@desktop0 ~]<span class="comment"># useradd harry</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># useradd natasha</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkdir /mnt/multi</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  //server0.example.com/devops  /mnt/multi  cifs  defaults,credentials=/root/mysmb,multiuser  0 0</span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /root/mysmb</span></span><br><span class="line">  username=harry</span><br><span class="line">  password=redhat</span><br><span class="line">[root@desktop0 ~]<span class="comment"># yum install -y cifs-utils.x86_64</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># cifscreds add server0 -u natasha</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置nfs服务"><a href="#配置nfs服务" class="headerlink" title="配置nfs服务"></a>配置nfs服务</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir /public</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/exports</span></span><br><span class="line">  /public 172.25.0.0/24(ro,sync)</span><br><span class="line">[root@server0 ~]<span class="comment"># chown nfsnobody /public/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir /protected</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/exports</span></span><br><span class="line">  /protected 172.25.0.0/24(rw,sync,sec=krb5p)</span><br><span class="line">[root@server0 ~]<span class="comment"># chown nfsnobody /protected/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/pub/keytabs/server0.keytab -O /etc/krb5.keytab</span></span><br><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /protected/project</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chown ldapuser0:nfsnobody /protected/project/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:ldapuser0:rwx /protected/project/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable nfs-server.service '</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable nfs-secure-server.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart sssd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart nfs-server.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart nfs-secure-server.service</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=mountd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=nfs</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-service=rpc-bind</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkdir /mnt/nfsmount</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkdir /mnt/nfssecure</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  server0.example.com:/public /mnt/nfsmount defaults 0  0</span><br><span class="line">  server0.example.com:/protected  /mnt/nfssecure  defaults,sec=krb5p  0 0</span><br><span class="line">[root@desktop0 ~]<span class="comment"># wget http://classroom.example.com/pub/keytabs/desktop0.keytab -O /etc/krb5.keytab</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable nfs-secure.service</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart nfs-secure.service</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mount -a</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># su - ldapuser0</span></span><br><span class="line">[ldapuser0@desktop0 ~]$ kinit</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置web服务器"><a href="#配置web服务器" class="headerlink" title="配置web服务器"></a>配置web服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y httpd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl enable httpd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/station.html -O /var/www/html/index.html</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' service name='http' accept"</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.17.10.0/24' service name='http' reject"</span></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置安全访问"><a href="#配置安全访问" class="headerlink" title="配置安全访问"></a>配置安全访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y mod_ssl</span></span><br><span class="line">[root@server0 ~]<span class="comment"># cd /etc/httpd/</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># wget http://classroom.example.com/pub/tls/certs/server0.crt</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># wget http://classroom.example.com/pub/tls/private/server0.key</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># wget http://classroom.example.com/pub/example-ca.crt</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># vim /etc/httpd/conf.d/ssl.conf</span></span><br><span class="line">    SSLCertificateFile /etc/httpd/server0.crt</span><br><span class="line">    SSLCertificateKeyFile /etc/httpd/server0.key</span><br><span class="line">    SSLCACertificateFile /etc/httpd/example-ca.crt</span><br><span class="line">[root@server0 httpd]<span class="comment"># systemctl restart httpd</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># firewall-cmd --permanent --add-service=https</span></span><br><span class="line">[root@server0 httpd]<span class="comment"># firewall-cmd --reload</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置虚拟主机"><a href="#配置虚拟主机" class="headerlink" title="配置虚拟主机"></a>配置虚拟主机</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir /var/www/virtual</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/www.html -O /var/www/virtual/index.html</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim  /etc/httpd/conf.d/vhost.conf</span></span><br><span class="line">  &lt;VirtualHost _default_:80&gt;</span><br><span class="line">  	DocumentRoot /var/www/html</span><br><span class="line">  	ServerName server0.example.com</span><br><span class="line">  &lt;/VirtualHost&gt;</span><br><span class="line">  &lt;VirtualHost *:80&gt;</span><br><span class="line">  	DocumentRoot /var/www/virtual</span><br><span class="line">  	ServerName www0.example.com</span><br><span class="line">  &lt;/VirtualHost&gt;</span><br><span class="line">[root@server0 ~]<span class="comment"># useradd floyd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># setfacl -m u:floyd:rwx /var/www/virtual/</span></span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置web内容的访问"><a href="#配置web内容的访问" class="headerlink" title="配置web内容的访问"></a>配置web内容的访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># mkdir -p /var/www/html/private</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/private.html -O /var/www/html/private/index.html</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/httpd/conf.d/vhost.conf</span></span><br><span class="line">  &lt;Directory <span class="string">'/var/www/html/private'</span>&gt;</span><br><span class="line">  	require <span class="built_in">local</span></span><br><span class="line">  &lt;/Directory&gt;</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="配置web动态网页"><a href="#配置web动态网页" class="headerlink" title="配置web动态网页"></a>配置web动态网页</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># yum install -y mod_wsgi</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/webinfo.wsgi -O /var/www/webinfo.wsgi</span></span><br><span class="line">[root@server0 ~]<span class="comment"># vim /etc/httpd/conf.d/vhost.conf</span></span><br><span class="line">  Listen 8908</span><br><span class="line">  &lt;VirtualHost *:8908&gt;</span><br><span class="line">  	ServerName webapp0.example.com</span><br><span class="line">  	WSGIScriptAlias / /var/www/webinfo.wsgi</span><br><span class="line">  &lt;/VirtualHost&gt;</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br><span class="line">[root@server0 ~]<span class="comment"># semanage port -a -t http_port_t -p tcp 8908</span></span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">Full path required <span class="keyword">for</span> exclude: net:[4026532578].</span><br><span class="line">[root@server0 ~]<span class="comment"># systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建一个脚本"><a href="#创建一个脚本" class="headerlink" title="创建一个脚本"></a>创建一个脚本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /root/foo.sh</span></span><br><span class="line">  <span class="comment">#!/bin/bash</span></span><br><span class="line">  <span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">  	redhat)</span><br><span class="line">  		<span class="built_in">echo</span> <span class="string">'fedora'</span></span><br><span class="line">  	;;</span><br><span class="line">  	fedora)</span><br><span class="line">  		<span class="built_in">echo</span> <span class="string">'redhat'</span></span><br><span class="line">  	;;</span><br><span class="line">  	*)</span><br><span class="line">  		<span class="built_in">echo</span> <span class="string">'/root/foo.sh redhat|fedora'</span></span><br><span class="line">  	;;</span><br><span class="line">  <span class="keyword">esac</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod +x /root/foo.sh</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建一个创建用户的脚本"><a href="#创建一个创建用户的脚本" class="headerlink" title="创建一个创建用户的脚本"></a>创建一个创建用户的脚本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /root/batchusers</span></span><br><span class="line">  <span class="comment">#!/bin/bash</span></span><br><span class="line">  <span class="keyword">if</span> [ <span class="variable">$#</span> -eq 0 ];<span class="keyword">then</span></span><br><span class="line">  	<span class="built_in">echo</span> <span class="string">'Usage: /root/batusers userfile'</span></span><br><span class="line">  	<span class="built_in">exit</span> 1</span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="keyword">if</span> [ ! -e <span class="variable">$1</span> ];<span class="keyword">then</span></span><br><span class="line">  	<span class="built_in">echo</span> <span class="string">'Input file not found'</span></span><br><span class="line">  	<span class="built_in">exit</span> 2</span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> `cat <span class="variable">$1</span>`;<span class="keyword">do</span></span><br><span class="line">  	useradd -s /sbin/nologin <span class="variable">$i</span></span><br><span class="line">  <span class="keyword">done</span></span><br><span class="line">[root@server0 ~]<span class="comment"># chmod +x /root/batchusers</span></span><br><span class="line">[root@server0 ~]<span class="comment"># wget http://classroom.example.com/materials/userlist</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="创建iscsi服务器"><a href="#创建iscsi服务器" class="headerlink" title="创建iscsi服务器"></a>创建iscsi服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]yum install targetcli -y</span><br><span class="line">[root@server0 ~]systemctl <span class="built_in">enable</span> targetcli</span><br><span class="line">[root@server0 ~]systemctl restart targetcli</span><br><span class="line">[root@server0 ~]fdisk /dev/sdb</span><br><span class="line">  n</span><br><span class="line">  一路回车</span><br><span class="line">  t</span><br><span class="line">  L</span><br><span class="line">  8e</span><br><span class="line">[root@server0 ~]partprobe</span><br><span class="line">[root@server0 ~]pvcreate /dev/sdb1</span><br><span class="line">[root@server0 ~]vgcreate RHCE</span><br><span class="line">[root@server0 ~]lvcreate -n iscsi_store -L 3G RHCE</span><br><span class="line"></span><br><span class="line">客户端：cat /etc/iscsi/initiatorname.iscsi</span><br><span class="line">复制选项后面acl时候用</span><br><span class="line"></span><br><span class="line">[root@server0 ~]targetcli</span><br><span class="line">    /&gt; /backstores/block create iscsi_store /dev/RHCE/iscsi_store</span><br><span class="line">    /&gt; /iscsi create iqn.2017-02.com.example:system1</span><br><span class="line">    /&gt; /iscsi/iqn.2017-02.com.example:system1/tpg1/luns create /backstores/block/iscsi_store</span><br><span class="line">    /&gt; /iscsi/iqn.2017-02.com.example:system1/tpg1/portals create ip_address=172.25.0.11</span><br><span class="line">    /&gt; /iscsi/iqn.2017-02.com.example:system1/tpg1/acls create iqn.1994-05.com.redhat:d15b2c548ac</span><br><span class="line">    /&gt; saveconfig</span><br><span class="line">    /&gt; <span class="built_in">exit</span></span><br><span class="line">[root@server0 ~]systemctl restart targetcli</span><br><span class="line">[root@server0 ~]firewall-cmd --permanent --add-port=3206/tcp</span><br><span class="line">[root@server0 ~]firewall-cmd --reload</span><br></pre></td></tr></table></figure>
-
-<h3 id="iscsi客户端配置"><a href="#iscsi客户端配置" class="headerlink" title="iscsi客户端配置"></a>iscsi客户端配置</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/bashrc</span></span><br><span class="line">iscsiadm --mode discoverydb --<span class="built_in">type</span> sendtargets --portal 172.25.0.11 --discover</span><br><span class="line">iscsiadm --mode node --targetname iqn.2017-02.com.example:system1 --portal 172.25.0.11:3260 --login</span><br><span class="line">[root@desktop0 ~]<span class="comment"># bash /etc/bashr</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># fdisk /dev/sdc</span></span><br><span class="line">  n</span><br><span class="line">  p</span><br><span class="line">  1</span><br><span class="line">  回车</span><br><span class="line">  +2100M</span><br><span class="line">  w</span><br><span class="line">[root@desktop0 ~]<span class="comment"># partprobe</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mkfs.xfs /dev/sdc1</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># blkid /dev/sdc1</span></span><br><span class="line">UUID=xxxxxx</span><br><span class="line">[root@desktop0 ~]<span class="comment"># vim /etc/fstab</span></span><br><span class="line">  UUID=2a276924-796d-4268-828d-5586a0f2ffec	/mnt/data	xfs	defaults,_netdev	0	0</span><br><span class="line">[root@desktop0 ~]<span class="comment"># mount -a</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="部署mariadb服务器"><a href="#部署mariadb服务器" class="headerlink" title="部署mariadb服务器"></a>部署mariadb服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@desktop0 ~]<span class="comment"># yum install -y mariadb*</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl enable mariadb</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># systemctl restart mariadb</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mysql_secure_installation</span></span><br><span class="line">  回车</span><br><span class="line">  设置密码</span><br><span class="line">  一路回车</span><br><span class="line">[root@desktop0 ~]<span class="comment"># wget http://content.example.com/courses/rhce/rhel7.0/materials/mariadb/mariadb.dump</span></span><br><span class="line">[root@desktop0 ~]<span class="comment"># mysql -root -p</span></span><br><span class="line">  MariaDB [(none)]&gt; grant select on legacy.* to bob@localhost identified by <span class="string">'redhat'</span>;</span><br><span class="line">  MariaDB [(none)]&gt; use legacy;</span><br><span class="line">  MariaDB [(none)]&gt; <span class="built_in">source</span> /root/mariadb.dump;</span><br></pre></td></tr></table></figure>
-
-
+          <h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure><h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/12/RHCE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1316,8 +1103,7 @@
       
           <h2 id="简单的HTTP协议"><a href="#简单的HTTP协议" class="headerlink" title="简单的HTTP协议"></a>简单的HTTP协议</h2><h3 id="HTTP-协议用于客户端和服务器端之间的通信"><a href="#HTTP-协议用于客户端和服务器端之间的通信" class="headerlink" title="HTTP 协议用于客户端和服务器端之间的通信"></a>HTTP 协议用于客户端和服务器端之间的通信</h3><ol>
 <li>应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色</li>
-</ol>
-<h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
+</ol><h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
 <li>请求必定由客户端发出，而服务器端回复响应</li>
 <li>请求报文<ol>
 <li>是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成</li>
@@ -1328,71 +1114,15 @@
 </ol>
 </li>
 </ol>
-<h3 id="HTTP-是不保存状态的协议"><a href="#HTTP-是不保存状态的协议" class="headerlink" title="HTTP 是不保存状态的协议"></a>HTTP 是不保存状态的协议</h3><ol>
-<li>HTTP 是一种不保存状态，即无状态（stateless）协议；协议对于发送过的请求或响应都不做持久化处理</li>
-</ol>
-<h3 id="请求URI-定位资源"><a href="#请求URI-定位资源" class="headerlink" title="请求URI 定位资源"></a>请求URI 定位资源</h3><ol>
-<li>客户端请求访问资源而发送请求时，URI 需要将作为请求报文中的请求URI 包含在内</li>
-</ol>
-<h3 id="告知服务器意图的HTTP-方法"><a href="#告知服务器意图的HTTP-方法" class="headerlink" title="告知服务器意图的HTTP 方法"></a>告知服务器意图的HTTP 方法</h3><ol>
-<li>GET ：获取资源<ol>
-<li>GET 方法用来请求访问已被URI 识别的资源</li>
-<li>如果请求的资源是文本，那就保持原样返回；如果是像CGI（Common Gateway Interface，通用网关接口）那样的程序，则返回经过执行后的输出结果</li>
-</ol>
-</li>
-<li>POST：传输实体主体<ol>
-<li>POST 方法用来传输实体的主体</li>
-<li>GET 方法也可以传输实体的主体，但一般不用GET 方法进行传输，而是用POST 方法</li>
-<li>POST 的功能与GET 很相似，但POST 的主要目的并不是获取响应的主体内容</li>
-</ol>
-</li>
-<li>PUT：传输文件<ol>
-<li>PUT 方法用来传输文件。就像FTP 协议的文件上传一样，要求在请求报文的主体中包含文件内容，然后保存到请求URI 指定的位置</li>
-</ol>
-</li>
-<li>HEAD：获得报文首部<ol>
-<li>HEAD 方法和GET 方法一样，只是不返回报文主体部分。用于确认URI 的有效性及资源更新的日期时间等</li>
-</ol>
-</li>
-<li>DELETE：删除文件<ol>
-<li>DELETE 方法用来删除文件，是与PUT 相反的方法。DELETE 方法按请求URI 删除指定的资源</li>
-</ol>
-</li>
-<li>OPTIONS：询问支持的方法<ol>
-<li>OPTIONS 方法用来查询针对请求URI 指定的资源支持的方法</li>
-</ol>
-</li>
-<li>TRACE：追踪路径<ol>
-<li>TRACE 方法是让Web 服务器端将之前的请求通信环回给客户端的方法</li>
-</ol>
-</li>
-<li>CONNECT：要求用隧道协议连接代理<ol>
-<li>CONNECT 方法要求在与代理服务器通信时建立隧道，实现用隧道协进行TCP 通信</li>
-<li>主要使用SSL（Secure Sockets Layer，安全套接层）和TLS（Transport Layer Security，传输层安全）协议把通信内容加密后经网络隧道传输</li>
-</ol>
-</li>
-</ol>
-<h3 id="持久连接"><a href="#持久连接" class="headerlink" title="持久连接"></a>持久连接</h3><ol>
-<li>HTTP 协议的初始版本中，每进行一次HTTP 通信就要断开一次TCP连接</li>
-<li>HTTP/1.1 和一部分的HTTP/1.0 想出了持久连接（HTTP Persistent Connections，也称为HTTP keep-alive 或HTTP connection reuse）的方法。持久连接的特点是，只要任意一端没有明确提出断开连接，则保持TCP 连接状态<ol>
-<li>持久连接旨在建立1 次TCP 连接后进行多次请求和响应的交互</li>
-<li>减少了TCP 连接的重复建立和断开所造成的额外开销，减轻了服务器端的负载。另外，减少开销的那部分时间，使HTTP 请求和响应能够更早地结束，这样Web 页面的显示速度也就相应提高</li>
-</ol>
-</li>
-</ol>
-<h3 id="管线化"><a href="#管线化" class="headerlink" title="管线化"></a>管线化</h3><ol>
-<li>同时并行发送多个请求。不等待响应，直接发送下一个请求</li>
-<li>管线化技术则比持久连接还要快。请求数越多，时间差就越明显</li>
-</ol>
-<h3 id="使用Cookie-的状态管理"><a href="#使用Cookie-的状态管理" class="headerlink" title="使用Cookie 的状态管理"></a>使用Cookie 的状态管理</h3><ul>
-<li>Cookie 技术通过在请求和响应报文中写入Cookie 信息来控制客户端的状态<ol>
-<li>Cookie 会根据从服务器端发送的响应报文内的一个叫做Set-Cookie 的<br>首部字段信息，通知客户端保存Cookie</li>
-<li>客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie 值后发送出去</li>
-<li>服务器端发现客户端发送过来的Cookie 后，会去检查究竟是从哪一个客户端发来的连接请求，然后对比服务器上的记录，最后得到之前的状态信息</li>
-</ol>
-</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/11/图解HTTP_1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1493,8 +1223,7 @@
 </li>
 <li>读锁：阻塞写不阻塞读，只能操作自己上锁表和数据</li>
 <li>写锁：同时阻塞读写，其他会话的写操作会阻塞</li>
-</ul>
-<h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><ol>
+</ul><h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><ol>
 <li><p>查看加锁表</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show open tables;</span><br></pre></td></tr></table></figure>
 </li>
@@ -1504,65 +1233,15 @@
 <p><img src="/2019/11/09/MySQL锁机制/lock1-1.png" alt="lock1-1"></p>
 </li>
 </ol>
-<h3 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h3><ol>
-<li><p>事务的ACID特性（原子性，一致性，隔离性，持久性）</p>
-</li>
-<li><p>事务隔离级别（read uncommited,read commited,repeatable read,lock read）</p>
-<table>
-<thead>
-<tr>
-<th>隔离级别</th>
-<th>脏读</th>
-<th>不可重复读</th>
-<th>幻读</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>read uncommited</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-<tr>
-<td>read commited</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-<tr>
-<td>repeatable read</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-<tr>
-<td>lock read</td>
-<td>Y</td>
-<td>Y</td>
-<td>Y</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>查看当前事务隔离级别</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables lik &apos;transaction_isolation&apos;;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2019/11/09/MySQL锁机制/isolation1-1.png" alt="isolation1-1"></p>
-</li>
-<li><p>索引失效会导致行锁变为表锁；例如使用类型转换</p>
-</li>
-<li><p>间隙锁会在锁定一个范围导致一些操作无法操作</p>
-</li>
-<li><p>锁定一行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from s for update;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h3><ol>
-<li>数据索引尽可能走索引完成，避免索引失效变成表锁</li>
-<li>合理设计索引避免间隙锁带来的影响</li>
-<li>控制事务大小避免占用太多资源，导致时间边长</li>
-</ol>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/09/MySQL锁机制/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1661,8 +1340,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
-<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><h3 id="第一个任务"><a href="#第一个任务" class="headerlink" title="第一个任务"></a>第一个任务</h3><ol>
+</ol><h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><h3 id="第一个任务"><a href="#第一个任务" class="headerlink" title="第一个任务"></a>第一个任务</h3><ol>
 <li><p>工作区文件放入站暂存区</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add xx.txt</span><br></pre></td></tr></table></figure>
 </li>
@@ -1677,215 +1355,15 @@
 
 </li>
 </ol>
-<h3 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h3><ol>
-<li><p>查看提交记录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git log [--pretty=oneline]</span><br><span class="line">git reflog #查看历史记录</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>回退版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^(hash码)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="撤销修改和删除"><a href="#撤销修改和删除" class="headerlink" title="撤销修改和删除"></a>撤销修改和删除</h3><ol>
-<li><p>丢弃工作区修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- xx.txt</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将暂存区文件拉回工作区</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD xx.txt</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm xx.txt</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h2><h3 id="创建远程仓库"><a href="#创建远程仓库" class="headerlink" title="创建远程仓库"></a>创建远程仓库</h3><ol>
-<li><p>新建github仓库</p>
-</li>
-<li><p>添加ssh密钥</p>
-</li>
-<li><p>关联远程仓库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin url</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>首次推送分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br><span class="line">git push origin master  #以后提交</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="远程克隆仓库"><a href="#远程克隆仓库" class="headerlink" title="远程克隆仓库"></a>远程克隆仓库</h3><ol>
-<li>克隆<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone url</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><ul>
-<li>你创建了一个属于你自己的分支，别人看不到，还继续在原来的分支上正常工作，而你在自己的分<br>支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样，既安全，又不影<br>响别人工作</li>
-</ul>
-<h3 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h3><ol>
-<li><p>创建新分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch dev</span><br><span class="line">git checkout -b dev #创建并切换</span><br><span class="line">git switch -c dev #创建并切换</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>切换分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git switch dev</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看当前分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>合并分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge dev</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>删除分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d dev</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="分支管理-1"><a href="#分支管理-1" class="headerlink" title="分支管理"></a>分支管理</h3><ol>
-<li><p>分支合并</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m &apos;message&apos; dev</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>合并分支时，加上–no-ff参数关闭fast forward合并就可以用普通模式合并，合并后的历史<br>有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并</li>
-</ul>
-</li>
-</ol>
-<h3 id="Bug分支"><a href="#Bug分支" class="headerlink" title="Bug分支"></a>Bug分支</h3><ol>
-<li><p>将当前工作区内容藏起来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改完后，将藏起来的内容恢复修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br><span class="line">git stash pop</span><br><span class="line">git stash apply stash@&#123;0&#125; #多次stash，恢复的时候，先用git stash list查看，然后恢</span><br><span class="line">复指定的stash</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改bug后，将修改的bug分支复制到dev分支，完成修改工作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git cherry-pick hash</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="featurre分支"><a href="#featurre分支" class="headerlink" title="featurre分支"></a>featurre分支</h3><ol>
-<li>删除未合并的分支<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -D tempbranch</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><ol>
-<li>首先，可以试图用git push origin <branch-name>推送自己的修改；</branch-name></li>
-<li>如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；</li>
-<li>如果合并有冲突，则解决冲突，并在本地提交；</li>
-<li>没有冲突或者解决掉冲突后，再用git push origin <branch-name>推送就能成功！</branch-name></li>
-<li>如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创<br>建，用命令git branch –set-upstream-to <branch-name> origin/<branch-name>。</branch-name></branch-name></li>
-</ol>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/07/MySQL高可用之主从复制搭建/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/07/MySQL高可用之主从复制搭建/" class="post-title-link" itemprop="url">MySQL高可用之主从复制搭建</a>
+          <!--noindex-->
           
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-07 18:21:07" itemprop="dateCreated datePublished" datetime="2019-11-07T18:21:07+08:00">2019-11-07</time>
-            </span>
+            <div class="post-button">
+              <a class="btn" href="/2019/11/08/git/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-26 11:47:31" itemprop="dateModified" datetime="2020-02-26T11:47:31+08:00">2020-02-26</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="配置主服务器"><a href="#配置主服务器" class="headerlink" title="配置主服务器"></a>配置主服务器</h2><ol>
-<li><p>修改master配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">user=mysql</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">port=3306  </span><br><span class="line"></span><br><span class="line">basedir=/usr</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line"></span><br><span class="line">tmpdir=/tmp</span><br><span class="line">server-id=1</span><br><span class="line"></span><br><span class="line">log-bin=master-bin</span><br><span class="line">log-bin-index=master-bin.index</span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">bind-address=0.0.0.0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建一个用于复制的用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create user &apos;repl_user&apos;@&apos;%&apos; identified with &apos;mysql_native_password&apos; by &apos;123456&apos;;</span><br><span class="line">grant replication slave on *.* to &apos;repl_user&apos;@&apos;%&apos;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启master服务器的MySQL服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mysqld</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置slave配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">user=mysql</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"></span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">port=3306  </span><br><span class="line"></span><br><span class="line">basedir=/usr</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line"></span><br><span class="line">tmpdir=/tmp</span><br><span class="line">server-id=2</span><br><span class="line"></span><br><span class="line">relay-log=slave-relay-bin</span><br><span class="line">relay-log-index=slave-relay-bin.index</span><br><span class="line">log-error=/var/log/mysqld.log</span><br><span class="line">bind-address=0.0.0.0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启slave服务器MySQL服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mysqld</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>slave切换master（MySQL服务中）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">change master to</span><br><span class="line">  master_host=&apos;ip&apos;,</span><br><span class="line">  master_port=3306,</span><br><span class="line">  master_user=&apos;repl_user&apos;</span><br><span class="line">  master_password=&apos;123456&apos;,</span><br><span class="line">  &lt;!-- Master_log_file=&apos;&apos;,</span><br><span class="line">  master_log_pos=&apos;&apos; --&gt;</span><br><span class="line">  master_auto_position=1;</span><br><span class="line"></span><br><span class="line">start slave</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">  mysql&gt; show slave status\G</span><br><span class="line"></span><br><span class="line">               Slave_IO_State: Waiting for master to send event   //检查</span><br><span class="line">                  Master_Host: xxx.xxx.xxx.xxx</span><br><span class="line">                  Master_User: repl_user</span><br><span class="line">                  Master_Port: 3306</span><br><span class="line">                Connect_Retry: 60</span><br><span class="line">              Master_Log_File: master-bin.000001</span><br><span class="line">          Read_Master_Log_Pos: 3117</span><br><span class="line">               Relay_Log_File: slave-relay-bin.000002</span><br><span class="line">                Relay_Log_Pos: 3333</span><br><span class="line">        Relay_Master_Log_File: master-bin.000001</span><br><span class="line">             Slave_IO_Running: Yes                                //检查</span><br><span class="line">            Slave_SQL_Running: Yes                                //检查</span><br><span class="line">                   Last_Errno: 0</span><br><span class="line">                 Skip_Counter: 0</span><br><span class="line">          Exec_Master_Log_Pos: 3117</span><br><span class="line">              Relay_Log_Space: 3541</span><br><span class="line">              Until_Condition: None</span><br><span class="line">                Until_Log_Pos: 0</span><br><span class="line">           Master_SSL_Allowed: No</span><br><span class="line">        Seconds_Behind_Master: 0</span><br><span class="line">Master_SSL_Verify_Server_Cert: No</span><br><span class="line">                Last_IO_Errno: 0</span><br><span class="line">               Last_SQL_Errno: 0</span><br><span class="line">             Master_Server_Id: 1</span><br><span class="line">                  Master_UUID: 74be5d5f-9fe5-11e9-8853-e02651c</span><br><span class="line">             Master_Info_File: mysql.slave_master_info</span><br><span class="line">                    SQL_Delay: 0</span><br><span class="line">          SQL_Remaining_Delay: NULL</span><br><span class="line">      Slave_SQL_Running_State: Slave has read all relay log; waiting for more updates //检查</span><br><span class="line">           Master_Retry_Count: 86400</span><br><span class="line">                Auto_Position: 0</span><br><span class="line">        Get_master_public_key: 0</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-
+          <!--/noindex-->
         
       
     </div>
@@ -1952,7 +1430,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1965,7 +1443,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

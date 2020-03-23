@@ -3,8 +3,7 @@
   <entry>
     <title>mysql主从复制</title>
     <url>/2020/03/23/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#啥是主从复制">啥是主从复制？</a></li>
 <li><a href="#主从复制有什么用">主从复制有什么用？</a></li>
 <li><a href="#主从模式">主从模式</a><ul>
@@ -32,10 +31,11 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
+</ul><h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
 <li>主从复制就就是将主服务器上的数据，复制到一个或多个从服务器上；mysql默认采用异步复制，从节点可以复制主节点上的指定的数据库；</li>
-</ul>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
 <h1 id="主从复制有什么用？"><a href="#主从复制有什么用？" class="headerlink" title="主从复制有什么用？"></a>主从复制有什么用？</h1><ul>
 <li><p><strong>提供读写分离的能力</strong>：从服务器可以分代主库的读请求的压力，让主库更专注于数据的更新和写操作，有更好的写性能；</p>
 </li>
@@ -261,15 +261,13 @@
   <entry>
     <title>网络IO模型</title>
     <url>/2020/03/22/netowrk-io-module/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#五类网络io模型">五类网络IO模型</a></li>
 <li><a href="#io-多路复用之selectpollepoll">I/O 多路复用之select、poll、epoll</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="五类网络IO模型"><a href="#五类网络IO模型" class="headerlink" title="五类网络IO模型"></a>五类网络IO模型</h1><ul>
+</ul><h1 id="五类网络IO模型"><a href="#五类网络IO模型" class="headerlink" title="五类网络IO模型"></a>五类网络IO模型</h1><ul>
 <li><h4 id="阻塞io："><a href="#阻塞io：" class="headerlink" title="阻塞io："></a><strong>阻塞io</strong>：</h4><p>  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情</p>
 <p>  <img src="http://study.jeffqi.cn/linux/blocking_io.png" alt="blocking_io"></p>
 </li>
@@ -284,7 +282,9 @@
 <li><h4 id="异步io："><a href="#异步io：" class="headerlink" title="异步io："></a><strong>异步io</strong>：</h4><p>  发起调用后，立即返回，当资源拷贝到内核空间后，发送信号告诉进程资源已经在用户空间可以使用了</p>
 <p>  <img src="http://study.jeffqi.cn/linux/async_io.png" alt="async_io"></p>
 </li>
-</ul>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
 <h1 id="I-O-多路复用之select、poll、epoll"><a href="#I-O-多路复用之select、poll、epoll" class="headerlink" title="I/O 多路复用之select、poll、epoll"></a>I/O 多路复用之select、poll、epoll</h1><ul>
 <li><h3 id="select："><a href="#select：" class="headerlink" title="select："></a>select：</h3><p>  select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds；调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
   <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span> <span class="params">(<span class="keyword">int</span> n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -328,8 +328,7 @@
   <entry>
     <title>redis基础学习</title>
     <url>/2020/03/22/redis_base/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#redis基础">redis基础</a></li>
 <li><a href="#数据类型">数据类型</a><ul>
 <li><a href="#string类型">string类型</a></li>
@@ -362,12 +361,13 @@
 <li><a href="#参考文案">参考文案</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
+</ul><h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
 <li>基础学习</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
+</ul><p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
+<p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
 <p>这是最简单的类型，就是普通的 set 和 get，做简单的 KV 缓存</p>
 <p><strong>string适用范围较广</strong></p>
 <ul>
@@ -630,8 +630,7 @@
   <entry>
     <title>python内存管理机制</title>
     <url>/2020/03/21/python%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#内存管理和垃圾回收机制">内存管理和垃圾回收机制</a><ul>
 <li><a href="#内存管理">内存管理</a></li>
 <li><a href="#垃圾回收机制">垃圾回收机制</a><ul>
@@ -645,11 +644,12 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="内存管理和垃圾回收机制"><a href="#内存管理和垃圾回收机制" class="headerlink" title="内存管理和垃圾回收机制"></a>内存管理和垃圾回收机制</h1><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+</ul><h1 id="内存管理和垃圾回收机制"><a href="#内存管理和垃圾回收机制" class="headerlink" title="内存管理和垃圾回收机制"></a>内存管理和垃圾回收机制</h1><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
 <li>Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看<br><img src="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg" alt="python可变对象与不可变对象"></li>
 <li>python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如果频繁使用c中的new/malloc会导致大量内存碎片，导致效率下降；所有python中使用内存池机制来解决这个问题；内存池先申请一块内存空间，然后分割成等大小的块数；有新的内存需求时，就先从内存池中分配内存给这个需求，不够了之后再申请新的内存。这样做最显著的优势就是能够减少内存碎片，提升效率。<strong>Pymalloc会在内存池中申请空间，一般是少于256kb，如果是大的对象，则直接调用 new/malloc 来申请新的内存空间</strong></li>
-</ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
 <h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><ul>
 <li>Python 采用 GC 作为自动内存管理机制，GC要做的有2件事，<strong>一是找到内存中无用的垃圾对象资源，二是清除找到的这些垃圾对象，释放内存给其他对象使用</strong></li>
 <li>引用计数</li>
@@ -1473,8 +1473,7 @@
   <entry>
     <title>上下文切换</title>
     <url>/2020/03/20/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#上下文切换">上下文切换</a><ul>
 <li><a href="#进程上下文切换">进程上下文切换</a></li>
 <li><a href="#线程上下文切换">线程上下文切换</a></li>
@@ -1484,8 +1483,7 @@
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
 <li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
 <li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
 <li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
@@ -1495,8 +1493,7 @@
 <li>中断上下文切换</li>
 </ol>
 </li>
-</ol>
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+</ol><h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
 <li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
 <li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
 <li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
@@ -1514,7 +1511,10 @@
 <li>硬件中断</li>
 </ol>
 </li>
-</ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
 <h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
 <li>线程属于不同的进程，与进程上下文切换一致</li>
 <li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
@@ -1547,8 +1547,7 @@
   <entry>
     <title>网络参数</title>
     <url>/2020/03/19/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#零碎知识点">零碎知识点</a><ul>
 <li><a href="#网络内核参数">网络内核参数</a><ul>
 <li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a><!-- TOC END -->
@@ -1558,16 +1557,17 @@
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
+</ul><h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
 <li>arp_ignore和arp_announce参数都和<strong>ARP协议相关</strong>，主要用于<strong>控制系统返回arp响应和发送arp请求时的动作</strong>。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。</li>
-</ul>
-<ol>
+</ul><ol>
 <li><strong>arp_ignore</strong>：控制系统在收到外部的arp请求时，是否要返回arp响应<ul>
 <li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
 </ul>
 </li>
-</ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
 <table>
 <thead>
 <tr>
@@ -1637,18 +1637,14 @@
   <entry>
     <title>平均负载</title>
     <url>/2020/03/19/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#平均负载">平均负载</a><ul>
 <li><a href="#案例分析">案例分析</a><!-- TOC END -->
 
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure>
-
-<ol>
+</ul><h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure><ol>
 <li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
 </li>
 <li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
@@ -1671,7 +1667,11 @@
 </li>
 <li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
 </li>
-</ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
+
 <h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
 <li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
 <li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
@@ -1739,8 +1739,7 @@
     <content><![CDATA[<h2 id="MyCat"><a href="#MyCat" class="headerlink" title="MyCat"></a>MyCat</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
 <li>mycat是一个数据库中间件，也可以理解为是数据库代理。在架构体系中是位于数据库和应用层之间的一个组件，并且对于应用层是透明的，即数据库感受不到mycat的存在，认为是直接连接的mysql数据库（实际上是连接的mycat,mycat实现了mysql的原生协议）</li>
 <li>mycat的三大功能：分表、读写分离、主从切换</li>
-</ul>
-<h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><ol>
+</ul><h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><ol>
 <li><p>下载安装 Java jdk</p>
 <ul>
 <li>网址：<a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a></li>
@@ -1761,7 +1760,8 @@
 </li>
 </ul>
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h3 id="MyCat-配置文件"><a href="#MyCat-配置文件" class="headerlink" title="MyCat 配置文件"></a>MyCat 配置文件</h3><h4 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">--bin 启动目录</span><br><span class="line">--conf 配置文件存放配置文件：</span><br><span class="line">  --server.xml：是Mycat服务器参数调整和用户授权的配置文件。</span><br><span class="line">  --schema.xml：是逻辑库定义和表以及分片定义的配置文件。</span><br><span class="line">  --rule.xml：  是分片规则的配置文件，分片规则的具体一些参数信息单独存放为文件，也在这个目录下，配置文件修改需要重启MyCAT。</span><br><span class="line">  --log4j.xml： 日志存放在logs/log中，每天一个文件，日志的配置是在conf/log4j.xml中，根据自己的需要可以调整输出级别为debug；debug级别下，会输出更多的信息，方便排查问题。</span><br><span class="line">  --autopartition-long.txt,partition-hash-int.txt,sequence_conf.properties， sequence_db_conf.properties 分片相关的id分片规则配置文件</span><br><span class="line">  --lib	    MyCAT自身的jar包或依赖的jar包的存放目录。</span><br><span class="line">  --logs        MyCAT日志的存放目录。日志存放在logs/log中，每天一个文件</span><br></pre></td></tr></table></figure>
 
 <h4 id="三大组件"><a href="#三大组件" class="headerlink" title="三大组件"></a>三大组件</h4><ol>
@@ -1822,6 +1822,40 @@
       </categories>
   </entry>
   <entry>
+    <title>hexo博客next主体配置</title>
+    <url>/2020/02/23/hexo/</url>
+    <content><![CDATA[<ul>
+<li><p><a href="#添加搜索功能">添加搜索功能</a></p>
+</li>
+<li><p><a href="#添加点击阅读原文按键">添加点击阅读原文按键</a></p>
+<!-- TOC END -->
+<h1 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h1></li>
+<li><p>在博客根目录下安装：</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主配置文件：</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line"><span class="comment"># search</span></span><br><span class="line">path: search.xml</span><br><span class="line">field: post</span><br><span class="line">format: html</span><br><span class="line"><span class="built_in">limit</span>: 10000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改主题配置文件</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim _config.yml</span><br><span class="line"></span><br><span class="line">local_search:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新编译安装即可</p>
+</li>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<h1 id="添加点击阅读原文按键"><a href="#添加点击阅读原文按键" class="headerlink" title="添加点击阅读原文按键"></a>添加点击阅读原文按键</h1><ul>
+<li><p>修改主题配置文件</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  length: 200</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新编译安装即可</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
+  </entry>
+  <entry>
     <title>docker compose</title>
     <url>/2020/02/23/docker-compose/</url>
     <content><![CDATA[<h2 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker compose"></a>docker compose</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
@@ -1833,7 +1867,7 @@
 <li>服务栈（stack）：由多个服务组成，相互配合完成特定业务，如Web 应用服务、数据库服务共同构成Web 服务钱，一般由一个docker-cornpose . yaml 文件定义</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
 <li>pip安装  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install -U docker-compose</span><br><span class="line">docker-compose version</span><br></pre></td></tr></table></figure>
 
@@ -1873,16 +1907,13 @@
     <url>/2020/02/22/%E5%9B%BE%E8%A7%A3HTTP_8/</url>
     <content><![CDATA[<h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
 <li>计算机不能判断使用者的具体身份，需要认证使用</li>
-</ul>
-<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
+</ul><h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.1.png" alt="basic"></li>
 <li>非加密处理</li>
-</ul>
-<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
+</ul><h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.2.png" alt="digest"></li>
 <li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
-</ul>
-<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
+</ul><h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
 <li>借由HTTPS 的客户端证书完成认证的方式</li>
 <li>认证过程<ol>
 <li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
@@ -1895,7 +1926,10 @@
 <li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
 </ul>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
+
 <h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.3.png" alt="session"><ol>
 <li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
@@ -1912,8 +1946,8 @@
   <entry>
     <title>Hello World</title>
     <url>/2020/02/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><a id="more"></a>
+<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
@@ -1944,7 +1978,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
+</ol><a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum install -y python36 python36-devel</span><br><span class="line">mv /usr/bin/python /usr/bin/python.bak</span><br><span class="line">ln -s /usr/bin/python3.6 /usr/bin/python</span><br><span class="line">sed -i &apos;s/python/python2/&apos; /usr/bin/yum</span><br><span class="line">sed -i &apos;s/python/python2/&apos; /usr/libexec/urlgrabber-ext-down</span><br><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
 
 ]]></content>
@@ -1954,13 +1988,13 @@
     <url>/2020/02/20/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%E4%B9%8BMHA%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h2 id="MHA"><a href="#MHA" class="headerlink" title="MHA"></a>MHA</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
 <li>MHA（Master High Availability）目前在MySQL高可用方面是一个相对成熟的解决方案；是一套优秀的作为MySQL高可用性环境下故障切换和主从提升的高可用软件。在MySQL故障切换过程中，MHA能做到在0~30秒之内自动完成数据库的故障切换操作，并且在进行故障切换的过程中，MHA能在最大程度上保证数据的一致性，以达到真正意义上的高可用；</li>
-</ul>
-<h3 id="组成与工作原理"><a href="#组成与工作原理" class="headerlink" title="组成与工作原理"></a>组成与工作原理</h3><ul>
+</ul><h3 id="组成与工作原理"><a href="#组成与工作原理" class="headerlink" title="组成与工作原理"></a>组成与工作原理</h3><ul>
 <li>该软件由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点）</li>
 <li>MHA Manager会定时探测集群中的master节点，当master出现故障时，它可以自动将最新数据的slave提升为新的master，然后将所有其他的slave重新指向新的master。整个故障转移过程对应用程序完全透明；</li>
 <li>在MHA自动故障切换过程中，MHA试图从宕机的主服务器上保存二进制日志，最大程度的保证数据的不丢失；但是如果发生了硬件故障等就无法获取到日志，导致数据丢失。MHA可以与半同步复制结合起来。如果只有一个slave已经收到了最新的二进制日志，MHA可以将最新的二进制日志应用于其他所有的slave服务器上，因此可以保证所有节点的数据一致性；</li>
 <li>至少需要三台服务器完成</li>
-</ul>
+</ul><a id="more"></a>
+
 <h3 id="工作过秤"><a href="#工作过秤" class="headerlink" title="工作过秤"></a>工作过秤</h3><ol>
 <li>从宕机崩溃的master保存二进制日志事件（binlog events）;</li>
 <li>识别含有最新更新的slave；</li>
@@ -2101,7 +2135,7 @@
 <li>等GTID方法</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
 <h3 id="主备切换策略"><a href="#主备切换策略" class="headerlink" title="主备切换策略"></a>主备切换策略</h3><ol>
 <li>可靠性优先策略<ul>
 <li>数据一致性良好，但是可能照成数据库处于不可用状态。还可能照成数据暂时性丢失；</li>
@@ -2132,8 +2166,7 @@
 </li>
 <li>读锁：阻塞写不阻塞读，只能操作自己上锁表和数据</li>
 <li>写锁：同时阻塞读写，其他会话的写操作会阻塞</li>
-</ul>
-<h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><ul>
+</ul><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><ul>
 <li><p>命令</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">flush</span> <span class="keyword">tables</span> <span class="keyword">with</span> <span class="keyword">read</span> <span class="keyword">lock</span>;  <span class="comment">/*此时整个库处于只读状态*/</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -2147,7 +2180,8 @@
 <li>执行 FTWRL 命令之后由于客户端发生异常断开，那么 MySQL 会自动释放这个全局锁；而后者则会一直持有锁不会自动释放</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
 <ol>
 <li><p>查看加锁表</p>
  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">open</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
@@ -2292,8 +2326,7 @@
 <li>索引是特殊的数据结构</li>
 <li>索引可以加速数据库对数据的检索速度，对数据进行排序</li>
 <li>索引就是对数据进行排序加速检索速度的特殊数据结构</li>
-</ul>
-<h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><ul>
+</ul><h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><ul>
 <li>优点<ol>
 <li>建立索引可以加速对于数据的检索速度</li>
 <li>可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源</li>
@@ -2307,7 +2340,8 @@
 <li>需要花费更多的时间来建立一个优秀的索引</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
 <h3 id="常见索引类型"><a href="#常见索引类型" class="headerlink" title="常见索引类型"></a>常见索引类型</h3><h4 id="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"><a href="#哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据" class="headerlink" title="哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据"></a>哈希索引：kv键值对类型，通过计算将查找值换算成一个具体位置，然后取出数据</h4><ol>
 <li>无序索引,数据添加容易,直接追加</li>
 <li>适合等值查找，范围查找性能差<h4 id="有序数组：按照字段排序来确定存放位置"><a href="#有序数组：按照字段排序来确定存放位置" class="headerlink" title="有序数组：按照字段排序来确定存放位置"></a>有序数组：按照字段排序来确定存放位置</h4></li>
@@ -2404,14 +2438,14 @@
     <url>/2019/12/09/MySQL%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</url>
     <content><![CDATA[<h2 id="隔离性与隔离级别"><a href="#隔离性与隔离级别" class="headerlink" title="隔离性与隔离级别"></a>隔离性与隔离级别</h2><ul>
 <li>当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题</li>
-</ul>
-<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
+</ul><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
 <li>读未提交：一个事务还没提交时，它做的变更就能被别的事务看到</li>
 <li>读提交：一个事务提交之后，它做的变更才会被其他事务看到</li>
 <li>可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的</li>
 <li>串行化：对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行</li>
 <li><strong>隔离级别越高，并发性能越低</strong></li>
-</ul>
+</ul><a id="more"></a>
+
 <h4 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h4><ul>
 <li>数据库在事务启动时会创建一个视图，整个事务过程都需要使用</li>
 <li>“读未提交”隔离级别下直接返回记录上的最新值，没有视图概念</li>
@@ -2450,7 +2484,7 @@
 <li>MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么繁忙时再将内存中数据写入磁盘</li>
 <li>redo-log大小固定，类似循环队列</li>
 <li>为MySQL提供cache-safe功能，中途crash也能恢复</li>
-</ul>
+</ul><a id="more"></a>
 <h3 id="binlog（归档日志）"><a href="#binlog（归档日志）" class="headerlink" title="binlog（归档日志）"></a>binlog（归档日志）</h3><ul>
 <li>MySQL 整体来看，其实就有两块：一块是 Server 层，它主要做的是 MySQL 功能层面的事情；还有一块是引擎层，负责存储相关的具体事宜。上面我们聊到的粉板 redo log 是 InnoDB 引擎特有的日志，而 Server 层也有自己的日志，称为 binlog（归档日志</li>
 </ul>
@@ -2491,7 +2525,7 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line">yum install docker-ce-19.03.2-3.el7</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
+</ol><a id="more"></a>
 <h3 id="创建docker用户组"><a href="#创建docker用户组" class="headerlink" title="创建docker用户组"></a>创建docker用户组</h3><ul>
 <li>默认情况下，docker 命令会使用Unix socket与Docker引擎通讯。而只有root用户和docker 组的用户才可以访问Docker引擎的Unix socket</li>
 <li>使普通用户也能使用docker所以需要将用户加入docker用户组中</li>
@@ -2592,8 +2626,7 @@
     <content><![CDATA[<h2 id="MySQL备份"><a href="#MySQL备份" class="headerlink" title="MySQL备份"></a>MySQL备份</h2><h3 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h3><h4 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h4><ul>
 <li>全量备份</li>
 <li>增量备份</li>
-</ul>
-<h4 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h4><h4 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h4><h3 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h3><h4 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h4><ol>
+</ul><h4 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h4><h4 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h4><h3 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h3><h4 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h4><ol>
 <li><p>备份单/多库保留建库语句</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -2604,7 +2637,8 @@
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p &lt; /file/to/return</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h4 id="利用mysqlbinlog备份数据"><a href="#利用mysqlbinlog备份数据" class="headerlink" title="利用mysqlbinlog备份数据"></a>利用mysqlbinlog备份数据</h4><ol>
 <li><p>查看二进制日志文件</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog /binary/log</span><br><span class="line">mysqlbinlog <span class="comment">--base64-output=decode-rows --verbose /binary/log/path</span></span><br></pre></td></tr></table></figure>
@@ -2628,11 +2662,11 @@
     <url>/2019/11/26/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<h2 id="构建Web内容的技术"><a href="#构建Web内容的技术" class="headerlink" title="构建Web内容的技术"></a>构建Web内容的技术</h2><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
 <li>为了发送Web 上的超文本（Hypertext）而开发的标记语言。超文本是一种文档系统，可将文档中任意位置的信息与其他信息（文本或图片等）建立关联，即超链接文本。标记语言是指通过在文档的某部分穿插特别的字符串标签，用来修饰文档的语言。我们把出现在HTML 文档内的这种特殊字符串叫做HTML 标签（Tag）</li>
-</ul>
-<h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
+</ul><h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
 <li>CSS（Cascading Style Sheets，层叠样式表）可以指定如何展现HTML内的各种元素，属于样式表标准之一</li>
 <li>CSS的理念就是让文档的结构和设计分离，达到解耦的目的</li>
-</ul>
+</ul><a id="more"></a>
+
 <h3 id="动态HTML"><a href="#动态HTML" class="headerlink" title="动态HTML"></a>动态HTML</h3><ul>
 <li>通过调用客户端脚本语言JavaScript，实现对HTML 的Web 页面的动态改造</li>
 </ul>
@@ -2673,14 +2707,14 @@
 <li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/图解HTTP_9/9.1.png" alt="http"></li>
 </ol>
 </li>
-</ul>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
+</ul><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
 <li>局部Web 页面替换加载的异步通信手段<br><img src="/2019/11/26/图解HTTP_9/9.2.png" alt="Ajax"></li>
-</ul>
-<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
+</ul><h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
 <li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
 <li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2019/11/26/图解HTTP_9/9.3.png" alt="Comet"></li>
-</ul>
+</ul><a id="more"></a>
+
+
 <h4 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h4><ul>
 <li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2019/11/26/图解HTTP_9/9.4.png" alt="SPDY"></p>
 </li>
@@ -2716,16 +2750,13 @@
     <url>/2019/11/23/MySQL%E7%A3%81%E7%9B%98%E6%89%A9%E5%B1%95%E4%B8%8E%E4%BB%8B%E8%B4%A8%E8%BF%81%E7%A7%BB/</url>
     <content><![CDATA[<h2 id="MySQL外部表（MySQL8-0）"><a href="#MySQL外部表（MySQL8-0）" class="headerlink" title="MySQL外部表（MySQL8.0）"></a>MySQL外部表（MySQL8.0）</h2><ul>
 <li>使用MySQL的外部表进行数据的迁移可扩展</li>
-</ul>
-<h3 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h3><ul>
+</ul><h3 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h3><ul>
 <li>存储空间不够，一些大表需要更大的存储空间</li>
 <li>存储介质更新，需要迁移到更块的介质中</li>
-</ul>
-<h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
+</ul><h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
 <li>源数据库位于 /var/lib/mysql/pre_database</li>
 <li>外部表库位于 /var/lib/mysql_extend/pre_database</li>
-</ul>
-<ol>
+</ul><ol>
 <li><p>新建的表，位于新的存储位置</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mysql_extend_table`</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">age <span class="built_in">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">21</span></span><br><span class="line">)<span class="keyword">DATA</span> <span class="keyword">DIRECTORY</span> = <span class="string">'/var/lib/mysql_extend'</span>;</span><br></pre></td></tr></table></figure>
 
@@ -2736,7 +2767,10 @@
 </li>
 <li><p><strong>注意相应文件夹权限要够</strong><br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend3.png" alt="权限"></p>
 </li>
-</ol>
+</ol><a id="more"></a>
+
+
+
 <h3 id="实验迁移（MySQL5-7）"><a href="#实验迁移（MySQL5-7）" class="headerlink" title="实验迁移（MySQL5.7）"></a>实验迁移（MySQL5.7）</h3><ol>
 <li><p>转移前<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra1.png" alt="转移前"></p>
 </li>
@@ -2784,8 +2818,7 @@
 <li>使用明文通信</li>
 <li>不验证通信方身份</li>
 <li>无法证明报文完整性</li>
-</ul>
-<h4 id="使用明文通信"><a href="#使用明文通信" class="headerlink" title="使用明文通信"></a>使用明文通信</h4><ul>
+</ul><h4 id="使用明文通信"><a href="#使用明文通信" class="headerlink" title="使用明文通信"></a>使用明文通信</h4><ul>
 <li>HTTP 本身不具备加密的功能，在互联网上传输容易找到窃听</li>
 <li>加密处理防止窃听<ol>
 <li>通信的加密<ul>
@@ -2799,7 +2832,8 @@
 </li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
 <h4 id="不验证通信方的身份就可能遭遇伪装"><a href="#不验证通信方的身份就可能遭遇伪装" class="headerlink" title="不验证通信方的身份就可能遭遇伪装"></a>不验证通信方的身份就可能遭遇伪装</h4><ul>
 <li>HTTP任何人都可以访问<ul>
 <li>无法确定请求发送至目标的Web 服务器是否是按真实意图返回响应的那台服务器</li>
@@ -2842,20 +2876,20 @@
     <url>/2019/11/21/%E5%9B%BE%E8%A7%A3HTTP_6/</url>
     <content><![CDATA[<h3 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h3><ul>
 <li>由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息</li>
-</ul>
-<h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
+</ul><h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
 <li>告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源<ol>
 <li>可处理范围请求时指定其为bytes</li>
 <li>不能处理则指定其为none</li>
 </ol>
 </li>
-</ul>
-<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
+</ul><h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
 <li>告知客户端，源服务器在多久前创建了响应<ol>
 <li>创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
 <h4 id="ETage"><a href="#ETage" class="headerlink" title="ETage"></a>ETage</h4><ul>
 <li>告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式<ol>
 <li>当资源更新时，ETag 值也需要更新</li>
@@ -2948,7 +2982,7 @@
   <entry>
     <title>HTML5基础</title>
     <url>/2019/11/20/HTML5%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h2 id="HTML5基础"><a href="#HTML5基础" class="headerlink" title="HTML5基础"></a>HTML5基础</h2><h3 id="HTML格式与部分元素"><a href="#HTML格式与部分元素" class="headerlink" title="HTML格式与部分元素"></a>HTML格式与部分元素</h3>  <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 文档类型说明 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!Doctype html&gt;</span></span><br><span class="line"><span class="comment">&lt;!--根节点--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--头部信息--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--元信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--标题--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>HTML基础<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--包含页面内的所有主体内容--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--直接显示文本--&gt;</span></span><br><span class="line">    Hello Html5!</span><br><span class="line">    <span class="comment">&lt;!-- class:给元素添加一个或多个样式表类名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>here is title!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- contenteditable:表示文件是否可编辑 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span>可编辑<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 显示内容的开始位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">dir</span>=<span class="string">"rtl"</span>&gt;</span>在右边哟,不是在左边<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- id：元素的唯一标识 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"myheader"</span>&gt;</span>这是显示id的作用!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- style：行内元素的样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: blue;text-align: center"</span>&gt;</span>这是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span>这也是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: yellow;text-align: center;"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- tabindex：tab键的选取顺序 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span> <span class="attr">tabindex</span>=<span class="string">"1"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.aliyun.com/"</span> <span class="attr">tabindex</span>=<span class="string">"3"</span>&gt;</span>Aliyun<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.tencent.com/"</span> <span class="attr">tabindex</span>=<span class="string">"2"</span>&gt;</span>Tencent<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- title：鼠标悬停时显示的信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">title</span>=<span class="string">"http://www.jd.com/"</span>&gt;</span>JD<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="HTML5基础"><a href="#HTML5基础" class="headerlink" title="HTML5基础"></a>HTML5基础</h2><h3 id="HTML格式与部分元素"><a href="#HTML格式与部分元素" class="headerlink" title="HTML格式与部分元素"></a>HTML格式与部分元素</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 文档类型说明 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!Doctype html&gt;</span></span><br><span class="line"><span class="comment">&lt;!--根节点--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--头部信息--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--元信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--标题--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>HTML基础<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--包含页面内的所有主体内容--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--直接显示文本--&gt;</span></span><br><span class="line">    Hello Html5!</span><br><span class="line">    <span class="comment">&lt;!-- class:给元素添加一个或多个样式表类名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>here is title!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- contenteditable:表示文件是否可编辑 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span>可编辑<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 显示内容的开始位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">dir</span>=<span class="string">"rtl"</span>&gt;</span>在右边哟,不是在左边<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- id：元素的唯一标识 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"myheader"</span>&gt;</span>这是显示id的作用!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- style：行内元素的样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: blue;text-align: center"</span>&gt;</span>这是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span>这也是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: yellow;text-align: center;"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- tabindex：tab键的选取顺序 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span> <span class="attr">tabindex</span>=<span class="string">"1"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.aliyun.com/"</span> <span class="attr">tabindex</span>=<span class="string">"3"</span>&gt;</span>Aliyun<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.tencent.com/"</span> <span class="attr">tabindex</span>=<span class="string">"2"</span>&gt;</span>Tencent<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- title：鼠标悬停时显示的信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">title</span>=<span class="string">"http://www.jd.com/"</span>&gt;</span>JD<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure><a id="more"></a>  
 
 <ol>
 <li><p>HTML基础标签</p>
@@ -3095,16 +3129,16 @@
     <url>/2019/11/20/%E5%9B%BE%E8%A7%A3HTTP_5/</url>
     <content><![CDATA[<h3 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h3><ul>
 <li>从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容</li>
-</ul>
-<h4 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h4><ul>
+</ul><h4 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h4><ul>
 <li>通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级<ol>
 <li>使用type/subtype 这种形式，一次指定多种媒体类型</li>
 <li>使用q= 来额外表示权重值权重值q 的范围是0~1（可精确到小数点后3 位），且1 为最大值</li>
 <li>首先返回权重值最高的媒体类型</li>
 </ol>
 </li>
-</ul>
-<h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><ul>
+</ul><h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><a id="more"></a>
+
+<ul>
 <li>通知服务器用户代理支持的字符集及字符集的相对优先顺序</li>
 </ul>
 <h4 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h4><ul>
@@ -3197,17 +3231,14 @@
     <url>/2019/11/15/%E5%9B%BE%E8%A7%A3HTTP_4/</url>
     <content><![CDATA[<h2 id="HTTP首部"><a href="#HTTP首部" class="headerlink" title="HTTP首部"></a>HTTP首部</h2><h3 id="HTTP报文首部"><a href="#HTTP报文首部" class="headerlink" title="HTTP报文首部"></a>HTTP报文首部</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><ol>
 <li>组成：方法、URI、HTTP 版本、HTTP 首部字段等</li>
-</ol>
-<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
+</ol><h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
 <li>组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段</li>
-</ol>
-<h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
+</ol><h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
 <li>通用首部字段</li>
 <li>请求首部字段</li>
 <li>响应首部字段</li>
 <li>实体首部字段</li>
-</ol>
-<h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
+</ol><h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
 <li>端到端首部（End-to-end Header）<ul>
 <li>首部会转发给请求/ 响应对应的最终接收目标，且必须保存在由缓存生成的响应中，另外规定必须被转发</li>
 </ul>
@@ -3217,7 +3248,10 @@
 <li>使用hop-by-hop 首部，需提供Connection 首部字段</li>
 </ul>
 </li>
-</ol>
+</ol><a id="more"></a>
+
+
+
 <h3 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h3><h4 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h4><ul>
 <li><p>作用：通过指定首部字段Cache-Control 的指令，操作缓存的工作</p>
 </li>
@@ -3325,11 +3359,11 @@
   <entry>
     <title>RHCSA备考</title>
     <url>/2019/11/15/RHCSA/</url>
-    <content><![CDATA[<h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure><h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure><h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><a id="more"></a>
 
-<h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure>
 
-<h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
 
 <h3 id="调整逻辑卷"><a href="#调整逻辑卷" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lvextend -L 770M /dev/vg/lvm1</span><br><span class="line">xfs_growfs /dev/vg/lvm1</span><br><span class="line"><span class="comment">#resize2fs /dev/vg/lvm1</span></span><br></pre></td></tr></table></figure>
 
@@ -3375,8 +3409,7 @@
     <url>/2019/11/13/%E5%9B%BE%E8%A7%A3HTTP_3/</url>
     <content><![CDATA[<h2 id="返回结果的HTTP-状态码"><a href="#返回结果的HTTP-状态码" class="headerlink" title="返回结果的HTTP 状态码"></a>返回结果的HTTP 状态码</h2><ul>
 <li>HTTP 状态码负责表示客户端HTTP 请求的返回结果、标记服务器端的处理是否正常、通知出现的错误等工作</li>
-</ul>
-<h3 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h3><ul>
+</ul><h3 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h3><ul>
 <li>2XX 的响应结果表明请求被正常处理了<ol>
 <li>200 OK<ul>
 <li>表示从客户端发来的请求在服务器端被正常处理</li>
@@ -3393,7 +3426,8 @@
 </li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
 <h3 id="3XX-重定向"><a href="#3XX-重定向" class="headerlink" title="3XX 重定向"></a>3XX 重定向</h3><ul>
 <li>3XX 响应结果表明浏览器需要执行某些特殊的处理以正确处理请求<ol>
 <li>301 Moved Permanently（永久重定向）<ul>
@@ -3464,15 +3498,13 @@
     <url>/2019/11/12/%E5%9B%BE%E8%A7%A3HTTP_2/</url>
     <content><![CDATA[<h2 id="HTTP报文内的HTTP信息"><a href="#HTTP报文内的HTTP信息" class="headerlink" title="HTTP报文内的HTTP信息"></a>HTTP报文内的HTTP信息</h2><ul>
 <li>HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应</li>
-</ul>
-<h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
+</ul><h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
 <li>分类：<ul>
 <li>请求报文：客服端向服务端</li>
 <li>响应报文：服务端向客服端</li>
 </ul>
 </li>
-</ol>
-<h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
+</ol><h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
 <li>报文首部<ul>
 <li>请求行或状态行</li>
 <li>首部字段<ul>
@@ -3483,8 +3515,7 @@
 </li>
 <li>空行（CR + LF）</li>
 <li>报文主体（不一定存在）</li>
-</ol>
-<h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
+</ol><h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
 <li>传输过程中通过编码提升传输速率，可能消耗更多CPU资源</li>
 <li>报文主体和实体主体的差异<ol>
 <li>报文：HTTP 通信中的基本单位</li>
@@ -3495,7 +3526,10 @@
 <li>内容编码指明应用在实体内容上的编码格式，并保持实体信息原样压缩。内容编码后的实体由客户端接收并负责解码</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
+
 <h3 id="分割发送的分块传输编码"><a href="#分割发送的分块传输编码" class="headerlink" title="分割发送的分块传输编码"></a>分割发送的分块传输编码</h3><ul>
 <li>通过将数据分割成多块进行传输，让浏览器逐步显示页面</li>
 </ul>
@@ -3535,9 +3569,9 @@
   <entry>
     <title>RHCE备考</title>
     <url>/2019/11/12/RHCE/</url>
-    <content><![CDATA[<h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure><h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure><a id="more"></a>
 
-<h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
 
 <h3 id="设置防火墙对于ssh的访问"><a href="#设置防火墙对于ssh的访问" class="headerlink" title="设置防火墙对于ssh的访问"></a>设置防火墙对于ssh的访问</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' service name='ssh' accept"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.17.10.0/24' service name='ssh' reject"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --list-all</span></span><br><span class="line">public (default, active)</span><br><span class="line">  interfaces: eth0</span><br><span class="line">  sources:</span><br><span class="line">  services: dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.17.10.0/24"</span> service name=<span class="string">"ssh"</span> reject</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.25.0.0/24"</span> service name=<span class="string">"ssh"</span> accept</span><br></pre></td></tr></table></figure>
 
@@ -3587,8 +3621,7 @@
     <url>/2019/11/11/%E5%9B%BE%E8%A7%A3HTTP_1/</url>
     <content><![CDATA[<h2 id="简单的HTTP协议"><a href="#简单的HTTP协议" class="headerlink" title="简单的HTTP协议"></a>简单的HTTP协议</h2><h3 id="HTTP-协议用于客户端和服务器端之间的通信"><a href="#HTTP-协议用于客户端和服务器端之间的通信" class="headerlink" title="HTTP 协议用于客户端和服务器端之间的通信"></a>HTTP 协议用于客户端和服务器端之间的通信</h3><ol>
 <li>应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色</li>
-</ol>
-<h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
+</ol><h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
 <li>请求必定由客户端发出，而服务器端回复响应</li>
 <li>请求报文<ol>
 <li>是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成</li>
@@ -3598,7 +3631,8 @@
 <li>响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选的响应首部字段以及实体主<br>体构成</li>
 </ol>
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h3 id="HTTP-是不保存状态的协议"><a href="#HTTP-是不保存状态的协议" class="headerlink" title="HTTP 是不保存状态的协议"></a>HTTP 是不保存状态的协议</h3><ol>
 <li>HTTP 是一种不保存状态，即无状态（stateless）协议；协议对于发送过的请求或响应都不做持久化处理</li>
 </ol>
@@ -3681,8 +3715,7 @@
 </li>
 <li>读锁：阻塞写不阻塞读，只能操作自己上锁表和数据</li>
 <li>写锁：同时阻塞读写，其他会话的写操作会阻塞</li>
-</ul>
-<h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><ol>
+</ul><h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><ol>
 <li><p>查看加锁表</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">show open tables;</span><br></pre></td></tr></table></figure>
 </li>
@@ -3691,7 +3724,8 @@
 
 <p><img src="/2019/11/09/MySQL锁机制/lock1-1.png" alt="lock1-1"></p>
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h3 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h3><ol>
 <li><p>事务的ACID特性（原子性，一致性，隔离性，持久性）</p>
 </li>
@@ -3766,8 +3800,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
-<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><h3 id="第一个任务"><a href="#第一个任务" class="headerlink" title="第一个任务"></a>第一个任务</h3><ol>
+</ol><h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><h3 id="第一个任务"><a href="#第一个任务" class="headerlink" title="第一个任务"></a>第一个任务</h3><ol>
 <li><p>工作区文件放入站暂存区</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git add xx.txt</span><br></pre></td></tr></table></figure>
 </li>
@@ -3781,7 +3814,8 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git diff xx.txt</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h3 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h3><ol>
 <li><p>查看提交记录</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git log [--pretty=oneline]</span><br><span class="line">git reflog #查看历史记录</span><br></pre></td></tr></table></figure>
@@ -3915,7 +3949,7 @@
   <entry>
     <title>阿里yum-epel源替换</title>
     <url>/2019/11/07/%E9%98%BF%E9%87%8Cyum-epel%E6%BA%90%E6%9B%BF%E6%8D%A2/</url>
-    <content><![CDATA[<h2 id="阿里云-epel-源安装"><a href="#阿里云-epel-源安装" class="headerlink" title="阿里云 epel 源安装"></a>阿里云 epel 源安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. 备份</span><br><span class="line">mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup</span><br><span class="line">mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup</span><br><span class="line"></span><br><span class="line">2. 下载</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">3. 清除缓存</span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line">4. 创建缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="阿里云-epel-源安装"><a href="#阿里云-epel-源安装" class="headerlink" title="阿里云 epel 源安装"></a>阿里云 epel 源安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. 备份</span><br><span class="line">mv /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.backup</span><br><span class="line">mv /etc/yum.repos.d/epel-testing.repo /etc/yum.repos.d/epel-testing.repo.backup</span><br><span class="line"></span><br><span class="line">2. 下载</span><br><span class="line">wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo</span><br><span class="line"></span><br><span class="line">3. 清除缓存</span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line">4. 创建缓存</span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure><a id="more"></a>
 
 <h2 id="阿里-yum-源"><a href="#阿里-yum-源" class="headerlink" title="阿里 yum 源"></a>阿里 yum 源</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. 备份</span><br><span class="line">mv /etc/yum.repos.d/CentOS-Base.repo&#123;,.bak&#125;</span><br><span class="line"></span><br><span class="line">2. 替换</span><br><span class="line">wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span><br><span class="line"></span><br><span class="line">3. 清除缓存</span><br><span class="line">yum clean all</span><br><span class="line"></span><br><span class="line">4. 创建缓存 </span><br><span class="line">yum makecache</span><br></pre></td></tr></table></figure>
 
@@ -3955,8 +3989,7 @@
 <li>git 安装</li>
 <li>hexo 安装并设置</li>
 <li>github 仓库建立和设置</li>
-</ol>
-<h4 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h4><ol>
+</ol><h4 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h4><ol>
 <li><p>node.js 官网下载二进制压缩包: <a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
 </li>
@@ -3980,7 +4013,8 @@
 </li>
 </ol>
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h4 id="git-安装"><a href="#git-安装" class="headerlink" title="git 安装"></a>git 安装</h4><ol>
 <li><p>git 安装: <a href="https://git-scm.com" target="_blank" rel="noopener">https://git-scm.com</a></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# yum install -y git-core</span><br></pre></td></tr></table></figure>

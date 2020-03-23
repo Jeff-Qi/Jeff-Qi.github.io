@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色  通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选">
+  <meta name="description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色 通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP协议">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/11/图解HTTP_1/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色  通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选">
+<meta property="og:description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色 通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP协议">
-<meta name="twitter:description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色  通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选">
+<meta name="twitter:description" content="简单的HTTP协议HTTP 协议用于客户端和服务器端之间的通信 应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色 通过请求和响应的交换达成通信 请求必定由客户端发出，而服务器端回复响应 请求报文 是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成   响应报头 响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选的">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/11/图解HTTP_1/">
 
 
@@ -326,8 +326,7 @@
       
         <h2 id="简单的HTTP协议"><a href="#简单的HTTP协议" class="headerlink" title="简单的HTTP协议"></a>简单的HTTP协议</h2><h3 id="HTTP-协议用于客户端和服务器端之间的通信"><a href="#HTTP-协议用于客户端和服务器端之间的通信" class="headerlink" title="HTTP 协议用于客户端和服务器端之间的通信"></a>HTTP 协议用于客户端和服务器端之间的通信</h3><ol>
 <li>应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色</li>
-</ol>
-<h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
+</ol><h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
 <li>请求必定由客户端发出，而服务器端回复响应</li>
 <li>请求报文<ol>
 <li>是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成</li>
@@ -337,7 +336,8 @@
 <li>响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选的响应首部字段以及实体主<br>体构成</li>
 </ol>
 </li>
-</ol>
+</ol><a id="more"></a>
+
 <h3 id="HTTP-是不保存状态的协议"><a href="#HTTP-是不保存状态的协议" class="headerlink" title="HTTP 是不保存状态的协议"></a>HTTP 是不保存状态的协议</h3><ol>
 <li>HTTP 是一种不保存状态，即无状态（stateless）协议；协议对于发送过的请求或响应都不做持久化处理</li>
 </ol>
@@ -492,7 +492,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -505,7 +505,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

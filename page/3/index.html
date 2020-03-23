@@ -255,6 +255,124 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/10/MySQL索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JeffQi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JeffQi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/12/10/MySQL索引/" class="post-title-link" itemprop="url">MySQL索引</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-10 14:51:00" itemprop="dateCreated datePublished" datetime="2019-12-10T14:51:00+08:00">2019-12-10</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
+<li>索引是特殊的数据结构</li>
+<li>索引可以加速数据库对数据的检索速度，对数据进行排序</li>
+<li>索引就是对数据进行排序加速检索速度的特殊数据结构</li>
+</ul><h2 id="索引的优缺点"><a href="#索引的优缺点" class="headerlink" title="索引的优缺点"></a>索引的优缺点</h2><ul>
+<li>优点<ol>
+<li>建立索引可以加速对于数据的检索速度</li>
+<li>可以消除排序的操作，加快 SQL 执行速度，节省 CPU 资源</li>
+<li>可以较低磁盘的 IO 读写</li>
+</ol>
+</li>
+<li>缺点<ol>
+<li>索引实质还是一张表，建立索引意味着额外的资源开销</li>
+<li>维护许多索引需要较大的内存等资源开销</li>
+<li>索引加快了读操作，但是降低了写操作的速度，因为修改表的操作同时需要对索引进行修改</li>
+<li>需要花费更多的时间来建立一个优秀的索引</li>
+</ol>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/10/MySQL索引/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/09/MySQL隔离级别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -326,40 +444,22 @@
       
           <h2 id="隔离性与隔离级别"><a href="#隔离性与隔离级别" class="headerlink" title="隔离性与隔离级别"></a>隔离性与隔离级别</h2><ul>
 <li>当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题</li>
-</ul>
-<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
+</ul><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
 <li>读未提交：一个事务还没提交时，它做的变更就能被别的事务看到</li>
 <li>读提交：一个事务提交之后，它做的变更才会被其他事务看到</li>
 <li>可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的</li>
 <li>串行化：对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行</li>
 <li><strong>隔离级别越高，并发性能越低</strong></li>
 </ul>
-<h4 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h4><ul>
-<li>数据库在事务启动时会创建一个视图，整个事务过程都需要使用</li>
-<li>“读未提交”隔离级别下直接返回记录上的最新值，没有视图概念</li>
-<li>“串行化”隔离级别下直接用加锁的方式来避免并行访问</li>
-<li>事务启动时的视图可以认为是静态的，不受其他事务更新的影响</li>
-</ul>
-<h4 id="事务隔离实现"><a href="#事务隔离实现" class="headerlink" title="事务隔离实现"></a>事务隔离实现</h4><ul>
-<li>实现：每条记录在更新时都记录有一条回滚操作，记录上的新值通过回滚操作回到上一个状态的值</li>
-<li>回滚日志删除：系统判断没有比当前回滚日志更早的视图时自动删除</li>
-<li><strong>避免使用长事务：</strong>长事务会使系统存在很老的视图，所以会一直保留回滚日志。照成较大的存储空间浪费；同时还有可能照成锁的占用，拖垮数据库</li>
-</ul>
-<h4 id="事务启动方式"><a href="#事务启动方式" class="headerlink" title="事务启动方式"></a>事务启动方式</h4><ol>
-<li>显示启动事务：通过begin或者start transaction来启动事务，通过commit提交或rollback回滚</li>
-<li>隐式自动提交事务：系统设置 set autocommit=1 自动提交事务<ul>
-<li>显示开启事务：使用 commit work and chain 来提交事务并自动开启下一个事务</li>
-</ul>
-</li>
-<li>查看时间超过60s的长事务<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx</span><br><span class="line"><span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li>参数：transaction_isolation：查看数据库当前隔离状态</li>
-<li>参数：MAX_EXECUTION_TIME：set MAX_EXECUTION_TIME来设置事务最大执行时间</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/09/MySQL隔离级别/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -456,28 +556,15 @@
 <li>redo-log大小固定，类似循环队列</li>
 <li>为MySQL提供cache-safe功能，中途crash也能恢复</li>
 </ul>
-<h3 id="binlog（归档日志）"><a href="#binlog（归档日志）" class="headerlink" title="binlog（归档日志）"></a>binlog（归档日志）</h3><ul>
-<li>MySQL 整体来看，其实就有两块：一块是 Server 层，它主要做的是 MySQL 功能层面的事情；还有一块是引擎层，负责存储相关的具体事宜。上面我们聊到的粉板 redo log 是 InnoDB 引擎特有的日志，而 Server 层也有自己的日志，称为 binlog（归档日志</li>
-</ul>
-<h3 id="两种日志比较"><a href="#两种日志比较" class="headerlink" title="两种日志比较"></a>两种日志比较</h3><ol>
-<li>redo-log是innodb存储引擎的日志系统；binlog是MySQL的server层的日志系统</li>
-<li>redo-log是物理日志，记录数据库那个页上发生了改变；binlog是逻辑日志，记录某一条具体的数据库操作</li>
-<li>redo-log大小固定，循环写，类似循环队列；binlog采用追加方式，写满后跳转下一个日志文件，不会覆盖前面的文件</li>
-</ol>
-<h3 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h3><ul>
-<li>prepare状态与commit状态</li>
-<li>如果不使用“两阶段提交”，那么数据库的状态就有可能和用它的日志恢复出来的库的状态不一致</li>
-</ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li><p>redo log 用于保证 crash-safe 能力</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">innodb_flush_log_at_trx_commit=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘</span><br><span class="line"></span><br><span class="line">sync_binlog=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>两阶段提交保证两个日志保持逻辑上一致</p>
-</li>
-<li><p>一日一备相比一周一备的好处在于RTO；一日一备的最长恢复时间更短</p>
-</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/12/08/MySQL日志/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -580,96 +667,15 @@
 
 </li>
 </ol>
-<h3 id="创建docker用户组"><a href="#创建docker用户组" class="headerlink" title="创建docker用户组"></a>创建docker用户组</h3><ul>
-<li>默认情况下，docker 命令会使用Unix socket与Docker引擎通讯。而只有root用户和docker 组的用户才可以访问Docker引擎的Unix socket</li>
-<li>使普通用户也能使用docker所以需要将用户加入docker用户组中</li>
-</ul>
-<h2 id="Docker国内镜像加速"><a href="#Docker国内镜像加速" class="headerlink" title="Docker国内镜像加速"></a>Docker国内镜像加速</h2><ol>
-<li><p>镜像加速页</p>
-<ul>
-<li><a href="https://cr.console.aliyun.com/" target="_blank" rel="noopener">https://cr.console.aliyun.com/</a></li>
-</ul>
-</li>
-<li><p>选择镜像加速服务</p>
-</li>
-<li><p>启用</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><h3 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h3><ul>
-<li>定制每一层所添加的配置、文件</li>
-</ul>
-<h3 id="FROM-与-RUN-构建"><a href="#FROM-与-RUN-构建" class="headerlink" title="FROM 与 RUN 构建"></a>FROM 与 RUN 构建</h3><h4 id="FROM指定基础对象"><a href="#FROM指定基础对象" class="headerlink" title="FROM指定基础对象"></a>FROM指定基础对象</h4><ul>
-<li>Dockerfile 中FROM 是必备的指令，并且必须是第一条指令</li>
-</ul>
-<h4 id="RUN执行命令"><a href="#RUN执行命令" class="headerlink" title="RUN执行命令"></a>RUN执行命令</h4><ul>
-<li>执行命令行命令</li>
-<li>每一个指令都会建立一层</li>
-<li>确保每一层只添加真正需要添加的东西，任何无关的东西都应该清理掉</li>
-</ul>
-<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
-<li>创建一个镜像<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build [option] &lt;context上下文路劲&gt;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h4 id="构建上下文Context"><a href="#构建上下文Context" class="headerlink" title="构建上下文Context"></a>构建上下文Context</h4><ul>
-<li>一切都是使用的远程调用形式在服务端（Docker 引擎）完成</li>
-<li>docker build 命令得知这个路径后，会将路径下的所有内容打包，然后上传给Docker 引擎</li>
-</ul>
-<h3 id="Dockerfile指令详解"><a href="#Dockerfile指令详解" class="headerlink" title="Dockerfile指令详解"></a>Dockerfile指令详解</h3><h4 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h4><ul>
-<li><p>格式</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY &lt;源路径&gt;... &lt;目标路径&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用COPY 指令，源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等</p>
-</li>
-</ul>
-<h4 id="add"><a href="#add" class="headerlink" title="add"></a>add</h4><ul>
-<li>与copy相似</li>
-<li>ADD 指令将会自动解压缩这个压缩文件到&lt;目标路径&gt;</li>
-<li>ADD 指令会令镜像构建缓存失效，从而可能会令镜像构建变得比较缓慢</li>
-</ul>
-<h4 id="cmd"><a href="#cmd" class="headerlink" title="cmd"></a>cmd</h4><ul>
-<li>用于指定默认的容器主进程的启动命令</li>
-<li>对于容器而言，其启动程序就是容器应用进程，容器就是为了主进程而存在的，主进程退出，容器就失去了存在的意义，从而退出</li>
-</ul>
-<h4 id="entrypoint"><a href="#entrypoint" class="headerlink" title="entrypoint"></a>entrypoint</h4><ul>
-<li>指定容器启动程序及参数</li>
-<li>指定了ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将CMD 的内容作为参数传给ENTRYPOINT 指令</li>
-</ul>
-<h4 id="env与arg设置变量参数"><a href="#env与arg设置变量参数" class="headerlink" title="env与arg设置变量参数"></a>env与arg设置变量参数</h4><ul>
-<li>ARG 所设置的构建环境的环境变量，在将来容器运行时是不会存在这些环境变量的</li>
-</ul>
-<h4 id="volume"><a href="#volume" class="headerlink" title="volume"></a>volume</h4><ul>
-<li><p>尽量保持容器存储层不发生写操作</p>
-</li>
-<li><p>数据持久化</p>
-</li>
-<li><p>格式</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VOLUME [<span class="string">"&lt;路径1&gt;"</span>, <span class="string">"&lt;路径2&gt;"</span>...]</span><br><span class="line">VOLUME &lt;路径&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>匿名卷：任何写入操作都写入宿主机中不写入容器存储层。从而实现数据持久化</p>
-</li>
-</ul>
-<h4 id="expose"><a href="#expose" class="headerlink" title="expose"></a>expose</h4><ul>
-<li>声明运行时容器提供服务端口，在运行时并不会开启这个端口的服务</li>
-<li>-p参数是映射宿主端口和容器端口；EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射</li>
-</ul>
-<h4 id="workdir与user"><a href="#workdir与user" class="headerlink" title="workdir与user"></a>workdir与user</h4><ul>
-<li>workdir:指定工作目录</li>
-<li>user:指定当前用户</li>
-</ul>
-<h4 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a>healthcheck</h4><ul>
-<li>健康检查</li>
-<li>如果程序进入死锁状态，或者死循环状态，应用进程并不退出，但是该容器已经无法提供服务</li>
-<li>HEALTHCHECK 支持下列选项：<ol>
-<li>--interval=&lt;间隔&gt; ：两次健康检查的间隔，默认为30 秒；</li>
-<li>--timeout=&lt;时长&gt; ：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认30 秒；</li>
-<li>--retries=&lt;次数&gt; ：当连续失败指定次数后，则将容器状态视为unhealthy ，默认3 次</li>
-</ol>
-</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/29/初识Docker/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -763,8 +769,7 @@
           <h2 id="MySQL备份"><a href="#MySQL备份" class="headerlink" title="MySQL备份"></a>MySQL备份</h2><h3 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h3><h4 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h4><ul>
 <li>全量备份</li>
 <li>增量备份</li>
-</ul>
-<h4 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h4><h4 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h4><h3 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h3><h4 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h4><ol>
+</ul><h4 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h4><h4 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h4><h3 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h3><h4 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h4><ol>
 <li><p>备份单/多库保留建库语句</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -776,20 +781,15 @@
 
 </li>
 </ol>
-<h4 id="利用mysqlbinlog备份数据"><a href="#利用mysqlbinlog备份数据" class="headerlink" title="利用mysqlbinlog备份数据"></a>利用mysqlbinlog备份数据</h4><ol>
-<li><p>查看二进制日志文件</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog /binary/log</span><br><span class="line">mysqlbinlog <span class="comment">--base64-output=decode-rows --verbose /binary/log/path</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>at：可以理解为事务的执行点</li>
-</ul>
-</li>
-<li><p>选择还原点还原</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog <span class="comment">--stop-positon='point(at_point)' /binary/log/path</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/MySQL数据备份/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -882,35 +882,19 @@
       
           <h2 id="构建Web内容的技术"><a href="#构建Web内容的技术" class="headerlink" title="构建Web内容的技术"></a>构建Web内容的技术</h2><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
 <li>为了发送Web 上的超文本（Hypertext）而开发的标记语言。超文本是一种文档系统，可将文档中任意位置的信息与其他信息（文本或图片等）建立关联，即超链接文本。标记语言是指通过在文档的某部分穿插特别的字符串标签，用来修饰文档的语言。我们把出现在HTML 文档内的这种特殊字符串叫做HTML 标签（Tag）</li>
-</ul>
-<h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
+</ul><h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
 <li>CSS（Cascading Style Sheets，层叠样式表）可以指定如何展现HTML内的各种元素，属于样式表标准之一</li>
 <li>CSS的理念就是让文档的结构和设计分离，达到解耦的目的</li>
 </ul>
-<h3 id="动态HTML"><a href="#动态HTML" class="headerlink" title="动态HTML"></a>动态HTML</h3><ul>
-<li>通过调用客户端脚本语言JavaScript，实现对HTML 的Web 页面的动态改造</li>
-</ul>
-<h3 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h3><ul>
-<li>用以操作HTML 文档和XML 文档的API（Application Programming Interface，应用编程接口）</li>
-</ul>
-<h3 id="Web应用"><a href="#Web应用" class="headerlink" title="Web应用"></a>Web应用</h3><ul>
-<li>通过Web 功能提供的应用程序</li>
-</ul>
-<h4 id="CGI"><a href="#CGI" class="headerlink" title="CGI"></a>CGI</h4><ul>
-<li>Web 服务器在接收到客户端发送过来的请求后转发给程序的一组机制<br><img src="/2019/11/26/图解HTTP_10/10.1.png" alt="CGI"></li>
-</ul>
-<h4 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h4><ul>
-<li>一种能在服务器上创建动态内容的程序</li>
-<li>CGI，由于每次接到请求，程序都要跟着启动一次;而Servlet 运行在与Web 服务器相同的进程中，因此受到的负载较小<br><img src="/2019/11/26/图解HTTP_10/10.2.png" alt="Servlet"></li>
-</ul>
-<h3 id="数据发布的格式及语言"><a href="#数据发布的格式及语言" class="headerlink" title="数据发布的格式及语言"></a>数据发布的格式及语言</h3><h4 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h4><ul>
-<li>按应用目标进行扩展的通用标记语言</li>
-<li>XML和HTML一样，使用标签构成树形结构，并且可自定义扩展标签</li>
-</ul>
-<h4 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h4><ul>
-<li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/图解HTTP_10/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1010,40 +994,21 @@
 <li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/图解HTTP_9/9.1.png" alt="http"></li>
 </ol>
 </li>
-</ul>
-<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
+</ul><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
 <li>局部Web 页面替换加载的异步通信手段<br><img src="/2019/11/26/图解HTTP_9/9.2.png" alt="Ajax"></li>
-</ul>
-<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
+</ul><h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
 <li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
 <li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2019/11/26/图解HTTP_9/9.3.png" alt="Comet"></li>
 </ul>
-<h4 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h4><ul>
-<li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2019/11/26/图解HTTP_9/9.4.png" alt="SPDY"></p>
-</li>
-<li><p>设计</p>
-<ol>
-<li>多路复用流：通过单一的TCP 连接，可以无限制处理多个HTTP 请求</li>
-<li>设置优先级</li>
-<li>压缩HTTP首部</li>
-<li>推送与服务器提示功能：支持服务器主动向客户端推送数据的功能；服务器可以主动提示客户端请求所需的资源</li>
-</ol>
-</li>
-</ul>
-<h3 id="全双工通信的-WebSocket"><a href="#全双工通信的-WebSocket" class="headerlink" title="全双工通信的 WebSocket"></a>全双工通信的 WebSocket</h3><ul>
-<li>Web 浏览器与Web 服务器之间全双工通信标准<ol>
-<li>推送功能</li>
-<li>减少通信量：一直保持连接状态</li>
-</ol>
-</li>
-<li>使用http首部中的upgrade首部字段实现连接<ol>
-<li>握手请求</li>
-<li>握手响应</li>
-</ol>
-</li>
-<li>通信过程<br><img src="/2019/11/26/图解HTTP_9/9.5.png" alt="WebSocket通信"></li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/图解HTTP_9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1136,16 +1101,13 @@
       
           <h2 id="MySQL外部表（MySQL8-0）"><a href="#MySQL外部表（MySQL8-0）" class="headerlink" title="MySQL外部表（MySQL8.0）"></a>MySQL外部表（MySQL8.0）</h2><ul>
 <li>使用MySQL的外部表进行数据的迁移可扩展</li>
-</ul>
-<h3 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h3><ul>
+</ul><h3 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h3><ul>
 <li>存储空间不够，一些大表需要更大的存储空间</li>
 <li>存储介质更新，需要迁移到更块的介质中</li>
-</ul>
-<h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
+</ul><h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
 <li>源数据库位于 /var/lib/mysql/pre_database</li>
 <li>外部表库位于 /var/lib/mysql_extend/pre_database</li>
-</ul>
-<ol>
+</ul><ol>
 <li><p>新建的表，位于新的存储位置</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mysql_extend_table`</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">age <span class="built_in">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">21</span></span><br><span class="line">)<span class="keyword">DATA</span> <span class="keyword">DIRECTORY</span> = <span class="string">'/var/lib/mysql_extend'</span>;</span><br></pre></td></tr></table></figure>
 
@@ -1157,42 +1119,15 @@
 <li><p><strong>注意相应文件夹权限要够</strong><br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend3.png" alt="权限"></p>
 </li>
 </ol>
-<h3 id="实验迁移（MySQL5-7）"><a href="#实验迁移（MySQL5-7）" class="headerlink" title="实验迁移（MySQL5.7）"></a>实验迁移（MySQL5.7）</h3><ol>
-<li><p>转移前<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra1.png" alt="转移前"></p>
-</li>
-<li><p>创建表空间</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">tablespace</span> mysql_pre_table</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">datafile</span> <span class="string">'/var/lib/mysql_extend/pre_database/tra_table.ibd'</span>;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra2.png" alt="创建"></p>
-</li>
-<li><p>迁移表</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> mysql_pre_table <span class="keyword">tablespace</span> mysql_pre_table;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>结果:原pre_table转移为现在的now_table<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra3.png" alt="转移后"></p>
-</li>
-<li><p>查看表空间</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> information_schema.INNODB_SYS_TABLESPACES;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra4.png" alt="tablespace"></p>
-<ol>
-<li>FILE_FORMAT:ANY ROW_FORMAT:ANY SPACE_TYPE:General 表明：<ol>
-<li>这个表空间并不是 per_table 的，是可以多个表公用的存储空间</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
-<li><p>在MySQL8.0中无法在其他数据目录下创建tablespace</p>
-<ul>
-<li>需要配置 innodb_directories 参数：官方文档链接(<a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_directories" target="_blank" rel="noopener">https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_directories</a>)</li>
-<li>定义要在启动时扫描的表空间文件的目录。当服务器脱机时将表空间文件移动或还原到新位置时，将使用此选项。它还用于指定使用绝对路径创建或位于数据目录外部的表空间文件的目录</li>
-</ul>
-</li>
-<li><p>在MySQL8.0中，将表创建在其他地方，不会在当前数据目录下创建任何东西，无 .isl 文件</p>
-</li>
-</ol>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/23/MySQL磁盘扩展与介质迁移/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1287,8 +1222,7 @@
 <li>使用明文通信</li>
 <li>不验证通信方身份</li>
 <li>无法证明报文完整性</li>
-</ul>
-<h4 id="使用明文通信"><a href="#使用明文通信" class="headerlink" title="使用明文通信"></a>使用明文通信</h4><ul>
+</ul><h4 id="使用明文通信"><a href="#使用明文通信" class="headerlink" title="使用明文通信"></a>使用明文通信</h4><ul>
 <li>HTTP 本身不具备加密的功能，在互联网上传输容易找到窃听</li>
 <li>加密处理防止窃听<ol>
 <li>通信的加密<ul>
@@ -1303,39 +1237,15 @@
 </ol>
 </li>
 </ul>
-<h4 id="不验证通信方的身份就可能遭遇伪装"><a href="#不验证通信方的身份就可能遭遇伪装" class="headerlink" title="不验证通信方的身份就可能遭遇伪装"></a>不验证通信方的身份就可能遭遇伪装</h4><ul>
-<li>HTTP任何人都可以访问<ul>
-<li>无法确定请求发送至目标的Web 服务器是否是按真实意图返回响应的那台服务器</li>
-<li>无法确定客户端就是真实需要返回响应的客户端</li>
-<li>无法确认通信的对方的访问权限</li>
-<li>无法判定请求来之哪里</li>
-<li>容易遭到DoS、DDos攻击</li>
-</ul>
-</li>
-<li>通过查看对方证书来确认</li>
-</ul>
-<h4 id="无法证明报文完整性"><a href="#无法证明报文完整性" class="headerlink" title="无法证明报文完整性"></a>无法证明报文完整性</h4><ul>
-<li>无法确认报文是否被篡改</li>
-<li>请求或响应在传输途中，遭攻击者拦截并篡改内容的攻击称为中间人攻击</li>
-</ul>
-<h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><ul>
-<li>使用SSL或TSL进行加密认证通信</li>
-</ul>
-<h4 id="HTTPS-是身披SSL-外壳的HTTP"><a href="#HTTPS-是身披SSL-外壳的HTTP" class="headerlink" title="HTTPS 是身披SSL 外壳的HTTP"></a>HTTPS 是身披SSL 外壳的HTTP</h4><ul>
-<li>使用SSL 时，则演变成先和SSL 通信，再由SSL 和TCP 通信</li>
-</ul>
-<h4 id="HTTPS采用混合加密机制"><a href="#HTTPS采用混合加密机制" class="headerlink" title="HTTPS采用混合加密机制"></a>HTTPS采用混合加密机制</h4><ul>
-<li>在交换密钥环节使用公开密钥加密方式，之后的建立通信交换报文阶段则使用共享密钥加密方式</li>
-</ul>
-<h4 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h4><ul>
-<li>由可信第三方机构颁发的可信任证明</li>
-<li>HTTPS通信<br><img src="/2019/11/23/图解HTTP_7/7.9.png" alt="HTTPS通信"><br><img src="/2019/11/23/图解HTTP_7/7.10.png" alt="HTTPS通信"></li>
-</ul>
-<h4 id="SSL通信慢"><a href="#SSL通信慢" class="headerlink" title="SSL通信慢"></a>SSL通信慢</h4><ul>
-<li>加密与解密需要占用CPU和其他硬件资源</li>
-<li>SSL通信部分会消耗网络资源，增加延迟</li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/23/图解HTTP_7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1428,333 +1338,27 @@
       
           <h3 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h3><ul>
 <li>由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息</li>
-</ul>
-<h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
+</ul><h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
 <li>告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源<ol>
 <li>可处理范围请求时指定其为bytes</li>
 <li>不能处理则指定其为none</li>
 </ol>
 </li>
-</ul>
-<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
+</ul><h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
 <li>告知客户端，源服务器在多久前创建了响应<ol>
 <li>创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值</li>
 </ol>
 </li>
 </ul>
-<h4 id="ETage"><a href="#ETage" class="headerlink" title="ETage"></a>ETage</h4><ul>
-<li>告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式<ol>
-<li>当资源更新时，ETag 值也需要更新</li>
-<li>强ETag 值和弱Tag 值<ul>
-<li>强ETag：细微的变化都会改变其值</li>
-<li>弱ETag：只有资源发生了根本改变，产生差异时才会改变ETag 值。字段值最开始处附加W/</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-<h4 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h4><ul>
-<li>将响应接收方引导至某个与请求URI 位置不同的资源</li>
-</ul>
-<h4 id="Proxy-Authenticate"><a href="#Proxy-Authenticate" class="headerlink" title="Proxy-Authenticate"></a>Proxy-Authenticate</h4><ul>
-<li>把由代理服务器所要求的认证信息发送给客户端</li>
-</ul>
-<h4 id="Retry-After"><a href="#Retry-After" class="headerlink" title="Retry-After"></a>Retry-After</h4><ul>
-<li>告知客户端应该在多久之后再次发送请求</li>
-</ul>
-<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><ul>
-<li>告知客户端当前服务器上安装的HTTP 服务器应用程序的信息</li>
-</ul>
-<h4 id="Vary"><a href="#Vary" class="headerlink" title="Vary"></a>Vary</h4><ul>
-<li>代理服务器接收到带有Vary 首部字段指定获取资源的请求时，如果使用的Accept-Language字段的值相同，那么就直接从缓存返回响应。反之，则需要先从源服务器端获取资源后才能作为121响应返回</li>
-</ul>
-<h4 id="WWW-Authenticate"><a href="#WWW-Authenticate" class="headerlink" title="WWW-Authenticate"></a>WWW-Authenticate</h4><ul>
-<li>用于HTTP 访问认证<ol>
-<li>告知客户端适用于访问请求URI 所指定资源的认证方案（Basic 或是Digest）和带参数提示的质询（challenge）</li>
-</ol>
-</li>
-</ul>
-<h3 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h3><ul>
-<li>实体首部字段是包含在请求报文和响应报文中的实体部分所使用的首部，用于补充内容的更新时间等与实体相关的信息</li>
-</ul>
-<h4 id="Allow"><a href="#Allow" class="headerlink" title="Allow"></a>Allow</h4><ul>
-<li>通知客户端能够支持Request-URI 指定资源的所有HTTP 方法</li>
-</ul>
-<h4 id="Content-Encoding"><a href="#Content-Encoding" class="headerlink" title="Content-Encoding"></a>Content-Encoding</h4><ul>
-<li>告知客户端服务器对实体的主体部分选用的内容编码方式</li>
-</ul>
-<h4 id="Content-Language"><a href="#Content-Language" class="headerlink" title="Content-Language"></a>Content-Language</h4><ul>
-<li>告知客户端，实体主体使用的自然语言</li>
-</ul>
-<h4 id="Content-Length"><a href="#Content-Length" class="headerlink" title="Content-Length"></a>Content-Length</h4><ul>
-<li>实体主体部分的大小</li>
-</ul>
-<h4 id="Content-Location"><a href="#Content-Location" class="headerlink" title="Content-Location"></a>Content-Location</h4><ul>
-<li>给出与报文主体部分相对应的URI<ol>
-<li>当返回的页面内容与实际请求的对象不同时，首部字段Content-Location内会写明URI</li>
-</ol>
-</li>
-</ul>
-<h4 id="Content-MD5"><a href="#Content-MD5" class="headerlink" title="Content-MD5"></a>Content-MD5</h4><ul>
-<li>检查报文主体在传输过程中是否保持完整，以及确认传输到达</li>
-</ul>
-<h4 id="Content-Range"><a href="#Content-Range" class="headerlink" title="Content-Range"></a>Content-Range</h4><ul>
-<li>告知客户端作为响应返回的实体的哪个部分符合范围请求</li>
-</ul>
-<h4 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h4><ul>
-<li>说明了实体主体内对象的媒体类型</li>
-</ul>
-<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><ul>
-<li>将资源失效的日期告知客户端</li>
-</ul>
-<h4 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h4><ul>
-<li>指明资源最终修改的时间</li>
-</ul>
-<h3 id="为Cookie-服务的首部字段"><a href="#为Cookie-服务的首部字段" class="headerlink" title="为Cookie 服务的首部字段"></a>为Cookie 服务的首部字段</h3><h4 id="Set-Cookie"><a href="#Set-Cookie" class="headerlink" title="Set-Cookie"></a>Set-Cookie</h4><ul>
-<li>当服务器准备开始管理客户端的状态时，会事先告知各种信息<ul>
-<li>属性<ol>
-<li>expires：指定浏览器可发送Cookie 的有效期</li>
-<li>path：用于限制指定Cookie 的发送范围的文件目录</li>
-<li>domain：通过Cookie 的domain 属性指定的域名可做到与结尾匹配一致</li>
-<li>secure：限制Web 页面仅在HTTPS 安全连接时，才可以发送Cookie</li>
-<li>HttpOnly：使JavaScript 脚本无法获得Cookie。防止XSS跨站脚本攻击对cookie的窃取</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
-<li>告知服务器，当客户端想获得HTTP 状态管理支持时，就会在请求中包含从服务器接收到的Cookie</li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/HTML5基础/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JeffQi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JeffQi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/20/HTML5基础/" class="post-title-link" itemprop="url">HTML5基础</a>
+          <!--noindex-->
           
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-20 20:27:00" itemprop="dateCreated datePublished" datetime="2019-11-20T20:27:00+08:00">2019-11-20</time>
-            </span>
+            <div class="post-button">
+              <a class="btn" href="/2019/11/21/图解HTTP_6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTML5/" itemprop="url" rel="index"><span itemprop="name">HTML5</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="HTML5基础"><a href="#HTML5基础" class="headerlink" title="HTML5基础"></a>HTML5基础</h2><h3 id="HTML格式与部分元素"><a href="#HTML格式与部分元素" class="headerlink" title="HTML格式与部分元素"></a>HTML格式与部分元素</h3>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 文档类型说明 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!Doctype html&gt;</span></span><br><span class="line"><span class="comment">&lt;!--根节点--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--头部信息--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--元信息--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--标题--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>HTML基础<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--包含页面内的所有主体内容--&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--直接显示文本--&gt;</span></span><br><span class="line">    Hello Html5!</span><br><span class="line">    <span class="comment">&lt;!-- class:给元素添加一个或多个样式表类名 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"header"</span>&gt;</span>here is title!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- contenteditable:表示文件是否可编辑 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">contenteditable</span>=<span class="string">"true"</span>&gt;</span>可编辑<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 显示内容的开始位置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">dir</span>=<span class="string">"rtl"</span>&gt;</span>在右边哟,不是在左边<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- id：元素的唯一标识 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">id</span>=<span class="string">"myheader"</span>&gt;</span>这是显示id的作用!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- style：行内元素的样式 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: blue;text-align: center"</span>&gt;</span>这是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span>这也是标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color: yellow;text-align: center;"</span>&gt;</span>标题<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- tabindex：tab键的选取顺序 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span> <span class="attr">tabindex</span>=<span class="string">"1"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.aliyun.com/"</span> <span class="attr">tabindex</span>=<span class="string">"3"</span>&gt;</span>Aliyun<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.tencent.com/"</span> <span class="attr">tabindex</span>=<span class="string">"2"</span>&gt;</span>Tencent<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- title：鼠标悬停时显示的信息 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">title</span>=<span class="string">"http://www.jd.com/"</span>&gt;</span>JD<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>HTML基础标签</p>
-<ul>
-<li>head、body<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>JeffQi<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>HTML标题</p>
-<ul>
-<li>&lt;h1&gt;到&lt;h6&gt;缩进标签<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>标题1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>HTML段落</p>
-<ul>
-<li>&lt;p&gt;标识段落<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>message<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>HTML超链接</p>
-<ul>
-<li>&lt;a&gt;标识超链接<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com/"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>HTML图像</p>
-<ul>
-<li><img>标签为图片<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"local"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="HTML元素"><a href="#HTML元素" class="headerlink" title="HTML元素"></a>HTML元素</h3><ol>
-<li><p>元素</p>
-<ul>
-<li>元素是指开始标签从开始到结束标签的所有代码<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>元素<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>/&gt;</span>：换行标签（空元素标签）</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>语法</p>
-<ol>
-<li>空元素在开始标签中结束关闭</li>
-<li>大多数HTML元素可以嵌套</li>
-</ol>
-</li>
-</ol>
-<h3 id="HTML属性"><a href="#HTML属性" class="headerlink" title="HTML属性"></a>HTML属性</h3><ol>
-<li><p>标签可以拥有属性为元素提供更多信息</p>
-</li>
-<li><p>属性以键值对形式出现</p>
-</li>
-<li><p>常用标签</p>
-<ol>
-<li><p>&lt;h1&gt;:align对其方式</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span> <span class="attr">align</span>=<span class="string">"right"</span>&gt;</span>title 1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>&lt;body&gt;：bgcolor背景颜色</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">bgcolor</span>=<span class="string">"#82cf05"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>&lt;a&gt;:target规定在何处打开</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"localhost.html"</span> <span class="attr">target</span>=<span class="string">"_self"</span>&gt;</span>localhost<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">1. _self：当前页面打开</span><br><span class="line">2. _blank：新页面打开</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-<li><p>通用属性：</p>
-<ol>
-<li>class：规定元素的类名</li>
-<li>id：标记元素的唯一ID</li>
-<li>style：规定元素的样式</li>
-<li>title：元素额外信息</li>
-</ol>
-</li>
-</ol>
-<h3 id="HTML格式化"><a href="#HTML格式化" class="headerlink" title="HTML格式化"></a>HTML格式化</h3><p><img src="/2019/11/20/HTML5基础/%E6%A0%BC%E5%BC%8F%E5%8C%96.png" alt></p>
-<h3 id="HTML列表"><a href="#HTML列表" class="headerlink" title="HTML列表"></a>HTML列表</h3><p><img src="/2019/11/20/HTML5基础/HTML%E5%88%97%E8%A1%A8.png" alt></p>
-<h4 id="HTML块"><a href="#HTML块" class="headerlink" title="HTML块"></a>HTML块</h4><p><img src="/2019/11/20/HTML5基础/HTML%E5%9D%97.png" alt></p>
-<h3 id="HTML样式"><a href="#HTML样式" class="headerlink" title="HTML样式"></a>HTML样式</h3><ol>
-<li><p>标签</p>
-<ul>
-<li>&lt;style&gt;：样式定义</li>
-<li>&lt;link&gt;：资源引用</li>
-</ul>
-</li>
-<li><p>属性</p>
-<ol>
-<li>rel=”syslesheet”：外部样式表</li>
-<li>type=”text/css”：引入文档的类型</li>
-<li>margin-left：边距</li>
-</ol>
-</li>
-<li><p>插入方法</p>
-<ol>
-<li><p>外部样式表</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">'stylesheet'</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"mystyle.css"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>内部样式表</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line">body &#123;background-color: gred&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>内联样式表</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-</li>
-</ol>
-<h3 id="HTML布局"><a href="#HTML布局" class="headerlink" title="HTML布局"></a>HTML布局</h3><ul>
-<li>div布局</li>
-<li>table布局</li>
-</ul>
-<h3 id="HTML链接属性"><a href="#HTML链接属性" class="headerlink" title="HTML链接属性"></a>HTML链接属性</h3><ol>
-<li><p>链接数据：</p>
-<ul>
-<li>文本链接</li>
-<li>图片链接</li>
-</ul>
-</li>
-<li><p>属性</p>
-<ul>
-<li>href：指向另一个文档的链接</li>
-<li>name：创建文档内的链接（同一页面内的内容跳转）</li>
-</ul>
-</li>
-<li><p>img标签属性</p>
-<ul>
-<li>alt：替换文本属性</li>
-<li>width：宽</li>
-<li>height：高</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>JeffQi<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span>&gt;</span>baidu<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.baidu.com"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"suo.jpeg"</span> <span class="attr">width</span>=<span class="string">"200px"</span> <span class="attr">hight</span>=<span class="string">"200px"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="HTML表单"><a href="#HTML表单" class="headerlink" title="HTML表单"></a>HTML表单</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>JeffQi<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span> &gt;</span></span><br><span class="line">        用户：</span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        密码：</span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"sign in"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        多选:</span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        苹果：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span>&gt;</span></span><br><span class="line">        西红柿：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        性别：</span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        男：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"sex"</span>&gt;</span></span><br><span class="line">        女：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"sex"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        选项网址：</span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">select</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">option</span>&gt;</span>www.baidu.com<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">option</span>&gt;</span>www.google.com<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">option</span>&gt;</span>www.jeffqi.com<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> <span class="attr">value</span>=<span class="string">"button"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">cols</span>=<span class="string">"30"</span> <span class="attr">row</span>=<span class="string">"30"</span>&gt;</span>填写个人信息<span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
+          <!--/noindex-->
         
       
     </div>
@@ -1821,7 +1425,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1834,7 +1438,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

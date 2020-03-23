@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="响应首部字段 由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息  Accept-Ranges 告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源 可处理范围请求时指定其为bytes 不能处理则指定其为none    Age 告知客户端，源服务器在多久前创建了响应 创建该响应的服务器是缓存服务器，Age 值是指缓存后的响">
+  <meta name="description" content="响应首部字段 由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息 Accept-Ranges 告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源 可处理范围请求时指定其为bytes 不能处理则指定其为none   Age 告知客户端，源服务器在多久前创建了响应 创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP响应首部与实体首部字段">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/21/图解HTTP_6/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="响应首部字段 由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息  Accept-Ranges 告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源 可处理范围请求时指定其为bytes 不能处理则指定其为none    Age 告知客户端，源服务器在多久前创建了响应 创建该响应的服务器是缓存服务器，Age 值是指缓存后的响">
+<meta property="og:description" content="响应首部字段 由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息 Accept-Ranges 告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源 可处理范围请求时指定其为bytes 不能处理则指定其为none   Age 告知客户端，源服务器在多久前创建了响应 创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP响应首部与实体首部字段">
-<meta name="twitter:description" content="响应首部字段 由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息  Accept-Ranges 告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源 可处理范围请求时指定其为bytes 不能处理则指定其为none    Age 告知客户端，源服务器在多久前创建了响应 创建该响应的服务器是缓存服务器，Age 值是指缓存后的响">
+<meta name="twitter:description" content="响应首部字段 由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息 Accept-Ranges 告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源 可处理范围请求时指定其为bytes 不能处理则指定其为none   Age 告知客户端，源服务器在多久前创建了响应 创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/21/图解HTTP_6/">
 
 
@@ -326,20 +326,20 @@
       
         <h3 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h3><ul>
 <li>由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息</li>
-</ul>
-<h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
+</ul><h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><ul>
 <li>告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源<ol>
 <li>可处理范围请求时指定其为bytes</li>
 <li>不能处理则指定其为none</li>
 </ol>
 </li>
-</ul>
-<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
+</ul><h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><ul>
 <li>告知客户端，源服务器在多久前创建了响应<ol>
 <li>创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
 <h4 id="ETage"><a href="#ETage" class="headerlink" title="ETage"></a>ETage</h4><ul>
 <li>告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式<ol>
 <li>当资源更新时，ETag 值也需要更新</li>
@@ -514,7 +514,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -527,7 +527,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

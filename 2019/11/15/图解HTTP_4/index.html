@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等  响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段  HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段  非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，">
+  <meta name="description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等 响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段 HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段 非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，且必须">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP首部">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/15/图解HTTP_4/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等  响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段  HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段  非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，">
+<meta property="og:description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等 响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段 HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段 非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，且必须">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP首部">
-<meta name="twitter:description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等  响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段  HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段  非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，">
+<meta name="twitter:description" content="HTTP首部HTTP报文首部请求报文 组成：方法、URI、HTTP 版本、HTTP 首部字段等 响应报文 组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段 HTTP首部字段4类HTTP首部字段类型 通用首部字段 请求首部字段 响应首部字段 实体首部字段 非HTTP/1.1首部字段 端到端首部（End-to-end Header） 首部会转发给请求/ 响应对应的最终接收目标，且必须">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/15/图解HTTP_4/">
 
 
@@ -326,17 +326,14 @@
       
         <h2 id="HTTP首部"><a href="#HTTP首部" class="headerlink" title="HTTP首部"></a>HTTP首部</h2><h3 id="HTTP报文首部"><a href="#HTTP报文首部" class="headerlink" title="HTTP报文首部"></a>HTTP报文首部</h3><h4 id="请求报文"><a href="#请求报文" class="headerlink" title="请求报文"></a>请求报文</h4><ol>
 <li>组成：方法、URI、HTTP 版本、HTTP 首部字段等</li>
-</ol>
-<h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
+</ol><h4 id="响应报文"><a href="#响应报文" class="headerlink" title="响应报文"></a>响应报文</h4><ol>
 <li>组成：HTTP 版本、状态码（数字和原因短语）、HTTP 首部字段</li>
-</ol>
-<h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
+</ol><h3 id="HTTP首部字段"><a href="#HTTP首部字段" class="headerlink" title="HTTP首部字段"></a>HTTP首部字段</h3><h4 id="4类HTTP首部字段类型"><a href="#4类HTTP首部字段类型" class="headerlink" title="4类HTTP首部字段类型"></a>4类HTTP首部字段类型</h4><ol>
 <li>通用首部字段</li>
 <li>请求首部字段</li>
 <li>响应首部字段</li>
 <li>实体首部字段</li>
-</ol>
-<h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
+</ol><h4 id="非HTTP-1-1首部字段"><a href="#非HTTP-1-1首部字段" class="headerlink" title="非HTTP/1.1首部字段"></a>非HTTP/1.1首部字段</h4><ol>
 <li>端到端首部（End-to-end Header）<ul>
 <li>首部会转发给请求/ 响应对应的最终接收目标，且必须保存在由缓存生成的响应中，另外规定必须被转发</li>
 </ul>
@@ -346,7 +343,10 @@
 <li>使用hop-by-hop 首部，需提供Connection 首部字段</li>
 </ul>
 </li>
-</ol>
+</ol><a id="more"></a>
+
+
+
 <h3 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h3><h4 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h4><ul>
 <li><p>作用：通过指定首部字段Cache-Control 的指令，操作缓存的工作</p>
 </li>
@@ -536,7 +536,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -549,7 +549,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

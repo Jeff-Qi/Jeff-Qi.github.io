@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="五类网络IO模型 I/O 多路复用之select、poll、epoll 参考文档    五类网络IO模型 阻塞io：  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情     非阻塞io：  当系统发起调用后，系统没有将资源准备好">
+  <meta name="description" content="五类网络IO模型 I/O 多路复用之select、poll、epoll 参考文档   五类网络IO模型 阻塞io：  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情     非阻塞io：  当系统发起调用后，系统没有将资源准备好，但">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络IO模型">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/22/netowrk-io-module/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="五类网络IO模型 I/O 多路复用之select、poll、epoll 参考文档    五类网络IO模型 阻塞io：  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情     非阻塞io：  当系统发起调用后，系统没有将资源准备好">
+<meta property="og:description" content="五类网络IO模型 I/O 多路复用之select、poll、epoll 参考文档   五类网络IO模型 阻塞io：  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情     非阻塞io：  当系统发起调用后，系统没有将资源准备好，但">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/blocking_io.png">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/unblocking_io.png">
@@ -69,7 +69,7 @@
 <meta property="og:updated_time" content="2020-03-22T14:03:03.959Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络IO模型">
-<meta name="twitter:description" content="五类网络IO模型 I/O 多路复用之select、poll、epoll 参考文档    五类网络IO模型 阻塞io：  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情     非阻塞io：  当系统发起调用后，系统没有将资源准备好">
+<meta name="twitter:description" content="五类网络IO模型 I/O 多路复用之select、poll、epoll 参考文档   五类网络IO模型 阻塞io：  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情     非阻塞io：  当系统发起调用后，系统没有将资源准备好，但">
 <meta name="twitter:image" content="http://study.jeffqi.cn/linux/blocking_io.png">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/22/netowrk-io-module/">
 
@@ -321,15 +321,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+        <ul>
 <li><a href="#五类网络io模型">五类网络IO模型</a></li>
 <li><a href="#io-多路复用之selectpollepoll">I/O 多路复用之select、poll、epoll</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="五类网络IO模型"><a href="#五类网络IO模型" class="headerlink" title="五类网络IO模型"></a>五类网络IO模型</h1><ul>
+</ul><h1 id="五类网络IO模型"><a href="#五类网络IO模型" class="headerlink" title="五类网络IO模型"></a>五类网络IO模型</h1><ul>
 <li><h4 id="阻塞io："><a href="#阻塞io：" class="headerlink" title="阻塞io："></a><strong>阻塞io</strong>：</h4><p>  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情</p>
 <p>  <img src="http://study.jeffqi.cn/linux/blocking_io.png" alt="blocking_io"></p>
 </li>
@@ -344,7 +342,9 @@
 <li><h4 id="异步io："><a href="#异步io：" class="headerlink" title="异步io："></a><strong>异步io</strong>：</h4><p>  发起调用后，立即返回，当资源拷贝到内核空间后，发送信号告诉进程资源已经在用户空间可以使用了</p>
 <p>  <img src="http://study.jeffqi.cn/linux/async_io.png" alt="async_io"></p>
 </li>
-</ul>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
 <h1 id="I-O-多路复用之select、poll、epoll"><a href="#I-O-多路复用之select、poll、epoll" class="headerlink" title="I/O 多路复用之select、poll、epoll"></a>I/O 多路复用之select、poll、epoll</h1><ul>
 <li><h3 id="select："><a href="#select：" class="headerlink" title="select："></a>select：</h3><p>  select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds；调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
   <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span> <span class="params">(<span class="keyword">int</span> n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -470,7 +470,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -483,7 +483,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

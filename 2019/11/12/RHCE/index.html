@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="RHCE开机设置图形界面12systemctl set-default   graphic.targetinit 6  设置 SELinux123456[root@server0 ~]# vim /etc/selinux/configSELINUX = enforcing[root@server0 ~]# setenforce 1[root@server0 ~]# getenforceEnforc">
+  <meta name="description" content="RHCE开机设置图形界面12systemctl set-default   graphic.targetinit 6设置 SELinux123456[root@server0 ~]# vim /etc/selinux/configSELINUX = enforcing[root@server0 ~]# setenforce 1[root@server0 ~]# getenforceEnforcin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RHCE备考">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/12/RHCE/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="RHCE开机设置图形界面12systemctl set-default   graphic.targetinit 6  设置 SELinux123456[root@server0 ~]# vim /etc/selinux/configSELINUX = enforcing[root@server0 ~]# setenforce 1[root@server0 ~]# getenforceEnforc">
+<meta property="og:description" content="RHCE开机设置图形界面12systemctl set-default   graphic.targetinit 6设置 SELinux123456[root@server0 ~]# vim /etc/selinux/configSELINUX = enforcing[root@server0 ~]# setenforce 1[root@server0 ~]# getenforceEnforcin">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RHCE备考">
-<meta name="twitter:description" content="RHCE开机设置图形界面12systemctl set-default   graphic.targetinit 6  设置 SELinux123456[root@server0 ~]# vim /etc/selinux/configSELINUX = enforcing[root@server0 ~]# setenforce 1[root@server0 ~]# getenforceEnforc">
+<meta name="twitter:description" content="RHCE开机设置图形界面12systemctl set-default   graphic.targetinit 6设置 SELinux123456[root@server0 ~]# vim /etc/selinux/configSELINUX = enforcing[root@server0 ~]# setenforce 1[root@server0 ~]# getenforceEnforcin">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/12/RHCE/">
 
 
@@ -324,9 +324,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure>
+        <h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure><h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure><a id="more"></a>
 
-<h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
 
 <h3 id="设置防火墙对于ssh的访问"><a href="#设置防火墙对于ssh的访问" class="headerlink" title="设置防火墙对于ssh的访问"></a>设置防火墙对于ssh的访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.25.0.0/24' service name='ssh' accept"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --permanent --add-rich-rule "rule family='ipv4' source address='172.17.10.0/24' service name='ssh' reject"</span></span><br><span class="line">success</span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --reload</span></span><br><span class="line">success</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@server0 ~]<span class="comment"># firewall-cmd --list-all</span></span><br><span class="line">public (default, active)</span><br><span class="line">  interfaces: eth0</span><br><span class="line">  sources:</span><br><span class="line">  services: dhcpv6-client</span><br><span class="line">  ports:</span><br><span class="line">  masquerade: no</span><br><span class="line">  forward-ports:</span><br><span class="line">  icmp-blocks:</span><br><span class="line">  rich rules:</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.17.10.0/24"</span> service name=<span class="string">"ssh"</span> reject</span><br><span class="line">	rule family=<span class="string">"ipv4"</span> <span class="built_in">source</span> address=<span class="string">"172.25.0.0/24"</span> service name=<span class="string">"ssh"</span> accept</span><br></pre></td></tr></table></figure>
 
@@ -456,7 +456,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -469,7 +469,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

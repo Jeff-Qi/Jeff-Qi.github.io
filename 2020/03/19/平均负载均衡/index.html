@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="平均负载 案例分析      平均负载12[root@node1 ~]# uptime 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14   通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载  平均负载概念：单位时间内，系统处于可运行状态和不可中断状态的平均进程">
+  <meta name="description" content="平均负载 案例分析     平均负载12[root@node1 ~]# uptime 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14 通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载  平均负载概念：单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就">
 <meta property="og:type" content="article">
 <meta property="og:title" content="平均负载">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/19/平均负载均衡/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="平均负载 案例分析      平均负载12[root@node1 ~]# uptime 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14   通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载  平均负载概念：单位时间内，系统处于可运行状态和不可中断状态的平均进程">
+<meta property="og:description" content="平均负载 案例分析     平均负载12[root@node1 ~]# uptime 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14 通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载  平均负载概念：单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-03-22T01:56:33.112Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="平均负载">
-<meta name="twitter:description" content="平均负载 案例分析      平均负载12[root@node1 ~]# uptime 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14   通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载  平均负载概念：单位时间内，系统处于可运行状态和不可中断状态的平均进程">
+<meta name="twitter:description" content="平均负载 案例分析     平均负载12[root@node1 ~]# uptime 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14 通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载  平均负载概念：单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/19/平均负载均衡/">
 
 
@@ -324,18 +324,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+        <ul>
 <li><a href="#平均负载">平均负载</a><ul>
 <li><a href="#案例分析">案例分析</a><!-- TOC END -->
 
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure>
-
-<ol>
+</ul><h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure><ol>
 <li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
 </li>
 <li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
@@ -358,7 +354,11 @@
 </li>
 <li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
 </li>
-</ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
+
 <h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
 <li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
 <li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
@@ -482,7 +482,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -495,7 +495,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

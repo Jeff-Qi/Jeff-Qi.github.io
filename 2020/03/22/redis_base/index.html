@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案    redis基础 基础学习   数据类型str">
+  <meta name="description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案   redis基础 基础学习 数据类型string类">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis基础学习">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/22/redis_base/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案    redis基础 基础学习   数据类型str">
+<meta property="og:description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案   redis基础 基础学习 数据类型string类">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg">
 <meta property="og:updated_time" content="2020-03-22T10:45:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis基础学习">
-<meta name="twitter:description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案    redis基础 基础学习   数据类型str">
+<meta name="twitter:description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案   redis基础 基础学习 数据类型string类">
 <meta name="twitter:image" content="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/22/redis_base/">
 
@@ -318,8 +318,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+        <ul>
 <li><a href="#redis基础">redis基础</a></li>
 <li><a href="#数据类型">数据类型</a><ul>
 <li><a href="#string类型">string类型</a></li>
@@ -352,12 +351,13 @@
 <li><a href="#参考文案">参考文案</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
+</ul><h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
 <li>基础学习</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
+</ul><p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
+<p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
 <p>这是最简单的类型，就是普通的 set 和 get，做简单的 KV 缓存</p>
 <p><strong>string适用范围较广</strong></p>
 <ul>
@@ -702,7 +702,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -715,7 +715,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

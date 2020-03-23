@@ -316,8 +316,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#啥是主从复制">啥是主从复制？</a></li>
 <li><a href="#主从复制有什么用">主从复制有什么用？</a></li>
 <li><a href="#主从模式">主从模式</a><ul>
@@ -345,145 +344,18 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
+</ul><h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
 <li>主从复制就就是将主服务器上的数据，复制到一个或多个从服务器上；mysql默认采用异步复制，从节点可以复制主节点上的指定的数据库；</li>
 </ul>
-<h1 id="主从复制有什么用？"><a href="#主从复制有什么用？" class="headerlink" title="主从复制有什么用？"></a>主从复制有什么用？</h1><ul>
-<li><p><strong>提供读写分离的能力</strong>：从服务器可以分代主库的读请求的压力，让主库更专注于数据的更新和写操作，有更好的写性能；</p>
-</li>
-<li><p><strong>数据备份</strong>：从库上拥有主库的完整的二进制日志，应用后可拥有和主库几乎相等的数据；在主库某些不可抗力的影响后，依旧能够保证真个数据库数据的完整性；方便切换</p>
-</li>
-<li><p><strong>高可用</strong>：主从复制是高可用的基础；可以使用多个节点来避免单点故障</p>
-</li>
-<li><p><strong>架构扩展</strong>：可以随着业务的增加，可以通过增加节点来提高适应能力。分担压力，将压力负载到多态服务器上</p>
-</li>
-</ul>
-<h1 id="主从模式"><a href="#主从模式" class="headerlink" title="主从模式"></a>主从模式</h1><h2 id="一主一从、一主多从"><a href="#一主一从、一主多从" class="headerlink" title="一主一从、一主多从"></a>一主一从、一主多从</h2><ul>
-<li>一主一到多从模式可以提升整个数据库的读能力，分代主库的压力</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/1_m_1_s.jpg" alt="1-m-1-s"><br><img src="http://study.jeffqi.cn/mysql/1_m_mulits_s.jpg" alt="1-m-mulits-s"></p>
-<h2 id="多主一从"><a href="#多主一从" class="headerlink" title="多主一从"></a>多主一从</h2><ul>
-<li>将多个主库的数据存储到一台存储性能好的服务器中</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/mulits_m_1_s.jpg" alt="mulits-m-1-s"></p>
-<h2 id="双主模式"><a href="#双主模式" class="headerlink" title="双主模式"></a>双主模式</h2><ul>
-<li>两台服务器互为主从，任意一个master修改后都会将数据日志复制到对方去；避免循环复制，从服务器在应用日志后，写日志时将日志的server-id改为应用日志的server-id，这样发送回去的时候主服务器就能够识别</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/double_m.jpg" alt="double-m"></p>
-<h2 id="级联复制"><a href="#级联复制" class="headerlink" title="级联复制"></a>级联复制</h2><ul>
-<li>部分slave的数据同步不连接主节点，而是连接从节点。因为如果主节点有太多的从节点，就会损耗一部分性能用于replication，那么我们可以让3~5个从节点连接主节点，其它从节点作为二级或者三级与从节点连接，这样不仅可以缓解主节点的压力，并且对数据一致性没有负面影响</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/m-s-s.jpg" alt="m-s-s"></p>
-<h1 id="mysql主从复制原理"><a href="#mysql主从复制原理" class="headerlink" title="mysql主从复制原理"></a>mysql主从复制原理</h1><ul>
-<li><p>mysql主从复制中有三个线程<strong>dump thread（master）、io thread（slave）、sql thread（slave）</strong></p>
-</li>
-<li><p><strong>dump thread</strong>：当从节点连接主节点时，主节点会创建一个log dump 线程，用于发送bin-log的内容。在读取bin-log中的操作时，此线程会对主节点上的bin-log加锁，当读取完成，在发动给从节点之后，锁会被释放。</p>
-</li>
-<li><p><strong>io thread</strong>：从节点上用来想主服务器请求日志，接收从主服务器发送的binlog，并更新到本地的relay-log中。</p>
-</li>
-<li><p><strong>sql thread</strong>：SQL线程负责读取relay log中的内容，解析成具体的操作并执行，最终保证主从数据的一致性。</p>
-</li>
-<li><p>当主节点有多个从节点时，主节点会为每一个当前连接的从节点建一个binary log dump 进程，而每个从节点都有自己的I/O进程，SQL进程。从节点用两个线程将从主库拉取更新和执行分成独立的任务，这样在执行同步数据任务的时候，不会降低读操作的性能。</p>
-</li>
-</ul>
-<h2 id="复制流程"><a href="#复制流程" class="headerlink" title="复制流程"></a>复制流程</h2><ul>
-<li><p>从节点上的I/O 进程连接主节点，并请求从指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；</p>
-</li>
-<li><p>主节点接收到来自从节点的I/O请求后，通过负责复制的I/O进程根据请求信息读取指定日志指定位置之后的日志信息，返回给从节点。返回信息中除了日志所包含的信息之外，还包括本次返回的信息的bin-log file 的以及bin-log position；从节点的I/O进程接收到内容后，将接收到的日志内容更新到本机的relay log中，并将读取到的binary log文件名和位置保存到master-info 文件中，以便在下一次读取的时候能够清楚的告诉Master“我需要从某个bin-log 的哪个位置开始往后的日志内容，请发给我”；</p>
-</li>
-<li><p>Slave 的 SQL线程检测到relay-log 中新增加了内容后，会将relay-log的内容解析成在祝节点上实际执行过的操作，并在本数据库中执行。</p>
-</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/mysql_replication_processes.png" alt="mysql-replication_processes"></p>
-<h1 id="mysql复制模式"><a href="#mysql复制模式" class="headerlink" title="mysql复制模式"></a>mysql复制模式</h1><ul>
-<li><p>异步复制<br><img src="http://study.jeffqi.cn/mysql/mysql_async_repl.jpg" alt="mysql_async_repl"></p>
-</li>
-<li><p>同步复制<br><img src="http://study.jeffqi.cn/mysql/mysql_%28semi%29_sync.jpg" alt="mysql_(semi)\_repl"></p>
-</li>
-<li><p>半同步复制</p>
-</li>
-<li><h2 id="异步复制"><a href="#异步复制" class="headerlink" title="异步复制"></a>异步复制</h2><p>  主节点不会主动推送二进制日志到从服务器，需要从服务器发起请求；主服务器的事务完成提交后立即返回结果给客户端，需要等待从服务器的确认。</p>
-<ul>
-<li><p><strong>优点</strong>：数据库吞吐量大，性能好</p>
-</li>
-<li><p><strong>缺点</strong>：因为不需要其他数据库的确认，可能在master宕机后，造成数据的丢失；从服务器也不能及时的更新数据</p>
-</li>
-</ul>
-</li>
-<li><h2 id="同步复制"><a href="#同步复制" class="headerlink" title="同步复制"></a>同步复制</h2><p>  当主库提交事务时，<strong>所有从库</strong>也将在主库返回执行事务的会话之前<strong>提交事务</strong>。这样能够保证数据的一致性和完整性</p>
-<ul>
-<li><p><strong>有点</strong>：数据库数据有备份，完整性好</p>
-</li>
-<li><p><strong>缺点</strong>：需要等待从库确认，主动推送日志，会有性能消耗；事务的过程边长</p>
-</li>
-</ul>
-</li>
-<li><h2 id="半同步复制"><a href="#半同步复制" class="headerlink" title="半同步复制"></a>半同步复制</h2><p>  介于异步和完全同步复制之间。主库仅等待<strong>至少一个从库接收并记录事件</strong>。它不会等待所有从库确认收到，并且<strong>从库只需要确认接收</strong>，而不是事件已在从库完全执行和提交。</p>
-<ul>
-<li><p><strong>优点</strong>：至少有一个从库确认了二进制日志，保证了数据的完整性；同时不需要等待所有从库的确认，响应速度更快</p>
-</li>
-<li><p><strong>缺点</strong>：因为需要等待至少一个从库，所以有性能消耗；同时如果读写分离的读操作落在不是确认了日志的服务器上，会出现延迟更新的问题</p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="性能提升"><a href="#性能提升" class="headerlink" title="性能提升"></a>性能提升</h1><h2 id="支持发送二进制日志事件和接收ACK的异步化"><a href="#支持发送二进制日志事件和接收ACK的异步化" class="headerlink" title="支持发送二进制日志事件和接收ACK的异步化"></a>支持发送二进制日志事件和接收ACK的异步化</h2><ul>
-<li>旧版本的半同步复制受限于Binlog Dump线程，原因是该线程承担了两份不同且又十分频繁的任务：传送二进制日志事件给从库 ；接收从库的ACK反馈信息。这两个任务是串行的，Binlog Dump线程必须等待从库返回之后才会传送下一个事件。Binlog Dump线程已然成为整个半同步复制性能的瓶颈。</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/old_repl_ack.png" alt="old_repl_ack"></p>
-<ul>
-<li>在5.7.4版本的半同步复制框架中，独立出一个Ack Receiver线程 ，专门用于接收从库返回的ACK请求，这将之前Binlog Dump线程的发送和接收工作分为了两个线程来处理。这样主库上有两个线程独立工作，可以同时发送二进制日志事件到从库，和接收从库的ACK信息</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/new_repl_ack.png" alt="new_repl_ack"></p>
-<ul>
-<li><p>Ack Receiver线程在主库启用半同步复制时创建，并在主库禁用半同步复制时销毁。它是自动创建和销毁的，因此不受用户控制</p>
-</li>
-<li><p>在MySQL 5.7.17之前，这个Ack Receiver线程采用了<strong>select机制来监听</strong>从库返回的结果，然而select机制监控的文件句柄只能是0-1024，当超过1024时，用户在MySQL的错误日志中或许会收到类似如下的报错，更有甚者会导致MySQL发生宕机。</p>
-</li>
-<li><p>MySQL 5.7.17版本开始，官方修复了这个bug，开始使用<strong>poll机制来替换原来的select机制</strong>，从而可以避免上面的问题。其实poll调用本质上和select没有区别，只是在I/O句柄数理论上没有上限</p>
-</li>
-</ul>
-<h2 id="控制主库接收确认反馈从库的数量"><a href="#控制主库接收确认反馈从库的数量" class="headerlink" title="控制主库接收确认反馈从库的数量"></a>控制主库接收确认反馈从库的数量</h2><ul>
-<li><p>MySQL 5.7新增了rpl_semi_sync_master_wait_for_slave_count系统变量，可以用来控制主库接收多少个从库写事务成功反馈，给高可用架构切换提供了灵活性。当该变量值为2时，主库需等待两个从库的ACK。</p>
-</li>
-<li><p>当然啦，数字越大越安全咯；因为更接近全同步复制了（手动滑稽）</p>
-</li>
-</ul>
-<h1 id="日志格式"><a href="#日志格式" class="headerlink" title="日志格式"></a>日志格式</h1><ul>
-<li>statment</li>
-<li>row</li>
-<li>mix</li>
-</ul>
-<h2 id="binlog记录格式"><a href="#binlog记录格式" class="headerlink" title="binlog记录格式"></a>binlog记录格式</h2><ul>
-<li><h3 id="statment格式"><a href="#statment格式" class="headerlink" title="statment格式"></a>statment格式</h3><p>  该模式记录每一条sql语句，对于所有的增删改语句进行记录。日志文件较小，节约了io。但是在一些极端情况下会照成数据的不一致；</p>
-</li>
-<li><h3 id="row格式"><a href="#row格式" class="headerlink" title="row格式"></a>row格式</h3><p>   Row-based Relication(RBR)是mysql master将SQL语句分解为基于Row更改的语句并记录在bin log中，也就是只记录哪条数据被修改了，修改成什么样；恢复数据是比较方便，不会出现不一致的问题；缺点是日志文件过大也不能通过bin log解析获取执行过的sql语句，只能看到发生的data变更；也不能通过bin log解析获取执行过的sql语句，只能看到发生的data变更</p>
-</li>
-<li><h3 id="mix格式"><a href="#mix格式" class="headerlink" title="mix格式"></a>mix格式</h3><p>  是以上两种模式的混合，对于一般的复制使用STATEMENT模式保存到binlog，对于STATEMENT模式无法复制的操作则使用ROW模式来保存，MySQL会根据执行的SQL语句选择日志保存方式</p>
-</li>
-</ul>
-<h1 id="基于GTID复制实现的工作原理"><a href="#基于GTID复制实现的工作原理" class="headerlink" title="基于GTID复制实现的工作原理"></a>基于GTID复制实现的工作原理</h1><ul>
-<li><p>在传统的复制里面，当发生故障，需要主从切换，需要找到binlog和pos点，然后将主节点指向新的主节点，相对来说比较麻烦，也容易出错；使用GTID进行复制不需要其他的操作；MySQL会通过内部机制GTID自动找点同步。</p>
-</li>
-<li><p><strong>工作流程</strong></p>
-<ol>
-<li>主节点更新数据时，会在事务前产生GTID，一起记录到binlog日志中。</li>
-<li>从节点的I/O线程将变更的bin log，写入到本地的relay log中。</li>
-<li>SQL线程从relay log中获取GTID，然后对比本地binlog是否有记录（所以MySQL从节点必须要开启binary log）。</li>
-<li>如果有记录，说明该GTID的事务已经执行，从节点会忽略。</li>
-<li>如果没有记录，从节点就会从relay log中执行该GTID的事务，并记录到bin log。</li>
-<li>在解析过程中会判断是否有主键，如果没有就用二级索引，如果有就用全部扫描。（<strong>没明白</strong>）</li>
-</ol>
-</li>
-</ul>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/50597960" target="_blank" rel="noopener">深度探索MySQL主从复制原理</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">mysql8复制-半同步复制</a></li>
-<li><a href="https://wxy0327.blog.csdn.net/article/details/90081518" target="_blank" rel="noopener">mysql8复制-半同步复制配置</a></li>
-<li><a href="https://time.geekbang.org/column/article/76446" target="_blank" rel="noopener">MySQL是怎么保证主备一致的？(极客时间)</a></li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/23/mysql主从复制原理/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -739,15 +611,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#五类网络io模型">五类网络IO模型</a></li>
 <li><a href="#io-多路复用之selectpollepoll">I/O 多路复用之select、poll、epoll</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="五类网络IO模型"><a href="#五类网络IO模型" class="headerlink" title="五类网络IO模型"></a>五类网络IO模型</h1><ul>
+</ul><h1 id="五类网络IO模型"><a href="#五类网络IO模型" class="headerlink" title="五类网络IO模型"></a>五类网络IO模型</h1><ul>
 <li><h4 id="阻塞io："><a href="#阻塞io：" class="headerlink" title="阻塞io："></a><strong>阻塞io</strong>：</h4><p>  当进程发起调用后，系统没有将资源准备好，进程就会一直等待系统回复信号，等待系统将数据从硬件设备拷贝到内核空间，然后拷贝数据到用户空间，完成后系统才会返回信号；进程继续执行；此期间，该进程一直被挂起，不能做任何事情</p>
 <p>  <img src="http://study.jeffqi.cn/linux/blocking_io.png" alt="blocking_io"></p>
 </li>
@@ -763,42 +633,15 @@
 <p>  <img src="http://study.jeffqi.cn/linux/async_io.png" alt="async_io"></p>
 </li>
 </ul>
-<h1 id="I-O-多路复用之select、poll、epoll"><a href="#I-O-多路复用之select、poll、epoll" class="headerlink" title="I/O 多路复用之select、poll、epoll"></a>I/O 多路复用之select、poll、epoll</h1><ul>
-<li><h3 id="select："><a href="#select：" class="headerlink" title="select："></a>select：</h3><p>  select 函数监视的文件描述符分3类，分别是writefds、readfds、和exceptfds；调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以 通过遍历fdset，来找到就绪的描述符。</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">select</span> <span class="params">(<span class="keyword">int</span> n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>有点：跨平台</li>
-<li>监听的数量有限1024个</li>
-</ol>
-</li>
-<li><h3 id="poll："><a href="#poll：" class="headerlink" title="poll："></a>poll：</h3><p>  不同与select使用三个位图来表示三个fdset的方式，poll使用一个 pollfd的指针实现。pollfd结构包含了要监视的event和发生的event，不再使用select“参数-值”传递的方式。同时，pollfd并没有最大数量限制（但是数量过大后性能也是会下降）。 和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。</p>
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span> <span class="params">(struct pollfd *fds, <span class="keyword">unsigned</span> <span class="keyword">int</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pollfd</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> fd; <span class="comment">/* file descriptor \*/</span></span><br><span class="line">    <span class="keyword">short</span> events; <span class="comment">/* requested events to watch \*/</span></span><br><span class="line">    <span class="keyword">short</span> revents; <span class="comment">/* returned events witnessed \*/</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll:"></a>epoll:</h3><p>  epoll更加灵活，没有描述符限制。epoll使用一个文件描述符管理多个描述符，将用户关系的文件描述符的事件存放到内核的一个事件表中，这样在用户空间和内核空间的copy只需一次。</p>
-<ol>
-<li><p>三个接口</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int epoll_create(int size)；//创建一个epoll的句柄，size用来告诉内核这个监听的数目一共有多大</span><br><span class="line">int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；</span><br><span class="line"><span class="comment">// - epfd：是epoll_create()的返回值。</span></span><br><span class="line"><span class="comment">// - op：表示op操作，用三个宏来表示：添加EPOLL_CTL_ADD，删除EPOLL_CTL_DEL,修改EPOLL_CTL_MOD。分别添加、删除和修改对fd的监听事件。</span></span><br><span class="line"><span class="comment">// - fd：是需要监听的fd（文件描述符）</span></span><br><span class="line"><span class="comment">// - epoll_event：是告诉内核需要监听什么事，struct epoll_event结构如下：</span></span><br><span class="line">      <span class="comment">// EPOLLIN ：表示对应的文件描述符可以读（包括对端SOCKET正常关闭）；</span></span><br><span class="line">      <span class="comment">// EPOLLOUT：表示对应的文件描述符可以写；</span></span><br><span class="line">      <span class="comment">// EPOLLPRI：表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）；</span></span><br><span class="line">      <span class="comment">// EPOLLERR：表示对应的文件描述符发生错误；</span></span><br><span class="line">      <span class="comment">// EPOLLHUP：表示对应的文件描述符被挂断；</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">epoll_wait</span><span class="params">(<span class="keyword">int</span> epfd, struct epoll_event * events, <span class="keyword">int</span> maxevents, <span class="keyword">int</span> timeout)</span></span>;</span><br><span class="line"><span class="comment">// 等待epfd上的io事件，最多返回maxevents个事件。</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>工作模式</p>
-<ol>
-<li><p>LT模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。</p>
-</li>
-<li><p>ET模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序 必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。</p>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ul>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
-<li><a href="https://blog.csdn.net/muyuyuzhong/article/details/83538860" target="_blank" rel="noopener">linux网络IO模型</a></li>
-<li><a href="https://www.cnblogs.com/wlwl/p/10291397.html" target="_blank" rel="noopener">Linux五大网络IO模型图解</a></li>
-<li><a href="https://segmentfault.com/a/1190000003063859" target="_blank" rel="noopener">Linux IO模式及 select、poll、epoll详解</a></li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/22/netowrk-io-module/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -881,8 +724,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#redis基础">redis基础</a></li>
 <li><a href="#数据类型">数据类型</a><ul>
 <li><a href="#string类型">string类型</a></li>
@@ -915,267 +757,18 @@
 <li><a href="#参考文案">参考文案</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
+</ul><h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
 <li>基础学习</li>
-</ul>
-<p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
-<p>这是最简单的类型，就是普通的 set 和 get，做简单的 KV 缓存</p>
-<p><strong>string适用范围较广</strong></p>
-<ul>
-<li>缓存功能：String字符串是最常用的数据类型，不仅仅是Redis，各个语言都是最基本类型，因此，利用Redis作为缓存，配合其它数据库作为存储层，利用Redis支持高并发的特点，可以大大加快系统的读写速度、以及降低后端数据库的压力。</li>
-<li>计数器：许多系统都会使用Redis作为系统的实时计数器，可以快速实现计数和查询的功能。而且最终的数据结果可以按照特定的时间落地到数据库或者其它存储介质当中进行永久保存。</li>
-<li>共享用户Session：用户重新刷新一次界面，可能需要访问一下数据进行重新登录，或者访问页面缓存Cookie，但是可以利用Redis将用户的Session集中管理，在这种模式只需要保证Redis的高可用，每次用户Session的更新和获取都可以快速完成。大大提高效率。</li>
-</ul>
-<h2 id="hash类型"><a href="#hash类型" class="headerlink" title="hash类型"></a>hash类型</h2><p>这个是类似 Map 的一种结构，这个一般就是可以将结构化的数据，比如一个对象（前提是这个对象没嵌套其他的对象）给缓存在 Redis 里，然后每次读写缓存的时候，可以就操作 Hash 里的某个字段。</p>
-<p>但是这个的场景其实还是多少单一了一些，因为现在很多对象都是比较复杂的，比如你的商品对象可能里面就包含了很多属性，其中也有对象。我自己使用的场景用得不是那么多。</p>
-<h2 id="list类型"><a href="#list类型" class="headerlink" title="list类型"></a>list类型</h2><p>List 是有序列表，可以玩儿出很多花样。</p>
-<p>比如可以通过 List 存储一些列表型的数据结构，类似粉丝列表、文章的评论列表之类的东西。</p>
-<p>比如可以通过 lrange 命令，读取某个闭区间内的元素，可以基于 List 实现分页查询，这个是很棒的一个功能，基于 Redis 实现简单的高性能分页，可以做类似微博那种下拉不断分页的东西，性能高，就一页一页走。</p>
-<p>比如可以搞个简单的消息队列，从 List 头怼进去，从 List 屁股那里弄出来。</p>
-<p>List本身就是我们在开发过程中比较常用的数据结构了，热点数据更不用说了。</p>
-<ul>
-<li><strong>消息队列</strong>：<br>Redis的链表结构，可以轻松实现阻塞队列，可以使用左进右出的命令组成来完成队列的设计。比如：数据的生产者可以通过Lpush命令从左边插入数据，多个数据消费者，可以使用BRpop命令阻塞的“抢”列表尾部的数据。</li>
-<li><strong>文章列表或者数据分页展示</strong>：<br>比如，我们常用的博客网站的文章列表，当用户量越来越多时，而且每一个用户都有自己的文章列表，而且当文章多时，都需要分页展示，这时可以考虑使用Redis的列表，列表不但有序同时还支持按照范围内获取元素，可以完美解决分页查询功能。大大提高查询效率</li>
-</ul>
-<h2 id="set类型"><a href="#set类型" class="headerlink" title="set类型"></a>set类型</h2><p><strong>Set 是无序集合，会自动去重的那种。</strong></p>
-<p>直接基于 Set 将系统里需要去重的数据扔进去，自动就给去重了；如果你的某个系统部署在多台机器上呢？得基于Redis进行全局的 Set 去重。</p>
-<p>可以基于 Set 玩儿<strong>交集、并集、差集</strong>的操作，比如交集吧，我们可以把两个人的好友列表整一个交集，看看俩人的共同好友是谁</p>
-<p>对比很快，操作也简单</p>
-<h2 id="sort-set"><a href="#sort-set" class="headerlink" title="sort set"></a>sort set</h2><p>Sorted set 是排序的 Set，去重但可以排序，写进去的时候给一个分数，自动根据分数排序。</p>
-<p>有序集合的使用场景与集合类似，但是set集合不是自动有序的，而Sorted set可以利用分数进行成员间的排序，而且是插入时就排序好。所以当你需要一个有序且不重复的集合列表时，就可以选择Sorted set数据结构作为选择方案。</p>
-<ul>
-<li><p>排行榜：有序集合经典使用场景。例如视频网站需要对用户上传的视频做排行榜，榜单维护可能是多方面：按照时间、按照播放量、按照获得的赞数等。</p>
-</li>
-<li><p><strong>带权重</strong> 的队列，比如普通消息的score为1，重要消息的score为2，然后工作线程可以选择按score的倒序来获取工作任务。让重要的任务优先执行。</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>简介</th>
-<th>特性</th>
-<th>场景</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>String(字符串)</td>
-<td>二进制安全</td>
-<td>可以包含任何数据，比如jpg图片或者序列化的对象，一个键最大能存储512M</td>
-<td></td>
-</tr>
-<tr>
-<td>Hash(字典)</td>
-<td>键值对集合，即编程语言中的Map类型</td>
-<td>适合存储对象，并且可以像数据库中update一个属性一样只修改某一项属性值(Memcached中需要取出整个字符串反序列化成对象修改完再序列化存回去)</td>
-<td>存储、读取、修改用户属性</td>
-</tr>
-<tr>
-<td>List(列表)</td>
-<td>链表(双向链表)</td>
-<td>增删快，提供了操作某一段元素的API</td>
-<td>1，最新消息排行等功能(比如朋友圈的时间线) 2，消息队列</td>
-</tr>
-<tr>
-<td>Set(集合)</td>
-<td>哈希表实现，元素不重复</td>
-<td>1，添加、删除，查找的复杂度都是O(1) 2，为集合提供了求交集、并集、差集等操作</td>
-<td>1，共同好友 2，利用唯一性，统计访问网站的所有独立ip 3，好用推荐时，根据tag求交集，大于某个阈值就可以推荐</td>
-</tr>
-<tr>
-<td>Sorted Set(有序集合)</td>
-<td>将Set中的元素增加一个权重参数score，元素按score有序排列</td>
-<td>数据插入集合时，已经进行天然排序</td>
-<td>1，排行榜 2，带权重的消息队列</td>
-</tr>
-</tbody></table>
-<h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><ul>
-<li><h3 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h3><p>位图是支持按 bit 位来存储信息，可以用来实现 布隆过滤器（BloomFilter）</p>
-</li>
-<li><h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>不精确的去重计数功能，比较适合用来做大规模数据的去重统计</p>
-</li>
-<li><h3 id="Geospatial"><a href="#Geospatial" class="headerlink" title="Geospatial"></a>Geospatial</h3><p>可以用来保存地理位置，并作位置距离计算或者根据半径计算位置等。有没有想过用Redis来实现附近的人？或者计算最优地图路径？</p>
-</li>
-</ul>
-<p>这三个其实也可以算作一种数据结构，不知道还有多少朋友记得，我在梦开始的地方，Redis基础中提到过，你如果只知道五种基础类型那只能拿60分，如果你能讲出高级用法，那就觉得你有点东西。</p>
-<ul>
-<li><h3 id="pub-sub"><a href="#pub-sub" class="headerlink" title="pub/sub"></a>pub/sub</h3>功能是订阅发布功能，可以用作简单的消息队列。</li>
-</ul>
-<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>Redis 提供的不是严格的事务，Redis 只保证串行执行命令，并且能保证全部执行，但是执行命令失败时并不会回滚，而是会继续执行下去。</p>
-<h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>Redis 提供了 RDB 和 AOF 两种持久化方式，RDB 是把<strong>内存中的数据集以快照形式写入磁盘</strong>，实际操作是通过 fork 子进程执行，采用二进制压缩存储；AOF 是<strong>以文本日志的形式记录 Redis 处理的每一个写入或删除操作</strong>。</p>
-<ul>
-<li><h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><ul>
-<li><p><strong>工作原理及过程</strong>：RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，<strong>先将数据集写入临时文件，写入成功后，再替换之前的文件</strong>，用二进制压缩存储。RDB是Redis默认的持久化方式，会在对应的目录下生产一个dump.rdb文件，重启会通过加载dump.rdb文件恢复数据。</p>
-</li>
-<li><p>优点：</p>
-<ol>
-<li>只有一个文件dump.rdb，方便持久化；</li>
-<li>容灾性好，一个文件可以保存到安全的磁盘；</li>
-<li>性能最大化，fork子进程来完成写操作，让主进程继续处理命令，所以是IO最大化（使用单独子进程来进行持久化，主进程不会进行任何IO操作，保证了redis的高性能) ；</li>
-<li>如果数据集偏大，RDB的启动效率会比AOF更高。</li>
-</ol>
-</li>
-<li><p>缺点：</p>
-<ol>
-<li>数据安全性低。（RDB是间隔一段时间进行持久化，如果持久化之间redis发生故障，会发生数据丢失。所以这种方式更适合数据要求不是特别严格的时候）</li>
-<li>由于RDB是通过fork子进程来协助完成数据持久化工作的，因此，如果当数据集较大时，可能会导致整个服务器停止服务几百毫秒，甚至是1秒钟。</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><ul>
-<li><p><strong>工作原理及过程</strong>：AOF持久化是以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，文件中可以看到详细的操作记录。她的出现是为了弥补RDB的不足（数据的不一致性），所以它采用日志的形式来记录每个写操作，并追加到文件中。<strong>Redis 重启的会根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作。</strong></p>
-</li>
-<li><p>优点：</p>
-<ol>
-<li>数据安全性更高，AOF持久化可以配置appendfsync属性，其中always，每一次操作做都记录到日志中</li>
-<li>通过append模式写文件，即使中途服务器宕机，可以通过redis-check-aof工具解决数据一致性问题。</li>
-<li>AOF机制的rewrite模式。(AOF文件没被rewrite之前（文件过大时会对命令进行合并重写），可以删除其中的某些命令（比如误操作的flushall）)</li>
-</ol>
-</li>
-<li><p>缺点：</p>
-<ol>
-<li>AOF文件较大，数据集大是效率低；启动时顺序执行日志，速度没有RDB快</li>
-<li>同步策略不同，运行的效率也会慢于RDB</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="redis集群"><a href="#redis集群" class="headerlink" title="redis集群"></a>redis集群</h1><ul>
-<li><h3 id="三种模式"><a href="#三种模式" class="headerlink" title="三种模式"></a>三种模式</h3><ol>
-<li>主从模式</li>
-<li>Sentinel模式</li>
-<li>cluster模式</li>
-</ol>
-</li>
-</ul>
-<h2 id="主从模式"><a href="#主从模式" class="headerlink" title="主从模式"></a>主从模式</h2><ul>
-<li><h3 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h3><p>  当slave启动后，主动向master发送sync命令。master接受到SYNC命令后在后台保存快照并缓存在保存快照这段时间执行的命令，然后将保存的快照文件和缓存的命令发送给slave。slave接受到快照文件和命令后加载快照文件和缓存的执行命令。</p>
-</li>
-<li><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>主数据库可以进行读写操作，当读写操作导致数据变化是自动同步到从数据库</li>
-<li>从数据库只读，接受同步的数据</li>
-<li>一个master可以拥有多个slave，一个slave只属于一个master</li>
-<li>slave挂了不影响其他slave的读和master的读写，重启后自动同步数据</li>
-<li><strong>master挂了，不影响slave的读，但redis不可以再写，不会重新进行master的选举</strong></li>
-</ul>
-</li>
-<li><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
-<li>若master挂了，则redis无法对外提供写服务</li>
-</ul>
-</li>
-</ul>
-<h2 id="Sentinel模式（哨兵模式）"><a href="#Sentinel模式（哨兵模式）" class="headerlink" title="Sentinel模式（哨兵模式）"></a>Sentinel模式（哨兵模式）</h2><ul>
-<li><h3 id="工作机制-1"><a href="#工作机制-1" class="headerlink" title="工作机制"></a>工作机制</h3><ol>
-<li>每个sentinel每秒钟发送一次ping命令个master、slave、sentinel，如果距离最后一次实例回复ping命令的时间操作预先设置的down-after-milliseconds就标记实例为主观下线</li>
-<li>如果一个master被标记为主管下线，则正在监视这个master的所有sentinel要以每秒一次的频率确认master的确进入了主观下线</li>
-<li>如果有足够多的数量（设置的数值）的sentinel确认master进入主观下线，则这台master进入客观下线</li>
-<li>sentinel默认每 10 秒一次的频率向它已知的所有master，slave发送 INFO 命令。当master被sentinel标记为客观下线时，sentinel向下线的master的所有slave发送 INFO 命令的频率会从 10 秒一次改为 1 秒一次</li>
-<li>如果没有足够多的sentinel同意master下线，；如果master重新上线向sentinel回复ping命令，master的主观下线状态就会被移除</li>
-</ol>
-</li>
-<li><h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>sentinel模式简历在主从模式之上</li>
-<li>sentinel通过选举出一个新的redis实例作为master，通知其他节点修改配置，指向新的master</li>
-<li>原master重新上线只能作为slave</li>
-<li>需要保证master高可用</li>
-</ul>
-</li>
-<li><h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><ul>
-<li>当数据量过大，一台master无法存放，主从模式和sentinel模式都不能满足要求</li>
-</ul>
-</li>
-</ul>
-<h2 id="cluster模式"><a href="#cluster模式" class="headerlink" title="cluster模式"></a>cluster模式</h2><p>cluster模式的出现就是为了解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器。</p>
-<p>cluster可以说是sentinel和主从模式的结合体，通过cluster可以实现主从和master重选功能，所以如果配置两个副本三个分片的话，就需要六个Redis实例。</p>
-<p>Redis的数据是根据一定规则分配到cluster的不同机器的，当数据量过大时，可以新增机器进行扩容。</p>
-<p>使用集群，只需要将redis配置文件中的cluster-enable配置打开即可。每个集群中至少需要三个主数据库才能正常运行，新增节点非常方便。</p>
-<ul>
-<li><h3 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>多个redis实例之间网络互通，数据共享</li>
-<li>所有节点都是一主一到多从，</li>
-<li>支持在线扩展节点，删除节点</li>
-<li>任意master节点可读写</li>
-</ul>
-</li>
-</ul>
-<h1 id="redis失效机制与淘汰策略"><a href="#redis失效机制与淘汰策略" class="headerlink" title="redis失效机制与淘汰策略"></a>redis失效机制与淘汰策略</h1><h2 id="被动删除"><a href="#被动删除" class="headerlink" title="被动删除"></a>被动删除</h2><ul>
-<li>读写一个已过期的key，会触发删除操作，直接删除这个过期的key</li>
-<li><h4 id="优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"><a href="#优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查" class="headerlink" title="优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"></a>优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查</h4></li>
-<li><h4 id="缺点：内存中可能存在较多的过期的key，导致资源浪费"><a href="#缺点：内存中可能存在较多的过期的key，导致资源浪费" class="headerlink" title="缺点：内存中可能存在较多的过期的key，导致资源浪费"></a>缺点：内存中可能存在较多的过期的key，导致资源浪费</h4></li>
-</ul>
-<h2 id="主动删除"><a href="#主动删除" class="headerlink" title="主动删除"></a>主动删除</h2><p>被动删除会导致一些冷数据的长时间停留，所以需要使用主动删除来解决这些冷数据的key</p>
-<ul>
-<li><h4 id="工作流程："><a href="#工作流程：" class="headerlink" title="工作流程："></a>工作流程：</h4><p>  redis周期性执行这个清除计划，默认100ms。每次循环随机抽取20个key进行检查，如果少于25%的可以是过期的key，则清除这些冷数据key，然后停止执行任务。否则会当前一轮的检查结束后，会开启下一轮的检查。这个任务的执行时间超过了一定时间，就会被终止，防止消耗过多cpu</p>
-</li>
-<li><h4 id="优点：对于冷数据的key能够及时的清理，防止占用过多内存"><a href="#优点：对于冷数据的key能够及时的清理，防止占用过多内存" class="headerlink" title="优点：对于冷数据的key能够及时的清理，防止占用过多内存"></a>优点：对于冷数据的key能够及时的清理，防止占用过多内存</h4></li>
-<li><h4 id="缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"><a href="#缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检" class="headerlink" title="缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"></a>缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检</h4></li>
-</ul>
-<h2 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h2><p>如果失效的key没有被访问，也未被主动删除随机选中，可能就会永久存在</p>
-<p>所以redis中有一个maxmemory配置，即redis最大能使用的内存，当redis的使用内存达到这个值，会根据配置的淘汰策略，对redis的key进行淘汰。</p>
-<ul>
-<li><h3 id="六种淘汰策略"><a href="#六种淘汰策略" class="headerlink" title="六种淘汰策略"></a>六种淘汰策略</h3></li>
-</ul>
-<ol>
-<li><p><strong>vlatile-lru</strong>:从设置过期时间的数据集（server.db[i].expires）中挑选出最近最少使用的数据淘汰。没有设置过期时间的key不会被淘汰，这样就可以在增加内存空间的同时保证需要持久化的数据不会丢失。</p>
-</li>
-<li><p><strong>vlatile-ttl</strong>:除了淘汰机制采用LRU，策略基本上与volatile-lru相似，从设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰，ttl值越大越优先被淘汰。</p>
-</li>
-<li><p><strong>vlatile-random</strong>:从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰。当内存达到限制无法写入非过期时间的数据集时，可以通过该淘汰策略在主键空间中随机移除某个key。</p>
-</li>
-<li><p><strong>allkeys-lru</strong>:从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰，该策略要淘汰的key面向的是全体key集合，而非过期的key集合。</p>
-</li>
-<li><p><strong>allkeys-random</strong>:从数据集(server.db[i].dict）中选择任意数据淘汰。</p>
-</li>
-<li><p><strong>no-enviction</strong>:禁止驱逐数据，也就是当内存不足以容纳新入数据时，新写入操作就会报错，请求可以继续进行，线上任务也不能持续进行，采用no-enviction策略可以保证数据不被丢失，这也是系统默认的一种淘汰策略。</p>
-</li>
-</ol>
-<h2 id="lru淘汰、ttl淘汰与随机淘汰"><a href="#lru淘汰、ttl淘汰与随机淘汰" class="headerlink" title="lru淘汰、ttl淘汰与随机淘汰"></a>lru淘汰、ttl淘汰与随机淘汰</h2><ul>
-<li><h3 id="lru淘汰"><a href="#lru淘汰" class="headerlink" title="lru淘汰"></a>lru淘汰</h3><p>  LRU（Least recently used，最近最少使用）算法根据数据的历史访问记录来进行淘汰数据，其核心思想是“如果数据最近被访问过，那么将来被访问的几率也更高”。</p>
-<p>  在服务器配置中保存了 lru 计数器 server.lrulock，会定时（redis 定时程序 serverCorn()）更新，server.lrulock 的值是根据 server.unixtime 计算出来进行排序的，然后选择最近使用时间最久的数据进行删除</p>
-<p>  在服务器配置中保存了 lru 计数器 server.lrulock，会定时（redis 定时程序 serverCorn()）更新，server.lrulock 的值是根据 server.unixtime 计算出来进行排序的，然后选择最近使用时间最久的数据进行删除</p>
-</li>
-<li><h3 id="ttl淘汰"><a href="#ttl淘汰" class="headerlink" title="ttl淘汰"></a>ttl淘汰</h3><p>  Redis 数据集数据结构中保存了键值对过期时间的表，即 redisDb.expires。与 LRU 数据淘汰机制类似，TTL 数据淘汰机制中会先从过期时间的表中随机挑选几个键值对，取出其中 ttl 最大的键值对淘汰。同样，TTL淘汰策略并不是面向所有过期时间的表中最快过期的键值对，而只是随机挑选的几个键值对。</p>
-</li>
-<li><h3 id="随机淘汰"><a href="#随机淘汰" class="headerlink" title="随机淘汰"></a>随机淘汰</h3><p>  在随机淘汰的场景下获取待删除的键值对，随机找hash桶再次hash指定位置的dictEntry即可。</p>
-</li>
-</ul>
-<h1 id="缓存相关"><a href="#缓存相关" class="headerlink" title="缓存相关"></a>缓存相关</h1><h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><ul>
-<li><p><strong>缓存穿透</strong>：如果我们查询一个不存在的数据，则会造成一直读取数据库，如果有人恶意攻击，则会造成数据库压力过大，甚至压垮服务器，这就是所谓的缓存穿透。</p>
-</li>
-<li><p>解决方案：</p>
-<ol>
-<li>利用互斥锁，缓存失效的时候，先去获得锁，得到锁了，再去请求数据库。没得到锁，则休眠一段时间重试</li>
-<li>如果查询出的数据为空，也放入redis缓存，只是缓存时间设置短一些</li>
-</ol>
-</li>
-<li><p><strong>缓存雪崩</strong>：redis缓存放入大量key，然后某个时间点缓存集中过期失效。此刻就会造成大量的请求过来都会去同时查询数据库，而不走redis缓存，数据库压力陡增，在秒杀，双11等场景下，很容易压垮服务器。</p>
-</li>
-<li><p>解决方案：</p>
-<ol>
-<li>缓存数据的过期时间设置随机，防止同一时间大量数据过期现象发生。</li>
-<li>如果缓存数据库是分布式部署，将热点数据均匀分布在不同的缓存数据库中。</li>
-<li>设置热点数据永远不过期.</li>
-</ol>
-</li>
-<li><p><strong>缓存击穿</strong>：在某些特殊节点,一个热点数据被频繁访问,在失效的瞬间就会有大量的请求进来,导致部分越过缓存去读取数据库。</p>
-</li>
-<li><p>解决方案：</p>
-<ol>
-<li>双重校验（Dubbo Check）类似线程安全的懒汉单例模式实现，保证只会有一个线程去访问数据库。</li>
-</ol>
-</li>
-</ul>
-<h1 id="参考文案"><a href="#参考文案" class="headerlink" title="参考文案"></a>参考文案</h1><ul>
-<li><a href="https://www.jianshu.com/p/b1b4eeccc140" target="_blank" rel="noopener">redis淘汰机制</a></li>
-<li><a href="https://www.cnblogs.com/vieta/p/11192137.html" target="_blank" rel="noopener">redis配置</a></li>
-<li><a href="https://www.cnblogs.com/happydreamzjl/p/11322937.html" target="_blank" rel="noopener">redis哨兵机制</a></li>
-<li><a href="https://www.cnblogs.com/llaq/p/9470055.html" target="_blank" rel="noopener">redis缓存</a></li>
-</ul>
-
+</ul><p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/22/redis_base/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1258,8 +851,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#内存管理和垃圾回收机制">内存管理和垃圾回收机制</a><ul>
 <li><a href="#内存管理">内存管理</a></li>
 <li><a href="#垃圾回收机制">垃圾回收机制</a><ul>
@@ -1273,57 +865,19 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="内存管理和垃圾回收机制"><a href="#内存管理和垃圾回收机制" class="headerlink" title="内存管理和垃圾回收机制"></a>内存管理和垃圾回收机制</h1><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+</ul><h1 id="内存管理和垃圾回收机制"><a href="#内存管理和垃圾回收机制" class="headerlink" title="内存管理和垃圾回收机制"></a>内存管理和垃圾回收机制</h1><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
 <li>Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看<br><img src="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg" alt="python可变对象与不可变对象"></li>
 <li>python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如果频繁使用c中的new/malloc会导致大量内存碎片，导致效率下降；所有python中使用内存池机制来解决这个问题；内存池先申请一块内存空间，然后分割成等大小的块数；有新的内存需求时，就先从内存池中分配内存给这个需求，不够了之后再申请新的内存。这样做最显著的优势就是能够减少内存碎片，提升效率。<strong>Pymalloc会在内存池中申请空间，一般是少于256kb，如果是大的对象，则直接调用 new/malloc 来申请新的内存空间</strong></li>
 </ol>
-<h2 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h2><ul>
-<li>Python 采用 GC 作为自动内存管理机制，GC要做的有2件事，<strong>一是找到内存中无用的垃圾对象资源，二是清除找到的这些垃圾对象，释放内存给其他对象使用</strong></li>
-<li>引用计数</li>
-<li>标记清除</li>
-<li>分代回收</li>
-<li>引用计数为主，其余两种为辅助回收机制</li>
-</ul>
-<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><ol>
-<li><p>查看源码，每一个对象，在源码里就是一个结构体表示，都会有一个计数字段.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> struct_object &#123;</span><br><span class="line">  <span class="keyword">int</span> ob_refcnt;    <span class="comment">//计数</span></span><br><span class="line">  struct_typeobject \*ob_type;</span><br><span class="line">&#125; PyObject;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>PyObject是每个对象必有的内容，其中ob_refcnt就是做为引用计数。当一个对象有新的引用时，它的ob_refcnt就会增加，当引用它的对象被删除，它的ob_refcnt就会减少。一旦对象的引用计数为0，该对象立即被回收，对象占用的内存空间将被释放。</p>
-</li>
-</ol>
-<ul>
-<li>优点<ol>
-<li>简单</li>
-<li>实时性强，能够实时的无用的对象的内存进行释放</li>
-</ol>
-</li>
-<li>缺点<ol>
-<li>需要维护一个计数，占用额外的空间</li>
-<li>循环引用：两个对象相互引用，且没有任何外部引用</li>
-</ol>
-</li>
-</ul>
-<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><ol>
-<li>为了解决循环引用带来的可能导致内存泄露的问题</li>
-<li><strong>第一阶段是标记阶段</strong>，GC会把所有的 活动对象 打上标记</li>
-<li><strong>第二阶段是清除阶段</strong>，把那些没有标记的对象 非活动对象 进行回收</li>
-<li>对象之间通过引用（指针）连在一起，构成一个有向图，对象构成这个有向图的节点，而引用关系构成这个有向图的边从根对象（root object）出发，沿着有向边遍历对象，可达的（reachable）对象标记为活动对象，不可达的对象就是要被清除的非活动对象。根对象就是全局变量、调用栈、寄存器。<br><img src="http://study.jeffqi.cn/python/mark-gc.jpg" alt="标记清除"></li>
-<li>如上图中，1、2、3是可到达的，而4、5就是不可到达的需要被清理掉</li>
-<li>标记清除主要是用来处理python中的容器对象如list、dict等；Python使用一个双向链表将这些容器对象组织起来</li>
-<li>清除非活动的对象前它必须顺序扫描整个堆内存，哪怕只剩下小部分活动对象也要扫描所有对象</li>
-</ol>
-<h3 id="分代回收"><a href="#分代回收" class="headerlink" title="分代回收"></a>分代回收</h3><ol>
-<li>在python中没创建一个对象，就将对象放到一个链表中，如果有引用计数就加一；从而构成一个双向链表；这个链表就是零代链表；<br><img src="http://study.jeffqi.cn/python/gc-generator-1.png" alt="分代回收1"><br><img src="http://study.jeffqi.cn/python/gc-generator-2.png" alt="分代回收2"></li>
-<li>检测循环引用：python会遍历零代链表，给每个计数减一，将计数为零的对象的内存释放掉；活着的对象进入下一代链表（一代链表）<br><img src="http://study.jeffqi.cn/python/gc-generator-3.png" alt="分代回收3"><br><img src="http://study.jeffqi.cn/python/gc-generator-4.png" alt="分代回收4"></li>
-<li>弱代假说：在零代链表中的对象python默认会认为他们会很快更新，比如创建了一个临时对象；而经过一次筛选后的对象，python会认为他们会被经常使用到；同理在二代链表中也是如此；由于循环引用，导致分配计数和释放计数的比值越来越大，当到达一个阈值后，会触发收集器执行清理操作，对所有对象引用计数减一然后回收为零的对象，添加非零对象到下一代链表中；在下一代链表中也存在这一个阈值，不过python会认为下一代的使用时间更久，所以这个阈值会更大。</li>
-</ol>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
-<li><a href="https://www.jianshu.com/p/fb1d4dc8e367" target="_blank" rel="noopener">https://www.jianshu.com/p/fb1d4dc8e367</a></li>
-<li><a href="https://www.jianshu.com/p/1e375fb40506" target="_blank" rel="noopener">https://www.jianshu.com/p/1e375fb40506</a></li>
-<li><a href="http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby" target="_blank" rel="noopener">http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby</a></li>
-</ul>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/21/python内存管理机制/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -2274,8 +1828,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#上下文切换">上下文切换</a><ul>
 <li><a href="#进程上下文切换">进程上下文切换</a></li>
 <li><a href="#线程上下文切换">线程上下文切换</a></li>
@@ -2285,8 +1838,7 @@
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
 <li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
 <li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
 <li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
@@ -2296,8 +1848,7 @@
 <li>中断上下文切换</li>
 </ol>
 </li>
-</ol>
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+</ol><h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
 <li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
 <li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
 <li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
@@ -2316,31 +1867,15 @@
 </ol>
 </li>
 </ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench"><br>6.  vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/20/上下文切换/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -2431,8 +1966,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#零碎知识点">零碎知识点</a><ul>
 <li><a href="#网络内核参数">网络内核参数</a><ul>
 <li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a><!-- TOC END -->
@@ -2442,78 +1976,23 @@
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
+</ul><h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
 <li>arp_ignore和arp_announce参数都和<strong>ARP协议相关</strong>，主要用于<strong>控制系统返回arp响应和发送arp请求时的动作</strong>。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。</li>
-</ul>
-<ol>
+</ul><ol>
 <li><strong>arp_ignore</strong>：控制系统在收到外部的arp请求时，是否要返回arp响应<ul>
 <li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
 </ul>
 </li>
 </ol>
-<table>
-<thead>
-<tr>
-<th>级别</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>响应任意网卡上接收到的对本机IP地址的arp请求（包括环回网卡上的地址），而不管该目的IP是否在接收网卡上。</td>
-</tr>
-<tr>
-<td>1</td>
-<td>只响应目的IP地址为接收网卡上的本地地址的arp请求。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>只响应目的IP地址为接收网卡上的本地地址的arp请求，并且arp请求的源IP必须和接收网卡同网段。</td>
-</tr>
-<tr>
-<td>3</td>
-<td>如果ARP请求数据包所请求的IP地址对应的本地地址其作用域（scope）为主机（host），则不回应ARP响应数据包，如果作用域为全局（global）或链路（link），则回应ARP响应数据包。</td>
-</tr>
-<tr>
-<td>4~7</td>
-<td>保留未使用</td>
-</tr>
-<tr>
-<td>8</td>
-<td>不回应所有的arp请求</td>
-</tr>
-</tbody></table>
-<ol start="2">
-<li><strong>arp_announce</strong>：控制系统在对外发送arp请求时，如何选择arp请求数据包的源IP地址<ul>
-<li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
-</ul>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>级别</th>
-<th>解释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>允许使用任意网卡上的IP地址作为arp请求的源IP，通常就是使用数据包a的源IP。</td>
-</tr>
-<tr>
-<td>1</td>
-<td>尽量避免使用不属于该发送网卡子网的本地地址作为发送arp请求的源IP地址。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>忽略IP数据包的源IP地址，选择该发送网卡上最合适的本地地址作为arp请求的源IP地址。</td>
-</tr>
-</tbody></table>
-<ol start="3">
-<li>参考网址：<a href="https://www.cnblogs.com/lipengxiang2009/p/7451050.html" target="_blank" rel="noopener">https://www.cnblogs.com/lipengxiang2009/p/7451050.html</a></li>
-</ol>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/19/网络性能/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -2604,18 +2083,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+          <ul>
 <li><a href="#平均负载">平均负载</a><ul>
 <li><a href="#案例分析">案例分析</a><!-- TOC END -->
 
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure>
-
-<ol>
+</ul><h1 id="平均负载"><a href="#平均负载" class="headerlink" title="平均负载"></a>平均负载</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure><ol>
 <li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
 </li>
 <li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
@@ -2639,40 +2114,15 @@
 <li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
 </li>
 </ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
-<li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
-<li>pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。</li>
-</ol>
-</li>
-<li>stress：压力测试工具</li>
-<li><strong>模拟cpu密集型服务器压力测试</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用一个cpu，占满100%，时间600s</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 1 --timeout 600</span></span><br><span class="line">stress: info: [2319] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据$</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5     </span></span><br><span class="line">11:31:59 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:32:00 PM  all   50.50    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.50</span><br><span class="line">11:32:00 PM    0  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">11:32:00 PM    1    0.00    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出占用cpu的进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1      </span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:34:37 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:34:42 PM     0      2320   99.40    0.00    0.00   99.40     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      2320   99.40    0.00    0.00   99.40     -  stress</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li><strong>模拟io压力</strong><ul>
-<li>iowait无法升高的问题，是因为案例中stress使用的是 sync() 系统调用，它的作用是刷新缓冲区内存到磁盘中。对于新安装的虚拟机，缓冲区可能比较小，无法产生大的IO压力，这样大部分就都是系统调用的消耗了。所以，你会看到只有系统CPU使用率升高。解决方法是使用stress的下一代stress-ng，它支持更丰富的选项，比如 stress-ng -i 1 –hdd 1 –timeout 600（–hdd表示读写临时文件）。</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">占满io，时间600s</span><br><span class="line">[root@node1 ~]<span class="comment"># stress-ng --hdd -i 1 --timeout 600</span></span><br><span class="line">stress: info: [3143] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示所有的cpu和内存的使用情况</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5</span></span><br><span class="line">11:30:05 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:30:08 AM  all    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line">11:30:08 AM    0    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">Average:     all    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line">Average:       0    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@baidu ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-957.27.2.el7.x86_64 (baidu) 	03/18/2020 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">11:33:26 AM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:33:31 AM     0     25768    0.00   18.38    0.00   18.38     0  stress-ng-hdd</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0     25790    0.35   21.75    0.00   22.11     -  stress-ng-hdd</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><strong>大量进程模拟</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启多个线程大于核数</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 4 --timeout 600</span></span><br><span class="line">stress: info: [3607] dispatching hogs: 4 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:47:34 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:47:39 PM     0      3608   54.76    0.00    0.00   54.76     1  stress</span><br><span class="line">11:47:39 PM     0      3609   45.24    0.00    0.00   45.24     1  stress</span><br><span class="line">11:47:39 PM     0      3610   47.62    0.00    0.00   47.62     0  stress</span><br><span class="line">11:47:39 PM     0      3611   50.00    0.20    0.00   50.20     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      3608   54.76    0.00    0.00   54.76     -  stress</span><br><span class="line">Average:        0      3609   45.24    0.00    0.00   45.24     -  stress</span><br><span class="line">Average:        0      3610   47.62    0.00    0.00   47.62     -  stress</span><br><span class="line">Average:        0      3611   50.00    0.20    0.00   50.20     -  stress</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li><strong>总结</strong><ul>
-<li>平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况</li>
-<li>平均负载高有可能是 CPU 密集型进程导致的；</li>
-<li>平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了；</li>
-<li>当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源。</li>
-</ul>
-</li>
-</ol>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/19/平均负载均衡/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -2833,7 +2283,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2846,7 +2296,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

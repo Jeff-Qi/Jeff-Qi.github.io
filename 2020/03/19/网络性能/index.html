@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce        零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。   arp_ignore：">
+  <meta name="description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce       零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。  arp_ignore：控制系">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络参数">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/19/网络性能/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce        零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。   arp_ignore：">
+<meta property="og:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce       零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。  arp_ignore：控制系">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-03-19T16:18:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络参数">
-<meta name="twitter:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce        零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。   arp_ignore：">
+<meta name="twitter:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce       零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。  arp_ignore：控制系">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/19/网络性能/">
 
 
@@ -324,8 +324,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+        <ul>
 <li><a href="#零碎知识点">零碎知识点</a><ul>
 <li><a href="#网络内核参数">网络内核参数</a><ul>
 <li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a><!-- TOC END -->
@@ -335,16 +334,17 @@
 </li>
 </ul>
 </li>
-</ul>
-<h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
+</ul><h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
 <li>arp_ignore和arp_announce参数都和<strong>ARP协议相关</strong>，主要用于<strong>控制系统返回arp响应和发送arp请求时的动作</strong>。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。</li>
-</ul>
-<ol>
+</ul><ol>
 <li><strong>arp_ignore</strong>：控制系统在收到外部的arp请求时，是否要返回arp响应<ul>
 <li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
 </ul>
 </li>
-</ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
 <table>
 <thead>
 <tr>
@@ -496,7 +496,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -509,7 +509,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

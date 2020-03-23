@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="隔离性与隔离级别 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题  隔离级别 读未提交：一个事务还没提交时，它做的变更就能被别的事务看到 读提交：一个事务提交之后，它做的变更才会被其他事务看到 可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当">
+  <meta name="description" content="隔离性与隔离级别 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题 隔离级别 读未提交：一个事务还没提交时，它做的变更就能被别的事务看到 读提交：一个事务提交之后，它做的变更才会被其他事务看到 可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL隔离级别">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/12/09/MySQL隔离级别/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="隔离性与隔离级别 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题  隔离级别 读未提交：一个事务还没提交时，它做的变更就能被别的事务看到 读提交：一个事务提交之后，它做的变更才会被其他事务看到 可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当">
+<meta property="og:description" content="隔离性与隔离级别 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题 隔离级别 读未提交：一个事务还没提交时，它做的变更就能被别的事务看到 读提交：一个事务提交之后，它做的变更才会被其他事务看到 可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.376Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL隔离级别">
-<meta name="twitter:description" content="隔离性与隔离级别 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题  隔离级别 读未提交：一个事务还没提交时，它做的变更就能被别的事务看到 读提交：一个事务提交之后，它做的变更才会被其他事务看到 可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当">
+<meta name="twitter:description" content="隔离性与隔离级别 当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题 隔离级别 读未提交：一个事务还没提交时，它做的变更就能被别的事务看到 读提交：一个事务提交之后，它做的变更才会被其他事务看到 可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/12/09/MySQL隔离级别/">
 
 
@@ -326,14 +326,14 @@
       
         <h2 id="隔离性与隔离级别"><a href="#隔离性与隔离级别" class="headerlink" title="隔离性与隔离级别"></a>隔离性与隔离级别</h2><ul>
 <li>当数据库上有多个事务同时执行的时候，就可能出现脏读（dirty read）、不可重复读（non-repeatable read）、幻读（phantom read）的问题</li>
-</ul>
-<h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
+</ul><h3 id="隔离级别"><a href="#隔离级别" class="headerlink" title="隔离级别"></a>隔离级别</h3><ul>
 <li>读未提交：一个事务还没提交时，它做的变更就能被别的事务看到</li>
 <li>读提交：一个事务提交之后，它做的变更才会被其他事务看到</li>
 <li>可重复读：一个事务执行过程中看到的数据，总是跟这个事务在启动时看到的数据是一致的。当然在可重复读隔离级别下，未提交变更对其他事务也是不可见的</li>
 <li>串行化：对于同一行记录，“写”会加“写锁”，“读”会加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等前一个事务执行完成，才能继续执行</li>
 <li><strong>隔离级别越高，并发性能越低</strong></li>
-</ul>
+</ul><a id="more"></a>
+
 <h4 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h4><ul>
 <li>数据库在事务启动时会创建一个视图，整个事务过程都需要使用</li>
 <li>“读未提交”隔离级别下直接返回记录上的最新值，没有视图概念</li>
@@ -449,7 +449,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -462,7 +462,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

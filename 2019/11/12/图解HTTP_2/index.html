@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="HTTP报文内的HTTP信息 HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应  HTTP报文 分类： 请求报文：客服端向服务端 响应报文：服务端向客服端    HTTP报文结构 报文首部 请求行或状态行 首部字段 请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）     空行（CR + LF） 报文主体（不一定存在）  编码提升传输速率 传输过程中通过编">
+  <meta name="description" content="HTTP报文内的HTTP信息 HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应 HTTP报文 分类： 请求报文：客服端向服务端 响应报文：服务端向客服端   HTTP报文结构 报文首部 请求行或状态行 首部字段 请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）     空行（CR + LF） 报文主体（不一定存在） 编码提升传输速率 传输过程中通过编码提升">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP报文简介">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/12/图解HTTP_2/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="HTTP报文内的HTTP信息 HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应  HTTP报文 分类： 请求报文：客服端向服务端 响应报文：服务端向客服端    HTTP报文结构 报文首部 请求行或状态行 首部字段 请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）     空行（CR + LF） 报文主体（不一定存在）  编码提升传输速率 传输过程中通过编">
+<meta property="og:description" content="HTTP报文内的HTTP信息 HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应 HTTP报文 分类： 请求报文：客服端向服务端 响应报文：服务端向客服端   HTTP报文结构 报文首部 请求行或状态行 首部字段 请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）     空行（CR + LF） 报文主体（不一定存在） 编码提升传输速率 传输过程中通过编码提升">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP报文简介">
-<meta name="twitter:description" content="HTTP报文内的HTTP信息 HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应  HTTP报文 分类： 请求报文：客服端向服务端 响应报文：服务端向客服端    HTTP报文结构 报文首部 请求行或状态行 首部字段 请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）     空行（CR + LF） 报文主体（不一定存在）  编码提升传输速率 传输过程中通过编">
+<meta name="twitter:description" content="HTTP报文内的HTTP信息 HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应 HTTP报文 分类： 请求报文：客服端向服务端 响应报文：服务端向客服端   HTTP报文结构 报文首部 请求行或状态行 首部字段 请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）     空行（CR + LF） 报文主体（不一定存在） 编码提升传输速率 传输过程中通过编码提升">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/12/图解HTTP_2/">
 
 
@@ -326,15 +326,13 @@
       
         <h2 id="HTTP报文内的HTTP信息"><a href="#HTTP报文内的HTTP信息" class="headerlink" title="HTTP报文内的HTTP信息"></a>HTTP报文内的HTTP信息</h2><ul>
 <li>HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应</li>
-</ul>
-<h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
+</ul><h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
 <li>分类：<ul>
 <li>请求报文：客服端向服务端</li>
 <li>响应报文：服务端向客服端</li>
 </ul>
 </li>
-</ol>
-<h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
+</ol><h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
 <li>报文首部<ul>
 <li>请求行或状态行</li>
 <li>首部字段<ul>
@@ -345,8 +343,7 @@
 </li>
 <li>空行（CR + LF）</li>
 <li>报文主体（不一定存在）</li>
-</ol>
-<h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
+</ol><h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
 <li>传输过程中通过编码提升传输速率，可能消耗更多CPU资源</li>
 <li>报文主体和实体主体的差异<ol>
 <li>报文：HTTP 通信中的基本单位</li>
@@ -357,7 +354,10 @@
 <li>内容编码指明应用在实体内容上的编码格式，并保持实体信息原样压缩。内容编码后的实体由客户端接收并负责解码</li>
 </ol>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
+
 <h3 id="分割发送的分块传输编码"><a href="#分割发送的分块传输编码" class="headerlink" title="分割发送的分块传输编码"></a>分割发送的分块传输编码</h3><ul>
 <li>通过将数据分割成多块进行传输，让浏览器逐步显示页面</li>
 </ul>
@@ -479,7 +479,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -492,7 +492,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

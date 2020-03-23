@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
+  <meta name="description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用 http认证方式BASIC认证（基本认证） 认证过程 非加密处理 DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式 SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接收到需">
 <meta property="og:type" content="article">
 <meta property="og:title" content="身份认证">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
+<meta property="og:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用 http认证方式BASIC认证（基本认证） 认证过程 非加密处理 DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式 SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接收到需">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.1.png">
 <meta property="og:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.2.png">
@@ -68,7 +68,7 @@
 <meta property="og:updated_time" content="2020-02-22T04:23:54.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="身份认证">
-<meta name="twitter:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用  http认证方式BASIC认证（基本认证） 认证过程 非加密处理  DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式  SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接">
+<meta name="twitter:description" content="确认访问用户身份的认证 计算机不能判断使用者的具体身份，需要认证使用 http认证方式BASIC认证（基本认证） 认证过程 非加密处理 DIGEST 认证（摘要认证） 认证过程 质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式 SSL 客户端认证 借由HTTPS 的客户端证书完成认证的方式 认证过程 接收到需">
 <meta name="twitter:image" content="http://jeff-qi.github.io/2020/02/22/图解HTTP_8/8.1.png">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/02/22/图解HTTP_8/">
 
@@ -318,16 +318,13 @@
       
         <h2 id="确认访问用户身份的认证"><a href="#确认访问用户身份的认证" class="headerlink" title="确认访问用户身份的认证"></a>确认访问用户身份的认证</h2><ul>
 <li>计算机不能判断使用者的具体身份，需要认证使用</li>
-</ul>
-<h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
+</ul><h3 id="http认证方式"><a href="#http认证方式" class="headerlink" title="http认证方式"></a>http认证方式</h3><h4 id="BASIC认证（基本认证）"><a href="#BASIC认证（基本认证）" class="headerlink" title="BASIC认证（基本认证）"></a>BASIC认证（基本认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.1.png" alt="basic"></li>
 <li>非加密处理</li>
-</ul>
-<h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
+</ul><h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.2.png" alt="digest"></li>
 <li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
-</ul>
-<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
+</ul><h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
 <li>借由HTTPS 的客户端证书完成认证的方式</li>
 <li>认证过程<ol>
 <li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
@@ -340,7 +337,10 @@
 <li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
 </ul>
 </li>
-</ul>
+</ul><a id="more"></a>
+
+
+
 <h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.3.png" alt="session"><ol>
 <li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
@@ -439,7 +439,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -452,7 +452,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

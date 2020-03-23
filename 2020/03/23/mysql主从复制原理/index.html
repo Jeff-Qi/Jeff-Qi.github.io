@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="啥是主从复制？ 主从复制有什么用？ 主从模式 一主一从、一主多从 多主一从 双主模式 级联复制   mysql主从复制原理 复制流程   mysql复制模式 性能提升 支持发送二进制日志事件和接收ACK的异步化 控制主库接收确认反馈从库的数量   日志格式 binlog记录格式   基于GTID复制实现的工作原理 参考文档    啥是主从复制？ 主从复制就就是将主服务器上的数据，复制到一个或多">
+  <meta name="description" content="啥是主从复制？ 主从复制有什么用？ 主从模式 一主一从、一主多从 多主一从 双主模式 级联复制   mysql主从复制原理 复制流程   mysql复制模式 性能提升 支持发送二进制日志事件和接收ACK的异步化 控制主库接收确认反馈从库的数量   日志格式 binlog记录格式   基于GTID复制实现的工作原理 参考文档   啥是主从复制？ 主从复制就就是将主服务器上的数据，复制到一个或多个从">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql主从复制">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/23/mysql主从复制原理/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="啥是主从复制？ 主从复制有什么用？ 主从模式 一主一从、一主多从 多主一从 双主模式 级联复制   mysql主从复制原理 复制流程   mysql复制模式 性能提升 支持发送二进制日志事件和接收ACK的异步化 控制主库接收确认反馈从库的数量   日志格式 binlog记录格式   基于GTID复制实现的工作原理 参考文档    啥是主从复制？ 主从复制就就是将主服务器上的数据，复制到一个或多">
+<meta property="og:description" content="啥是主从复制？ 主从复制有什么用？ 主从模式 一主一从、一主多从 多主一从 双主模式 级联复制   mysql主从复制原理 复制流程   mysql复制模式 性能提升 支持发送二进制日志事件和接收ACK的异步化 控制主库接收确认反馈从库的数量   日志格式 binlog记录格式   基于GTID复制实现的工作原理 参考文档   啥是主从复制？ 主从复制就就是将主服务器上的数据，复制到一个或多个从">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/1_m_1_s.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/1_m_mulits_s.jpg">
@@ -75,7 +75,7 @@
 <meta property="og:updated_time" content="2020-03-23T13:05:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql主从复制">
-<meta name="twitter:description" content="啥是主从复制？ 主从复制有什么用？ 主从模式 一主一从、一主多从 多主一从 双主模式 级联复制   mysql主从复制原理 复制流程   mysql复制模式 性能提升 支持发送二进制日志事件和接收ACK的异步化 控制主库接收确认反馈从库的数量   日志格式 binlog记录格式   基于GTID复制实现的工作原理 参考文档    啥是主从复制？ 主从复制就就是将主服务器上的数据，复制到一个或多">
+<meta name="twitter:description" content="啥是主从复制？ 主从复制有什么用？ 主从模式 一主一从、一主多从 多主一从 双主模式 级联复制   mysql主从复制原理 复制流程   mysql复制模式 性能提升 支持发送二进制日志事件和接收ACK的异步化 控制主库接收确认反馈从库的数量   日志格式 binlog记录格式   基于GTID复制实现的工作原理 参考文档   啥是主从复制？ 主从复制就就是将主服务器上的数据，复制到一个或多个从">
 <meta name="twitter:image" content="http://study.jeffqi.cn/mysql/1_m_1_s.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/23/mysql主从复制原理/">
 
@@ -327,8 +327,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+        <ul>
 <li><a href="#啥是主从复制">啥是主从复制？</a></li>
 <li><a href="#主从复制有什么用">主从复制有什么用？</a></li>
 <li><a href="#主从模式">主从模式</a><ul>
@@ -356,10 +355,11 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
+</ul><h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
 <li>主从复制就就是将主服务器上的数据，复制到一个或多个从服务器上；mysql默认采用异步复制，从节点可以复制主节点上的指定的数据库；</li>
-</ul>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
 <h1 id="主从复制有什么用？"><a href="#主从复制有什么用？" class="headerlink" title="主从复制有什么用？"></a>主从复制有什么用？</h1><ul>
 <li><p><strong>提供读写分离的能力</strong>：从服务器可以分代主库的读请求的压力，让主库更专注于数据的更新和写操作，有更好的写性能；</p>
 </li>
@@ -580,7 +580,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -593,7 +593,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>

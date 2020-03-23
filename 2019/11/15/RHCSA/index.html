@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
+  <meta name="description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing配置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RHCSA备考">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/15/RHCSA/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
+<meta property="og:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing配置">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2020-02-22T04:23:54.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RHCSA备考">
-<meta name="twitter:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra  配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing">
+<meta name="twitter:description" content="RHCSA重置root密码，救援模式12345678mount -o remount,rw /sysrootchroot /sysrootpasswd roottouch ./authrelabelexitexitsystemctl set-default gra配置SELinux123setenforce 1vim /etc/selinux/config  SELINUX=enforcing配置">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/15/RHCSA/">
 
 
@@ -324,11 +324,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure>
+        <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure><h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure><h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><a id="more"></a>
 
-<h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure>
 
-<h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
 
 <h3 id="调整逻辑卷"><a href="#调整逻辑卷" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lvextend -L 770M /dev/vg/lvm1</span><br><span class="line">xfs_growfs /dev/vg/lvm1</span><br><span class="line"><span class="comment">#resize2fs /dev/vg/lvm1</span></span><br></pre></td></tr></table></figure>
 
@@ -454,7 +454,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -467,7 +467,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
