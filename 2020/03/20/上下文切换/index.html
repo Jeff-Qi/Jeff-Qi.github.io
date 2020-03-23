@@ -65,12 +65,12 @@
 <meta property="og:image" content="http://study.jeffqi.cn/linux/linux-source-space.png">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/vmstat.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/pidstat_w.jpg">
-<meta property="og:image" content="http://study.jeffqi.cn/linux/sysbench.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg">
-<meta property="og:updated_time" content="2020-03-23T01:32:12.224Z">
+<meta property="og:updated_time" content="2020-03-23T01:36:36.529Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="上下文切换">
 <meta name="twitter:description" content="上下文切换 进程上下文切换 线程上下文切换 中断上下文切换 案例分析      上下文切换 CPU 寄存器：CPU 内置的容量小、但速度极快的内存 程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置 CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文 上下文切换类型 进程上下文切换 线程上下文切换 中断上下文切换    进程上下文切换 内">
@@ -277,7 +277,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-23 09:32:12" itemprop="dateModified" datetime="2020-03-23T09:32:12+08:00">2020-03-23</time>
+                <time title="修改时间：2020-03-23 09:36:36" itemprop="dateModified" datetime="2020-03-23T09:36:36+08:00">2020-03-23</time>
               </span>
             
           
@@ -367,12 +367,11 @@
 </ol>
 </li>
 <li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench.jpg" alt="sysbench"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
-<p><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
+<p><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench"><br>6.  vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
 
     </div>
 
