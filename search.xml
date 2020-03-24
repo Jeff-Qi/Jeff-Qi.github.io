@@ -702,7 +702,21 @@
   <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python_base/</url>
-    <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><ol>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#文件操作">文件操作</a></li>
+<li><a href="#函数">函数</a></li>
+<li><a href="#命名空间和作用域">命名空间和作用域</a></li>
+<li><a href="#函数-1">函数</a></li>
+<li><a href="#装饰器">装饰器</a></li>
+<li><a href="#迭代器生成器">迭代器生成器</a></li>
+<li><a href="#推导式">推导式</a></li>
+<li><a href="#内置函数和匿名函数">内置函数和匿名函数</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><ol>
 <li><p>打开一个文件包含两部分资源：操作系统级打开的文件+应用程序的变量。在操作完毕一个文件时，必须把与该文件的这两部分资源一个不落地回收</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment">#1. 打开文件，得到文件句柄并赋值给一个变量</span></span><br><span class="line">f=open(<span class="string">'a.txt'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>) <span class="comment">#默认打开模式就为r</span></span><br><span class="line"><span class="comment">#2. 通过句柄对文件进行操作</span></span><br><span class="line">data=f.read()</span><br><span class="line"><span class="comment">#3. 关闭文件</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
 
@@ -1463,7 +1477,6 @@
 
 </li>
 </ol>
-<a id="more"></a>
 ]]></content>
       <categories>
         <category>Python</category>
