@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="hexo + Github 快速搭建博客（基于 centos 7）流程 node.js 安装 git 安装 hexo 安装并设置 github 仓库建立和设置 node.js 安装 node.js 官网下载二进制压缩包: https://nodejs.org/en/ 1[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.1">
+  <meta name="description" content="hexo + Github 快速搭建博客（基于 centos 7） 流程 node.js 安装 git 安装 hexo 安装 github 仓库建立 hexo 与 github 的连接 最后的最后 访问博客     借鉴   hexo + Github 快速搭建博客（基于 centos 7）流程 node.js 安装 git 安装 hexo 安装并设置 github 仓库建立和设置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo+github快速搭建博客">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2019/10/09/hexo-github快速搭建博客/index.html">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/10/09/creat-blog/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="hexo + Github 快速搭建博客（基于 centos 7）流程 node.js 安装 git 安装 hexo 安装并设置 github 仓库建立和设置 node.js 安装 node.js 官网下载二进制压缩包: https://nodejs.org/en/ 1[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.1">
+<meta property="og:description" content="hexo + Github 快速搭建博客（基于 centos 7） 流程 node.js 安装 git 安装 hexo 安装 github 仓库建立 hexo 与 github 的连接 最后的最后 访问博客     借鉴   hexo + Github 快速搭建博客（基于 centos 7）流程 node.js 安装 git 安装 hexo 安装并设置 github 仓库建立和设置">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-22T04:23:54.373Z">
+<meta property="og:updated_time" content="2020-03-24T01:24:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo+github快速搭建博客">
-<meta name="twitter:description" content="hexo + Github 快速搭建博客（基于 centos 7）流程 node.js 安装 git 安装 hexo 安装并设置 github 仓库建立和设置 node.js 安装 node.js 官网下载二进制压缩包: https://nodejs.org/en/ 1[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.1">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/10/09/hexo-github快速搭建博客/">
+<meta name="twitter:description" content="hexo + Github 快速搭建博客（基于 centos 7） 流程 node.js 安装 git 安装 hexo 安装 github 仓库建立 hexo 与 github 的连接 最后的最后 访问博客     借鉴   hexo + Github 快速搭建博客（基于 centos 7）流程 node.js 安装 git 安装 hexo 安装并设置 github 仓库建立和设置">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/10/09/creat-blog/">
 
 
 <script id="page-configurations">
@@ -256,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/09/hexo-github快速搭建博客/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/09/creat-blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JeffQi">
@@ -295,9 +295,22 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+                <time title="修改时间：2020-03-24 09:24:34" itemprop="dateModified" datetime="2020-03-24T09:24:34+08:00">2020-03-24</time>
               </span>
             
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -311,12 +324,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="hexo-Github-快速搭建博客（基于-centos-7）"><a href="#hexo-Github-快速搭建博客（基于-centos-7）" class="headerlink" title="hexo + Github 快速搭建博客（基于 centos 7）"></a>hexo + Github 快速搭建博客（基于 centos 7）</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
+        <ul>
+<li><a href="#hexo--github-快速搭建博客基于-centos-7">hexo + Github 快速搭建博客（基于 centos 7）</a><ul>
+<li><a href="#流程">流程</a><ul>
+<li><a href="#nodejs-安装">node.js 安装</a></li>
+<li><a href="#git-安装">git 安装</a></li>
+<li><a href="#hexo-安装">hexo 安装</a></li>
+<li><a href="#github-仓库建立">github 仓库建立</a></li>
+<li><a href="#hexo-与-github-的连接">hexo 与 github 的连接</a></li>
+<li><a href="#最后的最后">最后的最后</a></li>
+<li><a href="#访问博客">访问博客</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#借鉴">借鉴</a><!-- TOC END -->
+
+</li>
+</ul><h1 id="hexo-Github-快速搭建博客（基于-centos-7）"><a href="#hexo-Github-快速搭建博客（基于-centos-7）" class="headerlink" title="hexo + Github 快速搭建博客（基于 centos 7）"></a>hexo + Github 快速搭建博客（基于 centos 7）</h1><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
 <li>node.js 安装</li>
 <li>git 安装</li>
 <li>hexo 安装并设置</li>
 <li>github 仓库建立和设置</li>
-</ol><h4 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h4><ol>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h3 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h3><ol>
 <li><p>node.js 官网下载二进制压缩包: <a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
 </li>
@@ -340,9 +373,8 @@
 </li>
 </ol>
 </li>
-</ol><a id="more"></a>
-
-<h4 id="git-安装"><a href="#git-安装" class="headerlink" title="git 安装"></a>git 安装</h4><ol>
+</ol>
+<h3 id="git-安装"><a href="#git-安装" class="headerlink" title="git 安装"></a>git 安装</h3><ol>
 <li><p>git 安装: <a href="https://git-scm.com" target="_blank" rel="noopener">https://git-scm.com</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# yum install -y git-core</span><br></pre></td></tr></table></figure>
 </li>
@@ -351,7 +383,7 @@
 
 </li>
 </ol>
-<h4 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h4><ol>
+<h3 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h3><ol>
 <li><p>hexo 安装: <a href="https://hexo.io" target="_blank" rel="noopener">https://hexo.io</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 </li>
@@ -363,7 +395,7 @@
 
 </li>
 </ol>
-<h4 id="github-仓库建立"><a href="#github-仓库建立" class="headerlink" title="github 仓库建立"></a>github 仓库建立</h4><ol>
+<h3 id="github-仓库建立"><a href="#github-仓库建立" class="headerlink" title="github 仓库建立"></a>github 仓库建立</h3><ol>
 <li><p>新建一个仓库</p>
 </li>
 <li><p>命名时需要注意，命名规则</p>
@@ -378,20 +410,22 @@
 <li><p>在 github 上添加刚刚复制的 ssh 密钥: <a href="https://github.com/settings/ssh" target="_blank" rel="noopener">https://github.com/settings/ssh</a></p>
 </li>
 </ol>
-<h4 id="hexo-与-github-的连接"><a href="#hexo-与-github-的连接" class="headerlink" title="hexo 与 github 的连接"></a>hexo 与 github 的连接</h4><ol>
+<h3 id="hexo-与-github-的连接"><a href="#hexo-与-github-的连接" class="headerlink" title="hexo 与 github 的连接"></a>hexo 与 github 的连接</h3><ol>
 <li>修改 hexo 的配置文件（注意：配置文件在冒号后需要有一个空格不让会报错）</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# vim _config.yml</span><br><span class="line"></span><br><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># Site</span><br><span class="line">title: JeffQi‘s Blog # 标题</span><br><span class="line">subtitle: Nice to see you! # 浏览器显示的信息</span><br><span class="line">description: good good study, day day up! # 博客描述</span><br><span class="line">keywords:</span><br><span class="line">author: JeffQi # 作者</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://yoursite.com/child</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: true</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Home page setting</span><br><span class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</span><br><span class="line"># per_page: Posts displayed per page. (0 = disable pagination)</span><br><span class="line"># order_by: Posts order. (Order by date descending by default)</span><br><span class="line">index_generator:</span><br><span class="line">  path: &apos;&apos;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line"></span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: Fan</span><br><span class="line"></span><br><span class="line"># Deployment # 在这里设置你的 github 的连接</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git # 方式</span><br><span class="line">  repo: https://github.com/Jeff-Qi/Jeff.github.io.git # 你的 github 仓库 URL</span><br><span class="line">  banch: master</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# vim _config.yml</span><br><span class="line"></span><br><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># Site</span><br><span class="line">title: JeffQi‘s Blog # 标题</span><br><span class="line">subtitle: Nice to see you! # 浏览器显示的信息</span><br><span class="line">description: good good study, day day up! # 博客描述</span><br><span class="line">keywords:</span><br><span class="line">author: JeffQi # 作者</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://yoursite.com/child</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: true</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Home page setting</span><br><span class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</span><br><span class="line"># per_page: Posts displayed per page. (0 = disable pagination)</span><br><span class="line"># order_by: Posts order. (Order by date descending by default)</span><br><span class="line">index_generator:</span><br><span class="line">  path: &apos;&apos;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"></span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: Fan</span><br><span class="line"></span><br><span class="line"># Deployment # 在这里设置你的 github 的连接</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git # 方式</span><br><span class="line">  repo: https://github.com/Jeff-Qi/Jeff.github.io.git # 你的 github 仓库 URL</span><br><span class="line">  banch: master</span><br></pre></td></tr></table></figure>
 
-<h4 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h4><ol>
+<h3 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h3><ol>
 <li>编译静态资源，更新到 github</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# hexo g</span><br><span class="line">[root@aliyun blog_file]# hexo d</span><br></pre></td></tr></table></figure>
 
-<h4 id="访问博客"><a href="#访问博客" class="headerlink" title="访问博客"></a>访问博客</h4><ol>
+<h3 id="访问博客"><a href="#访问博客" class="headerlink" title="访问博客"></a>访问博客</h3><ol>
 <li>通过设置的 github 的仓库名就能访问了</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jeff.github.io</span><br></pre></td></tr></table></figure>
+
+<h1 id="借鉴"><a href="#借鉴" class="headerlink" title="借鉴"></a>借鉴</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://www.jianshu.com/p/0823e387c019</span><br><span class="line">https://www.cnblogs.com/cutexin/p/11251940.html</span><br><span class="line">https://godweiyang.com/2018/04/13/hexo-blog/#toc-heading-10</span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -409,18 +443,14 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/09/creat-blog/" rel="next" title="hexo+github快速搭建博客">
-                  <i class="fa fa-chevron-left"></i> hexo+github快速搭建博客
-                </a>
-              
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/10/11/awk/" rel="prev" title="awk">
-                  awk <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/09/hexo-github快速搭建博客/" rel="prev" title="hexo+github快速搭建博客">
+                  hexo+github快速搭建博客 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -467,7 +497,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-Github-快速搭建博客（基于-centos-7）"><span class="nav-number">1.</span> <span class="nav-text">hexo + Github 快速搭建博客（基于 centos 7）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程"><span class="nav-number">1.1.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#node-js-安装"><span class="nav-number">1.1.1.</span> <span class="nav-text">node.js 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-安装"><span class="nav-number">1.1.2.</span> <span class="nav-text">git 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo-安装"><span class="nav-number">1.1.3.</span> <span class="nav-text">hexo 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#github-仓库建立"><span class="nav-number">1.1.4.</span> <span class="nav-text">github 仓库建立</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hexo-与-github-的连接"><span class="nav-number">1.1.5.</span> <span class="nav-text">hexo 与 github 的连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后的最后"><span class="nav-number">1.1.6.</span> <span class="nav-text">最后的最后</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问博客"><span class="nav-number">1.1.7.</span> <span class="nav-text">访问博客</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hexo-Github-快速搭建博客（基于-centos-7）"><span class="nav-number">1.</span> <span class="nav-text">hexo + Github 快速搭建博客（基于 centos 7）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">1.1.</span> <span class="nav-text">流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#node-js-安装"><span class="nav-number">1.1.1.</span> <span class="nav-text">node.js 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-安装"><span class="nav-number">1.1.2.</span> <span class="nav-text">git 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-安装"><span class="nav-number">1.1.3.</span> <span class="nav-text">hexo 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#github-仓库建立"><span class="nav-number">1.1.4.</span> <span class="nav-text">github 仓库建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-与-github-的连接"><span class="nav-number">1.1.5.</span> <span class="nav-text">hexo 与 github 的连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后的最后"><span class="nav-number">1.1.6.</span> <span class="nav-text">最后的最后</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问博客"><span class="nav-number">1.1.7.</span> <span class="nav-text">访问博客</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#借鉴"><span class="nav-number">2.</span> <span class="nav-text">借鉴</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->

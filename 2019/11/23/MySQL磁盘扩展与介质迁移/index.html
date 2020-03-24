@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展 使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中 实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database  新建的表，位于新的存储位置 123456CREATE TABL">
+  <meta name="description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展 使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中 实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL磁盘扩展与介质迁移">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/index.html">
 <meta property="og:site_name" content="JeffQi‘s Blog">
-<meta property="og:description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展 使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中 实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database  新建的表，位于新的存储位置 123456CREATE TABL">
+<meta property="og:description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展 使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中 实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend1.png">
 <meta property="og:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend2.png">
@@ -72,7 +72,7 @@
 <meta property="og:updated_time" content="2020-02-22T04:23:54.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL磁盘扩展与介质迁移">
-<meta name="twitter:description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展 使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中 实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database  新建的表，位于新的存储位置 123456CREATE TABL">
+<meta name="twitter:description" content="MySQL外部表（MySQL8.0） 使用MySQL的外部表进行数据的迁移可扩展 使用原因 存储空间不够，一些大表需要更大的存储空间 存储介质更新，需要迁移到更块的介质中 实验实例 源数据库位于 /var/lib/mysql/pre_database 外部表库位于 /var/lib/mysql_extend/pre_database">
 <meta name="twitter:image" content="http://jeff-qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/extend1.png">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/23/MySQL磁盘扩展与介质迁移/">
 
@@ -340,7 +340,10 @@
 </ul><h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
 <li>源数据库位于 /var/lib/mysql/pre_database</li>
 <li>外部表库位于 /var/lib/mysql_extend/pre_database</li>
-</ul><ol>
+</ul><a id="more"></a>
+
+
+<ol>
 <li><p>新建的表，位于新的存储位置</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mysql_extend_table`</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">age <span class="built_in">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">21</span></span><br><span class="line">)<span class="keyword">DATA</span> <span class="keyword">DIRECTORY</span> = <span class="string">'/var/lib/mysql_extend'</span>;</span><br></pre></td></tr></table></figure>
 
@@ -351,10 +354,7 @@
 </li>
 <li><p><strong>注意相应文件夹权限要够</strong><br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend3.png" alt="权限"></p>
 </li>
-</ol><a id="more"></a>
-
-
-
+</ol>
 <h3 id="实验迁移（MySQL5-7）"><a href="#实验迁移（MySQL5-7）" class="headerlink" title="实验迁移（MySQL5.7）"></a>实验迁移（MySQL5.7）</h3><ol>
 <li><p>转移前<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra1.png" alt="转移前"></p>
 </li>
@@ -480,7 +480,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

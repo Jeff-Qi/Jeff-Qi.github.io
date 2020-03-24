@@ -31,11 +31,11 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul><h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
-<li>主从复制就就是将主服务器上的数据，复制到一个或多个从服务器上；mysql默认采用异步复制，从节点可以复制主节点上的指定的数据库；</li>
 </ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 
-
+<h1 id="啥是主从复制？"><a href="#啥是主从复制？" class="headerlink" title="啥是主从复制？"></a>啥是主从复制？</h1><ul>
+<li>主从复制就就是将主服务器上的数据，复制到一个或多个从服务器上；mysql默认采用异步复制，从节点可以复制主节点上的指定的数据库；</li>
+</ul>
 <h1 id="主从复制有什么用？"><a href="#主从复制有什么用？" class="headerlink" title="主从复制有什么用？"></a>主从复制有什么用？</h1><ul>
 <li><p><strong>提供读写分离的能力</strong>：从服务器可以分代主库的读请求的压力，让主库更专注于数据的更新和写操作，有更好的写性能；</p>
 </li>
@@ -178,8 +178,7 @@
   <entry>
     <title>初始CDN</title>
     <url>/2020/03/22/CDN/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
+    <content><![CDATA[<ul>
 <li><a href="#cdn">CDN</a></li>
 <li><a href="#cdn是个what">CDN是个what？</a><ul>
 <li><a href="#cdn工作流程">CDN工作流程</a></li>
@@ -196,13 +195,14 @@
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 
 </li>
-</ul>
-<h1 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h1><ul>
+</ul><h1 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h1><ul>
 <li><p>随着互联网的发展，用户在使用网络时对网站的浏览速度和效果愈加重视，但由于网民数量激增，网络访问路径过长，从而使用户的访问质量受到严重影响。特别是当用户与网站之间的链路被突发的大流量数据拥塞时，对于异地互联网用户急速增加的地区来说，访问质量不良更是一个急待解决的问题。<strong>如何才能让各地的用户都能够进行高质量的访问，并尽量减少由此而产生的费用和网站管理压力呢？</strong></p>
 </li>
 <li><p>今天的角儿登场了：CDN（Content Delivery Network）内容发布网络变应运而生。</p>
 </li>
-</ul>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
 <h1 id="CDN是个what？"><a href="#CDN是个what？" class="headerlink" title="CDN是个what？"></a>CDN是个what？</h1><ul>
 <li>CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的Internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络“边缘”，使用户可 以就近取得所需的内容，提高用户访问网站的响应速度。</li>
 </ul>
@@ -252,7 +252,6 @@
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
 <li><a href="https://www.cnblogs.com/seanxyh/archive/2013/04/16/3023499.html" target="_blank" rel="noopener">搞定CDN</a></li>
 </ul>
-<a id="more"></a>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -361,13 +360,13 @@
 <li><a href="#参考文案">参考文案</a><!-- TOC END -->
 
 </li>
-</ul><h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<h1 id="redis基础"><a href="#redis基础" class="headerlink" title="redis基础"></a>redis基础</h1><ul>
 <li>基础学习</li>
-</ul><p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p><h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-
-<p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
+</ul>
+<p><img src="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg" alt="redis_base_knowledge"></p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="string类型"><a href="#string类型" class="headerlink" title="string类型"></a>string类型</h2><p>String 类型是 Redis 中最常使用的类型，内部的实现是通过 SDS（Simple Dynamic String ）来存储的；类似python中内存池机制，预先申请一块内存来频繁创建释对象</p>
 <p>这是最简单的类型，就是普通的 set 和 get，做简单的 KV 缓存</p>
 <p><strong>string适用范围较广</strong></p>
 <ul>
@@ -698,6 +697,80 @@
 ]]></content>
       <categories>
         <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench"><br>6.  vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -1471,80 +1544,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench"><br>6.  vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>网络参数</title>
     <url>/2020/03/19/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
     <content><![CDATA[<ul>
@@ -1559,15 +1558,15 @@
 </li>
 </ul><h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
 <li>arp_ignore和arp_announce参数都和<strong>ARP协议相关</strong>，主要用于<strong>控制系统返回arp响应和发送arp请求时的动作</strong>。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。</li>
-</ul><ol>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<ol>
 <li><strong>arp_ignore</strong>：控制系统在收到外部的arp请求时，是否要返回arp响应<ul>
 <li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
 </ul>
 </li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-
+</ol>
 <table>
 <thead>
 <tr>
@@ -1739,7 +1738,8 @@
     <content><![CDATA[<h2 id="MyCat"><a href="#MyCat" class="headerlink" title="MyCat"></a>MyCat</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
 <li>mycat是一个数据库中间件，也可以理解为是数据库代理。在架构体系中是位于数据库和应用层之间的一个组件，并且对于应用层是透明的，即数据库感受不到mycat的存在，认为是直接连接的mysql数据库（实际上是连接的mycat,mycat实现了mysql的原生协议）</li>
 <li>mycat的三大功能：分表、读写分离、主从切换</li>
-</ul><h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><ol>
+</ul><a id="more"></a>
+<h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><ol>
 <li><p>下载安装 Java jdk</p>
 <ul>
 <li>网址：<a href="https://www.oracle.com/java/technologies/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase-jdk8-downloads.html</a></li>
@@ -1760,8 +1760,7 @@
 </li>
 </ul>
 </li>
-</ol><a id="more"></a>
-
+</ol>
 <h3 id="MyCat-配置文件"><a href="#MyCat-配置文件" class="headerlink" title="MyCat 配置文件"></a>MyCat 配置文件</h3><h4 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">--bin 启动目录</span><br><span class="line">--conf 配置文件存放配置文件：</span><br><span class="line">  --server.xml：是Mycat服务器参数调整和用户授权的配置文件。</span><br><span class="line">  --schema.xml：是逻辑库定义和表以及分片定义的配置文件。</span><br><span class="line">  --rule.xml：  是分片规则的配置文件，分片规则的具体一些参数信息单独存放为文件，也在这个目录下，配置文件修改需要重启MyCAT。</span><br><span class="line">  --log4j.xml： 日志存放在logs/log中，每天一个文件，日志的配置是在conf/log4j.xml中，根据自己的需要可以调整输出级别为debug；debug级别下，会输出更多的信息，方便排查问题。</span><br><span class="line">  --autopartition-long.txt,partition-hash-int.txt,sequence_conf.properties， sequence_db_conf.properties 分片相关的id分片规则配置文件</span><br><span class="line">  --lib	    MyCAT自身的jar包或依赖的jar包的存放目录。</span><br><span class="line">  --logs        MyCAT日志的存放目录。日志存放在logs/log中，每天一个文件</span><br></pre></td></tr></table></figure>
 
 <h4 id="三大组件"><a href="#三大组件" class="headerlink" title="三大组件"></a>三大组件</h4><ol>
@@ -1800,8 +1799,8 @@
 <li>集中管理（包括启动、查看等）所安装的 Docker 环境</li>
 </ol>
 </li>
-</ul>
-<h3 id="安装Machine"><a href="#安装Machine" class="headerlink" title="安装Machine"></a>安装Machine</h3><ol>
+</ul><h3 id="安装Machine"><a href="#安装Machine" class="headerlink" title="安装Machine"></a>安装Machine</h3><a id="more"></a>
+<ol>
 <li><p>下载编译好的二进制文件</p>
 <ul>
 <li>docker machine安装教程 git 网址：<a href="https://github.com/docker/machine/releases/" target="_blank" rel="noopener">https://github.com/docker/machine/releases/</a><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">curl -L https://github.com/docker/machine/releases/download/v0.16.2/docker-machine-`uname -s`-`uname -m` &gt; /tmp/docker-machine &amp;&amp;</span><br><span class="line">chmod +x /tmp/docker-machine &amp;&amp;</span><br><span class="line">sudo cp /tmp/docker-machine /usr/local/bin/docker-machine</span><br></pre></td></tr></table></figure>
@@ -1828,6 +1827,8 @@
 <li><p><a href="#添加搜索功能">添加搜索功能</a></p>
 </li>
 <li><p><a href="#添加点击阅读原文按键">添加点击阅读原文按键</a></p>
+</li>
+<li><p><a href="#hexo后台运行">hexo后台运行</a></p>
 <!-- TOC END -->
 <h1 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h1></li>
 <li><p>在博客根目录下安装：</p>
@@ -1848,6 +1849,18 @@
   <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">auto_excerpt:</span><br><span class="line">  <span class="built_in">enable</span>: <span class="literal">true</span></span><br><span class="line">  length: 200</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重新编译安装即可</p>
+</li>
+</ul>
+<h1 id="hexo后台运行"><a href="#hexo后台运行" class="headerlink" title="hexo后台运行"></a>hexo后台运行</h1><ul>
+<li><p>安装pm2</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install -g pm2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>博客根目录下编写run.js脚本</p>
+  <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//run.js</span></span><br><span class="line"><span class="keyword">const</span> &#123; exec &#125; = <span class="built_in">require</span>(<span class="string">'child_process'</span>)</span><br><span class="line">exec(<span class="string">'hexo server'</span>,(error, stdout, stderr) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span>(error)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`exec error: <span class="subst">$&#123;error&#125;</span>`</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`stdout: <span class="subst">$&#123;stdout&#125;</span>`</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`stderr: <span class="subst">$&#123;stderr&#125;</span>`</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行run.js脚本</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pm2 start /path/to/run.js</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 ]]></content>
@@ -1913,7 +1926,10 @@
 </ul><h4 id="DIGEST-认证（摘要认证）"><a href="#DIGEST-认证（摘要认证）" class="headerlink" title="DIGEST 认证（摘要认证）"></a>DIGEST 认证（摘要认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.2.png" alt="digest"></li>
 <li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
-</ul><h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
+</ul><a id="more"></a>
+
+
+<h4 id="SSL-客户端认证"><a href="#SSL-客户端认证" class="headerlink" title="SSL 客户端认证"></a>SSL 客户端认证</h4><ul>
 <li>借由HTTPS 的客户端证书完成认证的方式</li>
 <li>认证过程<ol>
 <li>接收到需要认证资源的请求，服务器会发送Certificate Request 报文，要求客户端提供客户端证书</li>
@@ -1926,10 +1942,7 @@
 <li>第一个认证因素的SSL 客户端证书用来认证客户端计算机，另一个认证因素的密码则用来确定这是用户本人的行为</li>
 </ul>
 </li>
-</ul><a id="more"></a>
-
-
-
+</ul>
 <h4 id="FormBase-认证（基于表单认证）"><a href="#FormBase-认证（基于表单认证）" class="headerlink" title="FormBase 认证（基于表单认证）"></a>FormBase 认证（基于表单认证）</h4><ul>
 <li>认证过程<br><img src="/2020/02/22/图解HTTP_8/8.3.png" alt="session"><ol>
 <li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
@@ -1946,8 +1959,8 @@
   <entry>
     <title>Hello World</title>
     <url>/2020/02/22/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><a id="more"></a>
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><a id="more"></a>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
@@ -1988,13 +2001,13 @@
     <url>/2020/02/20/MySQL%E9%AB%98%E5%8F%AF%E7%94%A8%E4%B9%8BMHA%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<h2 id="MHA"><a href="#MHA" class="headerlink" title="MHA"></a>MHA</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
 <li>MHA（Master High Availability）目前在MySQL高可用方面是一个相对成熟的解决方案；是一套优秀的作为MySQL高可用性环境下故障切换和主从提升的高可用软件。在MySQL故障切换过程中，MHA能做到在0~30秒之内自动完成数据库的故障切换操作，并且在进行故障切换的过程中，MHA能在最大程度上保证数据的一致性，以达到真正意义上的高可用；</li>
-</ul><h3 id="组成与工作原理"><a href="#组成与工作原理" class="headerlink" title="组成与工作原理"></a>组成与工作原理</h3><ul>
+</ul><a id="more"></a>
+<h3 id="组成与工作原理"><a href="#组成与工作原理" class="headerlink" title="组成与工作原理"></a>组成与工作原理</h3><ul>
 <li>该软件由两部分组成：MHA Manager（管理节点）和MHA Node（数据节点）</li>
 <li>MHA Manager会定时探测集群中的master节点，当master出现故障时，它可以自动将最新数据的slave提升为新的master，然后将所有其他的slave重新指向新的master。整个故障转移过程对应用程序完全透明；</li>
 <li>在MHA自动故障切换过程中，MHA试图从宕机的主服务器上保存二进制日志，最大程度的保证数据的不丢失；但是如果发生了硬件故障等就无法获取到日志，导致数据丢失。MHA可以与半同步复制结合起来。如果只有一个slave已经收到了最新的二进制日志，MHA可以将最新的二进制日志应用于其他所有的slave服务器上，因此可以保证所有节点的数据一致性；</li>
 <li>至少需要三台服务器完成</li>
-</ul><a id="more"></a>
-
+</ul>
 <h3 id="工作过秤"><a href="#工作过秤" class="headerlink" title="工作过秤"></a>工作过秤</h3><ol>
 <li>从宕机崩溃的master保存二进制日志事件（binlog events）;</li>
 <li>识别含有最新更新的slave；</li>
@@ -2166,7 +2179,8 @@
 </li>
 <li>读锁：阻塞写不阻塞读，只能操作自己上锁表和数据</li>
 <li>写锁：同时阻塞读写，其他会话的写操作会阻塞</li>
-</ul><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><ul>
+</ul><a id="more"></a>
+<h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h3><ul>
 <li><p>命令</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">flush</span> <span class="keyword">tables</span> <span class="keyword">with</span> <span class="keyword">read</span> <span class="keyword">lock</span>;  <span class="comment">/*此时整个库处于只读状态*/</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -2180,8 +2194,7 @@
 <li>执行 FTWRL 命令之后由于客户端发生异常断开，那么 MySQL 会自动释放这个全局锁；而后者则会一直持有锁不会自动释放</li>
 </ol>
 </li>
-</ul><a id="more"></a>
-
+</ul>
 <ol>
 <li><p>查看加锁表</p>
  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">open</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
@@ -2662,11 +2675,11 @@
     <url>/2019/11/26/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<h2 id="构建Web内容的技术"><a href="#构建Web内容的技术" class="headerlink" title="构建Web内容的技术"></a>构建Web内容的技术</h2><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
 <li>为了发送Web 上的超文本（Hypertext）而开发的标记语言。超文本是一种文档系统，可将文档中任意位置的信息与其他信息（文本或图片等）建立关联，即超链接文本。标记语言是指通过在文档的某部分穿插特别的字符串标签，用来修饰文档的语言。我们把出现在HTML 文档内的这种特殊字符串叫做HTML 标签（Tag）</li>
-</ul><h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
+</ul><a id="more"></a>
+<h3 id="设计应用CSS"><a href="#设计应用CSS" class="headerlink" title="设计应用CSS"></a>设计应用CSS</h3><ul>
 <li>CSS（Cascading Style Sheets，层叠样式表）可以指定如何展现HTML内的各种元素，属于样式表标准之一</li>
 <li>CSS的理念就是让文档的结构和设计分离，达到解耦的目的</li>
-</ul><a id="more"></a>
-
+</ul>
 <h3 id="动态HTML"><a href="#动态HTML" class="headerlink" title="动态HTML"></a>动态HTML</h3><ul>
 <li>通过调用客户端脚本语言JavaScript，实现对HTML 的Web 页面的动态改造</li>
 </ul>
@@ -2707,14 +2720,14 @@
 <li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/图解HTTP_9/9.1.png" alt="http"></li>
 </ol>
 </li>
-</ul><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><ul>
+</ul><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><a id="more"></a>
+<ul>
 <li>局部Web 页面替换加载的异步通信手段<br><img src="/2019/11/26/图解HTTP_9/9.2.png" alt="Ajax"></li>
-</ul><h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
+</ul>
+<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
 <li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
 <li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2019/11/26/图解HTTP_9/9.3.png" alt="Comet"></li>
-</ul><a id="more"></a>
-
-
+</ul>
 <h4 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h4><ul>
 <li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2019/11/26/图解HTTP_9/9.4.png" alt="SPDY"></p>
 </li>
@@ -2756,7 +2769,10 @@
 </ul><h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
 <li>源数据库位于 /var/lib/mysql/pre_database</li>
 <li>外部表库位于 /var/lib/mysql_extend/pre_database</li>
-</ul><ol>
+</ul><a id="more"></a>
+
+
+<ol>
 <li><p>新建的表，位于新的存储位置</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`mysql_extend_table`</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">age <span class="built_in">INT</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">21</span></span><br><span class="line">)<span class="keyword">DATA</span> <span class="keyword">DIRECTORY</span> = <span class="string">'/var/lib/mysql_extend'</span>;</span><br></pre></td></tr></table></figure>
 
@@ -2767,10 +2783,7 @@
 </li>
 <li><p><strong>注意相应文件夹权限要够</strong><br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/extend3.png" alt="权限"></p>
 </li>
-</ol><a id="more"></a>
-
-
-
+</ol>
 <h3 id="实验迁移（MySQL5-7）"><a href="#实验迁移（MySQL5-7）" class="headerlink" title="实验迁移（MySQL5.7）"></a>实验迁移（MySQL5.7）</h3><ol>
 <li><p>转移前<br><img src="/2019/11/23/MySQL磁盘扩展与介质迁移/tra1.png" alt="转移前"></p>
 </li>
@@ -3136,9 +3149,9 @@
 <li>首先返回权重值最高的媒体类型</li>
 </ol>
 </li>
-</ul><h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><a id="more"></a>
+</ul><a id="more"></a>
 
-<ul>
+<h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><ul>
 <li>通知服务器用户代理支持的字符集及字符集的相对优先顺序</li>
 </ul>
 <h4 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h4><ul>
@@ -3359,11 +3372,11 @@
   <entry>
     <title>RHCSA备考</title>
     <url>/2019/11/15/RHCSA/</url>
-    <content><![CDATA[<h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure><h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure><h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><a id="more"></a>
+    <content><![CDATA[<h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure><h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure><a id="more"></a>
 
 
 
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
+<h3 id="配置yum仓库"><a href="#配置yum仓库" class="headerlink" title="配置yum仓库"></a>配置yum仓库</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim /etc/yum.repos.d/base.repo</span><br><span class="line">  [base]</span><br><span class="line">  name = RHCSA</span><br><span class="line">  baseurl = url</span><br><span class="line">  <span class="built_in">enable</span> = 1</span><br><span class="line">  gpgcheck = 0</span><br></pre></td></tr></table></figure>
 
 <h3 id="调整逻辑卷"><a href="#调整逻辑卷" class="headerlink" title="调整逻辑卷"></a>调整逻辑卷</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">lvextend -L 770M /dev/vg/lvm1</span><br><span class="line">xfs_growfs /dev/vg/lvm1</span><br><span class="line"><span class="comment">#resize2fs /dev/vg/lvm1</span></span><br></pre></td></tr></table></figure>
 
@@ -3515,7 +3528,10 @@
 </li>
 <li>空行（CR + LF）</li>
 <li>报文主体（不一定存在）</li>
-</ol><h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
+</ol><a id="more"></a>
+
+
+<h3 id="编码提升传输速率"><a href="#编码提升传输速率" class="headerlink" title="编码提升传输速率"></a>编码提升传输速率</h3><ul>
 <li>传输过程中通过编码提升传输速率，可能消耗更多CPU资源</li>
 <li>报文主体和实体主体的差异<ol>
 <li>报文：HTTP 通信中的基本单位</li>
@@ -3526,10 +3542,7 @@
 <li>内容编码指明应用在实体内容上的编码格式，并保持实体信息原样压缩。内容编码后的实体由客户端接收并负责解码</li>
 </ol>
 </li>
-</ul><a id="more"></a>
-
-
-
+</ul>
 <h3 id="分割发送的分块传输编码"><a href="#分割发送的分块传输编码" class="headerlink" title="分割发送的分块传输编码"></a>分割发送的分块传输编码</h3><ul>
 <li>通过将数据分割成多块进行传输，让浏览器逐步显示页面</li>
 </ul>
@@ -4067,5 +4080,116 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jeff.github.io</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+  </entry>
+  <entry>
+    <title>hexo+github快速搭建博客</title>
+    <url>/2019/10/09/creat-blog/</url>
+    <content><![CDATA[<ul>
+<li><a href="#hexo--github-快速搭建博客基于-centos-7">hexo + Github 快速搭建博客（基于 centos 7）</a><ul>
+<li><a href="#流程">流程</a><ul>
+<li><a href="#nodejs-安装">node.js 安装</a></li>
+<li><a href="#git-安装">git 安装</a></li>
+<li><a href="#hexo-安装">hexo 安装</a></li>
+<li><a href="#github-仓库建立">github 仓库建立</a></li>
+<li><a href="#hexo-与-github-的连接">hexo 与 github 的连接</a></li>
+<li><a href="#最后的最后">最后的最后</a></li>
+<li><a href="#访问博客">访问博客</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#借鉴">借鉴</a><!-- TOC END -->
+
+</li>
+</ul><h1 id="hexo-Github-快速搭建博客（基于-centos-7）"><a href="#hexo-Github-快速搭建博客（基于-centos-7）" class="headerlink" title="hexo + Github 快速搭建博客（基于 centos 7）"></a>hexo + Github 快速搭建博客（基于 centos 7）</h1><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<li>node.js 安装</li>
+<li>git 安装</li>
+<li>hexo 安装并设置</li>
+<li>github 仓库建立和设置</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h3 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h3><ol>
+<li><p>node.js 官网下载二进制压缩包: <a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压二进制包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# tar -xvf node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加 node.js 的环境变量</p>
+<ol>
+<li><p>进入解压好的目录，然后进入 bin 目录</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# cd node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 pwd 获取 node.js 可执行文件路径</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun bin]# pwd</span><br><span class="line">/root/Softwares/node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将获取到的路径追加到环境变量配置文件最后</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# vim /etc/profile</span><br><span class="line">export PATH=$PATH:/root/Softwares/node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证设置成功,出现版本号即配置成功</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# node -v</span><br><span class="line">v10.16.3</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="git-安装"><a href="#git-安装" class="headerlink" title="git 安装"></a>git 安装</h3><ol>
+<li><p>git 安装: <a href="https://git-scm.com" target="_blank" rel="noopener">https://git-scm.com</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# yum install -y git-core</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 git 的全局名称和邮箱</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# git config --global user.name &quot;your name&quot;</span><br><span class="line">[root@aliyun ~]# git config --global user.email &quot;your email address&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h3><ol>
+<li><p>hexo 安装: <a href="https://hexo.io" target="_blank" rel="noopener">https://hexo.io</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>hexo 初始化</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun blog_file]# hexo init blog_file</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装插件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun blog_file]# npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="github-仓库建立"><a href="#github-仓库建立" class="headerlink" title="github 仓库建立"></a>github 仓库建立</h3><ol>
+<li><p>新建一个仓库</p>
+</li>
+<li><p>命名时需要注意，命名规则</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">例如：你的 github 账户名为 jeff</span><br><span class="line">博客仓库名为： jeff.github.io  (如果用户名为 margin 则为 margin.gtihub.io)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务器端生成 ssh 密钥</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# ssh-keygen -t rsa -C emailaddress  # -C 后的参数为你的 github 注册时的邮箱</span><br><span class="line"># 如果提示覆盖则直接覆盖</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复制刚刚的密钥</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# less ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 github 上添加刚刚复制的 ssh 密钥: <a href="https://github.com/settings/ssh" target="_blank" rel="noopener">https://github.com/settings/ssh</a></p>
+</li>
+</ol>
+<h3 id="hexo-与-github-的连接"><a href="#hexo-与-github-的连接" class="headerlink" title="hexo 与 github 的连接"></a>hexo 与 github 的连接</h3><ol>
+<li>修改 hexo 的配置文件（注意：配置文件在冒号后需要有一个空格不让会报错）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# vim _config.yml</span><br><span class="line"></span><br><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># Site</span><br><span class="line">title: JeffQi‘s Blog # 标题</span><br><span class="line">subtitle: Nice to see you! # 浏览器显示的信息</span><br><span class="line">description: good good study, day day up! # 博客描述</span><br><span class="line">keywords:</span><br><span class="line">author: JeffQi # 作者</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://yoursite.com/child</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: true</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Home page setting</span><br><span class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</span><br><span class="line"># per_page: Posts displayed per page. (0 = disable pagination)</span><br><span class="line"># order_by: Posts order. (Order by date descending by default)</span><br><span class="line">index_generator:</span><br><span class="line">  path: &apos;&apos;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"></span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: Fan</span><br><span class="line"></span><br><span class="line"># Deployment # 在这里设置你的 github 的连接</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git # 方式</span><br><span class="line">  repo: https://github.com/Jeff-Qi/Jeff.github.io.git # 你的 github 仓库 URL</span><br><span class="line">  banch: master</span><br></pre></td></tr></table></figure>
+
+<h3 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h3><ol>
+<li>编译静态资源，更新到 github</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# hexo g</span><br><span class="line">[root@aliyun blog_file]# hexo d</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问博客"><a href="#访问博客" class="headerlink" title="访问博客"></a>访问博客</h3><ol>
+<li>通过设置的 github 的仓库名就能访问了</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jeff.github.io</span><br></pre></td></tr></table></figure>
+
+<h1 id="借鉴"><a href="#借鉴" class="headerlink" title="借鉴"></a>借鉴</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https://www.jianshu.com/p/0823e387c019</span><br><span class="line">https://www.cnblogs.com/cutexin/p/11251940.html</span><br><span class="line">https://godweiyang.com/2018/04/13/hexo-blog/#toc-heading-10</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Others</category>
+      </categories>
   </entry>
 </search>
