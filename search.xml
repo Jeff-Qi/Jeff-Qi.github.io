@@ -700,80 +700,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench"><br>6.  vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python_base/</url>
     <content><![CDATA[<h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><ol>
@@ -1541,6 +1467,80 @@
 ]]></content>
       <categories>
         <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sysbench --threads 6 --timeout 300s</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench"><br>6.  vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"><br>7.  pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"><br>8.  查看中断上下文切换通过查看/proc/interrupt文件<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br>9. 总结<br>    1.  自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；<br>    2.  非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；<br>    3.  中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -3993,93 +3993,6 @@
       <categories>
         <category>Linux</category>
       </categories>
-  </entry>
-  <entry>
-    <title>hexo+github快速搭建博客</title>
-    <url>/2019/10/09/hexo-github%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="hexo-Github-快速搭建博客（基于-centos-7）"><a href="#hexo-Github-快速搭建博客（基于-centos-7）" class="headerlink" title="hexo + Github 快速搭建博客（基于 centos 7）"></a>hexo + Github 快速搭建博客（基于 centos 7）</h2><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
-<li>node.js 安装</li>
-<li>git 安装</li>
-<li>hexo 安装并设置</li>
-<li>github 仓库建立和设置</li>
-</ol><h4 id="node-js-安装"><a href="#node-js-安装" class="headerlink" title="node.js 安装"></a>node.js 安装</h4><ol>
-<li><p>node.js 官网下载二进制压缩包: <a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# wget https://nodejs.org/dist/v10.16.3/node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压二进制包</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# tar -xvf node-v10.16.3-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加 node.js 的环境变量</p>
-<ol>
-<li><p>进入解压好的目录，然后进入 bin 目录</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# cd node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用 pwd 获取 node.js 可执行文件路径</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun bin]# pwd</span><br><span class="line">/root/Softwares/node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>将获取到的路径追加到环境变量配置文件最后</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# vim /etc/profile</span><br><span class="line">export PATH=$PATH:/root/Softwares/node-v10.16.3-linux-x64/bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>验证设置成功,出现版本号即配置成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# node -v</span><br><span class="line">v10.16.3</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-</li>
-</ol><a id="more"></a>
-
-<h4 id="git-安装"><a href="#git-安装" class="headerlink" title="git 安装"></a>git 安装</h4><ol>
-<li><p>git 安装: <a href="https://git-scm.com" target="_blank" rel="noopener">https://git-scm.com</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# yum install -y git-core</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>设置 git 的全局名称和邮箱</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# git config --global user.name &quot;your name&quot;</span><br><span class="line">[root@aliyun ~]# git config --global user.email &quot;your email address&quot;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h4><ol>
-<li><p>hexo 安装: <a href="https://hexo.io" target="_blank" rel="noopener">https://hexo.io</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>hexo 初始化</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun blog_file]# hexo init blog_file</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装插件</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun blog_file]# npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="github-仓库建立"><a href="#github-仓库建立" class="headerlink" title="github 仓库建立"></a>github 仓库建立</h4><ol>
-<li><p>新建一个仓库</p>
-</li>
-<li><p>命名时需要注意，命名规则</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">例如：你的 github 账户名为 jeff</span><br><span class="line">博客仓库名为： jeff.github.io  (如果用户名为 margin 则为 margin.gtihub.io)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>服务器端生成 ssh 密钥</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# ssh-keygen -t rsa -C emailaddress  # -C 后的参数为你的 github 注册时的邮箱</span><br><span class="line"># 如果提示覆盖则直接覆盖</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>复制刚刚的密钥</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# less ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在 github 上添加刚刚复制的 ssh 密钥: <a href="https://github.com/settings/ssh" target="_blank" rel="noopener">https://github.com/settings/ssh</a></p>
-</li>
-</ol>
-<h4 id="hexo-与-github-的连接"><a href="#hexo-与-github-的连接" class="headerlink" title="hexo 与 github 的连接"></a>hexo 与 github 的连接</h4><ol>
-<li>修改 hexo 的配置文件（注意：配置文件在冒号后需要有一个空格不让会报错）</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# vim _config.yml</span><br><span class="line"></span><br><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"></span><br><span class="line"># Site</span><br><span class="line">title: JeffQi‘s Blog # 标题</span><br><span class="line">subtitle: Nice to see you! # 浏览器显示的信息</span><br><span class="line">description: good good study, day day up! # 博客描述</span><br><span class="line">keywords:</span><br><span class="line">author: JeffQi # 作者</span><br><span class="line">language: zh-CN</span><br><span class="line">timezone:</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://yoursite.com/child</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"># Directory</span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line"># Writing</span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: true</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line"># Home page setting</span><br><span class="line"># path: Root path for your blogs index page. (default = &apos;&apos;)</span><br><span class="line"># per_page: Posts displayed per page. (0 = disable pagination)</span><br><span class="line"># order_by: Posts order. (Order by date descending by default)</span><br><span class="line">index_generator:</span><br><span class="line">  path: &apos;&apos;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line"># Category &amp; Tag</span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line"></span><br><span class="line"># Date / Time format</span><br><span class="line">## Hexo uses Moment.js to parse and display date</span><br><span class="line">## You can customize the date format as defined in</span><br><span class="line">## http://momentjs.com/docs/#/displaying/format/</span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line"># Pagination</span><br><span class="line">## Set per_page to 0 to disable pagination</span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: Fan</span><br><span class="line"></span><br><span class="line"># Deployment # 在这里设置你的 github 的连接</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git # 方式</span><br><span class="line">  repo: https://github.com/Jeff-Qi/Jeff.github.io.git # 你的 github 仓库 URL</span><br><span class="line">  banch: master</span><br></pre></td></tr></table></figure>
-
-<h4 id="最后的最后"><a href="#最后的最后" class="headerlink" title="最后的最后"></a>最后的最后</h4><ol>
-<li>编译静态资源，更新到 github</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@aliyun ~]# cd blog_file</span><br><span class="line">[root@aliyun blog_file]# hexo g</span><br><span class="line">[root@aliyun blog_file]# hexo d</span><br></pre></td></tr></table></figure>
-
-<h4 id="访问博客"><a href="#访问博客" class="headerlink" title="访问博客"></a>访问博客</h4><ol>
-<li>通过设置的 github 的仓库名就能访问了</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jeff.github.io</span><br></pre></td></tr></table></figure>
-
-]]></content>
   </entry>
   <entry>
     <title>hexo+github快速搭建博客</title>
