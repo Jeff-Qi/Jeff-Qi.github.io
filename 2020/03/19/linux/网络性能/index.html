@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce       零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。">
+  <meta name="description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce">
 <meta property="og:type" content="article">
 <meta property="og:title" content="网络参数">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/19/linux/网络性能/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce       零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。">
+<meta property="og:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-26T03:46:04.977Z">
+<meta property="og:updated_time" content="2020-03-26T14:15:39.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络参数">
-<meta name="twitter:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce       零碎知识点网络内核参数arp_ignore与arp_announce arp_ignore和arp_announce参数都和ARP协议相关，主要用于控制系统返回arp响应和发送arp请求时的动作。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。">
+<meta name="twitter:description" content="零碎知识点 网络内核参数 arp_ignore与arp_announce">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/19/linux/网络性能/">
 
 
@@ -295,7 +295,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 11:46:04" itemprop="dateModified" datetime="2020-03-26T11:46:04+08:00">2020-03-26</time>
+                <time title="修改时间：2020-03-26 22:15:39" itemprop="dateModified" datetime="2020-03-26T22:15:39+08:00">2020-03-26</time>
               </span>
             
           
@@ -324,21 +324,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
+        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
 <li><a href="#零碎知识点">零碎知识点</a><ul>
 <li><a href="#网络内核参数">网络内核参数</a><ul>
 <li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a><!-- TOC END -->
+<a id="more"></a>
 
 </li>
 </ul>
 </li>
 </ul>
 </li>
-</ul><h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
+</ul>
+<h1 id="零碎知识点"><a href="#零碎知识点" class="headerlink" title="零碎知识点"></a>零碎知识点</h1><h2 id="网络内核参数"><a href="#网络内核参数" class="headerlink" title="网络内核参数"></a>网络内核参数</h2><h3 id="arp-ignore与arp-announce"><a href="#arp-ignore与arp-announce" class="headerlink" title="arp_ignore与arp_announce"></a>arp_ignore与arp_announce</h3><ul>
 <li>arp_ignore和arp_announce参数都和<strong>ARP协议相关</strong>，主要用于<strong>控制系统返回arp响应和发送arp请求时的动作</strong>。这两个参数很重要，特别是在LVS的DR场景下，它们的配置直接影响到DR转发是否正常。</li>
-</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
+</ul>
 <ol>
 <li><strong>arp_ignore</strong>：控制系统在收到外部的arp请求时，是否要返回arp响应<ul>
 <li><strong>sysctl.conf中包含all和eth/lo（具体网卡）的arp_ignore参数，取其中较大的值生效</strong></li>
@@ -422,8 +423,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/03/19/linux/平均负载均衡/" rel="next" title="平均负载">
-                  <i class="fa fa-chevron-left"></i> 平均负载
+                <a href="/2020/03/19/linux/linux-network-note/" rel="next" title="Linux优秀笔记网站记录">
+                  <i class="fa fa-chevron-left"></i> Linux优秀笔记网站记录
                 </a>
               
             </div>
@@ -432,8 +433,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2020/03/20/linux/上下文切换/" rel="prev" title="上下文切换">
-                  上下文切换 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/03/20/python/python_base/" rel="prev" title="Python基础">
+                  Python基础 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -499,7 +500,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -525,7 +526,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

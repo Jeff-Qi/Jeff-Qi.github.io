@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="内存管理和垃圾回收机制 内存管理 垃圾回收机制 引用计数 标记清除 分代回收     参考文档   内存管理和垃圾回收机制内存管理 Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看 python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如">
+  <meta name="description" content="内存管理和垃圾回收机制 内存管理 垃圾回收机制 引用计数 标记清除 分代回收     参考文档   内存管理和垃圾回收机制内存管理 Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看   python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python内存管理机制">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/21/python/python内存管理机制/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="内存管理和垃圾回收机制 内存管理 垃圾回收机制 引用计数 标记清除 分代回收     参考文档   内存管理和垃圾回收机制内存管理 Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看 python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如">
+<meta property="og:description" content="内存管理和垃圾回收机制 内存管理 垃圾回收机制 引用计数 标记清除 分代回收     参考文档   内存管理和垃圾回收机制内存管理 Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看   python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/python/mark-gc.jpg">
@@ -68,10 +68,10 @@
 <meta property="og:image" content="http://study.jeffqi.cn/python/gc-generator-2.png">
 <meta property="og:image" content="http://study.jeffqi.cn/python/gc-generator-3.png">
 <meta property="og:image" content="http://study.jeffqi.cn/python/gc-generator-4.png">
-<meta property="og:updated_time" content="2020-03-26T03:47:33.830Z">
+<meta property="og:updated_time" content="2020-03-26T14:15:49.125Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python内存管理机制">
-<meta name="twitter:description" content="内存管理和垃圾回收机制 内存管理 垃圾回收机制 引用计数 标记清除 分代回收     参考文档   内存管理和垃圾回收机制内存管理 Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看 python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如">
+<meta name="twitter:description" content="内存管理和垃圾回收机制 内存管理 垃圾回收机制 引用计数 标记清除 分代回收     参考文档   内存管理和垃圾回收机制内存管理 Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看   python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是">
 <meta name="twitter:image" content="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/21/python/python内存管理机制/">
 
@@ -302,7 +302,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 11:47:33" itemprop="dateModified" datetime="2020-03-26T11:47:33+08:00">2020-03-26</time>
+                <time title="修改时间：2020-03-26 22:15:49" itemprop="dateModified" datetime="2020-03-26T22:15:49+08:00">2020-03-26</time>
               </span>
             
           
@@ -346,8 +346,11 @@
 
 </li>
 </ul><h1 id="内存管理和垃圾回收机制"><a href="#内存管理和垃圾回收机制" class="headerlink" title="内存管理和垃圾回收机制"></a>内存管理和垃圾回收机制</h1><h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
-<li>Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看<br><img src="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg" alt="python可变对象与不可变对象"></li>
-<li>python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如果频繁使用c中的new/malloc会导致大量内存碎片，导致效率下降；所有python中使用内存池机制来解决这个问题；内存池先申请一块内存空间，然后分割成等大小的块数；有新的内存需求时，就先从内存池中分配内存给这个需求，不够了之后再申请新的内存。这样做最显著的优势就是能够减少内存碎片，提升效率。<strong>Pymalloc会在内存池中申请空间，一般是少于256kb，如果是大的对象，则直接调用 new/malloc 来申请新的内存空间</strong></li>
+<li><p>Python 中一切皆对象，对象又可以分为可变对象和不可变对象。二者可以通过原地修改，如果修改后地址不变，则是可变对象，否则为不可变对象，地址信息可以通过id()进行查看</p>
+<p><img src="http://study.jeffqi.cn/python/python_changeable_and_unchangeable_object.jpg" alt="python可变对象与不可变对象"></p>
+</li>
+<li><p>python有内存池机制，pymalloc机制来对内存进行申请和释放内存；当创建小的对象是，如果频繁使用c中的new/malloc会导致大量内存碎片，导致效率下降；所有python中使用内存池机制来解决这个问题；内存池先申请一块内存空间，然后分割成等大小的块数；有新的内存需求时，就先从内存池中分配内存给这个需求，不够了之后再申请新的内存。这样做最显著的优势就是能够减少内存碎片，提升效率。<strong>Pymalloc会在内存池中申请空间，一般是少于256kb，如果是大的对象，则直接调用 new/malloc 来申请新的内存空间</strong></p>
+</li>
 </ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 
 
@@ -412,8 +415,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/03/20/python/python_base/" rel="next" title="Python基础">
-                  <i class="fa fa-chevron-left"></i> Python基础
+                <a href="/2020/03/20/python/datastruct/" rel="next" title="数据结构基础">
+                  <i class="fa fa-chevron-left"></i> 数据结构基础
                 </a>
               
             </div>
@@ -489,7 +492,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -515,7 +518,7 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>

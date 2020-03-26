@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第1章：mysql数据库的介绍以及课程大纲总览 1.1 mysql的简介介绍 1.2 课程大纲总览   第2章：mysql数据库面试必备入门基础知识 2.1 mysql各个版本的重要性介绍 2.2 mysql的核心知识之服务管理 2.3 mysql的可视化图形界面与命令行操作 2.4 mysql的库表深入解析 2.5 mysql的sql各类语句精讲   第3章：mysql核心知识之DDL数据定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网课赠送笔记">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/10/19/mysql/mysql数据库入门基础实战/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="第1章：mysql数据库的介绍以及课程大纲总览 1.1 mysql的简介介绍 1.2 课程大纲总览   第2章：mysql数据库面试必备入门基础知识 2.1 mysql各个版本的重要性介绍 2.2 mysql的核心知识之服务管理 2.3 mysql的可视化图形界面与命令行操作 2.4 mysql的库表深入解析 2.5 mysql的sql各类语句精讲   第3章：mysql核心知识之DDL数据定">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/10/19/mysql/mysql数据库入门基础实战/C:%5CUsers%5Cdabiao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1555089061504.png">
+<meta property="og:updated_time" content="2020-03-26T14:16:50.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网课赠送笔记">
+<meta name="twitter:description" content="第1章：mysql数据库的介绍以及课程大纲总览 1.1 mysql的简介介绍 1.2 课程大纲总览   第2章：mysql数据库面试必备入门基础知识 2.1 mysql各个版本的重要性介绍 2.2 mysql的核心知识之服务管理 2.3 mysql的可视化图形界面与命令行操作 2.4 mysql的库表深入解析 2.5 mysql的sql各类语句精讲   第3章：mysql核心知识之DDL数据定">
+<meta name="twitter:image" content="http://jeff-qi.github.io/2019/10/19/mysql/mysql数据库入门基础实战/C:%5CUsers%5Cdabiao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1555089061504.png">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/10/19/mysql/mysql数据库入门基础实战/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>网课赠送笔记 | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/10/19/mysql/mysql数据库入门基础实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">网课赠送笔记
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-19 00:15:00" itemprop="dateCreated datePublished" datetime="2019-10-19T00:15:00+08:00">2019-10-19</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 22:16:50" itemprop="dateModified" datetime="2020-03-26T22:16:50+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#第1章mysql数据库的介绍以及课程大纲总览">第1章：mysql数据库的介绍以及课程大纲总览</a><ul>
+<li><a href="#11-mysql的简介介绍">1.1 mysql的简介介绍</a></li>
+<li><a href="#12-课程大纲总览">1.2 课程大纲总览</a></li>
+</ul>
+</li>
+<li><a href="#第2章mysql数据库面试必备入门基础知识">第2章：mysql数据库面试必备入门基础知识</a><ul>
+<li><a href="#21-mysql各个版本的重要性介绍">2.1 mysql各个版本的重要性介绍</a></li>
+<li><a href="#22-mysql的核心知识之服务管理">2.2 mysql的核心知识之服务管理</a></li>
+<li><a href="#23-mysql的可视化图形界面与命令行操作">2.3 mysql的可视化图形界面与命令行操作</a></li>
+<li><a href="#24-mysql的库表深入解析">2.4 mysql的库表深入解析</a></li>
+<li><a href="#25-mysql的sql各类语句精讲">2.5 mysql的sql各类语句精讲</a></li>
+</ul>
+</li>
+<li><a href="#第3章mysql核心知识之ddl数据定义语言">第3章：mysql核心知识之DDL数据定义语言</a><ul>
+<li><a href="#31-mysql数据库必备知识之创建查看以及使用切换">3.1 mysql数据库必备知识之创建、查看以及使用/切换</a></li>
+<li><a href="#32-mysql创建表之常用数据类型">3.2 mysql创建表之常用数据类型</a></li>
+<li><a href="#33-mysql数据表必备知识之创建表">3.3 mysql数据表必备知识之创建表</a></li>
+<li><a href="#34-mysql数据表必备知识之查看">3.4 mysql数据表必备知识之查看</a></li>
+<li><a href="#35-mysql数据表必备知识之表结构维护与删除">3.5 mysql数据表必备知识之表结构维护与删除</a></li>
+</ul>
+</li>
+<li><a href="#第4章mysql核心知识之dml数据操纵语言">第4章：mysql核心知识之DML数据操纵语言</a><ul>
+<li><a href="#41-mysql深入剖析表数据新增">4.1 mysql深入剖析表数据新增</a></li>
+<li><a href="#42-mysql深入剖析表数据的修改以及删除">4.2 mysql深入剖析表数据的修改以及删除</a></li>
+<li><a href="#43-mysql核心知识之中文乱码问题">4.3 mysql核心知识之中文乱码问题</a></li>
+</ul>
+</li>
+<li><a href="#第5章mysql核心知识之dql数据查询语言与项目高级查询实战">第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战</a><ul>
+<li><a href="#51-mysql查询子句之一where条件查询">5.1 mysql查询子句之一where条件查询</a></li>
+<li><a href="#52-mysql查询子句之二group-by分组查询分组">5.2 mysql查询子句之二group by分组查询（分组）</a></li>
+<li><a href="#53-mysql查询子句之三having条件查询筛选">5.3 mysql查询子句之三having条件查询（筛选）</a></li>
+<li><a href="#54-mysql查询子句之四order-by排序查询排序">5.4 mysql查询子句之四order by排序查询（排序）</a></li>
+<li><a href="#55-mysql查询子句之五limit限制查询限制">5.5 mysql查询子句之五limit限制查询（限制）</a></li>
+<li><a href="#56-mysql查询之exists型子查询">5.6 mysql查询之exists型子查询</a></li>
+<li><a href="#57-mysql查询之左连接查询与右连接查询">5.7 mysql查询之左连接查询与右连接查询</a></li>
+<li><a href="#58-mysql查询之内连接查询与联合查询">5.8 mysql查询之内连接查询与联合查询</a></li>
+<li><a href="#59-mysql查询之项目高级查询实战一">5.9 mysql查询之项目高级查询实战(一)</a></li>
+<li><a href="#510-mysql查询之项目高级查询实战二">5.10 mysql查询之项目高级查询实战(二)</a></li>
+</ul>
+</li>
+<li><a href="#第6章mysql核心知识之dcl数据控制语言对用户权限的设置">第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）</a><ul>
+<li><a href="#61-mysql限制root用户指定ip登录">6.1 mysql限制root用户指定ip登录</a></li>
+<li><a href="#62-mysql必备知识之用户密码">6.2 mysql必备知识之用户密码</a></li>
+<li><a href="#63-mysql实战系列之创建新用户并限制ip网段登录">6.3 mysql实战系列之创建新用户并限制ip网段登录</a></li>
+<li><a href="#64-mysql实战系列之库表权限授权与回收">6.4 mysql实战系列之库表权限授权与回收</a></li>
+</ul>
+</li>
+<li><a href="#第7章mysql的核心知识之事务实战视图触发器以及存储过程">第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程</a><ul>
+<li><a href="#71-mysql-必备核心知识之事务的详细解析">7.1 mysql 必备核心知识之事务的详细解析</a></li>
+<li><a href="#72-mysql-必备核心知识之事务实战">7.2 mysql 必备核心知识之事务实战</a></li>
+<li><a href="#73-mysql核心知识之视图的应用">7.3 mysql核心知识之视图的应用</a></li>
+<li><a href="#74-mysql-的触发器介绍">7.4 mysql 的触发器介绍</a></li>
+<li><a href="#75-mysql的存储过程介绍">7.5 mysql的存储过程介绍</a></li>
+</ul>
+</li>
+<li><a href="#第8章mysql必备核心知识之索引与存储引擎的介绍">第8章：mysql必备核心知识之索引与存储引擎的介绍</a><ul>
+<li><a href="#81-mysql的存储引擎介绍">8.1 mysql的存储引擎介绍</a></li>
+<li><a href="#82-mysql必备知识之常用索引精讲">8.2 mysql必备知识之常用索引精讲</a></li>
+<li><a href="#83-mysql必备核心知识之普通索引与唯一索引">8.3 mysql必备核心知识之普通索引与唯一索引</a></li>
+<li><a href="#84-mysql必备核心知识之主键索引">8.4 mysql必备核心知识之主键索引</a></li>
+<li><a href="#85-mysql核心知识之全文索引的使用">8.5 mysql核心知识之全文索引的使用</a></li>
+<li><a href="#86-mysql核心知识之外键约束剖析">8.6 mysql核心知识之外键约束剖析</a></li>
+<li><a href="#87-mysql核心知识之联合索引">8.7 mysql核心知识之联合索引</a></li>
+</ul>
+</li>
+<li><a href="#第9章mysql不得不学的sql语句优化思路">第9章：mysql不得不学的sql语句优化思路</a><ul>
+<li><a href="#91-mysql的慢查询日志开启与问题定位">9.1 mysql的慢查询日志开启与问题定位</a></li>
+<li><a href="#92-mysql的sql语句执行过程解析">9.2 mysql的sql语句执行过程解析</a></li>
+<li><a href="#93-mysql语句优化的几个小建议">9.3 mysql语句优化的几个小建议</a></li>
+</ul>
+</li>
+<li><a href="#第10章mysql数据安全核心知识之备份技能">第10章：mysql数据安全核心知识之备份技能</a><ul>
+<li><a href="#101-mysql数据安全之备份的背景意义">10.1 mysql数据安全之备份的背景意义</a></li>
+<li><a href="#102-mysql数据安全之备份的介绍">10.2 mysql数据安全之备份的介绍</a></li>
+<li><a href="#103-mysql数据安全之mysqldump备份实例跨机器">10.3 mysql数据安全之mysqldump备份实例（跨机器）</a></li>
+<li><a href="#104-mysql数据安全之mysql数据的恢复">10.4 mysql数据安全之mysql数据的恢复</a></li>
+<li><a href="#105-mysql数据安全之物理备份">10.5 mysql数据安全之物理备份</a></li>
+<li><a href="#106-mysql数据安全之利用二进制日志mysqlbinlog备份数据">10.6 mysql数据安全之利用二进制日志mysqlbinlog备份数据</a></li>
+<li><a href="#107-mysql数据安全之利用二进制日志mysqlbinlog恢复数据">10.7 mysql数据安全之利用二进制日志mysqlbinlog恢复数据</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="第1章：mysql数据库的介绍以及课程大纲总览"><a href="#第1章：mysql数据库的介绍以及课程大纲总览" class="headerlink" title="第1章：mysql数据库的介绍以及课程大纲总览"></a>第1章：mysql数据库的介绍以及课程大纲总览</h2><p>​    <strong>简介：介绍什么是mysql以及整套课程的大纲知识点</strong></p>
+<h3 id="1-1-mysql的简介介绍"><a href="#1-1-mysql的简介介绍" class="headerlink" title="1.1 mysql的简介介绍"></a>1.1 mysql的简介介绍</h3><p>​    <strong>简介：mysql的简介</strong></p>
+<ul>
+<li>1、什么是mysql？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql是一个开源的关系型数据库管理系统，现在是oracle公司旗下的一款产品，由C和C++语言编写，可移植性高。支持在多种操作系统上安装，最常见有AIX，linux，window。mysql因为开源免费，所以受到了目前互联网行业的欢迎。</span><br><span class="line"></span><br><span class="line">以mysql作为数据库，linux系统作为操作系统，apache或者nginx作为web服务器，perl/php/python作为服务端的脚本解释器，就可以搭建起一个免费的网站。被业界称为LNMP或者LAMP</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2、适合人群：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">适合零基础，运维人员，程序开发人员，DBA数据库管理员等等所有从事IT行业的人。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3、学后达到的水平：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">入门偏中等水平</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-课程大纲总览"><a href="#1-2-课程大纲总览" class="headerlink" title="1.2 课程大纲总览"></a>1.2 课程大纲总览</h3><p>​    <strong>简介：介绍课程知识目录大纲</strong></p>
+<hr>
+<h2 id="第2章：mysql数据库面试必备入门基础知识"><a href="#第2章：mysql数据库面试必备入门基础知识" class="headerlink" title="第2章：mysql数据库面试必备入门基础知识"></a>第2章：mysql数据库面试必备入门基础知识</h2><p>​    <strong>简介：主讲面试时，面试官必问的知识点，主要关于版本号，服务进程，有哪些sql操作语句等</strong></p>
+<h3 id="2-1-mysql各个版本的重要性介绍"><a href="#2-1-mysql各个版本的重要性介绍" class="headerlink" title="2.1 mysql各个版本的重要性介绍"></a>2.1 mysql各个版本的重要性介绍</h3><pre><code>**简介：各个版本的区别**
+ 官网：https://dev.mysql.com/downloads/mysql/</code></pre><ul>
+<li>MySQL Community Server 社区版本，开源免费，但不提供官方技术支持。</li>
+<li>MySQL Enterprise Edition 企业版本，需付费，购买了之后可以电话支持</li>
+<li>MySQL Cluster 集群版，开源免费。可将几个MySQL Server封装成一个Server。</li>
+</ul>
+<h3 id="2-2-mysql的核心知识之服务管理"><a href="#2-2-mysql的核心知识之服务管理" class="headerlink" title="2.2 mysql的核心知识之服务管理"></a>2.2 mysql的核心知识之服务管理</h3><p>​    <strong>简介：mysql的service服务管理与登录管理</strong></p>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查看mysql服务进程：ps -ef | grep mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service服务管理：cp -a mysql.server /etc/rc.d/init.d/mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">启动命令：service mysql start</span><br><span class="line">关闭命令：service mysql stop</span><br><span class="line">重新启动命令：service mysql restart</span><br><span class="line">查看状态命令：service mysql status</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">登录管理： ln -s /usr/local/mysql/bin/*  /bin</span><br><span class="line">登录命令：mysql -uroot -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">默认端口号：3306</span><br><span class="line">配置文件：/etc/my.cnf</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-3-mysql的可视化图形界面与命令行操作"><a href="#2-3-mysql的可视化图形界面与命令行操作" class="headerlink" title="2.3 mysql的可视化图形界面与命令行操作"></a>2.3 mysql的可视化图形界面与命令行操作</h3><pre><code>**简介：命令行的登录与图形化界面的登录**</code></pre><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">命令行模式：</span><br><span class="line"></span><br><span class="line">	登录命令：mysql -u用户 -p密码</span><br><span class="line"></span><br><span class="line"> 	退出命令：exit;	quit;</span><br></pre></td></tr></table></figure>
+</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">图形化模式：</span><br><span class="line"> 	ip地址或者主机名：120.76.62.13</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-4-mysql的库表深入解析"><a href="#2-4-mysql的库表深入解析" class="headerlink" title="2.4 mysql的库表深入解析"></a>2.4 mysql的库表深入解析</h3><p>​    <strong>简介：mysql数据库的基本概念详解</strong></p>
+<ul>
+<li><p>什么是库？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">顾名思义就是数据仓库的意思，存储着一定数据结构的数据，一个数据库中可能包含着若干个表，我们可以</span><br><span class="line">通过数据库提供的多种方法来管理数据库里边的数据。本质上mysql数据库是一个关系型数据服务管理系统</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>什么是表？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">我们所说的表就是数据表，每一张表是由行和列组成，每记录一条数据，数据表就增加一行。列是由字段名</span><br><span class="line">与字段数据属性组成，我们称之列为字段，每一个字段有着多个属性。例如是否允许为空、长度、类型等等</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">数据库：database</span><br><span class="line">数据表：table</span><br><span class="line">字段（列）：column</span><br><span class="line">行：row</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="2-5-mysql的sql各类语句精讲"><a href="#2-5-mysql的sql各类语句精讲" class="headerlink" title="2.5 mysql的sql各类语句精讲"></a>2.5 mysql的sql各类语句精讲</h3><p>​    <strong>简介：mysql的操作语句分类</strong></p>
+<ul>
+<li>操作语句分为四类：</li>
+</ul>
+<ol>
+<li>DDL 数据定义语言 (Data Definition Language)  例如：建库，建表</li>
+<li>DML 数据操纵语言(Data Manipulation Language) 例如：对表中的数据进行增删改操作</li>
+<li>DQL 数据查询语言(Data Query Language)    例如：对数据进行查询</li>
+<li>DCL 数据控制语言(Data Control Language)    例如：对用户的权限进行设置</li>
+</ol>
+<hr>
+<h2 id="第3章：mysql核心知识之DDL数据定义语言"><a href="#第3章：mysql核心知识之DDL数据定义语言" class="headerlink" title="第3章：mysql核心知识之DDL数据定义语言"></a>第3章：mysql核心知识之DDL数据定义语言</h2><p>​    <strong>简介：对DDl数据定义语言进行深入学习</strong></p>
+<h3 id="3-1-mysql数据库必备知识之创建、查看以及使用-切换"><a href="#3-1-mysql数据库必备知识之创建、查看以及使用-切换" class="headerlink" title="3.1 mysql数据库必备知识之创建、查看以及使用/切换"></a>3.1 mysql数据库必备知识之创建、查看以及使用/切换</h3><p>​    <strong>简介：细讲数据库的创建使用</strong></p>
+<ul>
+<li><p>直接创建数据库 db1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前在哪个库里边</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select database();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入库的操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use 库名;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>判断是否存在，如果不存在则创建数据库 db2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database if not exists db2;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建数据库并指定字符集为 gbk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database db3 default character set gbk;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看某个库是什么字符集；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create database XD;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前mysql使用的字符集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;character%&apos;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="3-2-mysql创建表之常用数据类型"><a href="#3-2-mysql创建表之常用数据类型" class="headerlink" title="3.2 mysql创建表之常用数据类型"></a>3.2 mysql创建表之常用数据类型</h3><p>​    <strong>简介：细讲常用数据类型</strong></p>
+<ul>
+<li><p>数据类型是什么？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。有一些数据是要存储为数字的，数字当中有些是要存储为整数、小数、日期型等...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mysql常见数据类型</p>
+<pre><code>&lt;1&gt;整数型
+     类型      大小      范围（有符号）               范围（无符号unsigned）    用途
+     TINYINT   1 字节    (-128，127)                (0，255)                 小整数值
+     SMALLINT  2 字节    (-32768，32767)            (0，65535)               大整数值
+     MEDIUMINT 3 字节    (-8388608，8388607)        (0，16777215)            大整数值
+     INT       4 字节    (-2147483648，2147483647)  (0，4294967295)          大整数值
+     BIGINT    8 字节     （）                         (0，2的64次方减1)        极大整数值
+
+&lt;2&gt;浮点型
+ FLOAT(m,d）  4 字节    单精度浮点型  备注：m代表总个数，d代表小数位个数
+ DOUBLE(m,d） 8 字节    双精度浮点型  备注：m代表总个数，d代表小数位个数
+
+ &lt;3&gt;定点型
+ DECIMAL(m,d）    依赖于M和D的值    备注：m代表总个数，d代表小数位个数
+
+ &lt;4&gt;字符串类型
+ 类型          大小              用途
+ CHAR          0-255字节         定长字符串
+ VARCHAR       0-65535字节       变长字符串
+ TINYTEXT      0-255字节         短文本字符串
+ TEXT          0-65535字节       长文本数据
+ MEDIUMTEXT    0-16777215字节    中等长度文本数据
+ LONGTEXT      0-4294967295字节  极大文本数据
+
+ char的优缺点：存取速度比varchar更快，但是比varchar更占用空间
+ varchar的优缺点：比char省空间。但是存取速度没有char快
+
+ &lt;5&gt;时间型
+ 数据类型    字节数            格式                    备注
+ date        3                yyyy-MM-dd              存储日期值
+ time        3                HH:mm:ss                存储时分秒
+ year        1                yyyy                    存储年
+ datetime    8                yyyy-MM-dd HH:mm:ss     存储日期+时间
+ timestamp   4                yyyy-MM-dd HH:mm:ss     存储日期+时间，可作时间戳</code></pre></li>
+</ul>
+<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table test_time (</span><br><span class="line">            date_value date,</span><br><span class="line">            time_value time,</span><br><span class="line">            year_value year,</span><br><span class="line">            datetime_value datetime,</span><br><span class="line">            timestamp_value timestamp</span><br><span class="line">        ) engine=innodb charset=utf8;</span><br></pre></td></tr></table></figure>
+
+<pre><code>insert into test_time values(now(), now(), now(), now(), now());</code></pre></li>
+</ul>
+<h3 id="3-3-mysql数据表必备知识之创建表"><a href="#3-3-mysql数据表必备知识之创建表" class="headerlink" title="3.3 mysql数据表必备知识之创建表"></a>3.3 mysql数据表必备知识之创建表</h3><p> <strong>简介：讲解表是怎么来创建的，以及常见约束条件举例说明</strong></p>
+<ul>
+<li><p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE 表名 (</span><br><span class="line">                  字段名1 字段类型1 约束条件1 说明1,</span><br><span class="line">                  字段名2 字段类型2 约束条件2 说明2,</span><br><span class="line">                  字段名3 字段类型3 约束条件3 说明3</span><br><span class="line">                  );</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 新表名 as select * from 旧表名 where 1=2;(注意：建议这种创建表的方式用于日常测试，因	为可能索引什么的会复制不过来)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table 新表名 like 旧表名;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>约束条件：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">comment         ----说明解释</span><br><span class="line">not null        ----不为空</span><br><span class="line">default         ----默认值</span><br><span class="line">unsigned        ----无符号（即正数）</span><br><span class="line">auto_increment  ----自增</span><br><span class="line">zerofill        ----自动填充</span><br><span class="line">unique key      ----唯一值</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建sql</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student (</span><br><span class="line">                    id tinyint(5) zerofill auto_increment  not null comment &apos;学生学号&apos;,</span><br><span class="line">                    name varchar(20) default null comment &apos;学生姓名&apos;,</span><br><span class="line">                    age  tinyint  default null comment &apos;学生年龄&apos;,</span><br><span class="line">                    class varchar(20) default null comment &apos;学生班级&apos;,</span><br><span class="line">                    sex char(5) not null comment &apos;学生性别&apos;,</span><br><span class="line">                    unique key (id)</span><br><span class="line">                    )engine=innodb charset=utf8;;</span><br><span class="line"></span><br><span class="line">CREATE TABLE student (</span><br><span class="line">                    id tinyint(5)  auto_increment  default null comment &apos;学生学号&apos;,</span><br><span class="line">                    name varchar(20) default null comment &apos;学生姓名&apos;,</span><br><span class="line">                    age  tinyint  default null comment &apos;学生年龄&apos;,</span><br><span class="line">                    class varchar(20) default null comment &apos;学生班级&apos;,</span><br><span class="line">                    sex char(5) not null comment &apos;学生性别&apos;,</span><br><span class="line">                    unique key (id)</span><br><span class="line">                    )engine=innodb charset=utf8;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-mysql数据表必备知识之查看"><a href="#3-4-mysql数据表必备知识之查看" class="headerlink" title="3.4 mysql数据表必备知识之查看"></a>3.4 mysql数据表必备知识之查看</h3><p><strong>简介：如何查看表的基本结构信息</strong></p>
+<ul>
+<li>查看数据库中的所有表：show tables；</li>
+<li>查看表结构：desc 表名;</li>
+<li>查看创建表的sql语句：show create table 表名;</li>
+<li>\G :有结束sql语句的作用，还有把显示的数据纵向旋转90度</li>
+<li>\g :有结束sql语句的作用</li>
+</ul>
+<h3 id="3-5-mysql数据表必备知识之表结构维护与删除"><a href="#3-5-mysql数据表必备知识之表结构维护与删除" class="headerlink" title="3.5 mysql数据表必备知识之表结构维护与删除"></a>3.5 mysql数据表必备知识之表结构维护与删除</h3><p><strong>简介：细讲核心知识表结构的修改</strong></p>
+<ul>
+<li>修改表名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rename table 旧表名 to 新表名;</span><br><span class="line">rename table student to user;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加列</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">给表添加一列：alter table 表名 add 列名 类型;</span><br><span class="line">alter table user add addr varchar(50);</span><br><span class="line"></span><br><span class="line">alter table add 列名 类型 comment &apos;说明&apos;;</span><br><span class="line">alter table user add famliy varchar(50) comment &apos;学生父母&apos;;</span><br><span class="line"></span><br><span class="line">给表最前面添加一列：alter table 表名 add 列名 类型 first;</span><br><span class="line">alter table user add job varchar(10) first;</span><br><span class="line"></span><br><span class="line">给表某个字段后添加一列：alter table 表名 add 列名 类型 after 字段名;</span><br><span class="line">alter table user add servnumber int(11)  after id;</span><br><span class="line"></span><br><span class="line">注意：没有给表某个字段前添加一列的说法。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改列类型</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 modify 列名 新类型;</span><br><span class="line">alter table user modify servnumber varchar(20);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改列名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 change 旧列名 新列名 类型;</span><br><span class="line">alter table user change servnumber telephone varchar(20);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除列</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 drop 列名;</span><br><span class="line">alter table user drop famliy;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改字符集</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 character set 字符集;</span><br><span class="line">alter table user character  set GBK;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>mysql表的删除</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop table 表名；</span><br><span class="line">drop table user;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">看表是否存在，若存在则删除表：drop table if exists 表名;</span><br><span class="line">drop table  if exists teacher;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第4章：mysql核心知识之DML数据操纵语言"><a href="#第4章：mysql核心知识之DML数据操纵语言" class="headerlink" title="第4章：mysql核心知识之DML数据操纵语言"></a>第4章：mysql核心知识之DML数据操纵语言</h2><p>​    <strong>简介：细讲核心知识对数据表的数据进行增删改</strong></p>
+<h3 id="4-1-mysql深入剖析表数据新增"><a href="#4-1-mysql深入剖析表数据新增" class="headerlink" title="4.1 mysql深入剖析表数据新增"></a>4.1 mysql深入剖析表数据新增</h3><p>​    <strong>简介：讲解表数据新增的多种例子</strong></p>
+<ul>
+<li>普通的插入表数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">insert into 表名（字段名） values（字段对应值）;</span><br><span class="line"></span><br><span class="line">insert into employee (empno,ename,job,mgr,hiredate,sal,deptnu) values (&apos;1000&apos;,&apos;小明&apos;,&apos;经理&apos;,&apos;10001&apos;,&apos;2019-03-03&apos;,&apos;12345.23&apos;,&apos;10&apos;);</span><br><span class="line"></span><br><span class="line">insert into 表名 values（所有字段对应值）;</span><br><span class="line">insert into employee  values (&apos;1001&apos;,&apos;小明&apos;,&apos;经理&apos;,&apos;10001&apos;,&apos;2019-03-03&apos;,&apos;12345.23&apos;,&apos;10&apos;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>蠕虫复制（将一张表的数据复制到另一张表中）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">insert into 表名1 select * from 表名2;</span><br><span class="line"></span><br><span class="line">insert into 表名1（字段名1，字段名2） select 字段名1，字段名2 from 表名2;</span><br><span class="line"></span><br><span class="line">insert into emp (empno,ename) select empno,ename from employee;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>建表复制</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table 表名1 as select 字段名1，字段名2 from 表名2;</span><br><span class="line"></span><br><span class="line">create table emp as select empno ,ename from employee;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>一次性插入多个数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into 表名  (字段名) values (对应值1),(对应值2),(对应值3);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建sql：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">某个公司的员工表</span><br><span class="line">CREATE TABLE employee(</span><br><span class="line">    empno       INT  PRIMARY KEY comment &apos;雇员编号&apos;,</span><br><span class="line">    ename       VARCHAR(20) comment &apos;雇员姓名&apos;,</span><br><span class="line">    job         VARCHAR(20) comment &apos;雇员职位&apos;,</span><br><span class="line">    mgr         INT comment &apos;雇员上级编号&apos;,</span><br><span class="line">    hiredate    DATE comment &apos;雇佣日期&apos;,</span><br><span class="line">    sal         DECIMAL(7,2) comment &apos;薪资&apos;,</span><br><span class="line">    deptnu      INT comment &apos;部门编号&apos;</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-mysql深入剖析表数据的修改以及删除"><a href="#4-2-mysql深入剖析表数据的修改以及删除" class="headerlink" title="4.2 mysql深入剖析表数据的修改以及删除"></a>4.2 mysql深入剖析表数据的修改以及删除</h3><p><strong>简介：讲解如何对表数据进行修改删除以及注意事项</strong></p>
+<ul>
+<li><p>修改（更新）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update 表名 set 字段名1=值1 where 字段名=值;</span><br><span class="line"></span><br><span class="line">update 表名 set 字段名1=值1,字段名2=值2 where 字段名=值;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">delete from 表名 where 字段名=值;</span><br><span class="line"></span><br><span class="line"> truncate table 表名;</span><br><span class="line"> delete from 表名;</span><br><span class="line"> drop table 表名;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意事项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">面试时：面试官问在删改数据之前，你会怎么做？</span><br><span class="line">答案：会对数据进行备份操作，以防万一，可以进行数据回退</span><br><span class="line"></span><br><span class="line">面试时：面试官会问，delete与truncate与drop 这三种删除数据的共同点都是删除数据，他们的不同点是什么?</span><br><span class="line">delele 会把删除的操作记录给记录起来，以便数据回退，不会释放空间，而且不会删除定义。</span><br><span class="line">truncate不会记录删除操作，会把表占用的空间恢复到最初，不会删除定义</span><br><span class="line">drop会删除整张表，释放表占用的空间。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除速度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop &gt; truncate &gt; delete</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="4-3-mysql核心知识之中文乱码问题"><a href="#4-3-mysql核心知识之中文乱码问题" class="headerlink" title="4.3 mysql核心知识之中文乱码问题"></a>4.3 mysql核心知识之中文乱码问题</h3><p><strong>简介：详细讲解汉字显示乱码问题</strong></p>
+<ul>
+<li>查看当前mysql使用的字符集：show variables like ‘character%’;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;character%&apos;;</span><br><span class="line">+--------------------------+----------------------------------+</span><br><span class="line">| Variable_name            | Value                            |</span><br><span class="line">+--------------------------+----------------------------------+</span><br><span class="line">| character_set_client     | utf8                             |</span><br><span class="line">| character_set_connection | utf8                             |</span><br><span class="line">| character_set_database   | utf8                             |</span><br><span class="line">| character_set_filesystem | binary                           |</span><br><span class="line">| character_set_results    | utf8                             |</span><br><span class="line">| character_set_server     | utf8                             |</span><br><span class="line">| character_set_system     | utf8                             |</span><br><span class="line">| character_sets_dir       | /usr/local/mysql/share/charsets/ |</span><br><span class="line">+--------------------------+----------------------------------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>character_set_client：客户端请求数据的字符集</p>
+</li>
+<li><p>character_set_connection：客户端与服务器连接的字符集</p>
+</li>
+<li><p>character_set_database：数据库服务器中某个库使用的字符集设定，如果建库时没有指明，将默认使用配置上的字符集</p>
+</li>
+<li><p>character_set_results：返回给客户端的字符集(从数据库读取到的数据是什么编码的)</p>
+</li>
+<li><p>character_set_server：为服务器安装时指定的默认字符集设定。</p>
+</li>
+<li><p>character_set_system：系统字符集(修改不了的，就是utf8)</p>
+</li>
+<li><p>character_sets_dir：mysql字符集文件的保存路径</p>
+</li>
+<li><p>临时：set names gbk;</p>
+</li>
+</ul>
+<ul>
+<li><p>永久：修改配置文件my.cnf里边的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set=gbk</span><br><span class="line">作用于外部的显示</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">character_set_server=gbk</span><br><span class="line">作用于内部，会作用于创建库表时默认字符集</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改库的字符集编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter database xiaoxiao default character set gbk;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改表的字符集编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table employee default character set utf8;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<h2 id="第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战"><a href="#第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战" class="headerlink" title="第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战"></a>第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战</h2><p>​    <strong>简介：细讲对数据表中的数据进行各种查询，以及项目实战查询</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">/*创建部门表*/</span><br><span class="line">CREATE TABLE dept(</span><br><span class="line">    deptnu      INT  PRIMARY KEY comment &apos;部门编号&apos;,</span><br><span class="line">    dname       VARCHAR(50) comment &apos;部门名称&apos;,</span><br><span class="line">    addr        VARCHAR(50) comment &apos;部门地址&apos;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">某个公司的员工表</span><br><span class="line">CREATE TABLE employee(</span><br><span class="line">    empno       INT  PRIMARY KEY comment &apos;雇员编号&apos;,</span><br><span class="line">    ename       VARCHAR(50) comment &apos;雇员姓名&apos;,</span><br><span class="line">    job         VARCHAR(50) comment &apos;雇员职位&apos;,</span><br><span class="line">    mgr         INT comment &apos;雇员上级编号&apos;,</span><br><span class="line">    hiredate    DATE comment &apos;雇佣日期&apos;,</span><br><span class="line">    sal         DECIMAL(7,2) comment &apos;薪资&apos;,</span><br><span class="line">    deptnu      INT comment &apos;部门编号&apos;</span><br><span class="line">)ENGINE=MyISAM DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">/*创建工资等级表*/</span><br><span class="line">CREATE TABLE salgrade(</span><br><span class="line">    grade       INT  PRIMARY KEY comment &apos;等级&apos;,</span><br><span class="line">    lowsal      INT comment &apos;最低薪资&apos;,</span><br><span class="line">    higsal      INT comment &apos;最高薪资&apos;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">/*插入dept表数据*/</span><br><span class="line">INSERT INTO dept VALUES (10, &apos;研发部&apos;, &apos;北京&apos;);</span><br><span class="line">INSERT INTO dept VALUES (20, &apos;工程部&apos;, &apos;上海&apos;);</span><br><span class="line">INSERT INTO dept VALUES (30, &apos;销售部&apos;, &apos;广州&apos;);</span><br><span class="line">INSERT INTO dept VALUES (40, &apos;财务部&apos;, &apos;深圳&apos;);</span><br><span class="line"></span><br><span class="line">/*插入emp表数据*/</span><br><span class="line">INSERT INTO employee VALUES (1009, &apos;唐僧&apos;, &apos;董事长&apos;, NULL, &apos;2010-11-17&apos;, 50000,  10);</span><br><span class="line">INSERT INTO employee VALUES (1004, &apos;猪八戒&apos;, &apos;经理&apos;, 1009, &apos;2001-04-02&apos;, 29750, 20);</span><br><span class="line">INSERT INTO employee VALUES (1006, &apos;猴子&apos;, &apos;经理&apos;, 1009, &apos;2011-05-01&apos;, 28500, 30);</span><br><span class="line">INSERT INTO employee VALUES (1007, &apos;张飞&apos;, &apos;经理&apos;, 1009, &apos;2011-09-01&apos;, 24500,10);</span><br><span class="line">INSERT INTO employee VALUES (1008, &apos;诸葛亮&apos;, &apos;分析师&apos;, 1004, &apos;2017-04-19&apos;, 30000, 20);</span><br><span class="line">INSERT INTO employee VALUES (1013, &apos;林俊杰&apos;, &apos;分析师&apos;, 1004, &apos;2011-12-03&apos;, 30000, 20);</span><br><span class="line">INSERT INTO employee VALUES (1002, &apos;牛魔王&apos;, &apos;销售员&apos;, 1006, &apos;2018-02-20&apos;, 16000, 30);</span><br><span class="line">INSERT INTO employee VALUES (1003, &apos;程咬金&apos;, &apos;销售员&apos;, 1006, &apos;2017-02-22&apos;, 12500, 30);</span><br><span class="line">INSERT INTO employee VALUES (1005, &apos;后裔&apos;, &apos;销售员&apos;, 1006, &apos;2011-09-28&apos;, 12500, 30);</span><br><span class="line">INSERT INTO employee VALUES (1010, &apos;韩信&apos;, &apos;销售员&apos;, 1006, &apos;2018-09-08&apos;, 15000,30);</span><br><span class="line">INSERT INTO employee VALUES (1012, &apos;安琪拉&apos;, &apos;文员&apos;, 1006, &apos;2011-12-03&apos;, 9500,  30);</span><br><span class="line">INSERT INTO employee VALUES (1014, &apos;甄姬&apos;, &apos;文员&apos;, 1007, &apos;2019-01-23&apos;, 7500, 10);</span><br><span class="line">INSERT INTO employee VALUES (1011, &apos;妲己&apos;, &apos;文员&apos;, 1008, &apos;2018-05-23&apos;, 11000, 20);</span><br><span class="line">INSERT INTO employee VALUES (1001, &apos;小乔&apos;, &apos;文员&apos;, 1013, &apos;2018-12-17&apos;, 8000, 20);</span><br><span class="line"></span><br><span class="line">/*插入salgrade表数据*/</span><br><span class="line">INSERT INTO salgrade VALUES (1, 7000, 12000);</span><br><span class="line">INSERT INTO salgrade VALUES (2, 12010, 14000);</span><br><span class="line">INSERT INTO salgrade VALUES (3, 14010, 20000);</span><br><span class="line">INSERT INTO salgrade VALUES (4, 20010, 30000);</span><br><span class="line">INSERT INTO salgrade VALUES (5, 30010, 99990);</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-1-mysql查询子句之一where条件查询"><a href="#5-1-mysql查询子句之一where条件查询" class="headerlink" title="5.1 mysql查询子句之一where条件查询"></a>5.1 mysql查询子句之一where条件查询</h3><p>   <strong>简介：详解where条件下的各种查询</strong></p>
+<ul>
+<li><p>简单查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from employee;</span><br><span class="line">select empno,ename,job as ename_job from employee;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>精确条件查询   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select * from employee where ename=&apos;后裔&apos;;</span><br><span class="line">select * from employee where sal != 50000;</span><br><span class="line">select * from employee where sal &lt;&gt; 50000;</span><br><span class="line">select * from employee where sal &gt; 10000;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模糊条件查询   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%aracter%&apos;;</span><br><span class="line">select * from employee  where ename like &apos;林%&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>范围查询  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from employee where sal between 10000 and 30000;</span><br><span class="line">select * from employee where hiredate between &apos;2011-01-01&apos; and &apos;2017-12-1&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>离散查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from employee where ename in (&apos;猴子&apos;,&apos;林俊杰&apos;,&apos;小红&apos;,&apos;小胡&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清除重复值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct(job) from employee;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>统计查询（聚合函数）:                  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">count(code)或者count(*)</span><br><span class="line"> select count(*) from employee;</span><br><span class="line"> select count(ename) from employee;</span><br><span class="line"></span><br><span class="line">sum()  计算总和</span><br><span class="line"> select sum(sal) from employee;</span><br><span class="line"></span><br><span class="line">max()	计算最大值</span><br><span class="line"> select * from employee where sal= (select  max(sal) from employee);</span><br><span class="line"></span><br><span class="line">avg()   计算平均值</span><br><span class="line"> select avg(sal) from employee;</span><br><span class="line"></span><br><span class="line">min()   计算最低值</span><br><span class="line"> select * from employee where sal= (select  min(sal) from employee);</span><br><span class="line"></span><br><span class="line">concat函数： 起到连接作用</span><br><span class="line"> select concat(ename,&apos; 是 &apos;,job) as aaaa from employee;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="5-2-mysql查询子句之二group-by分组查询（分组）"><a href="#5-2-mysql查询子句之二group-by分组查询（分组）" class="headerlink" title="5.2 mysql查询子句之二group by分组查询（分组）"></a>5.2 mysql查询子句之二group by分组查询（分组）</h3><p>​    <strong>简介：详解group by的用法以及应用场景</strong></p>
+<ul>
+<li>作用：把行 按 字段 分组</li>
+<li>语法：group by 列1，列2….列N</li>
+<li>适用场合：常用于统计场合，一般和聚合函数连用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">     select deptnu,count(*) from employee group by deptnu;</span><br><span class="line">     select deptnu,job,count(*) from employee group by deptnu,job;</span><br><span class="line">     select job,count(*) from employee group by job;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3-mysql查询子句之三having条件查询（筛选）"><a href="#5-3-mysql查询子句之三having条件查询（筛选）" class="headerlink" title="5.3 mysql查询子句之三having条件查询（筛选）"></a>5.3 mysql查询子句之三having条件查询（筛选）</h3><p>​    <strong>简介：详解having的用法以及应用场景</strong></p>
+<ul>
+<li><p>​    作用：对查询的结果进行筛选操作</p>
+</li>
+<li><p>​    语法：having 条件 或者 having 聚合函数 条件</p>
+</li>
+<li><p>​    适用场合：一般跟在group by之后</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">    select job,count(*) from employee group by job having job =&apos;文员&apos;;</span><br><span class="line">    select  deptnu,job,count(*) from employee group by deptnu,job having count(*)&gt;=2;</span><br><span class="line">    select  deptnu,job,count(*) as 总数 from employee group by deptnu,job having 总数&gt;=2;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-4-mysql查询子句之四order-by排序查询（排序）"><a href="#5-4-mysql查询子句之四order-by排序查询（排序）" class="headerlink" title="5.4 mysql查询子句之四order by排序查询（排序）"></a>5.4 mysql查询子句之四order by排序查询（排序）</h3><p>​    <strong>简介：详解order by的用法以及应用场景</strong></p>
+<ul>
+<li><p>作用：对查询的结果进行排序操作</p>
+</li>
+<li><p>语法：order by 字段1,字段2 …..</p>
+</li>
+<li><p>适用场合：一般用在查询结果的排序</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">     select * from employee order by sal;</span><br><span class="line">     select * from employee order by hiredate;</span><br><span class="line">     select  deptnu,job,count(*) as 总数 from employee group by deptnu,job having 总数&gt;=2 order by deptnu desc;</span><br><span class="line">     select  deptnu,job,count(*) as 总数 from employee group by deptnu,job having 总数&gt;=2 order by deptnu asc;</span><br><span class="line">     select  deptnu,job,count(*) as 总数 from employee group by deptnu,job having 总数&gt;=2 order by deptnu;</span><br><span class="line"></span><br><span class="line">     顺序：where ---- group by ----- having ------ order by</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-5-mysql查询子句之五limit限制查询（限制）"><a href="#5-5-mysql查询子句之五limit限制查询（限制）" class="headerlink" title="5.5 mysql查询子句之五limit限制查询（限制）"></a>5.5 mysql查询子句之五limit限制查询（限制）</h3><p>​    <strong>简介：详解limit的用法以及应用场景</strong></p>
+<ul>
+<li>作用：对查询结果起到限制条数的作用</li>
+<li>语法：limit n，m   n:代表起始条数值，不写默认为0；m代表：取出的条数</li>
+<li>适用场合：数据量过多时，可以起到限制作用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">    select * from XD.employee limit 4,5;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-6-mysql查询之exists型子查询"><a href="#5-6-mysql查询之exists型子查询" class="headerlink" title="5.6 mysql查询之exists型子查询"></a>5.6 mysql查询之exists型子查询</h3><p> <strong>简介：详解exists的用法</strong></p>
+<ul>
+<li><p>exists型子查询后面是一个受限的select查询语句</p>
+</li>
+<li><p>exists子查询，如果exists后的内层查询能查出数据，则返回 TRUE 表示存在；为空则返回 FLASE则不存在。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">分为俩种：exists跟 not exists</span><br><span class="line"></span><br><span class="line">select 1 from employee where 1=1;</span><br><span class="line">select * from 表名 a where exists (select 1 from 表名2 where 条件);</span><br><span class="line"></span><br><span class="line">eg:查询出公司有员工的部门的详细信息</span><br><span class="line">select * from dept a where exists (select 1 from employee b where a.deptnu=b.deptnu);</span><br><span class="line">select * from dept a where not exists (select 1 from employee b where a.deptnu=b.deptnu);</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-7-mysql查询之左连接查询与右连接查询"><a href="#5-7-mysql查询之左连接查询与右连接查询" class="headerlink" title="5.7 mysql查询之左连接查询与右连接查询"></a>5.7 mysql查询之左连接查询与右连接查询</h3><p><strong>简介：详解左右连接的用法以及应用场景</strong></p>
+<ul>
+<li><p>左连接称之为左外连接<br>右连接称之为右外连接<br>这俩个连接都是属于外连接</p>
+</li>
+<li><p>左连接关键字：left join 表名 on 条件 / left outer 表名 join on 条件<br>右连接关键字：right join 表名 on 条件/ right outer 表名 join on 条件</p>
+</li>
+<li><p>左连接说明： left join 是left outer join的简写，左(外)连接，左表(a_table)的记录将会全部表示出来，<br>而右表(b_table)只会显示符合搜索条件的记录。右表记录不足的地方均为NULL。</p>
+</li>
+<li><p>右连接说明：right join是right outer join的简写，与左(外)连接相反，右(外)连接，左表(a_table)只会显示符合搜索条件的记录，而右表(b_table)的记录将会全部表示出来。左表记录不足的地方均为NULL。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eg:列出部门名称和这些部门的员工信息，同时列出那些没有的员工的部门</span><br><span class="line">        dept，employee</span><br><span class="line">        select a.dname,b.* from dept a  left join employee b on a.deptnu=b.deptnu;</span><br><span class="line">        select b.dname,a.* from employee a  right join  dept b on b.deptnu=a.deptnu;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-8-mysql查询之内连接查询与联合查询"><a href="#5-8-mysql查询之内连接查询与联合查询" class="headerlink" title="5.8 mysql查询之内连接查询与联合查询"></a>5.8 mysql查询之内连接查询与联合查询</h3><p><strong>简介：详解内连接与联合查询的用法以及应用场景</strong></p>
+<ul>
+<li>内连接：获取两个表中字段匹配关系的记录</li>
+</ul>
+<p>-<br>    主要语法：INNER JOIN 表名 ON 条件;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eg:想查出员工张飞的所在部门的地址</span><br><span class="line">    select a.addr  from dept a inner join employee b on a.deptnu=b.deptnu and b.ename=&apos;张飞&apos;;</span><br><span class="line">    select a.addr from dept a,employee b where a.deptnu=b.deptnu and b.ename=&apos;张飞&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>联合查询：就是把多个查询语句的查询结果结合在一起</li>
+</ul>
+<p>   主要语法1：… UNION … （去除重复）<br>   主要语法2：… UNION ALL …（不去重复）</p>
+<ul>
+<li><p>union查询的注意事项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(1)两个select语句的查询结果的“字段数”必须一致；</span><br><span class="line"></span><br><span class="line">(2)通常，也应该让两个查询语句的字段类型具有一致性；</span><br><span class="line"></span><br><span class="line">(3)也可以联合更多的查询结果；</span><br><span class="line"></span><br><span class="line">(4)用到order by排序时，需要加上limit（加上最大条数就行），需要对子句用括号括起来</span><br><span class="line"></span><br><span class="line">eg:对销售员的工资从低到高排序，而文员的工资从高到低排序</span><br><span class="line">    (select * from employee a where a.job = &apos;销售员&apos;  order by a.sal limit 999999 ) union  (select * from employee b where b.job = &apos;文员&apos; order by b.sal desc limit 999999);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="5-9-mysql查询之项目高级查询实战-一"><a href="#5-9-mysql查询之项目高级查询实战-一" class="headerlink" title="5.9 mysql查询之项目高级查询实战(一)"></a>5.9 mysql查询之项目高级查询实战(一)</h3><p><strong>简介：高级查询实战</strong></p>
+<ul>
+<li>查出至少有一个员工的部门。显示部门编号、部门名称、部门位置、部门人数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">涉及表： employee dept</span><br><span class="line">语句：select deptnu,count(*) from employee group by deptnu</span><br><span class="line">语句：select a.deptnu,a.dname,a.addr, b.zongshu from dept a,(select deptnu,count(*) as zongshu from employee group by deptnu) b where a.deptnu=b.deptnu;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出薪金比安琪拉高的所有员工。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee</span><br><span class="line">语句：select * from  employee where sal &gt; (select sal from employee where ename=&apos;安琪拉&apos;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出所有员工的姓名及其直接上级的姓名。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee</span><br><span class="line">语句：select a.ename,ifnull(b.ename,&apos;BOSS&apos;) as leader from employee a left join employee b on a.mgr=b.empno;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出受雇日期早于直接上级的所有员工的编号、姓名、部门名称。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee dept</span><br><span class="line">条件：a.hiredate &lt; b.hiredate</span><br><span class="line">语句：select a.empno,a.ename,c.dname from employee a left join employee b on a.mgr=b.empno left join dept c on a.deptnu=c.deptnu where a.hiredate &lt; b.hiredate;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出部门名称和这些部门的员工信息，同时列出那些没有员工的部门。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">涉及表：dept employee</span><br><span class="line">语句：select a.dname,b.* from dept a left join employee b on a.deptnu=b.deptnu;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出所有文员的姓名及其部门名称，所在部门的总人数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee dept</span><br><span class="line">条件：job=&apos;文员&apos;</span><br><span class="line">语句：select deptnu,count(*) as zongshu from employee group by deptnu;</span><br><span class="line">语句：select b.ename,a.dname,b.job,c.zongshu from dept a ,employee b ,(select deptnu,count(*) as zongshu from employee group by deptnu) c where a.deptnu=b.deptnu and b.job=&apos;文员&apos; and b.deptnu=c.deptnu;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-10-mysql查询之项目高级查询实战-二"><a href="#5-10-mysql查询之项目高级查询实战-二" class="headerlink" title="5.10 mysql查询之项目高级查询实战(二)"></a>5.10 mysql查询之项目高级查询实战(二)</h3><p><strong>简介：高级查询实战续</strong></p>
+<ul>
+<li>列出最低薪金大于15000的各种工作及从事此工作的员工人数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee</span><br><span class="line">条件：min(sal) &gt; 15000</span><br><span class="line">语句：select job,count(*) from employee group by job having   min(sal) &gt; 15000;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出在销售部工作的员工的姓名，假定不知道销售部的部门编号。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee dept</span><br><span class="line">select  ename  from employee where deptnu=(select deptnu from dept where dname=&apos;销售部&apos;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出与诸葛亮从事相同工作的所有员工及部门名称。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee dept</span><br><span class="line">语句：select a.ename,b.dname from employee a,dept b where a.deptnu=b.deptnu and a.job=                (select job from employee where ename=&apos;诸葛亮&apos;);</span><br><span class="line">语句：select a.ename,b.dname from employee a left join dept b on a.deptnu=b.deptnu where               a.job=(select job from employee where ename=&apos;诸葛亮&apos;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出薪金比  在部门30工作的员工的薪金  还高的员工姓名和薪金、部门名称。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee dept</span><br><span class="line">语句：select a.ename,a.sal,b.dname from employee a ,dept b where a.deptnu=b.deptnu and sal &gt;          (select max(sal) from employee where deptnu=30);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出每个部门的员工数量、平均工资。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee</span><br><span class="line">语句：select deptnu , count(*) ,avg (sal) from employee  group by deptnu;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>列出薪金高于公司平均薪金的所有员工信息，所在部门名称，上级领导，工资等级。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">涉及表：employee dept salgrade</span><br><span class="line">条件：select avg(sal) from employee</span><br><span class="line">语句：elect a.*,c.dname,b.ename,d.grade from employee a,employee b,dept c ,salgrade d where           a.mgr=b.empno and a.deptnu =c.deptnu and a.sal &gt; (select avg(sal) from employee)  and           a.sal  between d.lowsal and d.higsal;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）"><a href="#第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）" class="headerlink" title="第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）"></a>第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）</h2><p>​    <strong>简介：精讲数据控制语言如何限制用户的各种权限</strong></p>
+<ul>
+<li><p>什么是DCL数据控制语言？</p>
+<p>数据控制语言（DCL：Data Control Language）是用来设置或者更改数据库用户或角色权限的语句，这些语句包括GRANT、DENY、REVOKE等语句</p>
+</li>
+</ul>
+<h3 id="6-1-mysql限制root用户指定ip登录"><a href="#6-1-mysql限制root用户指定ip登录" class="headerlink" title="6.1 mysql限制root用户指定ip登录"></a>6.1 mysql限制root用户指定ip登录</h3><p><strong>简介：详解如何从安全角度出发限制root用户指定ip登录</strong></p>
+<ul>
+<li>查看root用户可以在哪台机器登录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select user,host from mysql.user where user=&apos;root&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改mysql库里边的user表</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update mysql.user set host=&apos;localhost&apos; where user=&apos;root&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>刷新权限</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-2-mysql必备知识之用户密码"><a href="#6-2-mysql必备知识之用户密码" class="headerlink" title="6.2 mysql必备知识之用户密码"></a>6.2 mysql必备知识之用户密码</h3><p><strong>简介：详解忘记密码以及如何修改用户密码</strong></p>
+<ul>
+<li>修改用户密码分三种方法：</li>
+</ul>
+<ol>
+<li><p>​    第一种：set password for 用户@ip = password(‘密码’);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password for root@localhost = password(&apos;root&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>​    第二种：mysqladmin -u用户 -p旧密码 password 新密码;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -urootmysqladmin -uroot -proot password;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>​    第三种：update mysql.user set authentication_string=password(‘密码’) where user=’用户’ and host=’ip’;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update mysql.user set authentication_string=password(&apos;root&apos;) where user=&apos;root&apos; and host=&apos;localhost&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>忘记密码:</li>
+</ul>
+<ol>
+<li>​    第一步：修改配置文件my.cnf (默认在/etc/my.cnf)，在[mysqld]下面加上 skip-grant-tables （跳过权限的意思）</li>
+<li>​    第二步：重启mysql服务</li>
+<li>​    第三步：mysql -uroot -p 无需密码登录进入</li>
+<li>​    第四步：修改密码</li>
+</ol>
+<h3 id="6-3-mysql实战系列之创建新用户并限制ip网段登录"><a href="#6-3-mysql实战系列之创建新用户并限制ip网段登录" class="headerlink" title="6.3 mysql实战系列之创建新用户并限制ip网段登录"></a>6.3 mysql实战系列之创建新用户并限制ip网段登录</h3><p> <strong>简介：讲解如何创建新用户与删除用户并限制ip登录</strong></p>
+<ul>
+<li>创建用户的语法：create user ‘username’@’host’ identified by ‘password’;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">username：你将创建的用户名</span><br><span class="line"></span><br><span class="line">host：指定该用户在哪个主机上可以登陆，如果是本地用户可用localhost，如果想让该用户可以从任意远程主机	登陆，可以使用通配符%</span><br><span class="line"></span><br><span class="line">password：该用户的登陆密码，密码可以为空，如果为空则该用户可以不需要密码登陆服务器</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建用户语法：</li>
+</ul>
+<p>​    创建一个pig用户，并指定登录密码：123456，可以在任何一台远程主机都可以登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &apos;pig&apos;@&apos;%&apos; identified by &apos;123456&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>​    创建一个pig用户，并指定登录密码：为空，指定在120网段的机器登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create user &apos;pig&apos;@&apos;120.%.%.%&apos; identified by &apos;&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看权限：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">select * from mysql.user where user=&apos;pig&apos;\G</span><br><span class="line"> mysql&gt; show grants for &apos;pig&apos;@&apos;%&apos;;</span><br><span class="line"> +---------------------------------+</span><br><span class="line"> | Grants for pig@%                |</span><br><span class="line"> +---------------------------------+</span><br><span class="line"> | GRANT USAGE ON *.* TO &apos;pig&apos;@&apos;%&apos; |</span><br><span class="line"> +---------------------------------+</span><br><span class="line"> USAGE：无权限的意思</span><br><span class="line"> mysql&gt; show grants for &apos;root&apos;@&apos;localhost&apos;;</span><br><span class="line"> +---------------------------------------------------------------------+</span><br><span class="line"> | Grants for root@localhost                                           |</span><br><span class="line"> +---------------------------------------------------------------------+</span><br><span class="line"> | GRANT ALL PRIVILEGES ON *.* TO &apos;root&apos;@&apos;localhost&apos; WITH GRANT OPTION |</span><br><span class="line"> +---------------------------------------------------------------------+</span><br><span class="line"> WITH GRANT OPTION:表示这个用户拥有grant权限，即可以对其他用户授权</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除用户语法：drop user ‘username’@’host’;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drop user &apos;pig&apos;@&apos;%&apos;;</span><br><span class="line">delete from mysql.user where user=&apos;pig&apos;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-4-mysql实战系列之库表权限授权与回收"><a href="#6-4-mysql实战系列之库表权限授权与回收" class="headerlink" title="6.4 mysql实战系列之库表权限授权与回收"></a>6.4 mysql实战系列之库表权限授权与回收</h3><p><strong>简介：讲解如何限制用户对库表的增删改查权限</strong></p>
+<ul>
+<li>授权语法：grant 权限1,权限2….. on 数据库对象 to ‘用户’</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant 权限1,权限2..... on 数据库对象 to &apos;用户&apos;@&apos;host&apos; identified by &apos;password&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>all privileges:代表所有权限</p>
+</li>
+<li><p><em>.</em>     :代表所有库所有表</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对现有用户进行授权：对现有用户pig授予所有库所有表所有权限。</span><br><span class="line">grant all privileges on *.*  to &apos;pig&apos;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对没有的用户进行授权：创建一个新用户dog授予XD库的所有权限，登录密码123456，任何一台主机登录</span><br><span class="line">grant all privileges on XD.* to &apos;dog&apos;@&apos;%&apos; identified by &apos;123456&apos;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对没有的用户进行授权：创建一个新用户cat授予XD库的employee表 查与修改权限，登录密码123456，任何一台主机登录</span><br><span class="line">grant select,update on XD.employee to &apos;cat&apos;@&apos;%&apos; identified by &apos;123456&apos;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对没有的用户进行授权：对用户cat授予XD库的employee表insert 权限，登录密码123456，任何一台主机登录</span><br><span class="line">grant insert on XD.employee to &apos;cat&apos;@&apos;%&apos; identified by &apos;123456&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>回收语法：revoke 权限1,权限2…..  on 数据库对象 from ‘用户‘@’host’;</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">回收pig用户的所有权限（注意：并没有回收它的登录权限）</span><br><span class="line">revoke all privileges on *.*  from &apos;pig&apos; @ &apos;%&apos;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">回收pig用户的所有权限（并回收它的登录权限）</span><br><span class="line">delete from mysql.user where user=&apos;pig&apos;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">回收cat用户对XD库的employee的查与修改权限</span><br><span class="line">revoke select,update on XD.employee from &apos;cat&apos;@&apos;%&apos;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程"><a href="#第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程" class="headerlink" title="第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程"></a>第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程</h2><p>​    <strong>简介：主要分5节课来详细讲解事务以及视图优缺点，触发器以及存储过程介绍</strong></p>
+<h3 id="7-1-mysql-必备核心知识之事务的详细解析"><a href="#7-1-mysql-必备核心知识之事务的详细解析" class="headerlink" title="7.1 mysql 必备核心知识之事务的详细解析"></a>7.1 mysql 必备核心知识之事务的详细解析</h3><p>​    <strong>简介：深入详解事务</strong></p>
+<ul>
+<li>什么是事务?</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">答：数据库事务通常指对数据库进行读或写的一个操作过程。有两个目的，第一个是为数据库操作提供了一个从失败中恢复到正常状态的方法，同时提供了数据库即使在异常状态下仍能保持一致性的方法；第二个是当多个应用程序在并发访问数据库时，可以在这些应用程序之间提供一个隔离方法，以防止彼此的操作互相干扰。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>事务的特性（ACID）：</p>
+</li>
+<li><input disabled type="checkbox"> <p>原子性(Atomicity)：事务必须是原子工作单元，一个事务中的所有语句，应该做到：要么全做，要么一个都不做；</p>
+</li>
+<li><input disabled type="checkbox"> <p>一致性(Consistency):让数据保持逻辑上的“合理性”，比如：小明给小红打10000块钱，既要让小明的账户减少10000，又要让小红的账户上增加10000块钱；</p>
+</li>
+<li><input disabled type="checkbox"> <p>隔离性(Isolation)：如果多个事务同时并发执行，但每个事务就像各自独立执行一样。</p>
+</li>
+<li><input disabled type="checkbox"> <p>持久性(Durability)：一个事务执行成功，则对数据来说应该是一个明确的硬盘数据更改（而不仅仅是内存中的变化）。</p>
+</li>
+<li><p>你要使用事务的话，表的引擎要为innodb引擎</p>
+</li>
+</ul>
+<h3 id="7-2-mysql-必备核心知识之事务实战"><a href="#7-2-mysql-必备核心知识之事务实战" class="headerlink" title="7.2 mysql 必备核心知识之事务实战"></a>7.2 mysql 必备核心知识之事务实战</h3><p><strong>简介：主要讲解事务的开启以及事务实战，深入了解什么是事务</strong></p>
+<ul>
+<li><p>事务的开启与提交：</p>
+</li>
+<li><input disabled type="checkbox"> <p>事务的开启：begin; start transaction;</p>
+</li>
+<li><input disabled type="checkbox"> <p>事务的提交：commit;</p>
+</li>
+<li><input disabled type="checkbox"> <p>事务的回滚：rollback;</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">创建一个账户表模拟转账</span><br><span class="line">create table account (</span><br><span class="line">                         id tinyint(5) zerofill auto_increment  not null comment &apos;id编号&apos;,</span><br><span class="line">                         name varchar(20) default null comment &apos;客户姓名&apos;,</span><br><span class="line">                         money decimal(10,2) not null comment &apos;账户金额&apos;,</span><br><span class="line">                         primary key (id)</span><br><span class="line">                         )engine=innodb charset=utf8;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>开启autocommit（临时生效）：</p>
+<p>OFF（0）：表示关闭<br>ON （1）：表示开启</p>
+<pre><code>mysql&gt; set autocommit=0;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql&gt; show variables like &apos;autocommit&apos;;
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | OFF   |
++---------------+-------+
+mysql&gt; set autocommit=1;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt;
+mysql&gt; show variables like &apos;autocommit&apos;;
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| autocommit    | ON    |</code></pre></li>
+<li><p>开启autocommit（永久生效）：</p>
+<p>修改配置文件：vi /etc/my.cnf<br>在[mysqld]下面加上：autocommit=1<br>记得重启服务才会生效</p>
+</li>
+</ul>
+<h3 id="7-3-mysql核心知识之视图的应用"><a href="#7-3-mysql核心知识之视图的应用" class="headerlink" title="7.3 mysql核心知识之视图的应用"></a>7.3 mysql核心知识之视图的应用</h3><p><strong>简介：详细讲解视图的优缺点以及应用</strong></p>
+<ul>
+<li>什么是视图？视图的作用是什么？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">视图（view）是一种虚拟存在的表，是一个逻辑表，它本身是不包含数据的。作为一个select语句保存在数据字典中的。</span><br><span class="line">通过视图，可以展现基表（用来创建视图的表叫做基表base table）的部分数据，说白了视图的数据就是来自于基表</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>视图的优点是：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1）简单：使用视图的用户完全不需要关心后面对应的表的结构、关联条件和筛选条件，对用户来说已经是过滤好的复合条件的结果集。</span><br><span class="line"></span><br><span class="line">2）安全：使用视图的用户只能访问他们被允许查询的结果集，对表的权限管理并不能限制到某个行某个列，但是通过视图就可以简单的实现。</span><br><span class="line"></span><br><span class="line">3）数据独立：一旦视图的结构确定了，可以屏蔽表结构变化对用户的影响，源表增加列对视图没有影响;源表修改列名，则可以通过修改视图来解决，不会造成对访问者的影响。</span><br><span class="line">　　</span><br><span class="line">4）不占用空间：视图是逻辑上的表，不占用内存空间</span><br><span class="line"></span><br><span class="line">总而言之，使用视图的大部分情况是为了保障数据安全性，提高查询效率。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>视图的创建以及修改</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">创建的基本语法是：</span><br><span class="line">    create view &lt;视图名称&gt; as select 语句;</span><br><span class="line">    create view &lt;视图名称&gt; (字段) as select 语句;</span><br><span class="line">    create or replace view &lt;视图名称&gt;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">修改的语法是：</span><br><span class="line">alter view &lt;视图名称&gt; as select 语句;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">视图删除语法：</span><br><span class="line">drop view &lt;视图名称&gt; ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>视图的缺点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1)性能差：sql server必须把视图查询转化成对基本表的查询，如果这个视图是由一个复杂的多表查询所定义，那么，即使是视图的一个简单查询，sql server也要把它变成一个复杂的结合体，需要花费一定的时间。</span><br><span class="line"></span><br><span class="line">2)修改限制：当用户试图修改试图的某些信息时，数据库必须把它转化为对基本表的某些信息的修改，对于简单的试图来说，这是很方便的，但是，对于比较复杂的试图，可能是不可修改的。</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-4-mysql-的触发器介绍"><a href="#7-4-mysql-的触发器介绍" class="headerlink" title="7.4 mysql 的触发器介绍"></a>7.4 mysql 的触发器介绍</h3><p><strong>简介:介绍什么是触发器以及如何来创建</strong></p>
+<ul>
+<li>什么是触发器？</li>
+</ul>
+<p>​    触发器就是监视某种情况，并触发某种操作</p>
+<ul>
+<li>创建触发器的语法:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create trigger 触发器名称  after/before   insert/update/delete on 表名  </span><br><span class="line">        for each row</span><br><span class="line">        begin</span><br><span class="line">        sql语句;</span><br><span class="line">        end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">after/before:可以设置为事件发生前或后</span><br><span class="line">insert/update/delete:它们可以在执行insert、update或delete的过程中触发</span><br><span class="line">for each row:每隔一行执行一次动作</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>删除触发器的语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop trigger 触发器名称;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>演示：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">创建一个员工迟到表：</span><br><span class="line"> create table work_time_delay(</span><br><span class="line">            empno int not null comment &apos;雇员编号&apos;,</span><br><span class="line">            ename varchar(50) comment &apos;雇员姓名&apos;,</span><br><span class="line">            status int comment &apos;状态&apos;</span><br><span class="line">            );</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">delimiter // 自定义语句的结束符号</span><br><span class="line"></span><br><span class="line">    mysql&gt; delimiter //</span><br><span class="line">    mysql&gt;</span><br><span class="line">    mysql&gt; create trigger trig_work after insert on work_time_delay</span><br><span class="line">        -&gt; for each row</span><br><span class="line">        -&gt; begin</span><br><span class="line">        -&gt; update employee set sal=sal-100 where empno=new.empno;</span><br><span class="line">        -&gt; end</span><br><span class="line">        -&gt; //</span><br><span class="line">    Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">new：指的是事件发生before或者after保存的新数据</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-5-mysql的存储过程介绍"><a href="#7-5-mysql的存储过程介绍" class="headerlink" title="7.5 mysql的存储过程介绍"></a>7.5 mysql的存储过程介绍</h3><p> <strong>简介：介绍什么是存储过程</strong></p>
+<ul>
+<li>什么是存储过程？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">存储过程就是把复杂的一系列操作，封装成一个过程。类似于shell，python脚本等。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>存储过程的优缺点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">优点是：</span><br><span class="line">    1)复杂操作，调用简单</span><br><span class="line">    2)速度快</span><br><span class="line"></span><br><span class="line">缺点是：</span><br><span class="line">    1）封装复杂</span><br><span class="line">    2) 没有灵活性</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建存储过程语法：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create procedure 名称 (参数....)</span><br><span class="line">  		begin</span><br><span class="line">         过程体;</span><br><span class="line">         过程体;</span><br><span class="line">         end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">参数：in|out|inout 参数名称 类型（长度）</span><br><span class="line">        in：表示调用者向过程传入值（传入值可以是字面量或变量）</span><br><span class="line">        out：表示过程向调用者传出值(可以返回多个值)（传出值只能是变量）</span><br><span class="line">        inout：既表示调用者向过程传入值，又表示过程向调用者传出值（值只能是变量）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>声明变量：declare 变量名 类型(长度) default 默认值;</li>
+</ul>
+<ul>
+<li>给变量赋值：set @变量名=值;</li>
+</ul>
+<ul>
+<li><p>调用存储命令：call 名称(@变量名);</p>
+</li>
+<li><p>删除存储过程命令：drop procedure 名称;</p>
+</li>
+<li><p>查看创建的存储过程命令：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create procedure 名称\G;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">创建一个简单的存储过程：</span><br><span class="line">    mysql&gt; delimiter //</span><br><span class="line">    mysql&gt; create procedure  name(in n int)</span><br><span class="line">        -&gt;             begin</span><br><span class="line">        -&gt;             select * from employee limit n;</span><br><span class="line">        -&gt;             end</span><br><span class="line">        -&gt; //</span><br><span class="line">    Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">    mysql&gt; set @n=5;</span><br><span class="line">        -&gt; //</span><br><span class="line">    Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">    mysql&gt;</span><br><span class="line">    mysql&gt; call name(@n);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;         create procedure  name()</span><br><span class="line">      -&gt;             begin</span><br><span class="line">      -&gt;             declare  n int default 6;</span><br><span class="line">      -&gt;             select * from employee limit n;</span><br><span class="line">      -&gt;             end</span><br><span class="line">      -&gt; //</span><br><span class="line">  Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">  mysql&gt; call name();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="第8章：mysql必备核心知识之索引与存储引擎的介绍"><a href="#第8章：mysql必备核心知识之索引与存储引擎的介绍" class="headerlink" title="第8章：mysql必备核心知识之索引与存储引擎的介绍"></a>第8章：mysql必备核心知识之索引与存储引擎的介绍</h2><p>​    <strong>简介：各种索引的概述，以及如何创建索引与引擎的介绍</strong></p>
+<h3 id="8-1-mysql的存储引擎介绍"><a href="#8-1-mysql的存储引擎介绍" class="headerlink" title="8.1 mysql的存储引擎介绍"></a>8.1 mysql的存储引擎介绍</h3><pre><code>**简介：主要来详细介绍MyISAM与InnoDB引擎**</code></pre><p>（1）什么是数据库存储引擎？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">数据库引擎是数据库底层软件组件，不同的存储引擎提供不同的存储机制，索引技巧，锁定水平等功能，使用不同的数据库引擎，可以获得特定的功能</span><br></pre></td></tr></table></figure>
+
+<p>（2）如何查看引擎？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">如何查看数据库支持的引擎</span><br><span class="line">show engines;</span><br><span class="line"></span><br><span class="line">查看当前数据的引擎：</span><br><span class="line">show create table 表名\G</span><br><span class="line"></span><br><span class="line">查看当前库所有表的引擎：</span><br><span class="line">show table status\G</span><br></pre></td></tr></table></figure>
+
+<p>（3）建表时指定引擎</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table yingqin (id int,name varchar(20)) engine=&apos;InnoDB&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>（4）修改表的引擎</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 engine=&apos;MyiSAm&apos;;</span><br><span class="line"></span><br><span class="line">修改默认引擎</span><br><span class="line">​    vi /etc/my.cnf</span><br><span class="line">​    [mysqld]下面</span><br><span class="line">​    default-storage-engine=MyIsAM</span><br><span class="line">​    记得保存后重启服务</span><br></pre></td></tr></table></figure>
+
+<p>（5）MyISAM与InnoDB的区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MyISAM：支持全文索引（full text）;不支持事务;表级锁;保存表的具体行数;奔溃恢复不好</span><br><span class="line"></span><br><span class="line">Innodb：支持事务;以前的版本是不支持全文索引，但在5.6之后的版本就开始支持这个功能了;行级锁（并非绝对，当执行sql语句时不能确定范围时，也会进行锁全表例如： update table set id=3 where name like &apos;a%&apos;;）;不保存表的具体行数;奔溃恢复好</span><br></pre></td></tr></table></figure>
+
+<p>（6）总结：什么时候选择什么引擎比较好</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MyISAM：</span><br><span class="line">​    一般来说MyISAM不需要用到事务的时候</span><br><span class="line">​    做很多count计算</span><br><span class="line"></span><br><span class="line">InnoDB：</span><br><span class="line">​    可靠性要求高的，或者要求支持事务</span><br><span class="line">​ 	 想要用到外键约束的时候（讲外键的时候会讲）</span><br><span class="line"></span><br><span class="line">推荐：</span><br><span class="line">​    推荐用InnoDB</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-2-mysql必备知识之常用索引精讲"><a href="#8-2-mysql必备知识之常用索引精讲" class="headerlink" title="8.2 mysql必备知识之常用索引精讲"></a>8.2 mysql必备知识之常用索引精讲</h3><p>​    <strong>简介：讲解什么是索引，索引的优缺点，以及常见索引有哪些</strong></p>
+<ul>
+<li>什么是索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">索引是一个单独的，存储在磁盘中上的数据库结构，它们包含着对数据表里的所有记录的引用指针。使用索引可以快速的找出在某列或多列中有特定值的行。</span><br></pre></td></tr></table></figure>
+
+<p>-<br>  索引的优点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> 	通过创建唯一索引，来保证数据库表中的每一行数据的唯一性。</span><br><span class="line">​	可以加快数据的检索速度。</span><br><span class="line">​	可以保证表数据的完整性与准确性</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>索引的缺点：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 	索引需要占用物理空间。</span><br><span class="line">​	对表中的数据进行改动时，索引也需要跟着动态维护，降低了数据的维护速度。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>索引的常见类型：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 	index：普通索引</span><br><span class="line"></span><br><span class="line">​   unique：唯一索引</span><br><span class="line"></span><br><span class="line">​   primary key：主键索引</span><br><span class="line"></span><br><span class="line">​   foreign key：外键索引</span><br><span class="line"></span><br><span class="line">​   fulltext: 全文索引</span><br><span class="line"></span><br><span class="line">​   组合索引</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建表的sql语句：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create table test (</span><br><span class="line">	id int(7) zerofill auto_increment not null,</span><br><span class="line">	username varchar(20),</span><br><span class="line">	servnumber varchar(30),</span><br><span class="line">	password varchar(20),</span><br><span class="line">	createtime datetime,</span><br><span class="line">	primary key (id)</span><br><span class="line">)DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生成百万甚至千万级别表的sql 语句 shell脚本：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">echo &quot;请输入字段servnumber的值：&quot;</span><br><span class="line">read serber</span><br><span class="line">echo &quot;请输入创建sql语句的数量：&quot;</span><br><span class="line">read number</span><br><span class="line"></span><br><span class="line"># char=`head /dev/urandom | tr -dc 0-9 | head -c 11`</span><br><span class="line"></span><br><span class="line">for (( i=0;i&lt;$number;i++ ))</span><br><span class="line">        do</span><br><span class="line">        pass=`head /dev/urandom | tr -dc a-z | head -c 8`</span><br><span class="line">        let serber=serber+1</span><br><span class="line">        echo &quot;insert into test(id,username,servnumber,password,createtime) values(&apos;$i&apos;,&apos;user$&#123;i&#125;&apos;,&apos;$&#123;serber&#125;&apos;,&apos;$pass&apos;,now());&quot; &gt;&gt;sql.txt</span><br><span class="line"></span><br><span class="line">    done</span><br></pre></td></tr></table></figure>
+
+<p>vi test.sh</p>
+<p>执行shell脚本：sh test.sh</p>
+<p>进行插数操作：source /home/dazhu/sql.txt</p>
+<h3 id="8-3-mysql必备核心知识之普通索引与唯一索引"><a href="#8-3-mysql必备核心知识之普通索引与唯一索引" class="headerlink" title="8.3 mysql必备核心知识之普通索引与唯一索引"></a>8.3 mysql必备核心知识之普通索引与唯一索引</h3><p>​    <strong>简介：介绍普通索引与唯一索引</strong></p>
+<ul>
+<li>什么是普通索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">普通索引（index）顾名思义就是各类索引中最为普通的索引，主要任务就是提高查询速度。其特点是允许出现相同的索引内容，允许空（null）值</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>什么是唯一索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">唯一索引：（unique）顾名思义就是不可以出现相同的索引内容，但是可以为空（null）值</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如何创建普通索引或者唯一索引？</p>
+<ul>
+<li><p>创建表的时候创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create table test (</span><br><span class="line">                        id int(7) zerofill auto_increment not null,</span><br><span class="line">                        username varchar(20),</span><br><span class="line">                        servnumber varchar(30),</span><br><span class="line">                        password varchar(20),</span><br><span class="line">                        createtime datetime,</span><br><span class="line">                        unique (id)</span><br><span class="line">                  )DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接为表添加索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">语法：</span><br><span class="line">     alter table 表名 add index 索引名称 (字段名称);</span><br><span class="line"> eg:</span><br><span class="line"> 	 alter table test add unique unique_username (username);</span><br><span class="line"></span><br><span class="line">注意：假如没有指定索引名称时，会以默认的字段名为索引名称</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接创建索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语法：create index 索引 on 表名 (字段名);</span><br><span class="line">eg：create index index_createtime on test (createtime);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>查看索引</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语法：show index from 表名\G</span><br><span class="line">eg: show index from test\G</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如何删除索引</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语法：drop index 索引名称 on 表名;</span><br><span class="line">eg：drop index unique_username on test;</span><br></pre></td></tr></table></figure>
+
+<pre><code>语法：alter table 表名 drop index 索引名;
+eg：alter table test drop index createtime;</code></pre><h3 id="8-4-mysql必备核心知识之主键索引"><a href="#8-4-mysql必备核心知识之主键索引" class="headerlink" title="8.4 mysql必备核心知识之主键索引"></a>8.4 mysql必备核心知识之主键索引</h3><p>​    <strong>简介：详细讲解主键索引</strong></p>
+<ul>
+<li>什么是主键索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">把主键添加索引就是主键索引，它是一种特殊的唯一索引，不允许有空值，而唯一索引（unique是允许为空值的）。指定为“PRIMARY KEY”</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主键：主键是表的某一列，这一列的值是用来标志表中的每一行数据的。</span><br><span class="line">注意：每一张表只能拥有一个主键</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建主键：</p>
+<pre><code>1）创建表的时候创建
+
+2）直接为表添加主键索引
+   语法：alter table 表名 add primary key (字段名);
+   eg：alter table test add primary key (id);</code></pre></li>
+<li><p>删除主键：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">语法：</span><br><span class="line">alter table 表名 drop primary key;</span><br><span class="line">eg：</span><br><span class="line">alter table test drop primary key;</span><br><span class="line"></span><br><span class="line">注意：在有自增的情况下，必须先删除自增，才可以删除主键</span><br><span class="line"></span><br><span class="line">删除自增：alter table test change id id int(7) unsigned zerofill not null;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-5-mysql核心知识之全文索引的使用"><a href="#8-5-mysql核心知识之全文索引的使用" class="headerlink" title="8.5 mysql核心知识之全文索引的使用"></a>8.5 mysql核心知识之全文索引的使用</h3><p>​    <strong>简介：介绍什么是全文索引以及使用</strong></p>
+<ul>
+<li><p>什么是全文索引？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">全文索引是将存储在数据库中的文章或者句子等任意内容信息查找出来的索引，单位是词。全文索引也是目前搜索引擎使用的一种关键技术。指定为 fulltex</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建练习表的sql：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create table command (</span><br><span class="line">id int(5) unsigned primary key  auto_increment,</span><br><span class="line">name varchar(10),</span><br><span class="line">instruction varchar(60)</span><br><span class="line">)engine=MyISAM;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入数据sql：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">insert into command values(&apos;1&apos;,&apos;ls&apos;,&apos;list directory contents&apos;);</span><br><span class="line">insert into command values(&apos;2&apos;,&apos;wc&apos;,&apos;print newline, word, and byte counts for each file&apos;);</span><br><span class="line">insert into command values(&apos;3&apos;,&apos;cut&apos;,&apos;remove sections from each line of files&apos;);</span><br><span class="line">insert into command values(&apos;4&apos;,&apos;sort&apos;,&apos;sort lines of text files&apos;);</span><br><span class="line">insert into command values(&apos;5&apos;,&apos;find&apos;,&apos;search for files in a directory hierarchy&apos;);</span><br><span class="line">insert into command values(&apos;6&apos;,&apos;cp&apos;,&apos;复制文件或者文件夹&apos;);</span><br><span class="line">insert into command values(&apos;7&apos;,&apos;top&apos;,&apos;display Linux processes&apos;);</span><br><span class="line">insert into command values(&apos;8&apos;,&apos;mv&apos;,&apos;修改文件名，移动&apos;);</span><br><span class="line">insert into command values(&apos;9&apos;,&apos;停止词&apos;,&apos;is,not,me,yes,no ...&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加全文索引：</p>
+<ul>
+<li><p>创建表的时候创建全文索引</p>
+</li>
+<li><p>通过alter添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table command  add fulltext(instruction);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用全文索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from 表名 where match  (字段名) against (&apos;检索内容&apos;);</span><br><span class="line">select * from command where match(instruction) against (&apos;sections&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看匹配度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from command where match(instruction) against (&apos;directory&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>停止词：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">出现频率很高的词，将会使全文索引失效</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>in boolean mode 模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">in boolean mode：意思是指定全文检索模式为布尔全文检索（简单可以理解为是检索方式）</span><br><span class="line">select * from 表名 where match (字段名) against (&apos;检索内容&apos; in boolean mode);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用通配符*时，只能放在词的后边，不能放前边。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除全文索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table command drop index instruction;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意点总结：    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> 	1、一般情况下创建全文索引的字段数据类型为 char、varchar、text 。其它字段类型不可以</span><br><span class="line"></span><br><span class="line">​   2、全文索引不针对非常频繁的词做索引。比如is，no，not，you，me，yes这些，我们称之为停止词</span><br><span class="line"></span><br><span class="line">​   3、对英文检索时忽略大小写</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="8-6-mysql核心知识之外键约束剖析"><a href="#8-6-mysql核心知识之外键约束剖析" class="headerlink" title="8.6 mysql核心知识之外键约束剖析"></a>8.6 mysql核心知识之外键约束剖析</h3><p>​    <strong>简介：解析什么是外键约束，以及有什么作用</strong></p>
+<ul>
+<li>什么是外键？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">外键就是作用于两个表数据之间的链接的一列或多列，用来保证表与表之间的数据的完整性和准确性。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加外键约束：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">语法：foreign key (字段名) references 关联的表名(关联表的字段名)</span><br><span class="line"></span><br><span class="line">注意：主键跟外键的字段类型一定要相</span><br><span class="line"></span><br><span class="line">create table的方法：</span><br><span class="line"></span><br><span class="line">CREATE TABLE `employee` (</span><br><span class="line">  `empno` int(11) NOT NULL COMMENT &apos;雇员编号&apos;,</span><br><span class="line">  `ename` varchar(50) DEFAULT NULL COMMENT &apos;雇员姓名&apos;,</span><br><span class="line">  `job` varchar(30) DEFAULT NULL,</span><br><span class="line">  `mgr` int(11) DEFAULT NULL COMMENT &apos;雇员上级编号&apos;,</span><br><span class="line">  `hiredate` date DEFAULT NULL COMMENT &apos;雇佣日期&apos;,</span><br><span class="line">  `sal` decimal(7,2) DEFAULT NULL COMMENT &apos;薪资&apos;,</span><br><span class="line">  `deptnu` int(11) DEFAULT NULL COMMENT &apos;部门编号&apos;,</span><br><span class="line">  PRIMARY KEY (`empno`),</span><br><span class="line"> foreign key (deptnu) references dept(deptnu)</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line"> alter table的方法：</span><br><span class="line"> alter table employee add foreign key (deptnu) references dept(deptnu);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除外键约束：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意：在干掉外键索引之前必须先把外键约束删除，才能删除索引</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table employee drop index deptnu;</span><br><span class="line">ERROR 1553 (HY000): Cannot drop index &apos;deptnu&apos;: needed in a foreign key constraint</span><br><span class="line">mysql&gt;</span><br><span class="line">mysql&gt; alter table employee drop foreign key employee_ibfk_1;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br><span class="line">mysql&gt; alter table employee drop index deptnu;</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意点总结：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（1）俩个表，主键跟外键的字段类型一定要相同</span><br><span class="line"></span><br><span class="line">（2）要使用外键约束表的引擎一定得是InnoDB引擎，MyISAM是不起作用的</span><br><span class="line"></span><br><span class="line">（3）在干掉外键索引之前必须先把外键约束删除，才能删除索引</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-7-mysql核心知识之联合索引"><a href="#8-7-mysql核心知识之联合索引" class="headerlink" title="8.7 mysql核心知识之联合索引"></a>8.7 mysql核心知识之联合索引</h3><p>​    <strong>简介：详细介绍联合索引</strong></p>
+<ul>
+<li>什么是联合索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">联合索引又称组合索引或者复合索引，是建立在俩列或者多列以上的索引。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>怎么来创建联合索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter table 表名 add index(字段1,字段2,字段3);</span><br><span class="line"></span><br><span class="line">alter table test add index(username,servnumber,password);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>怎么删除联合索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table test drop index username;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>为什么要使用联合索引，而不使用多个单列索引？</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">联合索引的效率远远高于单列索引</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>联合索引的最左原则</p>
+</li>
+<li><p>注意点总结：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 索引并非越多越好，过多的索引会增加数据的维护速度还有磁盘空间的浪费。</span><br><span class="line"></span><br><span class="line">​ 当表的数据量很大的时候，可以考虑建立索引。</span><br><span class="line"></span><br><span class="line">​ 表中经常查数据的字段，可以考虑建立索引。</span><br><span class="line"></span><br><span class="line">​ 想要保证表中数据的唯一性，可以考虑建立唯一索引。</span><br><span class="line"></span><br><span class="line">​ 想要保证俩张表中的数据的完整性跟准确性，可以考虑建立外键约束。</span><br><span class="line"></span><br><span class="line">​ 经常对多列数据进行查询时，可以考虑建立联合索引。</span><br></pre></td></tr></table></figure>
+
+<h2 id="第9章：mysql不得不学的sql语句优化思路"><a href="#第9章：mysql不得不学的sql语句优化思路" class="headerlink" title="第9章：mysql不得不学的sql语句优化思路"></a>第9章：mysql不得不学的sql语句优化思路</h2><p>​    <strong>简介：介绍如何对sql查询语句进行优化</strong></p>
+<h3 id="9-1-mysql的慢查询日志开启与问题定位"><a href="#9-1-mysql的慢查询日志开启与问题定位" class="headerlink" title="9.1 mysql的慢查询日志开启与问题定位"></a>9.1 mysql的慢查询日志开启与问题定位</h3><p>​    <strong>简介：介绍如何开启慢查询日志与问题定位</strong></p>
+<ul>
+<li>第一步：查看是否已经开启了慢查询日志</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;slow%&apos;;</span><br><span class="line">+---------------------+--------------------------------------+</span><br><span class="line">| Variable_name       | Value                                |</span><br><span class="line">+---------------------+--------------------------------------+</span><br><span class="line">| slow_launch_time    | 2                                    |</span><br><span class="line">| slow_query_log      | OFF                                  |</span><br><span class="line">| slow_query_log_file | /data/mydata/xdclass-public-slow.log |</span><br><span class="line">+---------------------+--------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第二步：开启慢查询日志</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set global slow_query_log = on ;</span><br><span class="line"></span><br><span class="line">日志路径也可以自定义：</span><br><span class="line"></span><br><span class="line">set global slow_query_log_file = &apos;路径&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第三步：查看慢查询的时间临界值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%long%&apos;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第四步：设置慢查询的时间标准</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set long_query_time=0.4;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意：重启mysql服务会让在交互界面设置的慢查询恢复到默认</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">永久生效的设置方法：修改配置文件 vi /etc/my.cnf</span><br><span class="line">[mysqld]</span><br><span class="line">slow_query_log = 1</span><br><span class="line">long_query_time = 0.1</span><br><span class="line">slow_query_log_file =/usr/local/mysql/mysql_slow.log</span><br><span class="line"></span><br><span class="line">最后必须重启服务才能生效！</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-2-mysql的sql语句执行过程解析"><a href="#9-2-mysql的sql语句执行过程解析" class="headerlink" title="9.2 mysql的sql语句执行过程解析"></a>9.2 mysql的sql语句执行过程解析</h3><p>​    <strong>简介：介绍如何开启性能详情</strong></p>
+<ul>
+<li>第一步：查看性能详情是否开启</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;%profiling%&apos;;</span><br><span class="line">+------------------------+-------+</span><br><span class="line">| Variable_name          | Value |</span><br><span class="line">+------------------------+-------+</span><br><span class="line">| have_profiling         | YES   |</span><br><span class="line">| profiling              | OFF   |</span><br><span class="line">| profiling_history_size | 15    |</span><br><span class="line">+------------------------+-------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第二步：开启性能记录功能</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set profiling = on ;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第三步：查看性能的记录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profiles;</span><br><span class="line">+----------+------------+---------------------------------------------------+</span><br><span class="line">| Query_ID | Duration   | Query                                             |</span><br><span class="line">+----------+------------+---------------------------------------------------+</span><br><span class="line">|        1 | 0.00177775 | show variables like &apos;%profiling%&apos;                 |</span><br><span class="line">|        2 | 0.00037900 | select * from test where id=&apos;087878&apos;              |</span><br><span class="line">|        3 | 0.34618025 | select * from test where servnumber=&apos;1367008787&apos;  |</span><br><span class="line">|        4 | 0.31986825 | select * from test where servnumber=&apos;13670087879&apos; |</span><br><span class="line">+----------+------------+---------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第四步：查看语句的执行性能详情</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profile for query 4;</span><br><span class="line">+----------------------+----------+</span><br><span class="line">| Status               | Duration |</span><br><span class="line">+----------------------+----------+</span><br><span class="line">| starting             | 0.000100 |</span><br><span class="line">| checking permissions | 0.000010 |</span><br><span class="line">| Opening tables       | 0.000023 |</span><br><span class="line">| init                 | 0.000045 |</span><br><span class="line">| System lock          | 0.000015 |</span><br><span class="line">| optimizing           | 0.000016 |</span><br><span class="line">| statistics           | 0.000028 |</span><br><span class="line">| preparing            | 0.000020 |</span><br><span class="line">| executing            | 0.000006 |</span><br><span class="line">| Sending data         | 0.319489 |</span><br><span class="line">| end                  | 0.000037 |</span><br><span class="line">| query end            | 0.000012 |</span><br><span class="line">| closing tables       | 0.000012 |</span><br><span class="line">| freeing items        | 0.000040 |</span><br><span class="line">| cleaning up          | 0.000017 |</span><br><span class="line">+----------------------+----------+</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>性能线程的详细解释官方文档链接：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://dev.mysql.com/doc/refman/5.7/en/general-thread-states.html</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-3-mysql语句优化的几个小建议"><a href="#9-3-mysql语句优化的几个小建议" class="headerlink" title="9.3 mysql语句优化的几个小建议"></a>9.3 mysql语句优化的几个小建议</h3><p>​    <strong>简介：介绍日常工作应该尽量避免的sql语句</strong></p>
+<ul>
+<li>第一个注意点：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">尽量避免使用select *from ，尽量精确到想要的结果字段</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第二个注意点：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">尽量避免条件使用or</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第三个注意点：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">记得加上limit 限制行数，避免数据量过大消耗性能</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第四个注意点：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">使用模糊查询时，%放在前面是会使索引失效</span><br><span class="line"></span><br><span class="line">mysql&gt; explain select * from test where servnumber like &apos;%1367000%&apos;\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: test</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: ALL</span><br><span class="line">possible_keys: NULL</span><br><span class="line">          key: NULL</span><br><span class="line">      key_len: NULL</span><br><span class="line">          ref: NULL</span><br><span class="line">         rows: 996303</span><br><span class="line">     filtered: 11.11</span><br><span class="line">        Extra: Using where</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第五个注意点：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">要小心条件字段类型的转换</span><br></pre></td></tr></table></figure>
+
+<h2 id="第10章：mysql数据安全核心知识之备份技能"><a href="#第10章：mysql数据安全核心知识之备份技能" class="headerlink" title="第10章：mysql数据安全核心知识之备份技能"></a>第10章：mysql数据安全核心知识之备份技能</h2><p>​    <strong>简介：介绍备份数据的重要性以及一些常见的数据备份技能</strong></p>
+<h3 id="10-1-mysql数据安全之备份的背景意义"><a href="#10-1-mysql数据安全之备份的背景意义" class="headerlink" title="10.1 mysql数据安全之备份的背景意义"></a>10.1 mysql数据安全之备份的背景意义</h3><p>​    <strong>简介：数据库备份的意义</strong></p>
+<ul>
+<li><p>数据备份的意义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（1）保护数据的安全；</span><br><span class="line"></span><br><span class="line">（2）在出现意外的时候（硬盘的损坏，断电，黑客的攻击），以便数据的恢复；</span><br><span class="line"></span><br><span class="line">（3）导出生产的数据以便研发人员或者测试人员测试学习；</span><br><span class="line"></span><br><span class="line">（4）高权限的人员操作失误导致数据丢失，以便恢复；</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-2-mysql数据安全之备份的介绍"><a href="#10-2-mysql数据安全之备份的介绍" class="headerlink" title="10.2 mysql数据安全之备份的介绍"></a>10.2 mysql数据安全之备份的介绍</h3><p>​    <strong>简介：介绍数据备份</strong></p>
+<ul>
+<li><p>数据库的备份类型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（1）完全备份：对整个数据库的数据进行备份</span><br><span class="line"></span><br><span class="line">（2）部分备份：对部分数据进行备份（可以是一张表也可以是多张表）</span><br><span class="line"></span><br><span class="line">	  增量备份：是以上一次备份为基础来备份变更数据的，节约空间</span><br><span class="line"></span><br><span class="line">	  差异备份：是以第一次完全备份的基础来备份变更备份的，浪费空间</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/10/19/mysql/mysql数据库入门基础实战/C:%5CUsers%5Cdabiao%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1555089061504.png" alt="1555089061504"></p>
+</li>
+<li><p>数据库备份的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（1）逻辑备份：直接生成sql语句保存起来，在恢复数据的时候执行备份的sql语句来实现数据的恢复</span><br><span class="line"></span><br><span class="line">（2）物理备份：直接拷贝相关的物理数据</span><br><span class="line"></span><br><span class="line">区别：逻辑备份效率低，恢复数据效率低，但是逻辑备份节约空间；物理备份浪费空间，但是相对逻辑备份而言效率比较高</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据库备份的场景：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（1）热备份：备份时，数据库的读写操作不会受到影响</span><br><span class="line"></span><br><span class="line">（2）温备份：备份时，数据库的读操作可以进行，但是写操作不能执行</span><br><span class="line"></span><br><span class="line">（3）冷备份：备份时，不能进行任何操作</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-3-mysql数据安全之mysqldump备份实例（跨机器）"><a href="#10-3-mysql数据安全之mysqldump备份实例（跨机器）" class="headerlink" title="10.3 mysql数据安全之mysqldump备份实例（跨机器）"></a>10.3 mysql数据安全之mysqldump备份实例（跨机器）</h3><p>​    <strong>简介：如何利用mysql自带命令mysqldump来备份单库或者多库</strong></p>
+<ul>
+<li><p>mysqldump使用语法：</p>
+<p>mysqldump -u 用户 -h host -p 密码 dbname table &gt; 路径</p>
+</li>
+<li><p>远程备份单库例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -pabc123456 -h120.25.93.69 zabbix | gzip  &gt; /mysql_data_back/zabbix_users.sql.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程备份单库例子并保留创建库语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -pabc123456 -h120.25.93.69 --databases zabbix | gzip  &gt; /mysql_data_back/zabbix_bak.sql.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程备份单库单表的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -pabc123456 -h120.25.93.69 zabbix  users | gzip  &gt; /mysql_data_back/zabbix_users.sql.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程备份多库的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -pabc123456 -h120.25.93.69 --databases zabbix XD | gzip  &gt; /mysql_data_back/zabbix_XD.sql.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程备份全库的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -pabc123456 -h120.25.93.69 --all-databases  | gzip  &gt; /mysql_data_back/all.sql.gz</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-4-mysql数据安全之mysql数据的恢复"><a href="#10-4-mysql数据安全之mysql数据的恢复" class="headerlink" title="10.4 mysql数据安全之mysql数据的恢复"></a>10.4 mysql数据安全之mysql数据的恢复</h3><p>​    <strong>简介：如何恢复数据</strong></p>
+<ul>
+<li><p>远程恢复数据（备份的数据文件里有创建库的语句）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -pabc123456 -h120.25.93.69  &lt; zabbix_bak.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>远程恢复数据（备份的数据文件里没有创建库的语句）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -pabc123456 -h120.25.93.69  zabbix &lt; zabbix_bak.sql</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-5-mysql数据安全之物理备份"><a href="#10-5-mysql数据安全之物理备份" class="headerlink" title="10.5 mysql数据安全之物理备份"></a>10.5 mysql数据安全之物理备份</h3><p>​    <strong>简介：详解数据库源文件以及如何物理备份</strong></p>
+<ul>
+<li><p>看找数据库源文件路径（一）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;datadir%&apos;;</span><br><span class="line">+---------------+---------------+</span><br><span class="line">| Variable_name | Value         |</span><br><span class="line">+---------------+---------------+</span><br><span class="line">| datadir       | /data/mydata/ |</span><br><span class="line">+---------------+---------------+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>看找数据库源文件路径（二）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/my.cnf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MyISAM表源文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.opt：创建库的时候生成，主要存储着当前库的默认字符集和字符校验规则</span><br><span class="line"></span><br><span class="line">.frm ：记录着表结构信息的文件</span><br><span class="line"></span><br><span class="line">.MYI：记录着索引的文件</span><br><span class="line"></span><br><span class="line">.MYD :记录着表的数据</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>InnoDB表源文件：InnoDB有着共享表空间跟独立表空间的概念。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.opt：创建库的时候生成，主要存储着当前库的默认字符集和字符校验规则</span><br><span class="line"></span><br><span class="line">.frm ：记录着表结构信息的文件</span><br><span class="line"></span><br><span class="line">.ibd ：独立表空间，里边记录这个表的数据和索引</span><br><span class="line"></span><br><span class="line">ibdata1：共享表空间，里边记录表的数据和索引</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请求全局读锁：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush tables with read lock;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解锁：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unlock tables;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-6-mysql数据安全之利用二进制日志mysqlbinlog备份数据"><a href="#10-6-mysql数据安全之利用二进制日志mysqlbinlog备份数据" class="headerlink" title="10.6 mysql数据安全之利用二进制日志mysqlbinlog备份数据"></a>10.6 mysql数据安全之利用二进制日志mysqlbinlog备份数据</h3><p>​    <strong>简介：讲解如何利用二进制日志来备份数据</strong></p>
+<ul>
+<li><p>什么是二进制日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">二进制日志就是记录着mysql数据库中的一些写入性操作，比如一些增删改，但是，不包括查询！</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>二进制日志有哪些功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一般情况下，二进制日志有着数据复制和数据恢复的功能</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">开启二进制日志会有1%的性能消耗！</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看二进制日志是否开启：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &apos;log_bin%&apos;;</span><br><span class="line">+---------------------------------+-------+</span><br><span class="line">| Variable_name                   | Value |</span><br><span class="line">+---------------------------------+-------+</span><br><span class="line">| log_bin                         | OFF   |</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启二进制日志 : vi /etc/my.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">log-bin=/data/mydata/log_bin/mysql-bin</span><br><span class="line">server-id=1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看所有的binlog日志列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master logs;</span><br><span class="line">+------------------+-----------+</span><br><span class="line">| Log_name         | File_size |</span><br><span class="line">+------------------+-----------+</span><br><span class="line">| mysql-bin.000001 |     23638 |</span><br><span class="line">+------------------+-----------+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刷新二进制日志：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush logs;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重置(清空）二进制日志文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show master logs;</span><br><span class="line">+------------------+-----------+</span><br><span class="line">| Log_name         | File_size |</span><br><span class="line">+------------------+-----------+</span><br><span class="line">| mysql-bin.000001 |      1091 |</span><br><span class="line">+------------------+-----------+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用mysqldump备份数据时，加上-F选项可以重新生成一个新的二进制日志文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -p XD user -F  &gt; user_bak.sql</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="10-7-mysql数据安全之利用二进制日志mysqlbinlog恢复数据"><a href="#10-7-mysql数据安全之利用二进制日志mysqlbinlog恢复数据" class="headerlink" title="10.7 mysql数据安全之利用二进制日志mysqlbinlog恢复数据"></a>10.7 mysql数据安全之利用二进制日志mysqlbinlog恢复数据</h3><p>​    <strong>简介：讲解如何利用二进制日志来恢复数据</strong></p>
+<ul>
+<li><p>查看二进制日志文件的内容报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@xdclass-public log_bin]# mysqlbinlog mysql-bin.000002</span><br><span class="line">mysqlbinlog: [ERROR] unknown variable &apos;default-character-set=utf8&apos;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">第一种：在mysqlbinlog 后边加上 --no-defaults</span><br><span class="line"></span><br><span class="line">第二种：注释掉配置文件里边的default-character-set=utf8</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>把二进制日志文件导出成普通文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --base64-output=DECODE-ROWS -v mysql-bin.000002 &gt; mysqlbin.sql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>找出要恢复的位置：</p>
+</li>
+</ul>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">（1）找出关键字的行数：mysqlbinlog --no-defaults mysql-bin.000002 | cat -n  | grep -iw &apos;drop&apos;</span><br><span class="line"></span><br><span class="line">[root@xdclass-public log_bin]# mysqlbinlog --no-defaults mysql-bin.000002 | cat -n  | grep -iw &apos;drop&apos;</span><br><span class="line">  4180  DROP TABLE `user` /* generated by server */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">（2）打印出相关内容：mysqlbinlog --no-defaults mysql-bin.000002 | cat -n | sed -n &apos;4170,4180p&apos;</span><br><span class="line"></span><br><span class="line">[root@xdclass-public log_bin]# mysqlbinlog --no-defaults mysql-bin.000002 | cat -n | sed -n &apos;4170,4180p&apos;</span><br><span class="line">  4170  # at 59578</span><br><span class="line">  4171  #190419  0:41:48 server id 1  end_log_pos 59609 CRC32 0x36cda2b7        Xid = 6380</span><br><span class="line">  4172  COMMIT/*!*/;</span><br><span class="line">  4173  # at 59609</span><br><span class="line">  4174  #190419  0:41:48 server id 1  end_log_pos 59674 CRC32 0x8de2f06a        Anonymous_GTID  last_committed=145      sequence_number=146</span><br><span class="line">  4175  SET @@SESSION.GTID_NEXT= &apos;ANONYMOUS&apos;/*!*/;</span><br><span class="line">  4176  # at 59674</span><br><span class="line">  4177  #190419  0:41:48 server id 1  end_log_pos 59787 CRC32 0x6b2edd2b        Query   thread_id=14    exec_time=0     error_code=0</span><br><span class="line">  4178  use `XD`/*!*/;</span><br><span class="line">  4179  SET TIMESTAMP=1555605708/*!*/;</span><br><span class="line">  4180  DROP TABLE `user` /* generated by server */</span><br><span class="line">[root@xdclass-public log_bin]#</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>恢复数据：</p>
+<ul>
+<li><p>第一步：把备份的数据表user恢复到数据库中：mysql -uroot -p XD &lt; /mysql_data_back/user_bak.sql</p>
+</li>
+<li><p>第二步：利用上面找到的删除的位置进行恢复数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --no-defaults --set-charset=utf8  --stop-position=&quot;59674&quot; /data/mydata/log_bin/mysql-bin.000002 | mysql -uroot -p</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>登录数据库查看数据是否恢复回来</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/11/linux/awk/" rel="next" title="awk">
+                  <i class="fa fa-chevron-left"></i> awk
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/07/mysql/MySQL高可用之主从复制搭建/" rel="prev" title="MySQL高可用之主从复制搭建">
+                  MySQL高可用之主从复制搭建 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第1章：mysql数据库的介绍以及课程大纲总览"><span class="nav-number">1.</span> <span class="nav-text">第1章：mysql数据库的介绍以及课程大纲总览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-mysql的简介介绍"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 mysql的简介介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-课程大纲总览"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 课程大纲总览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章：mysql数据库面试必备入门基础知识"><span class="nav-number">2.</span> <span class="nav-text">第2章：mysql数据库面试必备入门基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-mysql各个版本的重要性介绍"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 mysql各个版本的重要性介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-mysql的核心知识之服务管理"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 mysql的核心知识之服务管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-mysql的可视化图形界面与命令行操作"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 mysql的可视化图形界面与命令行操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-mysql的库表深入解析"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 mysql的库表深入解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-mysql的sql各类语句精讲"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 mysql的sql各类语句精讲</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第3章：mysql核心知识之DDL数据定义语言"><span class="nav-number">3.</span> <span class="nav-text">第3章：mysql核心知识之DDL数据定义语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-mysql数据库必备知识之创建、查看以及使用-切换"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 mysql数据库必备知识之创建、查看以及使用/切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-mysql创建表之常用数据类型"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 mysql创建表之常用数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-mysql数据表必备知识之创建表"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 mysql数据表必备知识之创建表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-mysql数据表必备知识之查看"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 mysql数据表必备知识之查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-mysql数据表必备知识之表结构维护与删除"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 mysql数据表必备知识之表结构维护与删除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第4章：mysql核心知识之DML数据操纵语言"><span class="nav-number">4.</span> <span class="nav-text">第4章：mysql核心知识之DML数据操纵语言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-mysql深入剖析表数据新增"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 mysql深入剖析表数据新增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-mysql深入剖析表数据的修改以及删除"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 mysql深入剖析表数据的修改以及删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-mysql核心知识之中文乱码问题"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 mysql核心知识之中文乱码问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战"><span class="nav-number">5.</span> <span class="nav-text">第5章：mysql核心知识之DQL数据查询语言与项目高级查询实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-mysql查询子句之一where条件查询"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 mysql查询子句之一where条件查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-mysql查询子句之二group-by分组查询（分组）"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 mysql查询子句之二group by分组查询（分组）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-mysql查询子句之三having条件查询（筛选）"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 mysql查询子句之三having条件查询（筛选）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-mysql查询子句之四order-by排序查询（排序）"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 mysql查询子句之四order by排序查询（排序）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-mysql查询子句之五limit限制查询（限制）"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 mysql查询子句之五limit限制查询（限制）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-6-mysql查询之exists型子查询"><span class="nav-number">5.6.</span> <span class="nav-text">5.6 mysql查询之exists型子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-7-mysql查询之左连接查询与右连接查询"><span class="nav-number">5.7.</span> <span class="nav-text">5.7 mysql查询之左连接查询与右连接查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-8-mysql查询之内连接查询与联合查询"><span class="nav-number">5.8.</span> <span class="nav-text">5.8 mysql查询之内连接查询与联合查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-9-mysql查询之项目高级查询实战-一"><span class="nav-number">5.9.</span> <span class="nav-text">5.9 mysql查询之项目高级查询实战(一)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-10-mysql查询之项目高级查询实战-二"><span class="nav-number">5.10.</span> <span class="nav-text">5.10 mysql查询之项目高级查询实战(二)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）"><span class="nav-number">6.</span> <span class="nav-text">第6章：mysql核心知识之DCL数据控制语言（对用户权限的设置）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-mysql限制root用户指定ip登录"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 mysql限制root用户指定ip登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-mysql必备知识之用户密码"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 mysql必备知识之用户密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-mysql实战系列之创建新用户并限制ip网段登录"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 mysql实战系列之创建新用户并限制ip网段登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-mysql实战系列之库表权限授权与回收"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 mysql实战系列之库表权限授权与回收</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程"><span class="nav-number">7.</span> <span class="nav-text">第7章：mysql的核心知识之事务实战，视图，触发器，以及存储过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-mysql-必备核心知识之事务的详细解析"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 mysql 必备核心知识之事务的详细解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-mysql-必备核心知识之事务实战"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 mysql 必备核心知识之事务实战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-mysql核心知识之视图的应用"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 mysql核心知识之视图的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-4-mysql-的触发器介绍"><span class="nav-number">7.4.</span> <span class="nav-text">7.4 mysql 的触发器介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-5-mysql的存储过程介绍"><span class="nav-number">7.5.</span> <span class="nav-text">7.5 mysql的存储过程介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第8章：mysql必备核心知识之索引与存储引擎的介绍"><span class="nav-number">8.</span> <span class="nav-text">第8章：mysql必备核心知识之索引与存储引擎的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-mysql的存储引擎介绍"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 mysql的存储引擎介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-mysql必备知识之常用索引精讲"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 mysql必备知识之常用索引精讲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-3-mysql必备核心知识之普通索引与唯一索引"><span class="nav-number">8.3.</span> <span class="nav-text">8.3 mysql必备核心知识之普通索引与唯一索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-mysql必备核心知识之主键索引"><span class="nav-number">8.4.</span> <span class="nav-text">8.4 mysql必备核心知识之主键索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-mysql核心知识之全文索引的使用"><span class="nav-number">8.5.</span> <span class="nav-text">8.5 mysql核心知识之全文索引的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-6-mysql核心知识之外键约束剖析"><span class="nav-number">8.6.</span> <span class="nav-text">8.6 mysql核心知识之外键约束剖析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-7-mysql核心知识之联合索引"><span class="nav-number">8.7.</span> <span class="nav-text">8.7 mysql核心知识之联合索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第9章：mysql不得不学的sql语句优化思路"><span class="nav-number">9.</span> <span class="nav-text">第9章：mysql不得不学的sql语句优化思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-mysql的慢查询日志开启与问题定位"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 mysql的慢查询日志开启与问题定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-mysql的sql语句执行过程解析"><span class="nav-number">9.2.</span> <span class="nav-text">9.2 mysql的sql语句执行过程解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-mysql语句优化的几个小建议"><span class="nav-number">9.3.</span> <span class="nav-text">9.3 mysql语句优化的几个小建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第10章：mysql数据安全核心知识之备份技能"><span class="nav-number">10.</span> <span class="nav-text">第10章：mysql数据安全核心知识之备份技能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-mysql数据安全之备份的背景意义"><span class="nav-number">10.1.</span> <span class="nav-text">10.1 mysql数据安全之备份的背景意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-mysql数据安全之备份的介绍"><span class="nav-number">10.2.</span> <span class="nav-text">10.2 mysql数据安全之备份的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3-mysql数据安全之mysqldump备份实例（跨机器）"><span class="nav-number">10.3.</span> <span class="nav-text">10.3 mysql数据安全之mysqldump备份实例（跨机器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-4-mysql数据安全之mysql数据的恢复"><span class="nav-number">10.4.</span> <span class="nav-text">10.4 mysql数据安全之mysql数据的恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-5-mysql数据安全之物理备份"><span class="nav-number">10.5.</span> <span class="nav-text">10.5 mysql数据安全之物理备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-6-mysql数据安全之利用二进制日志mysqlbinlog备份数据"><span class="nav-number">10.6.</span> <span class="nav-text">10.6 mysql数据安全之利用二进制日志mysqlbinlog备份数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-7-mysql数据安全之利用二进制日志mysqlbinlog恢复数据"><span class="nav-number">10.7.</span> <span class="nav-text">10.7 mysql数据安全之利用二进制日志mysqlbinlog恢复数据</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
