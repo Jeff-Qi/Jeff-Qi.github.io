@@ -1,82 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>平均负载</title>
-    <url>/2020/03/29/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
-    <content><![CDATA[<ul>
-<li><a href="#平均负载均衡">平均负载均衡</a><ul>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="平均负载均衡"><a href="#平均负载均衡" class="headerlink" title="平均负载均衡"></a>平均负载均衡</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure><ol>
-<li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
-</li>
-<li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
-<ul>
-<li>可运行状态（R）：正在使用 CPU 或者正在等待 CPU 的进程</li>
-<li>不可中断状态（D）：进程则是正处于内核态关键流程中的进程，并且这些流程是不可打断的（io写入的进程）</li>
-</ul>
-</li>
-<li><p>比如当平均负载为 2 时，意味着什么呢？</p>
-<ul>
-<li>在只有 2 个 CPU 的系统上，意味着所有的 CPU 都刚好被完全占用。</li>
-<li>在 4 个 CPU 的系统上，意味着 CPU 有 50% 的空闲。</li>
-<li>而在只有 1 个 CPU 的系统中，则意味着有一半的进程竞争不到 CPU。</li>
-</ul>
-</li>
-<li><p>查看CPU核数</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">cat /proc/cpuinfo | wc -l</span><br><span class="line"><span class="comment"># lscpu</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>一般负载超过70%就需要排查</p>
-</li>
-<li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-
-
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
-<li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
-<li>pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。</li>
-</ol>
-</li>
-<li>stress：压力测试工具</li>
-<li><strong>模拟cpu密集型服务器压力测试</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用一个cpu，占满100%，时间600s</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 1 --timeout 600</span></span><br><span class="line">stress: info: [2319] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据$</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5     </span></span><br><span class="line">11:31:59 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:32:00 PM  all   50.50    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.50</span><br><span class="line">11:32:00 PM    0  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">11:32:00 PM    1    0.00    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出占用cpu的进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1      </span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:34:37 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:34:42 PM     0      2320   99.40    0.00    0.00   99.40     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      2320   99.40    0.00    0.00   99.40     -  stress</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li><strong>模拟io压力</strong><ul>
-<li>iowait无法升高的问题，是因为案例中stress使用的是 sync() 系统调用，它的作用是刷新缓冲区内存到磁盘中。对于新安装的虚拟机，缓冲区可能比较小，无法产生大的IO压力，这样大部分就都是系统调用的消耗了。所以，你会看到只有系统CPU使用率升高。解决方法是使用stress的下一代stress-ng，它支持更丰富的选项，比如 stress-ng -i 1 –hdd 1 –timeout 600（–hdd表示读写临时文件）。</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">占满io，时间600s</span><br><span class="line">[root@node1 ~]<span class="comment"># stress-ng --hdd -i 1 --timeout 600</span></span><br><span class="line">stress: info: [3143] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示所有的cpu和内存的使用情况</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5</span></span><br><span class="line">11:30:05 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:30:08 AM  all    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line">11:30:08 AM    0    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">Average:     all    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line">Average:       0    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@baidu ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-957.27.2.el7.x86_64 (baidu) 	03/18/2020 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">11:33:26 AM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:33:31 AM     0     25768    0.00   18.38    0.00   18.38     0  stress-ng-hdd</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0     25790    0.35   21.75    0.00   22.11     -  stress-ng-hdd</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
-<li><strong>大量进程模拟</strong></li>
-</ol>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启多个线程大于核数</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 4 --timeout 600</span></span><br><span class="line">stress: info: [3607] dispatching hogs: 4 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:47:34 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:47:39 PM     0      3608   54.76    0.00    0.00   54.76     1  stress</span><br><span class="line">11:47:39 PM     0      3609   45.24    0.00    0.00   45.24     1  stress</span><br><span class="line">11:47:39 PM     0      3610   47.62    0.00    0.00   47.62     0  stress</span><br><span class="line">11:47:39 PM     0      3611   50.00    0.20    0.00   50.20     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      3608   54.76    0.00    0.00   54.76     -  stress</span><br><span class="line">Average:        0      3609   45.24    0.00    0.00   45.24     -  stress</span><br><span class="line">Average:        0      3610   47.62    0.00    0.00   47.62     -  stress</span><br><span class="line">Average:        0      3611   50.00    0.20    0.00   50.20     -  stress</span><br></pre></td></tr></table></figure>
-
-<ol start="6">
-<li><strong>总结</strong><ul>
-<li>平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况</li>
-<li>平均负载高有可能是 CPU 密集型进程导致的；</li>
-<li>平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了；</li>
-<li>当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源。</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>redis 安装</title>
     <url>/2020/03/26/redis/redis-install/</url>
     <content><![CDATA[<h2 id="install-redis-on-centos7"><a href="#install-redis-on-centos7" class="headerlink" title="install redis on centos7"></a>install redis on centos7</h2><ol>
@@ -1194,6 +1118,89 @@
       </categories>
   </entry>
   <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
+<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
+</ol>
+</li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python/python_base/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1977,89 +1984,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
-<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
-</ol>
-</li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>网络参数</title>
     <url>/2020/03/19/linux/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
     <content><![CDATA[<ul>
@@ -2143,6 +2067,82 @@
 </tbody></table>
 <ol start="3">
 <li>参考网址：<a href="https://www.cnblogs.com/lipengxiang2009/p/7451050.html" target="_blank" rel="noopener">https://www.cnblogs.com/lipengxiang2009/p/7451050.html</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>平均负载</title>
+    <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
+    <content><![CDATA[<ul>
+<li><a href="#平均负载均衡">平均负载均衡</a><ul>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="平均负载均衡"><a href="#平均负载均衡" class="headerlink" title="平均负载均衡"></a>平均负载均衡</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@node1 ~]<span class="comment"># uptime</span></span><br><span class="line"> 22:59:05 up 2 min,  2 users,  load average: 0.25, 0.33, 0.14</span><br></pre></td></tr></table></figure><ol>
+<li><p>通过top命令或者uptime命令查看；load average字段为1 分钟、5 分钟、15 分钟的平均负载</p>
+</li>
+<li><p>平均负载概念：单位时间内，系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数，也就是<strong>平均活跃进程数</strong></p>
+<ul>
+<li>可运行状态（R）：正在使用 CPU 或者正在等待 CPU 的进程</li>
+<li>不可中断状态（D）：进程则是正处于内核态关键流程中的进程，并且这些流程是不可打断的（io写入的进程）</li>
+</ul>
+</li>
+<li><p>比如当平均负载为 2 时，意味着什么呢？</p>
+<ul>
+<li>在只有 2 个 CPU 的系统上，意味着所有的 CPU 都刚好被完全占用。</li>
+<li>在 4 个 CPU 的系统上，意味着 CPU 有 50% 的空闲。</li>
+<li>而在只有 1 个 CPU 的系统中，则意味着有一半的进程竞争不到 CPU。</li>
+</ul>
+</li>
+<li><p>查看CPU核数</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">cat /proc/cpuinfo | wc -l</span><br><span class="line"><span class="comment"># lscpu</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一般负载超过70%就需要排查</p>
+</li>
+<li><p>cpu使用率不等于平均负载：可以由第2点得知；正在使用 CPU 的进程，还包括等待 CPU 和等待 I/O 的进程</p>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+
+
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>sysstat：包含工具iostat、mpstat、pidstat用于查找负载升高的原因<ol>
+<li>mpstat 是一个常用的多核 CPU 性能分析工具，用来实时查看每个 CPU 的性能指标，以及所有 CPU 的平均指标。</li>
+<li>pidstat 是一个常用的进程性能分析工具，用来实时查看进程的 CPU、内存、I/O 以及上下文切换等性能指标。</li>
+</ol>
+</li>
+<li>stress：压力测试工具</li>
+<li><strong>模拟cpu密集型服务器压力测试</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#使用一个cpu，占满100%，时间600s</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 1 --timeout 600</span></span><br><span class="line">stress: info: [2319] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据$</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5     </span></span><br><span class="line">11:31:59 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:32:00 PM  all   50.50    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.50</span><br><span class="line">11:32:00 PM    0  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00</span><br><span class="line">11:32:00 PM    1    0.00    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找出占用cpu的进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1      </span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:34:37 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:34:42 PM     0      2320   99.40    0.00    0.00   99.40     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      2320   99.40    0.00    0.00   99.40     -  stress</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>模拟io压力</strong><ul>
+<li>iowait无法升高的问题，是因为案例中stress使用的是 sync() 系统调用，它的作用是刷新缓冲区内存到磁盘中。对于新安装的虚拟机，缓冲区可能比较小，无法产生大的IO压力，这样大部分就都是系统调用的消耗了。所以，你会看到只有系统CPU使用率升高。解决方法是使用stress的下一代stress-ng，它支持更丰富的选项，比如 stress-ng -i 1 –hdd 1 –timeout 600（–hdd表示读写临时文件）。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">占满io，时间600s</span><br><span class="line">[root@node1 ~]<span class="comment"># stress-ng --hdd -i 1 --timeout 600</span></span><br><span class="line">stress: info: [3143] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示所有的cpu和内存的使用情况</span></span><br><span class="line">[root@node1 ~]<span class="comment"># mpstat -P ALL 5</span></span><br><span class="line">11:30:05 AM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">11:30:08 AM  all    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line">11:30:08 AM    0    0.35    0.00    5.30   92.93    0.00    0.00    1.41    0.00    0.00    0.00</span><br><span class="line"></span><br><span class="line">Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle</span><br><span class="line">Average:     all    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line">Average:       0    1.10    0.02   16.43   76.55    0.00    0.02    0.58    0.00    0.00    5.31</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@baidu ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-957.27.2.el7.x86_64 (baidu) 	03/18/2020 	_x86_64_	(1 CPU)</span><br><span class="line"></span><br><span class="line">11:33:26 AM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:33:31 AM     0     25768    0.00   18.38    0.00   18.38     0  stress-ng-hdd</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0     25790    0.35   21.75    0.00   22.11     -  stress-ng-hdd</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>大量进程模拟</strong></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启多个线程大于核数</span></span><br><span class="line">[root@node1 ~]<span class="comment"># stress --cpu 4 --timeout 600</span></span><br><span class="line">stress: info: [3607] dispatching hogs: 4 cpu, 0 io, 0 vm, 0 hdd</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d参数为高亮变化部分</span></span><br><span class="line">[root@node1 ~]<span class="comment"># watch -d uptime   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看进程</span></span><br><span class="line">[root@node1 ~]<span class="comment"># pidstat -u 5 1</span></span><br><span class="line">Linux 3.10.0-1062.el7.x86_64 (node1) 	03/17/2020 	_x86_64_	(2 CPU)</span><br><span class="line"></span><br><span class="line">11:47:34 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">11:47:39 PM     0      3608   54.76    0.00    0.00   54.76     1  stress</span><br><span class="line">11:47:39 PM     0      3609   45.24    0.00    0.00   45.24     1  stress</span><br><span class="line">11:47:39 PM     0      3610   47.62    0.00    0.00   47.62     0  stress</span><br><span class="line">11:47:39 PM     0      3611   50.00    0.20    0.00   50.20     0  stress</span><br><span class="line"></span><br><span class="line">Average:      UID       PID    %usr %system  %guest    %CPU   CPU  Command</span><br><span class="line">Average:        0      3608   54.76    0.00    0.00   54.76     -  stress</span><br><span class="line">Average:        0      3609   45.24    0.00    0.00   45.24     -  stress</span><br><span class="line">Average:        0      3610   47.62    0.00    0.00   47.62     -  stress</span><br><span class="line">Average:        0      3611   50.00    0.20    0.00   50.20     -  stress</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><strong>总结</strong><ul>
+<li>平均负载提供了一个快速查看系统整体性能的手段，反映了整体的负载情况</li>
+<li>平均负载高有可能是 CPU 密集型进程导致的；</li>
+<li>平均负载高并不一定代表 CPU 使用率高，还有可能是 I/O 更繁忙了；</li>
+<li>当发现负载高的时候，你可以使用 mpstat、pidstat 等工具，辅助分析负载的来源。</li>
+</ul>
+</li>
 </ol>
 ]]></content>
       <categories>
