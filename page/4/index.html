@@ -255,7 +255,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/21/图解HTTP_6/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/27/network/图解HTTP_11/图解HTTP_11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -269,7 +269,650 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/11/21/图解HTTP_6/" class="post-title-link" itemprop="url">HTTP响应首部与实体首部字段</a>
+            <a href="/2019/11/27/network/图解HTTP_11/图解HTTP_11/" class="post-title-link" itemprop="url">Web网络攻击</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-27 18:15:00" itemprop="dateCreated datePublished" datetime="2019-11-27T18:15:00+08:00">2019-11-27</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h2><p>###</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/mysql/MySQL数据备份/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/26/mysql/MySQL数据备份/" class="post-title-link" itemprop="url">MySQL数据备份</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-26 19:00:00" itemprop="dateCreated datePublished" datetime="2019-11-26T19:00:00+08:00">2019-11-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:10" itemprop="dateModified" datetime="2020-03-26T11:46:10+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MySQL备份"><a href="#MySQL备份" class="headerlink" title="MySQL备份"></a>MySQL备份</h2><h3 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h3><h4 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h4><ul>
+<li>全量备份</li>
+<li>增量备份</li>
+</ul><h4 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h4><h4 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h4><h3 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h3><h4 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h4><ol>
+<li><p>备份单/多库保留建库语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备份多库与全库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--all-databases &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>还原数据库</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p &lt; /file/to/return</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/mysql/MySQL数据备份/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/network/图解HTTP_10/图解HTTP_10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/26/network/图解HTTP_10/图解HTTP_10/" class="post-title-link" itemprop="url">构建Web内容的技术</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-26 15:46:00" itemprop="dateCreated datePublished" datetime="2019-11-26T15:46:00+08:00">2019-11-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="构建Web内容的技术"><a href="#构建Web内容的技术" class="headerlink" title="构建Web内容的技术"></a>构建Web内容的技术</h2><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
+<li>为了发送Web 上的超文本（Hypertext）而开发的标记语言。超文本是一种文档系统，可将文档中任意位置的信息与其他信息（文本或图片等）建立关联，即超链接文本。标记语言是指通过在文档的某部分穿插特别的字符串标签，用来修饰文档的语言。我们把出现在HTML 文档内的这种特殊字符串叫做HTML 标签（Tag）</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/network/图解HTTP_10/图解HTTP_10/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/26/network/图解HTTP_9/图解HTTP_9/" class="post-title-link" itemprop="url">HTTP追加协议</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-26 15:23:00" itemprop="dateCreated datePublished" datetime="2019-11-26T15:23:00+08:00">2019-11-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="基于HTTP-的功能追加协议"><a href="#基于HTTP-的功能追加协议" class="headerlink" title="基于HTTP 的功能追加协议"></a>基于HTTP 的功能追加协议</h2><h3 id="http瓶颈"><a href="#http瓶颈" class="headerlink" title="http瓶颈"></a>http瓶颈</h3><ul>
+<li>原因<ol>
+<li>一条连接上只可发送一个请求</li>
+<li>请求只能从客户端开始。客户端不可以接收除响应以外的指令。</li>
+<li>请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。</li>
+<li>发送冗长的首部。每次互相发送相同的首部造成的浪费较多。</li>
+<li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.1.png" alt="http"></li>
+</ol>
+</li>
+</ul><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/network/图解HTTP_9/图解HTTP_9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/23/mysql/MySQL磁盘扩展与介质迁移/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/23/mysql/MySQL磁盘扩展与介质迁移/" class="post-title-link" itemprop="url">MySQL磁盘扩展与介质迁移</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-23 18:50:00" itemprop="dateCreated datePublished" datetime="2019-11-23T18:50:00+08:00">2019-11-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:10" itemprop="dateModified" datetime="2020-03-26T11:46:10+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MySQL外部表（MySQL8-0）"><a href="#MySQL外部表（MySQL8-0）" class="headerlink" title="MySQL外部表（MySQL8.0）"></a>MySQL外部表（MySQL8.0）</h2><ul>
+<li>使用MySQL的外部表进行数据的迁移可扩展</li>
+</ul><h3 id="使用原因"><a href="#使用原因" class="headerlink" title="使用原因"></a>使用原因</h3><ul>
+<li>存储空间不够，一些大表需要更大的存储空间</li>
+<li>存储介质更新，需要迁移到更块的介质中</li>
+</ul><h2 id="实验实例"><a href="#实验实例" class="headerlink" title="实验实例"></a>实验实例</h2><ul>
+<li>源数据库位于 /var/lib/mysql/pre_database</li>
+<li>外部表库位于 /var/lib/mysql_extend/pre_database</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/23/mysql/MySQL磁盘扩展与介质迁移/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/23/network/图解HTTP_7/图解HTTP_7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/23/network/图解HTTP_7/图解HTTP_7/" class="post-title-link" itemprop="url">安全的HTTPS</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-23 16:12:00" itemprop="dateCreated datePublished" datetime="2019-11-23T16:12:00+08:00">2019-11-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="确保Web-安全的HTTPS"><a href="#确保Web-安全的HTTPS" class="headerlink" title="确保Web 安全的HTTPS"></a>确保Web 安全的HTTPS</h2><h3 id="HTTP缺点"><a href="#HTTP缺点" class="headerlink" title="HTTP缺点"></a>HTTP缺点</h3><ul>
+<li>使用明文通信</li>
+<li>不验证通信方身份</li>
+<li>无法证明报文完整性</li>
+</ul><h4 id="使用明文通信"><a href="#使用明文通信" class="headerlink" title="使用明文通信"></a>使用明文通信</h4><ul>
+<li>HTTP 本身不具备加密的功能，在互联网上传输容易找到窃听</li>
+<li>加密处理防止窃听<ol>
+<li>通信的加密<ul>
+<li>通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全层传输协议）的组合使用，加密HTTP 的通信内容</li>
+<li>SSL 建立安全通信线路之后，就可以在这条线路上进行HTTP通信</li>
+</ul>
+</li>
+<li>内容加密<ul>
+<li>对传输的内容进行加密</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/11/23/network/图解HTTP_7/图解HTTP_7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/21/network/图解HTTP_6/图解HTTP_6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/11/21/network/图解HTTP_6/图解HTTP_6/" class="post-title-link" itemprop="url">HTTP响应首部与实体首部字段</a>
           
         </h1>
 
@@ -295,7 +938,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
               </span>
             
           
@@ -341,7 +984,7 @@
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2019/11/21/图解HTTP_6/#more" rel="contents">
+              <a class="btn" href="/2019/11/21/network/图解HTTP_6/图解HTTP_6/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -368,7 +1011,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/HTML5基础/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/python/Django2.0/HTML基础/HTML5基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -382,7 +1025,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/11/20/HTML5基础/" class="post-title-link" itemprop="url">HTML5基础</a>
+            <a href="/2019/11/20/python/Django2.0/HTML基础/HTML5基础/" class="post-title-link" itemprop="url">HTML5基础</a>
           
         </h1>
 
@@ -408,7 +1051,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+                <time title="修改时间：2020-03-26 11:47:33" itemprop="dateModified" datetime="2020-03-26T11:47:33+08:00">2020-03-26</time>
               </span>
             
           
@@ -441,7 +1084,7 @@
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2019/11/20/HTML5基础/#more" rel="contents">
+              <a class="btn" href="/2019/11/20/python/Django2.0/HTML基础/HTML5基础/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -468,7 +1111,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/图解HTTP_5/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/20/network/图解HTTP_5/图解HTTP_5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -482,7 +1125,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/11/20/图解HTTP_5/" class="post-title-link" itemprop="url">请求首部字段</a>
+            <a href="/2019/11/20/network/图解HTTP_5/图解HTTP_5/" class="post-title-link" itemprop="url">请求首部字段</a>
           
         </h1>
 
@@ -508,7 +1151,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
               </span>
             
           
@@ -550,7 +1193,7 @@
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2019/11/20/图解HTTP_5/#more" rel="contents">
+              <a class="btn" href="/2019/11/20/network/图解HTTP_5/图解HTTP_5/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -577,7 +1220,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/15/图解HTTP_4/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/15/network/图解HTTP_4/图解HTTP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -591,7 +1234,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/11/15/图解HTTP_4/" class="post-title-link" itemprop="url">HTTP首部</a>
+            <a href="/2019/11/15/network/图解HTTP_4/图解HTTP/" class="post-title-link" itemprop="url">HTTP首部</a>
           
         </h1>
 
@@ -617,7 +1260,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
               </span>
             
           
@@ -669,676 +1312,7 @@
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2019/11/15/图解HTTP_4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/15/RHCSA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/15/RHCSA/" class="post-title-link" itemprop="url">RHCSA备考</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-15 14:09:00" itemprop="dateCreated datePublished" datetime="2019-11-15T14:09:00+08:00">2019-11-15</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="RHCSA"><a href="#RHCSA" class="headerlink" title="RHCSA"></a>RHCSA</h2><h3 id="重置root密码，救援模式"><a href="#重置root密码，救援模式" class="headerlink" title="重置root密码，救援模式"></a>重置root密码，救援模式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount,rw /sysroot</span><br><span class="line">chroot /sysroot</span><br><span class="line">passwd root</span><br><span class="line">touch ./authrelabel</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">set</span>-default gra</span><br></pre></td></tr></table></figure><h3 id="配置SELinux"><a href="#配置SELinux" class="headerlink" title="配置SELinux"></a>配置SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setenforce 1</span><br><span class="line">vim /etc/selinux/config</span><br><span class="line">  SELINUX=enforcing</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/11/15/RHCSA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/13/图解HTTP_3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/13/图解HTTP_3/" class="post-title-link" itemprop="url">HTTP状态码</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-13 22:19:00" itemprop="dateCreated datePublished" datetime="2019-11-13T22:19:00+08:00">2019-11-13</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="返回结果的HTTP-状态码"><a href="#返回结果的HTTP-状态码" class="headerlink" title="返回结果的HTTP 状态码"></a>返回结果的HTTP 状态码</h2><ul>
-<li>HTTP 状态码负责表示客户端HTTP 请求的返回结果、标记服务器端的处理是否正常、通知出现的错误等工作</li>
-</ul><h3 id="2XX-成功"><a href="#2XX-成功" class="headerlink" title="2XX 成功"></a>2XX 成功</h3><ul>
-<li>2XX 的响应结果表明请求被正常处理了<ol>
-<li>200 OK<ul>
-<li>表示从客户端发来的请求在服务器端被正常处理</li>
-</ul>
-</li>
-<li>204 No Content<ul>
-<li>代表服务器接收的请求已成功处理，但在返回的响应报文中不含实体的主体部分</li>
-</ul>
-</li>
-<li>206 Partial Content<ul>
-<li>表示客户端进行了范围请求，而服务器成功执行了这部分的GET请求</li>
-<li>响应报文中包含由Content-Range 指定范围的实体内容</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/11/13/图解HTTP_3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/12/图解HTTP_2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/12/图解HTTP_2/" class="post-title-link" itemprop="url">HTTP报文简介</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-12 22:12:00" itemprop="dateCreated datePublished" datetime="2019-11-12T22:12:00+08:00">2019-11-12</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="HTTP报文内的HTTP信息"><a href="#HTTP报文内的HTTP信息" class="headerlink" title="HTTP报文内的HTTP信息"></a>HTTP报文内的HTTP信息</h2><ul>
-<li>HTTP通信过程：从客户端发往服务端的请求以及从服务器端返回客服端的响应</li>
-</ul><h3 id="HTTP报文"><a href="#HTTP报文" class="headerlink" title="HTTP报文"></a>HTTP报文</h3><ol>
-<li>分类：<ul>
-<li>请求报文：客服端向服务端</li>
-<li>响应报文：服务端向客服端</li>
-</ul>
-</li>
-</ol><h3 id="HTTP报文结构"><a href="#HTTP报文结构" class="headerlink" title="HTTP报文结构"></a>HTTP报文结构</h3><ol>
-<li>报文首部<ul>
-<li>请求行或状态行</li>
-<li>首部字段<ul>
-<li>请求首部、响应首部、通用首部、实体首部、（可能还有Cookie等）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>空行（CR + LF）</li>
-<li>报文主体（不一定存在）</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/11/12/图解HTTP_2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/12/RHCE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/12/RHCE/" class="post-title-link" itemprop="url">RHCE备考</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-12 20:06:00" itemprop="dateCreated datePublished" datetime="2019-11-12T20:06:00+08:00">2019-11-12</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="RHCE"><a href="#RHCE" class="headerlink" title="RHCE"></a>RHCE</h2><h3 id="开机设置图形界面"><a href="#开机设置图形界面" class="headerlink" title="开机设置图形界面"></a>开机设置图形界面</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">set</span>-default   graphic.target</span><br><span class="line">init 6</span><br></pre></td></tr></table></figure><h3 id="设置-SELinux"><a href="#设置-SELinux" class="headerlink" title="设置 SELinux"></a>设置 SELinux</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@server0 ~]<span class="comment"># vim /etc/selinux/config</span></span><br><span class="line">SELINUX = enforcing</span><br><span class="line">[root@server0 ~]<span class="comment"># setenforce 1</span></span><br><span class="line">[root@server0 ~]<span class="comment"># getenforce</span></span><br><span class="line">Enforcing</span><br><span class="line">[root@server0 ~]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/11/12/RHCE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/11/图解HTTP_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/11/图解HTTP_1/" class="post-title-link" itemprop="url">HTTP协议</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-11 16:51:00" itemprop="dateCreated datePublished" datetime="2019-11-11T16:51:00+08:00">2019-11-11</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="简单的HTTP协议"><a href="#简单的HTTP协议" class="headerlink" title="简单的HTTP协议"></a>简单的HTTP协议</h2><h3 id="HTTP-协议用于客户端和服务器端之间的通信"><a href="#HTTP-协议用于客户端和服务器端之间的通信" class="headerlink" title="HTTP 协议用于客户端和服务器端之间的通信"></a>HTTP 协议用于客户端和服务器端之间的通信</h3><ol>
-<li>应用HTTP 协议时，必定是一端担任客户端角色，另一端担任服务器端角色</li>
-</ol><h3 id="通过请求和响应的交换达成通信"><a href="#通过请求和响应的交换达成通信" class="headerlink" title="通过请求和响应的交换达成通信"></a>通过请求和响应的交换达成通信</h3><ol>
-<li>请求必定由客户端发出，而服务器端回复响应</li>
-<li>请求报文<ol>
-<li>是由请求方法、请求URI、协议版本、可选的请求首部字段和内容实体构成</li>
-</ol>
-</li>
-<li>响应报头<ol>
-<li>响应报文基本上由协议版本、状态码（表示请求成功或失败的数字代码）、用以解释状态码的原因短语、可选的响应首部字段以及实体主<br>体构成</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/11/11/图解HTTP_1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/09/MySQL锁机制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/11/09/MySQL锁机制/" class="post-title-link" itemprop="url">MySQL锁机制</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-11-09 21:23:00" itemprop="dateCreated datePublished" datetime="2019-11-09T21:23:00+08:00">2019-11-09</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 12:23:54" itemprop="dateModified" datetime="2020-02-22T12:23:54+08:00">2020-02-22</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL锁机制"><a href="#MySQL锁机制" class="headerlink" title="MySQL锁机制"></a>MySQL锁机制</h2><h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><ul>
-<li>计算机协调多个进程或线程并发访问同一资源的机制</li>
-<li>锁分类<ol>
-<li>表锁：开销小，性能差</li>
-<li>页锁：介于行锁与表锁之间</li>
-<li>行锁：开销大，性能好，适于高并发</li>
-</ol>
-</li>
-<li>读锁：阻塞写不阻塞读，只能操作自己上锁表和数据</li>
-<li>写锁：同时阻塞读写，其他会话的写操作会阻塞</li>
-</ul><h3 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h3><ol>
-<li><p>查看加锁表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show open tables;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看分析表锁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show status like &apos;Table_lock%&apos;;</span><br><span class="line">table_lock_immediate  #累计加锁次数</span><br><span class="line">table_lock_waited #正在等待的加索的进程</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2019/11/09/MySQL锁机制/lock1-1.png" alt="lock1-1"></p>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2019/11/09/MySQL锁机制/#more" rel="contents">
+              <a class="btn" href="/2019/11/15/network/图解HTTP_4/图解HTTP/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1413,7 +1387,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1426,8 +1400,21 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
         </a>
       </div>
     

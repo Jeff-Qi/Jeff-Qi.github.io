@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CDN CDN是个what？ CDN工作流程   CDN相关技术 负载均衡技术 动态内容分发与复制技术 缓存技术   CDN的应用场景 CDN的不足 参考文档   CDN 随着互联网的发展，用户在使用网络时对网站的浏览速度和效果愈加重视，但由于网民数量激增，网络访问路径过长，从而使用户的访问质量受到严重影响。特别是当用户与网站之间的链路被突发的大流量数据拥塞时，对于异地互联网用户急速增加的地区来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初始CDN">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/22/linux/CDN/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="CDN CDN是个what？ CDN工作流程   CDN相关技术 负载均衡技术 动态内容分发与复制技术 缓存技术   CDN的应用场景 CDN的不足 参考文档   CDN 随着互联网的发展，用户在使用网络时对网站的浏览速度和效果愈加重视，但由于网民数量激增，网络访问路径过长，从而使用户的访问质量受到严重影响。特别是当用户与网站之间的链路被突发的大流量数据拥塞时，对于异地互联网用户急速增加的地区来">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/cdn_zone_servers.jpg">
+<meta property="og:updated_time" content="2020-03-26T03:46:04.906Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初始CDN">
+<meta name="twitter:description" content="CDN CDN是个what？ CDN工作流程   CDN相关技术 负载均衡技术 动态内容分发与复制技术 缓存技术   CDN的应用场景 CDN的不足 参考文档   CDN 随着互联网的发展，用户在使用网络时对网站的浏览速度和效果愈加重视，但由于网民数量激增，网络访问路径过长，从而使用户的访问质量受到严重影响。特别是当用户与网站之间的链路被突发的大流量数据拥塞时，对于异地互联网用户急速增加的地区来">
+<meta name="twitter:image" content="http://study.jeffqi.cn/linux/cdn_zone_servers.jpg">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/22/linux/CDN/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>初始CDN | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/22/linux/CDN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">初始CDN
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-22 22:07:00" itemprop="dateCreated datePublished" datetime="2020-03-22T22:07:00+08:00">2020-03-22</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:04" itemprop="dateModified" datetime="2020-03-26T11:46:04+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><a href="#cdn">CDN</a></li>
+<li><a href="#cdn是个what">CDN是个what？</a><ul>
+<li><a href="#cdn工作流程">CDN工作流程</a></li>
+</ul>
+</li>
+<li><a href="#cdn相关技术">CDN相关技术</a><ul>
+<li><a href="#负载均衡技术">负载均衡技术</a></li>
+<li><a href="#动态内容分发与复制技术">动态内容分发与复制技术</a></li>
+<li><a href="#缓存技术">缓存技术</a></li>
+</ul>
+</li>
+<li><a href="#cdn的应用场景">CDN的应用场景</a></li>
+<li><a href="#cdn的不足">CDN的不足</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+
+</li>
+</ul><h1 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h1><ul>
+<li><p>随着互联网的发展，用户在使用网络时对网站的浏览速度和效果愈加重视，但由于网民数量激增，网络访问路径过长，从而使用户的访问质量受到严重影响。特别是当用户与网站之间的链路被突发的大流量数据拥塞时，对于异地互联网用户急速增加的地区来说，访问质量不良更是一个急待解决的问题。<strong>如何才能让各地的用户都能够进行高质量的访问，并尽量减少由此而产生的费用和网站管理压力呢？</strong></p>
+</li>
+<li><p>今天的角儿登场了：CDN（Content Delivery Network）内容发布网络变应运而生。</p>
+</li>
+</ul><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h1 id="CDN是个what？"><a href="#CDN是个what？" class="headerlink" title="CDN是个what？"></a>CDN是个what？</h1><ul>
+<li>CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的Internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络“边缘”，使用户可 以就近取得所需的内容，提高用户访问网站的响应速度。</li>
+</ul>
+<p><img src="http://study.jeffqi.cn/linux/cdn_zone_servers.jpg" alt="cdn_zone_servers"></p>
+<ul>
+<li>解决由于网络带宽小、用户访问量大、网点分布不均等问题，提高用户访 问网站的响应速度</li>
+</ul>
+<h2 id="CDN工作流程"><a href="#CDN工作流程" class="headerlink" title="CDN工作流程"></a>CDN工作流程</h2><ol>
+<li>用户访问加入CDN服务的网站时，首先通过DNS重定向技术，找到距离用户最近的CDN节点，同时是用户指向该节点；</li>
+<li>当用户的请求到达该节点的时候，CDN的服务器（节点上的高速缓存）负责将用户请求的内容提供给用户；</li>
+<li><h2 id="具体流程："><a href="#具体流程：" class="headerlink" title="具体流程："></a>具体流程：</h2> 用户在自己的浏览器中输入要访问的网站的域名，浏览器向本地DNS请求对该域名的解析，本地DNS将请求发到网站的主DNS，主DNS根据一系列的策略确 定当时最适当的CDN节点，并将解析的结果（IP地址）发给用户，用户向给定的CDN节点请求相应网站的内容。</li>
+</ol>
+<h1 id="CDN相关技术"><a href="#CDN相关技术" class="headerlink" title="CDN相关技术"></a>CDN相关技术</h1><ul>
+<li>CDN的实现需要依赖多种网络技术的支持，其中<strong>负载均衡技术、动态内容分发与复制技术、缓存技术</strong>是比较主要的几个</li>
+</ul>
+<h2 id="负载均衡技术"><a href="#负载均衡技术" class="headerlink" title="负载均衡技术"></a>负载均衡技术</h2><ul>
+<li><p>网络中的负载均衡就是将流量尽可能的分配到不同的线路节点上，以此来减轻某些节点的负载，提高网络流量，同时提升网络服务质量</p>
+</li>
+<li><p>在 CDN中，负载均衡又分为<strong>服务器负载均衡</strong>和<strong>服务器整体负载均衡</strong>(也有的称为服务器全局负载均衡)</p>
+</li>
+<li><p><strong>服务器负载均衡</strong>：是指能够在性能不同的服务器之间进行任务分配，既能保证性能差的服务器不成为系统的瓶颈，又能保证性能高的服务器的资源得到充分利用</p>
+</li>
+<li><p><strong>服务器整体负载均衡</strong>：是指允许Web网络托管商、门户站点和企业 根据地理位置分配内容和服务；<strong>通过使用多站点内容和服务来提高容错性和可用性，防止因本地网或区域网络中断、断电或自然灾害而导致的故障</strong>。在CDN的方案中服务器整体负载均衡将发挥重要作用，其性能高低将直接影响整个CDN的性能。</p>
+</li>
+</ul>
+<h2 id="动态内容分发与复制技术"><a href="#动态内容分发与复制技术" class="headerlink" title="动态内容分发与复制技术"></a>动态内容分发与复制技术</h2><ul>
+<li><p>网站访问服务质量的好坏取决于多方面因素，包括网络带宽、服务器性能、网络状况是否良好等等。一般来说，主要是服务器与客户的距离会影响网站服务质量。距离过远就会导致，路由器的转发带来的网路延迟。</p>
+</li>
+<li><p>一个有效的方法就是利用内容分发与复制技术，<strong>将占网站主体的大部分静态网页、图像和流媒体数据分发复制到各地的加速节点上</strong>。用户访问时就能够直接从加速节点直接获取，而不需要再从远端的服务器上拉去，加速网络的访问质量</p>
+</li>
+</ul>
+<h2 id="缓存技术"><a href="#缓存技术" class="headerlink" title="缓存技术"></a>缓存技术</h2><ul>
+<li>Web缓存服务通过几种方式来改善用户的响应时间，如<strong>代理缓存服务、透明代理缓存服务、使用重定向服务的透明代理缓存服务</strong>等。通过Web缓存服务，用户访问网页时可以将广域网的流量降至最低，直接走最近的缓存服务器；用户直接访问服务商的缓存内容就可以了，而无需访问真是的服务器</li>
+</ul>
+<h1 id="CDN的应用场景"><a href="#CDN的应用场景" class="headerlink" title="CDN的应用场景"></a>CDN的应用场景</h1><ul>
+<li><p>CDN的核心作用是<strong>提高网络的访问速度</strong>，那么其用户也就是<strong>访问量很大的网站</strong>，例如ICP 、ISP、大型企业、电子商务网站和政府网站等</p>
+</li>
+<li><p>使用CDN是公司或者其他部门不再需要投资昂贵的服务器和流量的问题。而只关心内容的更新。这样可以保证用户能够去做自己的新业务，同时也能保证其业务的质量。</p>
+</li>
+</ul>
+<h1 id="CDN的不足"><a href="#CDN的不足" class="headerlink" title="CDN的不足"></a>CDN的不足</h1><ul>
+<li><p>CDN也有自己的天然的缺点那就是————实时性；由于需要远距离保持同步所以还是会存在延迟</p>
+</li>
+<li><p><strong>解决方案</strong>：在网络 内容发生变化时将新的网络内容从服务器端直接传送到缓存器，或者当对网络内容的访问增加时将数据源服务器的网络内容尽可能实时地复制到缓存服务器.</p>
+</li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.cnblogs.com/seanxyh/archive/2013/04/16/3023499.html" target="_blank" rel="noopener">搞定CDN</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/22/linux/netowrk-io-module/" rel="next" title="网络IO模型">
+                  <i class="fa fa-chevron-left"></i> 网络IO模型
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/03/23/mysql/mysql主从复制原理/" rel="prev" title="mysql主从复制">
+                  mysql主从复制 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN"><span class="nav-number">1.</span> <span class="nav-text">CDN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN是个what？"><span class="nav-number">2.</span> <span class="nav-text">CDN是个what？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN工作流程"><span class="nav-number">2.1.</span> <span class="nav-text">CDN工作流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体流程："><span class="nav-number">2.2.</span> <span class="nav-text">具体流程：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN相关技术"><span class="nav-number">3.</span> <span class="nav-text">CDN相关技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡技术"><span class="nav-number">3.1.</span> <span class="nav-text">负载均衡技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态内容分发与复制技术"><span class="nav-number">3.2.</span> <span class="nav-text">动态内容分发与复制技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存技术"><span class="nav-number">3.3.</span> <span class="nav-text">缓存技术</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN的应用场景"><span class="nav-number">4.</span> <span class="nav-text">CDN的应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN的不足"><span class="nav-number">5.</span> <span class="nav-text">CDN的不足</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

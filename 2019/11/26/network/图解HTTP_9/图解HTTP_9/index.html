@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="基于HTTP 的功能追加协议http瓶颈 原因 一条连接上只可发送一个请求 请求只能从客户端开始。客户端不可以接收除响应以外的指令。 请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。 发送冗长的首部。每次互相发送相同的首部造成的浪费较多。 可任意选择数据压缩格式。非强制压缩发送。   解决方法Ajax">
+<meta name="keywords" content="Network">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP追加协议">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="基于HTTP 的功能追加协议http瓶颈 原因 一条连接上只可发送一个请求 请求只能从客户端开始。客户端不可以接收除响应以外的指令。 请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。 发送冗长的首部。每次互相发送相同的首部造成的浪费较多。 可任意选择数据压缩格式。非强制压缩发送。   解决方法Ajax">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.1.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.2.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.3.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.4.png">
+<meta property="og:image" content="http://jeff-qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.5.png">
+<meta property="og:updated_time" content="2020-03-26T03:46:51.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP追加协议">
+<meta name="twitter:description" content="基于HTTP 的功能追加协议http瓶颈 原因 一条连接上只可发送一个请求 请求只能从客户端开始。客户端不可以接收除响应以外的指令。 请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。 发送冗长的首部。每次互相发送相同的首部造成的浪费较多。 可任意选择数据压缩格式。非强制压缩发送。   解决方法Ajax">
+<meta name="twitter:image" content="http://jeff-qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.1.png">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>HTTP追加协议 | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/26/network/图解HTTP_9/图解HTTP_9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">HTTP追加协议
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-26 15:23:00" itemprop="dateCreated datePublished" datetime="2019-11-26T15:23:00+08:00">2019-11-26</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:46:51" itemprop="dateModified" datetime="2020-03-26T11:46:51+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/HTTP/" itemprop="url" rel="index"><span itemprop="name">HTTP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="基于HTTP-的功能追加协议"><a href="#基于HTTP-的功能追加协议" class="headerlink" title="基于HTTP 的功能追加协议"></a>基于HTTP 的功能追加协议</h2><h3 id="http瓶颈"><a href="#http瓶颈" class="headerlink" title="http瓶颈"></a>http瓶颈</h3><ul>
+<li>原因<ol>
+<li>一条连接上只可发送一个请求</li>
+<li>请求只能从客户端开始。客户端不可以接收除响应以外的指令。</li>
+<li>请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。</li>
+<li>发送冗长的首部。每次互相发送相同的首部造成的浪费较多。</li>
+<li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.1.png" alt="http"></li>
+</ol>
+</li>
+</ul><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><h4 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h4><a id="more"></a>
+<ul>
+<li>局部Web 页面替换加载的异步通信手段<br><img src="/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.2.png" alt="Ajax"></li>
+</ul>
+<h4 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h4><ul>
+<li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
+<li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.3.png" alt="Comet"></li>
+</ul>
+<h4 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h4><ul>
+<li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.4.png" alt="SPDY"></p>
+</li>
+<li><p>设计</p>
+<ol>
+<li>多路复用流：通过单一的TCP 连接，可以无限制处理多个HTTP 请求</li>
+<li>设置优先级</li>
+<li>压缩HTTP首部</li>
+<li>推送与服务器提示功能：支持服务器主动向客户端推送数据的功能；服务器可以主动提示客户端请求所需的资源</li>
+</ol>
+</li>
+</ul>
+<h3 id="全双工通信的-WebSocket"><a href="#全双工通信的-WebSocket" class="headerlink" title="全双工通信的 WebSocket"></a>全双工通信的 WebSocket</h3><ul>
+<li>Web 浏览器与Web 服务器之间全双工通信标准<ol>
+<li>推送功能</li>
+<li>减少通信量：一直保持连接状态</li>
+</ol>
+</li>
+<li>使用http首部中的upgrade首部字段实现连接<ol>
+<li>握手请求</li>
+<li>握手响应</li>
+</ol>
+</li>
+<li>通信过程<br><img src="/2019/11/26/network/图解HTTP_9/图解HTTP_9/9.5.png" alt="WebSocket通信"></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Network/" rel="tag"># Network</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/23/mysql/MySQL磁盘扩展与介质迁移/" rel="next" title="MySQL磁盘扩展与介质迁移">
+                  <i class="fa fa-chevron-left"></i> MySQL磁盘扩展与介质迁移
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/26/network/图解HTTP_10/图解HTTP_10/" rel="prev" title="构建Web内容的技术">
+                  构建Web内容的技术 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于HTTP-的功能追加协议"><span class="nav-number">1.</span> <span class="nav-text">基于HTTP 的功能追加协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http瓶颈"><span class="nav-number">1.1.</span> <span class="nav-text">http瓶颈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">1.2.</span> <span class="nav-text">解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Ajax"><span class="nav-number">1.2.1.</span> <span class="nav-text">Ajax</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Comet"><span class="nav-number">1.2.2.</span> <span class="nav-text">Comet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SPDY"><span class="nav-number">1.2.3.</span> <span class="nav-text">SPDY</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全双工通信的-WebSocket"><span class="nav-number">1.3.</span> <span class="nav-text">全双工通信的 WebSocket</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

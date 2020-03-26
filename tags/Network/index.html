@@ -43,8 +43,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '复制',
@@ -57,13 +57,13 @@
 
   <meta name="description" content="good good study, day day up!">
 <meta property="og:type" content="website">
-<meta property="og:title" content="JeffQi‘s Blog">
+<meta property="og:title" content="Jerqi‘s Blog">
 <meta property="og:url" content="http://Jeff-Qi.github.io/tags/Network/index.html">
-<meta property="og:site_name" content="JeffQi‘s Blog">
+<meta property="og:site_name" content="Jerqi‘s Blog">
 <meta property="og:description" content="good good study, day day up!">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JeffQi‘s Blog">
+<meta name="twitter:title" content="Jerqi‘s Blog">
 <meta name="twitter:description" content="good good study, day day up!">
   <link rel="canonical" href="http://Jeff-Qi.github.io/tags/Network/">
 
@@ -79,7 +79,7 @@
   };
 </script>
 
-  <title>标签: Network | JeffQi‘s Blog</title>
+  <title>标签: Network | Jerqi‘s Blog</title>
   
 
 
@@ -126,7 +126,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">JeffQi‘s Blog</span>
+        <span class="site-title">Jerqi‘s Blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -202,6 +202,12 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
   </ul>
 
     
@@ -225,6 +231,27 @@
   
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -268,16 +295,16 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2019-12-10T18:46:37+08:00"
-              content="2019-12-10">
-          12-10
+              datetime="2019-11-27T18:15:00+08:00"
+              content="2019-11-27">
+          11-27
         </time>
       </div>
 
       <h2 class="post-title">
         
-          <a class="post-title-link" href="/2019/12/10/图解HTTP_8/" itemprop="url">
-            <span itemprop="name">身份认证</span>
+          <a class="post-title-link" href="/2019/11/27/network/图解HTTP_11/图解HTTP_11/" itemprop="url">
+            <span itemprop="name">Web网络攻击</span>
           </a>
         
       </h2>
@@ -305,7 +332,7 @@
 
       <h2 class="post-title">
         
-          <a class="post-title-link" href="/2019/11/26/图解HTTP_10/" itemprop="url">
+          <a class="post-title-link" href="/2019/11/26/network/图解HTTP_10/图解HTTP_10/" itemprop="url">
             <span itemprop="name">构建Web内容的技术</span>
           </a>
         
@@ -334,7 +361,7 @@
 
       <h2 class="post-title">
         
-          <a class="post-title-link" href="/2019/11/26/图解HTTP_9/" itemprop="url">
+          <a class="post-title-link" href="/2019/11/26/network/图解HTTP_9/图解HTTP_9/" itemprop="url">
             <span itemprop="name">HTTP追加协议</span>
           </a>
         
@@ -363,182 +390,8 @@
 
       <h2 class="post-title">
         
-          <a class="post-title-link" href="/2019/11/23/图解HTTP_7/" itemprop="url">
+          <a class="post-title-link" href="/2019/11/23/network/图解HTTP_7/图解HTTP_7/" itemprop="url">
             <span itemprop="name">安全的HTTPS</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-21T09:22:00+08:00"
-              content="2019-11-21">
-          11-21
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/21/图解HTTP_6/" itemprop="url">
-            <span itemprop="name">HTTP响应首部与实体首部字段</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-20T19:13:00+08:00"
-              content="2019-11-20">
-          11-20
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/20/图解HTTP_5/" itemprop="url">
-            <span itemprop="name">请求首部字段</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-15T16:01:00+08:00"
-              content="2019-11-15">
-          11-15
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/15/图解HTTP_4/" itemprop="url">
-            <span itemprop="name">HTTP首部</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-13T22:19:00+08:00"
-              content="2019-11-13">
-          11-13
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/13/图解HTTP_3/" itemprop="url">
-            <span itemprop="name">HTTP状态码</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-12T22:12:00+08:00"
-              content="2019-11-12">
-          11-12
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/12/图解HTTP_2/" itemprop="url">
-            <span itemprop="name">HTTP报文简介</span>
-          </a>
-        
-      </h2>
-
-    </header>
-  </article>
-
-
-
-  
-  
-
-  
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-11T16:51:00+08:00"
-              content="2019-11-11">
-          11-11
-        </time>
-      </div>
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/11/图解HTTP_1/" itemprop="url">
-            <span itemprop="name">HTTP协议</span>
           </a>
         
       </h2>
@@ -589,7 +442,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">JeffQi</p>
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
   <div class="site-description" itemprop="description">good good study, day day up!</div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -598,7 +454,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -611,7 +467,7 @@
             <a href="/categories/">
           
         
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span>
         </a>
       </div>
@@ -624,13 +480,37 @@
             <a href="/tags/">
           
         
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
     
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
 
 
 
@@ -650,7 +530,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">JeffQi</span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
 </div>
 
         
@@ -689,6 +569,8 @@
 
 
 
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
 
 
 

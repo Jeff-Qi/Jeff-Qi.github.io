@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Docker第一步安装Docker 安装必要工具 123yum install -y yum-utils \device-mapper-persistent-data.x86_64 \lvm2  创建yum源repo文件 123yum-config-manager \--add-repo \https://download.docker.com/linux/centos/docker-ce.rep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初始Docker">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/29/docker/初识Docker/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="Docker第一步安装Docker 安装必要工具 123yum install -y yum-utils \device-mapper-persistent-data.x86_64 \lvm2  创建yum源repo文件 123yum-config-manager \--add-repo \https://download.docker.com/linux/centos/docker-ce.rep">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-03-26T03:45:56.633Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初始Docker">
+<meta name="twitter:description" content="Docker第一步安装Docker 安装必要工具 123yum install -y yum-utils \device-mapper-persistent-data.x86_64 \lvm2  创建yum源repo文件 123yum-config-manager \--add-repo \https://download.docker.com/linux/centos/docker-ce.rep">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/29/docker/初识Docker/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>初始Docker | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/11/29/docker/初识Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">初始Docker
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-29 11:07:00" itemprop="dateCreated datePublished" datetime="2019-11-29T11:07:00+08:00">2019-11-29</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-26 11:45:56" itemprop="dateModified" datetime="2020-03-26T11:45:56+08:00">2020-03-26</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Docker第一步"><a href="#Docker第一步" class="headerlink" title="Docker第一步"></a>Docker第一步</h2><h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><ol>
+<li><p>安装必要工具</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils \</span><br><span class="line">device-mapper-persistent-data.x86_64 \</span><br><span class="line">lvm2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建yum源repo文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">--add-repo \</span><br><span class="line">https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新并安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line">yum install docker-ce-19.03.2-3.el7</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol><a id="more"></a>
+<h3 id="创建docker用户组"><a href="#创建docker用户组" class="headerlink" title="创建docker用户组"></a>创建docker用户组</h3><ul>
+<li>默认情况下，docker 命令会使用Unix socket与Docker引擎通讯。而只有root用户和docker 组的用户才可以访问Docker引擎的Unix socket</li>
+<li>使普通用户也能使用docker所以需要将用户加入docker用户组中</li>
+</ul>
+<h2 id="Docker国内镜像加速"><a href="#Docker国内镜像加速" class="headerlink" title="Docker国内镜像加速"></a>Docker国内镜像加速</h2><ol>
+<li><p>镜像加速页</p>
+<ul>
+<li><a href="https://cr.console.aliyun.com/" target="_blank" rel="noopener">https://cr.console.aliyun.com/</a></li>
+</ul>
+</li>
+<li><p>选择镜像加速服务</p>
+</li>
+<li><p>启用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><h3 id="定制"><a href="#定制" class="headerlink" title="定制"></a>定制</h3><ul>
+<li>定制每一层所添加的配置、文件</li>
+</ul>
+<h3 id="FROM-与-RUN-构建"><a href="#FROM-与-RUN-构建" class="headerlink" title="FROM 与 RUN 构建"></a>FROM 与 RUN 构建</h3><h4 id="FROM指定基础对象"><a href="#FROM指定基础对象" class="headerlink" title="FROM指定基础对象"></a>FROM指定基础对象</h4><ul>
+<li>Dockerfile 中FROM 是必备的指令，并且必须是第一条指令</li>
+</ul>
+<h4 id="RUN执行命令"><a href="#RUN执行命令" class="headerlink" title="RUN执行命令"></a>RUN执行命令</h4><ul>
+<li>执行命令行命令</li>
+<li>每一个指令都会建立一层</li>
+<li>确保每一层只添加真正需要添加的东西，任何无关的东西都应该清理掉</li>
+</ul>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
+<li>创建一个镜像<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build [option] &lt;context上下文路劲&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="构建上下文Context"><a href="#构建上下文Context" class="headerlink" title="构建上下文Context"></a>构建上下文Context</h4><ul>
+<li>一切都是使用的远程调用形式在服务端（Docker 引擎）完成</li>
+<li>docker build 命令得知这个路径后，会将路径下的所有内容打包，然后上传给Docker 引擎</li>
+</ul>
+<h3 id="Dockerfile指令详解"><a href="#Dockerfile指令详解" class="headerlink" title="Dockerfile指令详解"></a>Dockerfile指令详解</h3><h4 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h4><ul>
+<li><p>格式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY &lt;源路径&gt;... &lt;目标路径&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用COPY 指令，源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等</p>
+</li>
+</ul>
+<h4 id="add"><a href="#add" class="headerlink" title="add"></a>add</h4><ul>
+<li>与copy相似</li>
+<li>ADD 指令将会自动解压缩这个压缩文件到&lt;目标路径&gt;</li>
+<li>ADD 指令会令镜像构建缓存失效，从而可能会令镜像构建变得比较缓慢</li>
+</ul>
+<h4 id="cmd"><a href="#cmd" class="headerlink" title="cmd"></a>cmd</h4><ul>
+<li>用于指定默认的容器主进程的启动命令</li>
+<li>对于容器而言，其启动程序就是容器应用进程，容器就是为了主进程而存在的，主进程退出，容器就失去了存在的意义，从而退出</li>
+</ul>
+<h4 id="entrypoint"><a href="#entrypoint" class="headerlink" title="entrypoint"></a>entrypoint</h4><ul>
+<li>指定容器启动程序及参数</li>
+<li>指定了ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将CMD 的内容作为参数传给ENTRYPOINT 指令</li>
+</ul>
+<h4 id="env与arg设置变量参数"><a href="#env与arg设置变量参数" class="headerlink" title="env与arg设置变量参数"></a>env与arg设置变量参数</h4><ul>
+<li>ARG 所设置的构建环境的环境变量，在将来容器运行时是不会存在这些环境变量的</li>
+</ul>
+<h4 id="volume"><a href="#volume" class="headerlink" title="volume"></a>volume</h4><ul>
+<li><p>尽量保持容器存储层不发生写操作</p>
+</li>
+<li><p>数据持久化</p>
+</li>
+<li><p>格式</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VOLUME [<span class="string">"&lt;路径1&gt;"</span>, <span class="string">"&lt;路径2&gt;"</span>...]</span><br><span class="line">VOLUME &lt;路径&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>匿名卷：任何写入操作都写入宿主机中不写入容器存储层。从而实现数据持久化</p>
+</li>
+</ul>
+<h4 id="expose"><a href="#expose" class="headerlink" title="expose"></a>expose</h4><ul>
+<li>声明运行时容器提供服务端口，在运行时并不会开启这个端口的服务</li>
+<li>-p参数是映射宿主端口和容器端口；EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射</li>
+</ul>
+<h4 id="workdir与user"><a href="#workdir与user" class="headerlink" title="workdir与user"></a>workdir与user</h4><ul>
+<li>workdir:指定工作目录</li>
+<li>user:指定当前用户</li>
+</ul>
+<h4 id="healthcheck"><a href="#healthcheck" class="headerlink" title="healthcheck"></a>healthcheck</h4><ul>
+<li>健康检查</li>
+<li>如果程序进入死锁状态，或者死循环状态，应用进程并不退出，但是该容器已经无法提供服务</li>
+<li>HEALTHCHECK 支持下列选项：<ol>
+<li>--interval=&lt;间隔&gt; ：两次健康检查的间隔，默认为30 秒；</li>
+<li>--timeout=&lt;时长&gt; ：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认30 秒；</li>
+<li>--retries=&lt;次数&gt; ：当连续失败指定次数后，则将容器状态视为unhealthy ，默认3 次</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/27/network/图解HTTP_11/图解HTTP_11/" rel="next" title="Web网络攻击">
+                  <i class="fa fa-chevron-left"></i> Web网络攻击
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/12/08/mysql/MySQL日志/" rel="prev" title="MySQL日志">
+                  MySQL日志 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker第一步"><span class="nav-number">1.</span> <span class="nav-text">Docker第一步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Docker"><span class="nav-number">1.1.</span> <span class="nav-text">安装Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建docker用户组"><span class="nav-number">1.2.</span> <span class="nav-text">创建docker用户组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker国内镜像加速"><span class="nav-number">2.</span> <span class="nav-text">Docker国内镜像加速</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile"><span class="nav-number">3.</span> <span class="nav-text">Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定制"><span class="nav-number">3.1.</span> <span class="nav-text">定制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM-与-RUN-构建"><span class="nav-number">3.2.</span> <span class="nav-text">FROM 与 RUN 构建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FROM指定基础对象"><span class="nav-number">3.2.1.</span> <span class="nav-text">FROM指定基础对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RUN执行命令"><span class="nav-number">3.2.2.</span> <span class="nav-text">RUN执行命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令"><span class="nav-number">3.3.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构建上下文Context"><span class="nav-number">3.3.1.</span> <span class="nav-text">构建上下文Context</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dockerfile指令详解"><span class="nav-number">3.4.</span> <span class="nav-text">Dockerfile指令详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#copy"><span class="nav-number">3.4.1.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#add"><span class="nav-number">3.4.2.</span> <span class="nav-text">add</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cmd"><span class="nav-number">3.4.3.</span> <span class="nav-text">cmd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#entrypoint"><span class="nav-number">3.4.4.</span> <span class="nav-text">entrypoint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#env与arg设置变量参数"><span class="nav-number">3.4.5.</span> <span class="nav-text">env与arg设置变量参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volume"><span class="nav-number">3.4.6.</span> <span class="nav-text">volume</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#expose"><span class="nav-number">3.4.7.</span> <span class="nav-text">expose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#workdir与user"><span class="nav-number">3.4.8.</span> <span class="nav-text">workdir与user</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#healthcheck"><span class="nav-number">3.4.9.</span> <span class="nav-text">healthcheck</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
