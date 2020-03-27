@@ -35,6 +35,72 @@
       </categories>
   </entry>
   <entry>
+    <title>高可用方案</title>
+    <url>/2020/03/27/linux/hight_access/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#用户可感知高可用方案">用户可感知高可用方案</a></li>
+<li><a href="#对用户透明高可用方案">对用户透明高可用方案</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="用户可感知高可用方案"><a href="#用户可感知高可用方案" class="headerlink" title="用户可感知高可用方案"></a>用户可感知高可用方案</h1><ul>
+<li>客户可感知的高可用，需要配合客户端使用；<strong>客户端自己去确认服务器的变更并切换访问的目标</strong>。如果感知到主服务器挂掉，客户端自己来切换到备份服务器上。这样对于服务器来说是有风险的，不能很好地隐藏</li>
+</ul>
+<h1 id="对用户透明高可用方案"><a href="#对用户透明高可用方案" class="headerlink" title="对用户透明高可用方案"></a>对用户透明高可用方案</h1><ul>
+<li>对用户透明的高可用，是服务器端自己来进行切换；用户不需要知道这个切换过程。主要方式有两种：<strong>1. 客户端访问域名访问主机，监控主机下线后，将域名分配给备用服务器</strong>。这需要一定的时间成本；<strong>2. 客户端访问ip地址访问服务器，监控到主机下线后通过虚拟ip地址漂移，将vip给备用服务器使用，让备用服务器来对外提供服务</strong>。这样更加及时；后者如keepalive双机热备</li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="http://tech.it168.com/a2018/0830/5012/000005012656.shtml" target="_blank" rel="noopener">高可用方案实现</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MySQL存储引擎</title>
+    <url>/2020/03/27/mysql/MySQL_storage_engine/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#myisam引擎">myisam引擎</a></li>
+<li><a href="#innodb引擎">innodb引擎</a></li>
+<li><a href="#myisam与innodb对比">myisam与innodb对比</a><ul>
+<li><a href="#事务性">事务性</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="myisam引擎"><a href="#myisam引擎" class="headerlink" title="myisam引擎"></a>myisam引擎</h1><h1 id="innodb引擎"><a href="#innodb引擎" class="headerlink" title="innodb引擎"></a>innodb引擎</h1><h1 id="myisam与innodb对比"><a href="#myisam与innodb对比" class="headerlink" title="myisam与innodb对比"></a>myisam与innodb对比</h1><h2 id="事务性"><a href="#事务性" class="headerlink" title="事务性"></a>事务性</h2><ul>
+<li><p><strong>事务</strong>：MyISAM不支持事务，InnoDB是事务类型的存储引擎</p>
+</li>
+<li><p><strong>锁机制</strong>：MyISAM只支持<strong>表级锁</strong>，BDB支持页级锁和表级锁默认为<strong>页级锁</strong>，而InnoDB支持行级锁和表级锁默认为<strong>行级锁</strong></p>
+<ul>
+<li>innodb锁加载索引上，<a href="http://www.jeffqi.cn/2020/02/12/mysql/MySQL_lock/" target="_blank" rel="noopener">加锁规则</a>；</li>
+</ul>
+</li>
+<li><p><strong>外键</strong>：MyISAM引擎不支持外键，InnoDB支持外键</p>
+</li>
+<li><p>MyISAM引擎的表在大量高并发的读写下会经常出现表损坏的情况；相比于innodb来说更加脆弱</p>
+<ul>
+<li>修复：Mysql自带的myisamchk工具： myisamchk -r tablename  或者 myisamchk -o tablename（比前者更保险） 对表进行修复</li>
+</ul>
+</li>
+<li><p>对于count函数的支持，myisam有单独的计数，比innodb更快</p>
+</li>
+<li><p>myisam支持fulltext全文索引，innodb无</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
     <title>HTTP性能</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_9/%E5%9B%BE%E8%A7%A3HTTP_9/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -2209,7 +2275,7 @@
 <li><a href="#collections模块">collections模块</a></li>
 <li><a href="#时间模块">时间模块</a></li>
 <li><a href="#random模块">random模块</a></li>
-<li><a href="#os模块">OS模块</a></li>
+<li><a href="#os模块">os模块</a></li>
 <li><a href="#sys模块">sys模块</a></li>
 <li><a href="#re正则模块">re正则模块</a></li>
 </ul>
@@ -2779,7 +2845,7 @@
 
 </li>
 </ol>
-<h2 id="OS模块"><a href="#OS模块" class="headerlink" title="OS模块"></a>OS模块</h2><ol>
+<h2 id="os模块"><a href="#os模块" class="headerlink" title="os模块"></a>os模块</h2><ol>
 <li>os模块是与操作系统交互的一个接口<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">os.remove() 删除文件</span><br><span class="line">os.rename() 重命名文件</span><br><span class="line">os.listdir() 列出指定目录下所有文件</span><br><span class="line">os.chdir() 改变当前工作目录</span><br><span class="line">os.getcwd() 获取当前文件路径</span><br><span class="line">os.mkdir() 新建目录</span><br><span class="line">os.rmdir() 删除空目录(删除非空目录, 使用shutil.rmtree())</span><br><span class="line">os.makedirs() 创建多级目录</span><br><span class="line">os.removedirs() 删除多级目录</span><br><span class="line">os.wait() 暂时未知</span><br><span class="line">os.path模块：</span><br><span class="line">os.path.split(filename) 将文件路径和文件名分割(会将最后一个目录作为文件名而分离)</span><br><span class="line">os.path.dirname(filename) 返回文件路径的目录部分</span><br><span class="line">os.path.basename(filename) 返回文件路径的文件名部分</span><br></pre></td></tr></table></figure>
 
 </li>
@@ -3088,30 +3154,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Linux优秀笔记网站记录</title>
-    <url>/2020/03/19/linux/linux-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<!--moer-->
-
-<ul>
-<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
-<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
-<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
-<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
-<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
-<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
-<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
-<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
-<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>平均负载</title>
     <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3183,6 +3225,30 @@
 </ul>
 </li>
 </ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Linux优秀笔记网站记录</title>
+    <url>/2020/03/19/linux/linux-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<!--moer-->
+
+<ul>
+<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
+<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
+<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
+<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
+<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
+<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
+<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
+<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
+<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -4215,7 +4281,6 @@
     <url>/2019/11/26/mysql/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
-<li><a href="#mysql备份">MySQL备份</a><ul>
 <li><a href="#物理备份">物理备份</a><ul>
 <li><a href="#备份方式">备份方式</a></li>
 <li><a href="#热备份">热备份</a></li>
@@ -4231,13 +4296,14 @@
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<h1 id="MySQL备份"><a href="#MySQL备份" class="headerlink" title="MySQL备份"></a>MySQL备份</h1><h2 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h2><h3 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h3><ul>
+<h1 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h1><h2 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h2><ul>
 <li>全量备份</li>
 <li>增量备份</li>
 </ul>
-<h3 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h3><h3 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h3><h2 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h2><h3 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h3><ol>
+<h2 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h2><h2 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h2><ul>
+<li>将服务器关机，将数据复制到从服务器上。主服务器重启时会产生一个新的二进制日志文件。change master to 这个二进制日志文件。<strong>明显的缺点，关机期间服务不可用</strong>。</li>
+</ul>
+<h1 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h1><h2 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h2><ol>
 <li><p>备份单/多库保留建库语句</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -4249,7 +4315,7 @@
 
 </li>
 </ol>
-<h3 id="利用mysqlbinlog备份数据"><a href="#利用mysqlbinlog备份数据" class="headerlink" title="利用mysqlbinlog备份数据"></a>利用mysqlbinlog备份数据</h3><ol>
+<h2 id="利用mysqlbinlog备份数据"><a href="#利用mysqlbinlog备份数据" class="headerlink" title="利用mysqlbinlog备份数据"></a>利用mysqlbinlog备份数据</h2><ol>
 <li><p>查看二进制日志文件</p>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog /binary/log</span><br><span class="line">mysqlbinlog <span class="comment">--base64-output=decode-rows --verbose /binary/log/path</span></span><br></pre></td></tr></table></figure>
 
@@ -4262,7 +4328,7 @@
 
 </li>
 </ol>
-]]></content>
+<h1 id="开源热备工具"><a href="#开源热备工具" class="headerlink" title="开源热备工具"></a>开源热备工具</h1><h2 id="percona-xtrabakup"><a href="#percona-xtrabakup" class="headerlink" title="percona xtrabakup"></a>percona xtrabakup</h2>]]></content>
       <categories>
         <category>MySQL</category>
       </categories>
