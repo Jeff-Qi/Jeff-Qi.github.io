@@ -882,21 +882,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Web网络安全</title>
-    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Web内容技术</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -953,6 +938,21 @@
 <li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
       <categories>
         <category>Network</category>
       </categories>
@@ -2199,7 +2199,29 @@
 <li><a href="#装饰器">装饰器</a></li>
 <li><a href="#迭代器生成器">迭代器生成器</a></li>
 <li><a href="#推导式">推导式</a></li>
-<li><a href="#内置函数和匿名函数">内置函数和匿名函数</a><!-- TOC END -->
+<li><a href="#内置函数和匿名函数">内置函数和匿名函数</a></li>
+<li><a href="#模块和包">模块和包</a></li>
+<li><a href="#常用的模块">常用的模块</a><ul>
+<li><a href="#json模块">json模块</a></li>
+<li><a href="#pickle模块">pickle模块</a></li>
+<li><a href="#hashlib模块">hashlib模块</a></li>
+<li><a href="#logging模块">logging模块</a></li>
+<li><a href="#collections模块">collections模块</a></li>
+<li><a href="#时间模块">时间模块</a></li>
+<li><a href="#random模块">random模块</a></li>
+<li><a href="#os模块">OS模块</a></li>
+<li><a href="#sys模块">sys模块</a></li>
+<li><a href="#re正则模块">re正则模块</a></li>
+</ul>
+</li>
+<li><a href="#异常处理">异常处理</a></li>
+<li><a href="#面向对象编程">面向对象编程</a></li>
+<li><a href="#类空间问题以及类之间的关系">类空间问题以及类之间的关系</a></li>
+<li><a href="#继承">继承</a></li>
+<li><a href="#面向对象编程特性继承封装多态">面向对象编程特性：继承，封装，多态</a></li>
+<li><a href="#类的成员">类的成员</a></li>
+<li><a href="#对象反射">对象反射</a></li>
+<li><a href="#序列化">序列化</a><!-- TOC END -->
 <a id="more"></a>
 
 </li>
@@ -2424,7 +2446,7 @@
   <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">ret = eval(<span class="string">'2 + 2'</span>)</span><br><span class="line">print(ret)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>exec：执行字符串代码；可以执行多行代码，但是拿不到结果</p>
-  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">s = <span class="string">'''</span></span><br><span class="line"><span class="string">for i in range(5):</span></span><br><span class="line"><span class="string">    print(i)</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">exec(s</span><br></pre></td></tr></table></figure>
+  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">s = <span class="string">'''</span></span><br><span class="line"><span class="string">for i in range(5):</span></span><br><span class="line"><span class="string">    print(i)</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">exec(s)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>complie：:将字符串类型的代码编译。代码对象能够通过exec语句来执行或者eval()进行求值</p>
 <ol>
@@ -2758,10 +2780,14 @@
 </li>
 </ol>
 <h2 id="OS模块"><a href="#OS模块" class="headerlink" title="OS模块"></a>OS模块</h2><ol>
-<li>os模块是与操作系统交互的一个接口</li>
+<li>os模块是与操作系统交互的一个接口<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">os.remove() 删除文件</span><br><span class="line">os.rename() 重命名文件</span><br><span class="line">os.listdir() 列出指定目录下所有文件</span><br><span class="line">os.chdir() 改变当前工作目录</span><br><span class="line">os.getcwd() 获取当前文件路径</span><br><span class="line">os.mkdir() 新建目录</span><br><span class="line">os.rmdir() 删除空目录(删除非空目录, 使用shutil.rmtree())</span><br><span class="line">os.makedirs() 创建多级目录</span><br><span class="line">os.removedirs() 删除多级目录</span><br><span class="line">os.wait() 暂时未知</span><br><span class="line">os.path模块：</span><br><span class="line">os.path.split(filename) 将文件路径和文件名分割(会将最后一个目录作为文件名而分离)</span><br><span class="line">os.path.dirname(filename) 返回文件路径的目录部分</span><br><span class="line">os.path.basename(filename) 返回文件路径的文件名部分</span><br></pre></td></tr></table></figure>
+
+</li>
 </ol>
 <h2 id="sys模块"><a href="#sys模块" class="headerlink" title="sys模块"></a>sys模块</h2><ol>
-<li>sys模块是与python解释器交互的一个接口</li>
+<li>sys模块是与python解释器交互的一个接口<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">sys.argv：命令行参数类似shell的参数</span><br><span class="line">sys.exit(n)：退出程序返回一个字节码</span><br><span class="line">sys.version：python解释器信息</span><br><span class="line">sys.path：模块搜索路径</span><br><span class="line">sys.platfrom：平台信息</span><br></pre></td></tr></table></figure>
+
+</li>
 </ol>
 <h2 id="re正则模块"><a href="#re正则模块" class="headerlink" title="re正则模块"></a>re正则模块</h2><ol>
 <li>re.match(pattern, string, flags=0)：re.match 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。</li>
@@ -3062,6 +3088,30 @@
       </categories>
   </entry>
   <entry>
+    <title>Linux优秀笔记网站记录</title>
+    <url>/2020/03/19/linux/linux-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<!--moer-->
+
+<ul>
+<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
+<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
+<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
+<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
+<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
+<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
+<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
+<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
+<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>平均负载</title>
     <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3133,30 +3183,6 @@
 </ul>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Linux优秀笔记网站记录</title>
-    <url>/2020/03/19/linux/linux-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<!--moer-->
-
-<ul>
-<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
-<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
-<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
-<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
-<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
-<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
-<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
-<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
-<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
-</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
