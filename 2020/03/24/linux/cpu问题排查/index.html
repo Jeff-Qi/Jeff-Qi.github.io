@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="CPU使用率高居不下，如何排查  查看CPU使用率 排查进程中占用CPU的函数">
+  <meta name="description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   参考文档">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CPU性能排查实验案例">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/24/linux/cpu问题排查/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="CPU使用率高居不下，如何排查  查看CPU使用率 排查进程中占用CPU的函数">
+<meta property="og:description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   参考文档">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/cat_proc_stat.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/cpu_use_level.png">
@@ -71,10 +71,10 @@
 <meta property="og:image" content="http://study.jeffqi.cn/linux/perf_top.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/perf_record_perf_report.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/per_top_g.jpg">
-<meta property="og:updated_time" content="2020-03-27T15:01:29.902Z">
+<meta property="og:updated_time" content="2020-03-27T15:39:52.935Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU性能排查实验案例">
-<meta name="twitter:description" content="CPU使用率高居不下，如何排查  查看CPU使用率 排查进程中占用CPU的函数">
+<meta name="twitter:description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   参考文档">
 <meta name="twitter:image" content="http://study.jeffqi.cn/linux/cat_proc_stat.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/24/linux/cpu问题排查/">
 
@@ -305,7 +305,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-27 23:01:29" itemprop="dateModified" datetime="2020-03-27T23:01:29+08:00">2020-03-27</time>
+                <time title="修改时间：2020-03-27 23:39:52" itemprop="dateModified" datetime="2020-03-27T23:39:52+08:00">2020-03-27</time>
               </span>
             
           
@@ -336,14 +336,17 @@
       
         <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
-<li><p><a href="#cpu使用率高居不下如何排查">CPU使用率高居不下，如何排查</a></p>
-<ul>
-<li><a href="#查看cpu使用率">查看CPU使用率</a></li>
-<li><a href="#排查进程中占用cpu的函数">排查进程中占用CPU的函数</a><!-- TOC END -->
-<a id="more"></a>
-<h1 id="CPU使用率高居不下，如何排查"><a href="#CPU使用率高居不下，如何排查" class="headerlink" title="CPU使用率高居不下，如何排查"></a>CPU使用率高居不下，如何排查</h1></li>
+<li><a href="#cpu使用率高居不下如何排查">cpu使用率高居不下，如何排查</a><ul>
+<li><a href="#查看cpu使用率">查看cpu使用率</a></li>
+<li><a href="#排查进程中占用cpu的函数">排查进程中占用cpu的函数</a></li>
 </ul>
 </li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="cpu使用率高居不下，如何排查"><a href="#cpu使用率高居不下，如何排查" class="headerlink" title="cpu使用率高居不下，如何排查"></a>cpu使用率高居不下，如何排查</h1><ul>
 <li><p>linux操作系统是一个多任务的操作系统，通过划分时间片给进程来运行。</p>
 </li>
 <li><p>为了维护 CPU 时间，Linux 通过事先定义的节拍率（内核中表示为 HZ），<strong>触发时间中断</strong>，并使用全局变量 Jiffies <strong>记录了开机以来的节拍数</strong>。每发生一次时间中断，Jiffies 的值就加 1。</p>
@@ -364,7 +367,7 @@
 <li><p>/proc/[pid]/stat 文件中有每个进程的具体信息</p>
 </li>
 </ul>
-<h2 id="查看CPU使用率"><a href="#查看CPU使用率" class="headerlink" title="查看CPU使用率"></a>查看CPU使用率</h2><ul>
+<h2 id="查看cpu使用率"><a href="#查看cpu使用率" class="headerlink" title="查看cpu使用率"></a>查看cpu使用率</h2><ul>
 <li><p>top：显示了系统总体的 CPU 和内存使用情况，以及各个进程的资源使用情况。<br>  <img src="http://study.jeffqi.cn/linux/top_see_source.jpg" alt="top_see_source"></p>
 </li>
 <li><p>ps：只显示了每个进程的资源使用情况<br>  <img src="http://study.jeffqi.cn/linux/ps_aux_see_source.jpg" alt="ps_aux_see_source"></p>
@@ -374,7 +377,7 @@
 <li><p>通过做这这些工具找出占用CPU较高的进程</p>
 </li>
 </ul>
-<h2 id="排查进程中占用CPU的函数"><a href="#排查进程中占用CPU的函数" class="headerlink" title="排查进程中占用CPU的函数"></a>排查进程中占用CPU的函数</h2><ul>
+<h2 id="排查进程中占用cpu的函数"><a href="#排查进程中占用cpu的函数" class="headerlink" title="排查进程中占用cpu的函数"></a>排查进程中占用cpu的函数</h2><ul>
 <li><h3 id="GDB"><a href="#GDB" class="headerlink" title="GDB"></a>GDB</h3><p>  GDB 在调试程序错误方面很强大，但是在调试时<strong>会中断程序</strong>对业务有损</p>
 </li>
 <li><h3 id="perf"><a href="#perf" class="headerlink" title="perf"></a><strong>perf</strong></h3><p>  内置的性能分析工具。它以性能事件采样为基础，不仅可以分析系统的各种事件和内核性能，还可以用来分析指定应用程序的性能问题。</p>
@@ -392,6 +395,9 @@
 </li>
 <li><p><strong>使用perf top和perf record时配合使用 -g 参数，可以获取调用关系</strong><br>  <img src="http://study.jeffqi.cn/linux/per_top_g.jpg" alt="per_top_g"></p>
 </li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://time.geekbang.org/column/article/70476" target="_blank" rel="noopener">极客时间</a></li>
 </ul>
 
     </div>
@@ -467,7 +473,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CPU使用率高居不下，如何排查"><span class="nav-number">1.</span> <span class="nav-text">CPU使用率高居不下，如何排查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看CPU使用率"><span class="nav-number">1.1.</span> <span class="nav-text">查看CPU使用率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查进程中占用CPU的函数"><span class="nav-number">1.2.</span> <span class="nav-text">排查进程中占用CPU的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDB"><span class="nav-number">1.2.1.</span> <span class="nav-text">GDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#perf"><span class="nav-number">1.2.2.</span> <span class="nav-text">perf</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cpu使用率高居不下，如何排查"><span class="nav-number">1.</span> <span class="nav-text">cpu使用率高居不下，如何排查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看cpu使用率"><span class="nav-number">1.1.</span> <span class="nav-text">查看cpu使用率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查进程中占用cpu的函数"><span class="nav-number">1.2.</span> <span class="nav-text">排查进程中占用cpu的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDB"><span class="nav-number">1.2.1.</span> <span class="nav-text">GDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#perf"><span class="nav-number">1.2.2.</span> <span class="nav-text">perf</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">2.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
