@@ -1,61 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>MySQL笔记网站记录</title>
-    <url>/2020/03/26/mysql/database-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<a id="more"></a>
-
-<ul>
-<li>mysql碎片优化：<a href="https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ</a></li>
-<li>mysql semi-sync半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
-<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/gomysql/p/3675429.html" target="_blank" rel="noopener">https://www.cnblogs.com/gomysql/p/3675429.html</a></li>
-<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/struggle-1216/p/11939168.html" target="_blank" rel="noopener">https://www.cnblogs.com/struggle-1216/p/11939168.html</a></li>
-<li>mycat搭建：<a href="https://www.jianshu.com/p/f02a48226222" target="_blank" rel="noopener">https://www.jianshu.com/p/f02a48226222</a></li>
-<li>maxscale搭建：<a href="https://www.jianshu.com/p/70d94a8f6491" target="_blank" rel="noopener">https://www.jianshu.com/p/70d94a8f6491</a></li>
-<li>深度探索MySQL主从复制原理：<a href="https://zhuanlan.zhihu.com/p/50597960" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/50597960</a></li>
-<li>mysql8复制-半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>MySQL</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>redis 安装</title>
-    <url>/2020/03/26/redis/redis-install/</url>
+    <title>替换PIP国内下载源</title>
+    <url>/2020/04/06/python/python_pip_change_source/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
-<li><a href="#install-redis-on-centos7">install redis on centos7</a><!-- TOC END -->
+<li><a href="#pipy国内镜像">pipy国内镜像</a></li>
+<li><a href="#临时替换">临时替换</a></li>
+<li><a href="#永久替换">永久替换</a><!-- TOC END -->
 <a id="more"></a>
+<h1 id="pipy国内镜像"><a href="#pipy国内镜像" class="headerlink" title="pipy国内镜像"></a>pipy国内镜像</h1><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://pypi.douban.com/ 豆瓣</span><br><span class="line">http://pypi.hustunique.com/ 华中理工大学</span><br><span class="line">http://pypi.sdutlinux.org/ 山东理工大学</span><br><span class="line">http://pypi.mirrors.ustc.edu.cn/ 中国科学技术大学</span><br><span class="line">http://mirrors.aliyun.com/pypi/simple/ 阿里云</span><br><span class="line">https://pypi.tuna.tsinghua.edu.cn/simple/ 清华大学。</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h1 id="install-redis-on-centos7"><a href="#install-redis-on-centos7" class="headerlink" title="install redis on centos7"></a>install redis on centos7</h1><ol>
-<li><p>下载安装包</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis官网：http://download.redis.io/</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.7.tar.gz</span><br><span class="line">tar -xzvf redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">make</span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /src</span><br><span class="line">./redis-server  # 默认配置启动</span><br><span class="line">./redis-server &amp;  # 后台启动</span><br><span class="line"># ./redis-server ../redis.conf  # redis.conf 为默认配置文件，可以修改</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./redis-cli</span><br><span class="line">commond</span><br></pre></td></tr></table></figure>
+<h1 id="临时替换"><a href="#临时替换" class="headerlink" title="临时替换"></a>临时替换</h1><ul>
+<li>使用 -i 参数添加临时下载源  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip -i source_url package</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol>
+</ul>
+<h1 id="永久替换"><a href="#永久替换" class="headerlink" title="永久替换"></a>永久替换</h1><ul>
+<li><p>修改配置文件</p>
+</li>
+<li><h2 id="linux主机"><a href="#linux主机" class="headerlink" title="linux主机"></a>linux主机</h2><p>  创建 ~/.pip/pip.conf 文件</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim ~/.pip/pip.conf</span><br><span class="line">[global]</span><br><span class="line">index-url = source_url   (https://pypi.tuna.tsinghua.edu.cn/simple（清华源）)</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="windows主机"><a href="#windows主机" class="headerlink" title="windows主机"></a>windows主机</h2><p>  user目录中创建一个pip目录，如：C:\Users\xx\pip，新建文件pip.ini<br>  %appdata%搜索</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[global]</span><br><span class="line">index-url = source_url   (https://pypi.tuna.tsinghua.edu.cn/simple（清华源）)</span><br><span class="line">trusted-host = pypi.tuna.tsinghua.edu.cn</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>Redis</category>
+        <category>Python</category>
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_9</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_9/%E5%9B%BE%E8%A7%A3HTTP_9/</url>
+    <title>HTTP性能</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_9/%E5%9B%BE%E8%A7%A3HTTP_9/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#基于http-的功能追加协议">基于HTTP 的功能追加协议</a><ul>
@@ -78,19 +59,19 @@
 <li>请求只能从客户端开始。客户端不可以接收除响应以外的指令。</li>
 <li>请求/ 响应首部未经压缩就发送。首部信息越多延迟越大。</li>
 <li>发送冗长的首部。每次互相发送相同的首部造成的浪费较多。</li>
-<li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2020/03/26/network/图解HTTP_9/图解HTTP_9/9.1.png" alt="http"></li>
+<li>可任意选择数据压缩格式。非强制压缩发送。<br><img src="/2020/03/27/network/图解HTTP_9/图解HTTP_9/9.1.png" alt="http"></li>
 </ol>
 </li>
 </ul>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h3><ul>
-<li>局部Web 页面替换加载的异步通信手段<br><img src="/2020/03/26/network/图解HTTP_9/图解HTTP_9/9.2.png" alt="Ajax"></li>
+<li>局部Web 页面替换加载的异步通信手段<br><img src="/2020/03/27/network/图解HTTP_9/图解HTTP_9/9.2.png" alt="Ajax"></li>
 </ul>
 <h3 id="Comet"><a href="#Comet" class="headerlink" title="Comet"></a>Comet</h3><ul>
 <li>通过延迟应答，模拟实现服务器端向客户端推送（Server Push）的功能</li>
-<li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2020/03/26/network/图解HTTP_9/图解HTTP_9/9.3.png" alt="Comet"></li>
+<li>Comet 会先将响应置于挂起状态，当服务器端有内容更新时，再返回该响应<br><img src="/2020/03/27/network/图解HTTP_9/图解HTTP_9/9.3.png" alt="Comet"></li>
 </ul>
 <h3 id="SPDY"><a href="#SPDY" class="headerlink" title="SPDY"></a>SPDY</h3><ul>
-<li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2020/03/26/network/图解HTTP_9/图解HTTP_9/9.4.png" alt="SPDY"></p>
+<li><p>以会话层的形式加入，控制对数据的流动<br><img src="/2020/03/27/network/图解HTTP_9/图解HTTP_9/9.4.png" alt="SPDY"></p>
 </li>
 <li><p>设计</p>
 <ol>
@@ -112,7 +93,7 @@
 <li>握手响应</li>
 </ol>
 </li>
-<li>通信过程<br><img src="/2020/03/26/network/图解HTTP_9/图解HTTP_9/9.5.png" alt="WebSocket通信"></li>
+<li>通信过程<br><img src="/2020/03/27/network/图解HTTP_9/图解HTTP_9/9.5.png" alt="WebSocket通信"></li>
 </ul>
 ]]></content>
       <categories>
@@ -120,8 +101,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_8</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_8/%E5%9B%BE%E8%A7%A3HTTP_8/</url>
+    <title>HTTP认证</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_8/%E5%9B%BE%E8%A7%A3HTTP_8/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#确认访问用户身份的认证">确认访问用户身份的认证</a><ul>
@@ -139,14 +120,14 @@
 <li>BASIC认证（基本认证）</li>
 </ol>
 <ul>
-<li>认证过程<br><img src="/2020/03/26/network/图解HTTP_8/图解HTTP_8/8.1.png" alt="basic"></li>
+<li>认证过程<br><img src="/2020/03/27/network/图解HTTP_8/图解HTTP_8/8.1.png" alt="basic"></li>
 <li>非加密处理</li>
 </ul>
 <ol start="2">
 <li>DIGEST 认证（摘要认证）</li>
 </ol>
 <ul>
-<li>认证过程<br><img src="/2020/03/26/network/图解HTTP_8/图解HTTP_8/8.2.png" alt="digest"></li>
+<li>认证过程<br><img src="/2020/03/27/network/图解HTTP_8/图解HTTP_8/8.2.png" alt="digest"></li>
 <li>质询响应方式是指，一开始一方会先发送认证要求给另一方，接着使用从另一方那接收到的质询码计算生成响应码。最后将响应码返回给对方进行认证的方式</li>
 </ul>
 <ol start="3">
@@ -170,7 +151,7 @@
 <li>FormBase 认证（基于表单认证）</li>
 </ol>
 <ul>
-<li>认证过程<br><img src="/2020/03/26/network/图解HTTP_8/图解HTTP_8/8.3.png" alt="session"><ol>
+<li>认证过程<br><img src="/2020/03/27/network/图解HTTP_8/图解HTTP_8/8.3.png" alt="session"><ol>
 <li>客户端把用户ID 和密码等登录信息放入报文的实体部分，通常是以POST 方法把请求发送给服务器</li>
 <li>服务器会发放用以识别用户的Session ID。通过验证从客户端发送过来的登录信息进行身份认证，然后把用户的认证状态与Session ID 绑定后记录在服务器端</li>
 <li>客户端接收到从服务器端发来的Session ID 后，会将其作为Cookie 保存在本地。下次向服务器发送请求时，浏览器会自动发送Cookie，所以Session ID 也随之发送到服务器</li>
@@ -183,8 +164,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_7</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_7/%E5%9B%BE%E8%A7%A3HTTP_7/</url>
+    <title>HTTPS学习</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_7/%E5%9B%BE%E8%A7%A3HTTP_7/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#确保web-安全的https">确保Web 安全的HTTPS</a><ul>
@@ -253,7 +234,7 @@
 </ul>
 <h3 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h3><ul>
 <li>由可信第三方机构颁发的可信任证明</li>
-<li>HTTPS通信<br><img src="/2020/03/26/network/图解HTTP_7/图解HTTP_7/7.9.png" alt="HTTPS通信"><br><img src="/2020/03/26/network/图解HTTP_7/图解HTTP_7/7.10.png" alt="HTTPS通信"></li>
+<li>HTTPS通信<br><img src="/2020/03/27/network/图解HTTP_7/图解HTTP_7/7.9.png" alt="HTTPS通信"><br><img src="/2020/03/27/network/图解HTTP_7/图解HTTP_7/7.10.png" alt="HTTPS通信"></li>
 </ul>
 <h3 id="SSL通信慢"><a href="#SSL通信慢" class="headerlink" title="SSL通信慢"></a>SSL通信慢</h3><ul>
 <li>加密与解密需要占用CPU和其他硬件资源</li>
@@ -265,8 +246,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_6</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_6/%E5%9B%BE%E8%A7%A3HTTP_6/</url>
+    <title>HTTP首部响应字段</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_6/%E5%9B%BE%E8%A7%A3HTTP_6/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#响应首部字段">响应首部字段</a><ul>
@@ -409,8 +390,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_5</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_5/%E5%9B%BE%E8%A7%A3HTTP_5/</url>
+    <title>HTTP请求首部字段</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_5/%E5%9B%BE%E8%A7%A3HTTP_5/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#请求首部字段">请求首部字段</a><ul>
@@ -541,8 +522,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_4</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_4/%E5%9B%BE%E8%A7%A3HTTP/</url>
+    <title>HTTP首部学习</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_4/%E5%9B%BE%E8%A7%A3HTTP/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#http首部">HTTP首部</a><ul>
@@ -710,8 +691,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_3</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_3/%E5%9B%BE%E8%A7%A3HTTP_3/</url>
+    <title>HTTP状态码</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_3/%E5%9B%BE%E8%A7%A3HTTP_3/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#返回结果的http-状态码">返回结果的HTTP 状态码</a><ul>
@@ -812,8 +793,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_2</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_2/%E5%9B%BE%E8%A7%A3HTTP_2/</url>
+    <title>HTTP报文简介</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_2/%E5%9B%BE%E8%A7%A3HTTP_2/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#http报文内的http信息">HTTP报文内的HTTP信息</a><ul>
@@ -901,23 +882,8 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_11</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>图解HTTP_1</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
+    <title>Web内容技术</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#构建web内容的技术">构建Web内容的技术</a><ul>
@@ -958,11 +924,11 @@
 <li>通过Web 功能提供的应用程序</li>
 </ul>
 <h3 id="CGI"><a href="#CGI" class="headerlink" title="CGI"></a>CGI</h3><ul>
-<li>Web 服务器在接收到客户端发送过来的请求后转发给程序的一组机制<br><img src="/2020/03/26/network/图解HTTP_10/图解HTTP_10/10.1.png" alt="CGI"></li>
+<li>Web 服务器在接收到客户端发送过来的请求后转发给程序的一组机制<br><img src="/2020/03/27/network/图解HTTP_10/图解HTTP_10/10.1.png" alt="CGI"></li>
 </ul>
 <h3 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h3><ul>
 <li>一种能在服务器上创建动态内容的程序</li>
-<li>CGI，由于每次接到请求，程序都要跟着启动一次;而Servlet 运行在与Web 服务器相同的进程中，因此受到的负载较小<br><img src="/2020/03/26/network/图解HTTP_10/图解HTTP_10/10.2.png" alt="Servlet"></li>
+<li>CGI，由于每次接到请求，程序都要跟着启动一次;而Servlet 运行在与Web 服务器相同的进程中，因此受到的负载较小<br><img src="/2020/03/27/network/图解HTTP_10/图解HTTP_10/10.2.png" alt="Servlet"></li>
 </ul>
 <h2 id="数据发布的格式及语言"><a href="#数据发布的格式及语言" class="headerlink" title="数据发布的格式及语言"></a>数据发布的格式及语言</h2><h3 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h3><ul>
 <li>按应用目标进行扩展的通用标记语言</li>
@@ -977,8 +943,23 @@
       </categories>
   </entry>
   <entry>
-    <title>图解HTTP_1</title>
-    <url>/2020/03/26/network/%E5%9B%BE%E8%A7%A3HTTP_1/%E5%9B%BE%E8%A7%A3HTTP_1/</url>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>HTTP简介</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_1/%E5%9B%BE%E8%A7%A3HTTP_1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#简单的http协议">简单的HTTP协议</a><ul>
@@ -1077,6 +1058,59 @@
 ]]></content>
       <categories>
         <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MySQL笔记网站记录</title>
+    <url>/2020/03/26/mysql/database-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<a id="more"></a>
+
+<ul>
+<li>mysql碎片优化：<a href="https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ</a></li>
+<li>mysql semi-sync半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
+<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/gomysql/p/3675429.html" target="_blank" rel="noopener">https://www.cnblogs.com/gomysql/p/3675429.html</a></li>
+<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/struggle-1216/p/11939168.html" target="_blank" rel="noopener">https://www.cnblogs.com/struggle-1216/p/11939168.html</a></li>
+<li>mycat搭建：<a href="https://www.jianshu.com/p/f02a48226222" target="_blank" rel="noopener">https://www.jianshu.com/p/f02a48226222</a></li>
+<li>maxscale搭建：<a href="https://www.jianshu.com/p/70d94a8f6491" target="_blank" rel="noopener">https://www.jianshu.com/p/70d94a8f6491</a></li>
+<li>深度探索MySQL主从复制原理：<a href="https://zhuanlan.zhihu.com/p/50597960" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/50597960</a></li>
+<li>mysql8复制-半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>redis 安装</title>
+    <url>/2020/03/26/redis/redis-install/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#install-redis-on-centos7">install redis on centos7</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="install-redis-on-centos7"><a href="#install-redis-on-centos7" class="headerlink" title="install redis on centos7"></a>install redis on centos7</h1><ol>
+<li><p>下载安装包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis官网：http://download.redis.io/</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.7.tar.gz</span><br><span class="line">tar -xzvf redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">make</span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /src</span><br><span class="line">./redis-server  # 默认配置启动</span><br><span class="line">./redis-server &amp;  # 后台启动</span><br><span class="line"># ./redis-server ../redis.conf  # redis.conf 为默认配置文件，可以修改</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./redis-cli</span><br><span class="line">commond</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Redis</category>
       </categories>
   </entry>
   <entry>
@@ -2071,6 +2105,89 @@
       </categories>
   </entry>
   <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
+<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
+</ol>
+</li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python/python_base/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -2854,89 +2971,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
-<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
-</ol>
-</li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>网络参数</title>
     <url>/2020/03/19/linux/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3028,6 +3062,30 @@
       </categories>
   </entry>
   <entry>
+    <title>Linux优秀笔记网站记录</title>
+    <url>/2020/03/19/linux/linux-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<!--moer-->
+
+<ul>
+<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
+<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
+<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
+<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
+<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
+<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
+<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
+<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
+<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>平均负载</title>
     <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3099,30 +3157,6 @@
 </ul>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Linux优秀笔记网站记录</title>
-    <url>/2020/03/19/linux/linux-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<!--moer-->
-
-<ul>
-<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
-<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
-<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
-<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
-<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
-<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
-<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
-<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
-<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
-</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
