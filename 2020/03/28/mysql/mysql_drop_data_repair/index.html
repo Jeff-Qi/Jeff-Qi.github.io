@@ -55,15 +55,22 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL笔记网站记录">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/26/mysql/database-network-note/index.html">
+  <meta name="description" content="删数据情况">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从删库到跑路到恢复数据">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_drop_data_repair/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="删数据情况">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-26T14:16:50.219Z">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/flashback_row_full.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/data_repair_after_drop_tables_or_databases.png">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/data_repair_use_replecation.png">
+<meta property="og:updated_time" content="2020-03-29T09:46:31.916Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL笔记网站记录">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/26/mysql/database-network-note/">
+<meta name="twitter:title" content="从删库到跑路到恢复数据">
+<meta name="twitter:description" content="删数据情况">
+<meta name="twitter:image" content="http://study.jeffqi.cn/mysql/flashback_row_full.jpg">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_drop_data_repair/">
 
 
 <script id="page-configurations">
@@ -77,7 +84,7 @@
   };
 </script>
 
-  <title>MySQL笔记网站记录 | Jerqi‘s Blog</title>
+  <title>从删库到跑路到恢复数据 | Jerqi‘s Blog</title>
   
 
 
@@ -253,7 +260,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/26/mysql/database-network-note/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_drop_data_repair/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -265,7 +272,7 @@
       <meta itemprop="name" content="Jerqi‘s Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">MySQL笔记网站记录
+        <h1 class="post-title" itemprop="name headline">从删库到跑路到恢复数据
 
           
         </h1>
@@ -281,8 +288,20 @@
                 
               
 
-              <time title="创建时间：2020-03-26 22:16:50" itemprop="dateCreated datePublished" datetime="2020-03-26T22:16:50+08:00">2020-03-26</time>
+              <time title="创建时间：2020-03-28 10:21:00" itemprop="dateCreated datePublished" datetime="2020-03-28T10:21:00+08:00">2020-03-28</time>
             </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-29 17:46:31" itemprop="dateModified" datetime="2020-03-29T17:46:31+08:00">2020-03-29</time>
+              </span>
+            
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -310,20 +329,54 @@
 
       
         <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
+<ul>
+<li><a href="#删数据情况">删数据情况</a><!-- TOC END -->
 <a id="more"></a>
 
-<ul>
-<li>mysql碎片优化：<a href="https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ</a></li>
-<li>mysql semi-sync半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
-<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/gomysql/p/3675429.html" target="_blank" rel="noopener">https://www.cnblogs.com/gomysql/p/3675429.html</a></li>
-<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/struggle-1216/p/11939168.html" target="_blank" rel="noopener">https://www.cnblogs.com/struggle-1216/p/11939168.html</a></li>
-<li>mycat搭建：<a href="https://www.jianshu.com/p/f02a48226222" target="_blank" rel="noopener">https://www.jianshu.com/p/f02a48226222</a></li>
-<li>maxscale搭建：<a href="https://www.jianshu.com/p/70d94a8f6491" target="_blank" rel="noopener">https://www.jianshu.com/p/70d94a8f6491</a></li>
-<li>深度探索MySQL主从复制原理：<a href="https://zhuanlan.zhihu.com/p/50597960" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/50597960</a></li>
-<li>mysql8复制-半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
+</li>
 </ul>
+<h1 id="删数据情况"><a href="#删数据情况" class="headerlink" title="删数据情况"></a>删数据情况</h1><ol>
+<li><p>使用 <strong>delete</strong> 语句误删数据行；</p>
+</li>
+<li><p>使用 <strong>drop table</strong> 或者 <strong>truncate table</strong> 语句误删数据表；</p>
+</li>
+<li><p>使用 <strong>drop database</strong> 语句误删数据库；</p>
+</li>
+<li><p>使用 <strong>rm</strong> 命令误删整个 MySQL 实例。</p>
+<ul>
+<li><h2 id="删除行数据"><a href="#删除行数据" class="headerlink" title="删除行数据"></a>删除行数据</h2><p>在进行dml操作后，如果意外的更新删除了错误的数据可以使用flashback工具进行恢复</p>
+<p><a href="https://mariadb.com/kb/en/flashback/" target="_blank" rel="noopener">flashback工具</a></p>
+<p><strong>当前仅在DML语句（INSERT，DELETE，UPDATE）上支持闪回</strong>。即将发布的MariaDB版本将通过将当前表复制或移动到保留和隐藏的数据库，然后在使用闪回时复制或移回来增加对DDL语句（DROP，TRUNCATE，ALTER)支持。</p>
+<p><strong>flashback只适用于row格式日志和full记录</strong></p>
+<pre><code><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">binlog_format=row</span><br><span class="line">binlog_row_image=full</span><br></pre></td></tr></table></figure></code></pre><p><img src="http://study.jeffqi.cn/mysql/flashback_row_full.jpg" alt="flashback_row_full.jpg"></p>
+<p><strong>工作机制</strong>：flash的实际工作由mysqlbinlog与–flashback一起完成。这将导致事件被转换：从INSERT到DELETE，从DELETE到INSERT，并且对于UPDATE，交换之前和之后的图像。</p>
+<p>避免数据的误操作，我们急需做的是预防；</p>
+<pre><code>1.  sql_safe_updates 参数设置为 on；对于语句进行检查，需要添加where才能使用
+2.  上线前对sql进行审计</code></pre></li>
+<li><h2 id="误删表-库"><a href="#误删表-库" class="headerlink" title="误删表/库"></a>误删表/库</h2><p>使用全量备份，加增量日志；<strong>这个方案要求线上有定期的全量备份，并且实时备份 binlog</strong>。</p>
+<ol>
+<li>取最近一次全量备份，假设这个库是一天一备，上次备份是当天 0 点；</li>
+<li>用备份恢复出一个临时库；从日志备份里面，取出凌晨 0 点之后的日志；</li>
+<li>把这些日志，除了误删除数据的语句外，全部应用到临时库。</li>
+</ol>
+<p><img src="http://study.jeffqi.cn/mysql/data_repair_after_drop_tables_or_databases.png" alt="data_repair_after_drop_tables_or_databases"></p>
+<ul>
+<li><p>可以在使用 mysqlbinlog 命令时，加上一个–database 参数，用来指定误删表所在的库。避免在恢复数据时还要应用其他库日志的情况。</p>
+</li>
+<li><p>使用-stop-position与-start-position来跳过误操作；或者使用GTID方案</p>
+</li>
+<li><p><strong>加速恢复</strong>：在用备份恢复出临时实例之后，将这个临时实例设置成线上备库的从库；在 start slave 之前，先通过执行﻿﻿change replication filter replicate_do_table = (tbl_name) 命令，就可以让临时库只同步误操作的表；这样做也可以用上并行复制技术，来加速整个数据恢复过程。（需要注意可能备库上没有需要的增量日志需要从备库系统下载，然后添加日志信息到master.index中，让数据库能够识别）</p>
+</li>
+</ul>
+<p><img src="http://study.jeffqi.cn/mysql/data_repair_use_replecation.png" alt="data_repair_use_replecation.png"></p>
+</li>
+<li><h2 id="延迟复制备库"><a href="#延迟复制备库" class="headerlink" title="延迟复制备库"></a>延迟复制备库</h2><p>延迟复制的备库是一种特殊的备库，通过 CHANGE MASTER TO MASTER_DELAY = N 命令，可以指定这个备库持续保持跟主库有 N 秒的延迟。</p>
+</li>
+<li><h2 id="rm-删除数据"><a href="#rm-删除数据" class="headerlink" title="rm 删除数据"></a>rm 删除数据</h2><p>集群就是做一个高可用只要不是删除了集群这个数据库的信息HA就能够工作选出新的主库</p>
+</li>
+</ul>
+</li>
+</ol>
 
     </div>
 
@@ -340,8 +393,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/03/26/redis/redis-install/" rel="next" title="redis 安装">
-                  <i class="fa fa-chevron-left"></i> redis 安装
+                <a href="/2020/03/27/linux/hight_access/" rel="next" title="高可用方案">
+                  <i class="fa fa-chevron-left"></i> 高可用方案
                 </a>
               
             </div>
@@ -350,8 +403,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2020/03/27/network/图解HTTP_1/图解HTTP_1/" rel="prev" title="HTTP简介">
-                  HTTP简介 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/03/28/mysql/mysql_gtid/" rel="prev" title="MySQL GTID">
+                  MySQL GTID <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -398,6 +451,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#删数据情况"><span class="nav-number">1.</span> <span class="nav-text">删数据情况</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#删除行数据"><span class="nav-number">1.1.</span> <span class="nav-text">删除行数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#误删表-库"><span class="nav-number">1.2.</span> <span class="nav-text">误删表/库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#延迟复制备库"><span class="nav-number">1.3.</span> <span class="nav-text">延迟复制备库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm-删除数据"><span class="nav-number">1.4.</span> <span class="nav-text">rm 删除数据</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 

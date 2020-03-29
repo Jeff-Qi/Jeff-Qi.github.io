@@ -55,15 +55,18 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL笔记网站记录">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/26/mysql/database-network-note/index.html">
+  <meta name="description" content="gtid gtid集合 gtid主从自动定位 基于gtid的主从复制 使用gtid的限制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL GTID">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_gtid/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="gtid gtid集合 gtid主从自动定位 基于gtid的主从复制 使用gtid的限制">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-26T14:16:50.219Z">
+<meta property="og:updated_time" content="2020-03-29T09:46:31.940Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL笔记网站记录">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/26/mysql/database-network-note/">
+<meta name="twitter:title" content="MySQL GTID">
+<meta name="twitter:description" content="gtid gtid集合 gtid主从自动定位 基于gtid的主从复制 使用gtid的限制">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_gtid/">
 
 
 <script id="page-configurations">
@@ -77,7 +80,7 @@
   };
 </script>
 
-  <title>MySQL笔记网站记录 | Jerqi‘s Blog</title>
+  <title>MySQL GTID | Jerqi‘s Blog</title>
   
 
 
@@ -253,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/26/mysql/database-network-note/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_gtid/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -265,7 +268,7 @@
       <meta itemprop="name" content="Jerqi‘s Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">MySQL笔记网站记录
+        <h1 class="post-title" itemprop="name headline">MySQL GTID
 
           
         </h1>
@@ -281,8 +284,20 @@
                 
               
 
-              <time title="创建时间：2020-03-26 22:16:50" itemprop="dateCreated datePublished" datetime="2020-03-26T22:16:50+08:00">2020-03-26</time>
+              <time title="创建时间：2020-03-28 17:33:44" itemprop="dateCreated datePublished" datetime="2020-03-28T17:33:44+08:00">2020-03-28</time>
             </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-29 17:46:31" itemprop="dateModified" datetime="2020-03-29T17:46:31+08:00">2020-03-29</time>
+              </span>
+            
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -310,20 +325,72 @@
 
       
         <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
+<ul>
+<li><a href="#gtid">gtid</a></li>
+<li><a href="#gtid集合">gtid集合</a></li>
+<li><a href="#gtid主从自动定位">gtid主从自动定位</a></li>
+<li><a href="#基于gtid的主从复制">基于gtid的主从复制</a></li>
+<li><a href="#使用gtid的限制">使用gtid的限制</a><!-- TOC END -->
 <a id="more"></a>
 
-<ul>
-<li>mysql碎片优化：<a href="https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VfxVKnfglzsBLD4-Z69zWQ</a></li>
-<li>mysql semi-sync半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
-<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/gomysql/p/3675429.html" target="_blank" rel="noopener">https://www.cnblogs.com/gomysql/p/3675429.html</a></li>
-<li>mysql高可用MHA搭建：<a href="https://www.cnblogs.com/struggle-1216/p/11939168.html" target="_blank" rel="noopener">https://www.cnblogs.com/struggle-1216/p/11939168.html</a></li>
-<li>mycat搭建：<a href="https://www.jianshu.com/p/f02a48226222" target="_blank" rel="noopener">https://www.jianshu.com/p/f02a48226222</a></li>
-<li>maxscale搭建：<a href="https://www.jianshu.com/p/70d94a8f6491" target="_blank" rel="noopener">https://www.jianshu.com/p/70d94a8f6491</a></li>
-<li>深度探索MySQL主从复制原理：<a href="https://zhuanlan.zhihu.com/p/50597960" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/50597960</a></li>
-<li>mysql8复制-半同步复制：<a href="https://cloud.tencent.com/developer/article/1433074" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1433074</a></li>
+</li>
 </ul>
+<h1 id="gtid"><a href="#gtid" class="headerlink" title="gtid"></a>gtid</h1><ul>
+<li><p>全局事务标识符（GTID）是创建的唯一标识符，并且与在源服务器（主服务器）上提交的每个事务相关联。该标识符不仅对于它起源的服务器是唯一的，而且在给定复制拓扑中的所有服务器上也是唯一的。</p>
+</li>
+<li><p>GTID<strong>单调递增</strong>，生成的数字之间没有间隙。如果将客户端<strong>事务提交</strong>到主服务器上，则将为其<strong>分配一个新的GTID</strong>，前提是该事务已写入二进制日志中。事务失败也会保留GTID</p>
+</li>
+<li><p>GTID的自动跳过功能意味着在主服务器上提交的事务只能在从服务器上应用一次。</p>
+</li>
+<li><p>GTID格式</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GTID = source_id:transaction_id</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="gtid集合"><a href="#gtid集合" class="headerlink" title="gtid集合"></a>gtid集合</h1><ul>
+<li><p>GTID集是包括一个或多个单个GTID或一系列GTID的集</p>
+</li>
+<li><p>MySQL系统表 mysql.gtid_executed 用于保留MySQL服务器上应用的所有事务的已分配GTID，但存储在当前活动的二进制日志文件中的事务除外；该表记录和GTID的状态。保证GTID的值记录。使用 reset master 会清空该表</p>
+<p>  <img src alt="gtid_executed"></p>
+</li>
+</ul>
+<h1 id="gtid主从自动定位"><a href="#gtid主从自动定位" class="headerlink" title="gtid主从自动定位"></a>gtid主从自动定位</h1><ul>
+<li>在主从复制中可以通过gtid来进行日志的自动定位；无需再指定日志的偏移量  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">  ...</span><br><span class="line">  master_auto_position</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="基于gtid的主从复制"><a href="#基于gtid的主从复制" class="headerlink" title="基于gtid的主从复制"></a>基于gtid的主从复制</h1><ol>
+<li><p>同时开启只读模式，让从库追上主库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> @@GLOBAL.read_only = <span class="keyword">ON</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭主从服务器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -uusername -p shutdown</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件启动</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gtid_mode=on</span><br><span class="line">enforce_gtid_consistency=on</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置主从复制</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span></span><br><span class="line">  MASTER_HOST = host,</span><br><span class="line">  MASTER_PORT = port,</span><br><span class="line">  MASTER_USER = <span class="keyword">user</span>,</span><br><span class="line">  MASTER_PASSWORD = <span class="keyword">password</span>,</span><br><span class="line">  MASTER_AUTO_POSITION = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置从库只读，启动复制</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> @@GLOBAL.read_only=<span class="keyword">on</span>;</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">slave</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>跳过某个事物</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> GTID_NEXT=<span class="string">'aaa-bbb-ccc-ddd:N'</span>;</span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">SET</span> GTID_NEXT=<span class="string">'AUTOMATIC'</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="使用gtid的限制"><a href="#使用gtid的限制" class="headerlink" title="使用gtid的限制"></a>使用gtid的限制</h1><ul>
+<li><p><strong>涉及非事务性存储引擎的更新</strong>：在同一事务中对使用非事务性存储引擎的表的更新与对使用事务性存储引擎的表的更新混合在一起可能导致将多个GTID分配给同一事务。</p>
+</li>
+<li><p>CREATE TABLE … SELECT语句：CREATE TABLE … SELECT使用基于GTID的复制时，不允许使用这些语句</p>
+</li>
+<li><p>临时表：使用GTID（即，将系统变量设置为）时，事务，过程，函数和触发器内部不支持CREATE TEMPORARY TABLEand DROP TEMPORARY TABLE语句 。</p>
+</li>
+<li><p>跳过交易：sql_slave_skip_counter使用GTID时不支持。如果需要跳过事务，请改用master gtid_executed变量的值 。跳过空事务</p>
+</li>
+</ul>
+<p>-</p>
 
     </div>
 
@@ -340,8 +407,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/03/26/redis/redis-install/" rel="next" title="redis 安装">
-                  <i class="fa fa-chevron-left"></i> redis 安装
+                <a href="/2020/03/28/mysql/mysql_drop_data_repair/" rel="next" title="从删库到跑路到恢复数据">
+                  <i class="fa fa-chevron-left"></i> 从删库到跑路到恢复数据
                 </a>
               
             </div>
@@ -350,8 +417,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2020/03/27/network/图解HTTP_1/图解HTTP_1/" rel="prev" title="HTTP简介">
-                  HTTP简介 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/03/29/mysql/mysql_group_replication/" rel="prev" title="MySQL组复制">
+                  MySQL组复制 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -398,6 +465,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gtid"><span class="nav-number">1.</span> <span class="nav-text">gtid</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gtid集合"><span class="nav-number">2.</span> <span class="nav-text">gtid集合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gtid主从自动定位"><span class="nav-number">3.</span> <span class="nav-text">gtid主从自动定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于gtid的主从复制"><span class="nav-number">4.</span> <span class="nav-text">基于gtid的主从复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用gtid的限制"><span class="nav-number">5.</span> <span class="nav-text">使用gtid的限制</span></a></li></ol></div>
+        
       </div>
       <!--/noindex-->
 

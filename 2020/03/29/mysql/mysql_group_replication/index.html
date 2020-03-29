@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="group replication（组复制基础） 实验 配置文件 创建用于复制的用户 重启服务检查组复制插件是否加载 自举组启动并检查 其他节点加入   验证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL组复制">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/29/mysql/mysql_group_replication/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="group replication（组复制基础） 实验 配置文件 创建用于复制的用户 重启服务检查组复制插件是否加载 自举组启动并检查 其他节点加入   验证">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group-replication-process.png">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/async-replication-process.png">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/semisync-replication-process.png">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_work_status.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_show_plugins.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_select_replication_group_members.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_node2_create_database_table.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_master_show_binlog.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_slave_status.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_show_databases.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_select_table.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_slave_mysqlbinlog_relay_log.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/group_replication_slave_mysqlbinlog_relay_log_2.jpg">
+<meta property="og:updated_time" content="2020-03-29T09:46:31.917Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL组复制">
+<meta name="twitter:description" content="group replication（组复制基础） 实验 配置文件 创建用于复制的用户 重启服务检查组复制插件是否加载 自举组启动并检查 其他节点加入   验证">
+<meta name="twitter:image" content="http://study.jeffqi.cn/mysql/group-replication-process.png">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/29/mysql/mysql_group_replication/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>MySQL组复制 | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/29/mysql/mysql_group_replication/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">MySQL组复制
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-29 13:13:00 / 修改时间：17:46:31" itemprop="dateCreated datePublished" datetime="2020-03-29T13:13:00+08:00">2020-03-29</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#group-replication组复制基础">group replication（组复制基础）</a></li>
+<li><a href="#实验">实验</a><ul>
+<li><a href="#配置文件">配置文件</a></li>
+<li><a href="#创建用于复制的用户">创建用于复制的用户</a></li>
+<li><a href="#重启服务检查组复制插件是否加载">重启服务检查组复制插件是否加载</a></li>
+<li><a href="#自举组启动并检查">自举组启动并检查</a></li>
+<li><a href="#其他节点加入">其他节点加入</a></li>
+</ul>
+</li>
+<li><a href="#验证">验证</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="group-replication（组复制基础）"><a href="#group-replication（组复制基础）" class="headerlink" title="group replication（组复制基础）"></a>group replication（组复制基础）</h1><ul>
+<li><h2 id="what-is-组复制"><a href="#what-is-组复制" class="headerlink" title="what is 组复制"></a>what is 组复制</h2><p>  组复制是一种可用于实施容错系统的技术。<strong>复制组是一组服务器，每个服务器都有自己的完整数据副本（无共享复制方案），并通过消息传递相互交互</strong>。</p>
+<p>  MySQL组复制建立在这些属性和抽象之上，并在所有复制协议中实现<strong>多主机更新</strong>。<strong>一个复制组由多个服务器组成</strong>，该组中的每个服务器可以随时独立执行事务。但是，<strong>所有读写事务仅在获得组批准后才提交</strong>。换句话说，对于任何读写事务，该组都需要决定是否提交，因此提交操作不是来自原始服务器的单方面决定。<strong>只读事务不需要组内的协调并立即提交</strong>。</p>
+<p>  当读写事务准备好在原始服务器上提交时，服务器自动广播写值（已更改的行）和相应的write set（已更新的行的唯一标识符）。<strong>事务是通过原子广播发送，因此该组中的所有服务器要么全部收到，要不都收不到</strong>。</p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group-replication-process.png" alt="group-replication-process"></p>
+</li>
+<li><h2 id="传统主从复制提交流程"><a href="#传统主从复制提交流程" class="headerlink" title="传统主从复制提交流程"></a>传统主从复制提交流程</h2><ul>
+<li><p>异步复制<br><img src="http://study.jeffqi.cn/mysql/async-replication-process.png" alt="async-replication-process"></p>
+</li>
+<li><p>半同步复制<br><img src="http://study.jeffqi.cn/mysql/semisync-replication-process.png" alt="semisync-replication-process"></p>
+</li>
+</ul>
+</li>
+<li><h2 id="组复制有什么用"><a href="#组复制有什么用" class="headerlink" title="组复制有什么用"></a>组复制有什么用</h2><p>  通过组复制，可以通过将系统状态复制到一组服务器来创建具有冗余的容错系统。即使某些服务器随后发生故障，只要不是全部或大多数，该系统仍然可用。</p>
+</li>
+<li><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li><p>弹性复制：需要非常流畅的复制基础结构的环境，其中服务器的数量必须动态增加或减少，并且副作用要尽可能少。例如，用于云的数据库服务。</p>
+</li>
+<li><p>高度可用的分片：分片是实现写入横向扩展的一种流行方法。使用MySQL组复制来实现高度可用的分片，其中每个分片都映射到一个复制组。</p>
+</li>
+<li><p>主从复制的替代方法：在某些情况下，使用单个主服务器使其成为单个竞争点。在某些情况下，写给整个小组可能会更具扩展性。</p>
+</li>
+<li><p>自治系统：另外，您可以纯粹为复制协议中内置的自动化功能部署MySQL组复制。</p>
+</li>
+</ol>
+</li>
+<li><h2 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h2><ul>
+<li><p>组复制的工作模式由参数 group_replication_single_primary_mode 来决定</p>
+</li>
+<li><p>on：单主模式</p>
+</li>
+<li><p>off：多主模式</p>
+</li>
+<li><p><strong>所有的成员的模式必须相同且组复制工作室不可修改；可以通过group_replication_switch_to_single_primary_mode()和 group_replication_switch_to_multi_primary_mode()函数来动态切换状态。</strong></p>
+<p><img src="http://study.jeffqi.cn/mysql/group_replication_work_status.jpg" alt="group_replication_work_status"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><ul>
+<li>mysql配置文件，master与slave不同在与server-id，和通信地址  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 组复制适用于innodb，所以使用其他的存储引擎可能会出现以外</span></span><br><span class="line">disabled_storage_engines=<span class="string">"MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"</span></span><br><span class="line"></span><br><span class="line">server_id=x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本机配置，开启gtid</span></span><br><span class="line">gtid_mode=ON</span><br><span class="line">enforce_gtid_consistency=ON</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将二进制日志校验和关闭，不写入日志</span></span><br><span class="line">binlog_checksum=NONE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 二进制日志格式设置，名称，格式</span></span><br><span class="line">log_bin=binlog</span><br><span class="line"><span class="built_in">log</span>-index=binlog.index</span><br><span class="line">binlog_format=ROW</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从服务器将应用的relay-log语句写入本地的二进制日志中</span></span><br><span class="line">log_slave_updates=ON</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置本地的中继日志</span></span><br><span class="line">relay-log=relay-log</span><br><span class="line">relay-log-index=relay-log.index</span><br><span class="line"></span><br><span class="line">master_info_repository=TABLE</span><br><span class="line">relay_log_info_repository=TABLE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开机启动自动添加group_replication.so插件，如果配置文件中没有，在启动时性需要手动安装</span></span><br><span class="line">plugin_load_add=<span class="string">'group_replication.so'</span>    <span class="comment"># 登入mysq&gt;&gt;&gt;INSTALL PLUGIN group_replication SONAME 'group_replication.so';</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指明当前服务器不是引导组，在第一次开启组的时候需要将这个配置设置为on，完成后需要恢复为off</span></span><br><span class="line">group_replication_bootstrap_group=off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 组复制的uuid，全局唯一，可以使用select UUID() 生成的 uuid</span></span><br><span class="line">group_replication_group_name=<span class="string">"UUID"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以off指示插件在服务器启动时不自动启动操作。当你配置完成服务器后可以通过手工开启组服务器</span></span><br><span class="line">group_replication_start_on_boot=off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 组复制内部通信使用的ip地址和端口，不可以与提供服务的端口冲突（port配置参数的端口）</span></span><br><span class="line">group_replication_local_address= <span class="string">"s1:33061"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 组复制种子成员的ip地址与端口</span></span><br><span class="line">group_replication_group_seeds= <span class="string">"s1:33061,s2:33061,s3:33061"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指明为每个事物收集 write set 并使用 XXHASH64 进行hash</span></span><br><span class="line">transaction_write_set_extraction=XXHASH64</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="创建用于复制的用户"><a href="#创建用于复制的用户" class="headerlink" title="创建用于复制的用户"></a>创建用于复制的用户</h2><ul>
+<li>需要创建用于组复制的用户，并分配相应的权限，然后指向复制组  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> sql_log_bin=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">'repl'</span>@<span class="string">'192.168.80.%'</span> <span class="keyword">identified</span> <span class="keyword">WITH</span> <span class="string">'mysql_native_password'</span> <span class="keyword">BY</span> <span class="string">'Hjqme525+'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">replication</span> <span class="keyword">slave</span>, <span class="keyword">replication</span> <span class="keyword">client</span>, backup_admin <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'repl'</span>@<span class="string">'192.168.80.%'</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br><span class="line"><span class="keyword">set</span> sql_log_bin=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">master_user=<span class="string">'repl'</span>,</span><br><span class="line">master_password=<span class="string">'Hjqme525+'</span> <span class="keyword">for</span> channel <span class="string">'group_replication_recovery'</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="重启服务检查组复制插件是否加载"><a href="#重启服务检查组复制插件是否加载" class="headerlink" title="重启服务检查组复制插件是否加载"></a>重启服务检查组复制插件是否加载</h2><ul>
+<li><p>通过过检查是否成功加载 group_replication 组复制插件；文章末尾有验证图；可在每个服务器服务启动后检查。</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> plugins;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看组复制插件</p>
+</li>
+</ul>
+<h2 id="自举组启动并检查"><a href="#自举组启动并检查" class="headerlink" title="自举组启动并检查"></a>自举组启动并检查</h2><ul>
+<li>group_replication_bootstrap_group 系统变量来引导组；自检组角色为 primary，其他节点为 secondary。验证图中有结果。  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只有自举组才需要暂时开启这一步，开启引导组时才需要</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> group_replication_bootstrap_group=<span class="keyword">on</span>;</span><br><span class="line"><span class="keyword">start</span> group_replication;</span><br><span class="line"><span class="comment"># 开启后关闭</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> group_replication_bootstrap_group=<span class="keyword">off</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询是否加入到组中</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="其他节点加入"><a href="#其他节点加入" class="headerlink" title="其他节点加入"></a>其他节点加入</h2><ul>
+<li><p>配置文件需要修改server-id与group_replication_local_address</p>
+</li>
+<li><p>重启检查插件，创建组复制用户，分配权限，指向复制组</p>
+</li>
+<li><p>加入组中</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> group_replication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><ul>
+<li><p><strong>是否成功加载插件</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_show_plugins.jpg" alt="group_replication_show_plugins"></p>
+</li>
+<li><p><strong>节点是否加入到组中，并查看其优先级</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_select_replication_group_members.jpg" alt="group_replication_select_replication_group_members"></p>
+</li>
+<li><p><strong>主服务器操作</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_node2_create_database_table.jpg" alt="group_replication_node2_create_database_table"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_master_show_binlog.jpg" alt="group_replication_master_show_binlog"></p>
+</li>
+<li><p><strong>从服务器操作验证</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_slave_status.jpg" alt="group_replication_slave_status"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_show_databases.jpg" alt="group_replication_show_databases"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_select_table.jpg" alt="group_replication_select_table"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_slave_mysqlbinlog_relay_log.jpg" alt="group_replication_slave_mysqlbinlog_relay_log"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_slave_mysqlbinlog_relay_log_2.jpg" alt="group_replication_slave_mysqlbinlog_relay_log_2"></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/28/mysql/mysql_gtid/" rel="next" title="MySQL GTID">
+                  <i class="fa fa-chevron-left"></i> MySQL GTID
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/04/06/python/python_pip_change_source/" rel="prev" title="替换PIP国内下载源">
+                  替换PIP国内下载源 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#group-replication（组复制基础）"><span class="nav-number">1.</span> <span class="nav-text">group replication（组复制基础）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#what-is-组复制"><span class="nav-number">1.1.</span> <span class="nav-text">what is 组复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统主从复制提交流程"><span class="nav-number">1.2.</span> <span class="nav-text">传统主从复制提交流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组复制有什么用"><span class="nav-number">1.3.</span> <span class="nav-text">组复制有什么用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">1.4.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工作模式"><span class="nav-number">1.5.</span> <span class="nav-text">工作模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">2.1.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建用于复制的用户"><span class="nav-number">2.2.</span> <span class="nav-text">创建用于复制的用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启服务检查组复制插件是否加载"><span class="nav-number">2.3.</span> <span class="nav-text">重启服务检查组复制插件是否加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自举组启动并检查"><span class="nav-number">2.4.</span> <span class="nav-text">自举组启动并检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他节点加入"><span class="nav-number">2.5.</span> <span class="nav-text">其他节点加入</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#验证"><span class="nav-number">3.</span> <span class="nav-text">验证</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -35,6 +35,247 @@
       </categories>
   </entry>
   <entry>
+    <title>MySQL组复制</title>
+    <url>/2020/03/29/mysql/mysql_group_replication/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#group-replication组复制基础">group replication（组复制基础）</a></li>
+<li><a href="#实验">实验</a><ul>
+<li><a href="#配置文件">配置文件</a></li>
+<li><a href="#创建用于复制的用户">创建用于复制的用户</a></li>
+<li><a href="#重启服务检查组复制插件是否加载">重启服务检查组复制插件是否加载</a></li>
+<li><a href="#自举组启动并检查">自举组启动并检查</a></li>
+<li><a href="#其他节点加入">其他节点加入</a></li>
+</ul>
+</li>
+<li><a href="#验证">验证</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="group-replication（组复制基础）"><a href="#group-replication（组复制基础）" class="headerlink" title="group replication（组复制基础）"></a>group replication（组复制基础）</h1><ul>
+<li><h2 id="what-is-组复制"><a href="#what-is-组复制" class="headerlink" title="what is 组复制"></a>what is 组复制</h2><p>  组复制是一种可用于实施容错系统的技术。<strong>复制组是一组服务器，每个服务器都有自己的完整数据副本（无共享复制方案），并通过消息传递相互交互</strong>。</p>
+<p>  MySQL组复制建立在这些属性和抽象之上，并在所有复制协议中实现<strong>多主机更新</strong>。<strong>一个复制组由多个服务器组成</strong>，该组中的每个服务器可以随时独立执行事务。但是，<strong>所有读写事务仅在获得组批准后才提交</strong>。换句话说，对于任何读写事务，该组都需要决定是否提交，因此提交操作不是来自原始服务器的单方面决定。<strong>只读事务不需要组内的协调并立即提交</strong>。</p>
+<p>  当读写事务准备好在原始服务器上提交时，服务器自动广播写值（已更改的行）和相应的write set（已更新的行的唯一标识符）。<strong>事务是通过原子广播发送，因此该组中的所有服务器要么全部收到，要不都收不到</strong>。</p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group-replication-process.png" alt="group-replication-process"></p>
+</li>
+<li><h2 id="传统主从复制提交流程"><a href="#传统主从复制提交流程" class="headerlink" title="传统主从复制提交流程"></a>传统主从复制提交流程</h2><ul>
+<li><p>异步复制<br><img src="http://study.jeffqi.cn/mysql/async-replication-process.png" alt="async-replication-process"></p>
+</li>
+<li><p>半同步复制<br><img src="http://study.jeffqi.cn/mysql/semisync-replication-process.png" alt="semisync-replication-process"></p>
+</li>
+</ul>
+</li>
+<li><h2 id="组复制有什么用"><a href="#组复制有什么用" class="headerlink" title="组复制有什么用"></a>组复制有什么用</h2><p>  通过组复制，可以通过将系统状态复制到一组服务器来创建具有冗余的容错系统。即使某些服务器随后发生故障，只要不是全部或大多数，该系统仍然可用。</p>
+</li>
+<li><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li><p>弹性复制：需要非常流畅的复制基础结构的环境，其中服务器的数量必须动态增加或减少，并且副作用要尽可能少。例如，用于云的数据库服务。</p>
+</li>
+<li><p>高度可用的分片：分片是实现写入横向扩展的一种流行方法。使用MySQL组复制来实现高度可用的分片，其中每个分片都映射到一个复制组。</p>
+</li>
+<li><p>主从复制的替代方法：在某些情况下，使用单个主服务器使其成为单个竞争点。在某些情况下，写给整个小组可能会更具扩展性。</p>
+</li>
+<li><p>自治系统：另外，您可以纯粹为复制协议中内置的自动化功能部署MySQL组复制。</p>
+</li>
+</ol>
+</li>
+<li><h2 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h2><ul>
+<li><p>组复制的工作模式由参数 group_replication_single_primary_mode 来决定</p>
+</li>
+<li><p>on：单主模式</p>
+</li>
+<li><p>off：多主模式</p>
+</li>
+<li><p><strong>所有的成员的模式必须相同且组复制工作室不可修改；可以通过group_replication_switch_to_single_primary_mode()和 group_replication_switch_to_multi_primary_mode()函数来动态切换状态。</strong></p>
+<p><img src="http://study.jeffqi.cn/mysql/group_replication_work_status.jpg" alt="group_replication_work_status"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><ul>
+<li>mysql配置文件，master与slave不同在与server-id，和通信地址  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 组复制适用于innodb，所以使用其他的存储引擎可能会出现以外</span></span><br><span class="line">disabled_storage_engines=<span class="string">"MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"</span></span><br><span class="line"></span><br><span class="line">server_id=x</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本机配置，开启gtid</span></span><br><span class="line">gtid_mode=ON</span><br><span class="line">enforce_gtid_consistency=ON</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将二进制日志校验和关闭，不写入日志</span></span><br><span class="line">binlog_checksum=NONE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 二进制日志格式设置，名称，格式</span></span><br><span class="line">log_bin=binlog</span><br><span class="line"><span class="built_in">log</span>-index=binlog.index</span><br><span class="line">binlog_format=ROW</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从服务器将应用的relay-log语句写入本地的二进制日志中</span></span><br><span class="line">log_slave_updates=ON</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置本地的中继日志</span></span><br><span class="line">relay-log=relay-log</span><br><span class="line">relay-log-index=relay-log.index</span><br><span class="line"></span><br><span class="line">master_info_repository=TABLE</span><br><span class="line">relay_log_info_repository=TABLE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开机启动自动添加group_replication.so插件，如果配置文件中没有，在启动时性需要手动安装</span></span><br><span class="line">plugin_load_add=<span class="string">'group_replication.so'</span>    <span class="comment"># 登入mysq&gt;&gt;&gt;INSTALL PLUGIN group_replication SONAME 'group_replication.so';</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指明当前服务器不是引导组，在第一次开启组的时候需要将这个配置设置为on，完成后需要恢复为off</span></span><br><span class="line">group_replication_bootstrap_group=off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 组复制的uuid，全局唯一，可以使用select UUID() 生成的 uuid</span></span><br><span class="line">group_replication_group_name=<span class="string">"UUID"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以off指示插件在服务器启动时不自动启动操作。当你配置完成服务器后可以通过手工开启组服务器</span></span><br><span class="line">group_replication_start_on_boot=off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 组复制内部通信使用的ip地址和端口，不可以与提供服务的端口冲突（port配置参数的端口）</span></span><br><span class="line">group_replication_local_address= <span class="string">"s1:33061"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 组复制种子成员的ip地址与端口</span></span><br><span class="line">group_replication_group_seeds= <span class="string">"s1:33061,s2:33061,s3:33061"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指明为每个事物收集 write set 并使用 XXHASH64 进行hash</span></span><br><span class="line">transaction_write_set_extraction=XXHASH64</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="创建用于复制的用户"><a href="#创建用于复制的用户" class="headerlink" title="创建用于复制的用户"></a>创建用于复制的用户</h2><ul>
+<li>需要创建用于组复制的用户，并分配相应的权限，然后指向复制组  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> sql_log_bin=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">'repl'</span>@<span class="string">'192.168.80.%'</span> <span class="keyword">identified</span> <span class="keyword">WITH</span> <span class="string">'mysql_native_password'</span> <span class="keyword">BY</span> <span class="string">'Hjqme525+'</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">replication</span> <span class="keyword">slave</span>, <span class="keyword">replication</span> <span class="keyword">client</span>, backup_admin <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'repl'</span>@<span class="string">'192.168.80.%'</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br><span class="line"><span class="keyword">set</span> sql_log_bin=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">master_user=<span class="string">'repl'</span>,</span><br><span class="line">master_password=<span class="string">'Hjqme525+'</span> <span class="keyword">for</span> channel <span class="string">'group_replication_recovery'</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="重启服务检查组复制插件是否加载"><a href="#重启服务检查组复制插件是否加载" class="headerlink" title="重启服务检查组复制插件是否加载"></a>重启服务检查组复制插件是否加载</h2><ul>
+<li><p>通过过检查是否成功加载 group_replication 组复制插件；文章末尾有验证图；可在每个服务器服务启动后检查。</p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> plugins;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看组复制插件</p>
+</li>
+</ul>
+<h2 id="自举组启动并检查"><a href="#自举组启动并检查" class="headerlink" title="自举组启动并检查"></a>自举组启动并检查</h2><ul>
+<li>group_replication_bootstrap_group 系统变量来引导组；自检组角色为 primary，其他节点为 secondary。验证图中有结果。  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只有自举组才需要暂时开启这一步，开启引导组时才需要</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> group_replication_bootstrap_group=<span class="keyword">on</span>;</span><br><span class="line"><span class="keyword">start</span> group_replication;</span><br><span class="line"><span class="comment"># 开启后关闭</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> group_replication_bootstrap_group=<span class="keyword">off</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询是否加入到组中</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="其他节点加入"><a href="#其他节点加入" class="headerlink" title="其他节点加入"></a>其他节点加入</h2><ul>
+<li><p>配置文件需要修改server-id与group_replication_local_address</p>
+</li>
+<li><p>重启检查插件，创建组复制用户，分配权限，指向复制组</p>
+</li>
+<li><p>加入组中</p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">start</span> group_replication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> performance_schema.replication_group_members;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><ul>
+<li><p><strong>是否成功加载插件</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_show_plugins.jpg" alt="group_replication_show_plugins"></p>
+</li>
+<li><p><strong>节点是否加入到组中，并查看其优先级</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_select_replication_group_members.jpg" alt="group_replication_select_replication_group_members"></p>
+</li>
+<li><p><strong>主服务器操作</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_node2_create_database_table.jpg" alt="group_replication_node2_create_database_table"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_master_show_binlog.jpg" alt="group_replication_master_show_binlog"></p>
+</li>
+<li><p><strong>从服务器操作验证</strong></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/group_replication_slave_status.jpg" alt="group_replication_slave_status"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_show_databases.jpg" alt="group_replication_show_databases"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_select_table.jpg" alt="group_replication_select_table"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_slave_mysqlbinlog_relay_log.jpg" alt="group_replication_slave_mysqlbinlog_relay_log"><br>  <img src="http://study.jeffqi.cn/mysql/group_replication_slave_mysqlbinlog_relay_log_2.jpg" alt="group_replication_slave_mysqlbinlog_relay_log_2"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MySQL GTID</title>
+    <url>/2020/03/28/mysql/mysql_gtid/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#gtid">gtid</a></li>
+<li><a href="#gtid集合">gtid集合</a></li>
+<li><a href="#gtid主从自动定位">gtid主从自动定位</a></li>
+<li><a href="#基于gtid的主从复制">基于gtid的主从复制</a></li>
+<li><a href="#使用gtid的限制">使用gtid的限制</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="gtid"><a href="#gtid" class="headerlink" title="gtid"></a>gtid</h1><ul>
+<li><p>全局事务标识符（GTID）是创建的唯一标识符，并且与在源服务器（主服务器）上提交的每个事务相关联。该标识符不仅对于它起源的服务器是唯一的，而且在给定复制拓扑中的所有服务器上也是唯一的。</p>
+</li>
+<li><p>GTID<strong>单调递增</strong>，生成的数字之间没有间隙。如果将客户端<strong>事务提交</strong>到主服务器上，则将为其<strong>分配一个新的GTID</strong>，前提是该事务已写入二进制日志中。事务失败也会保留GTID</p>
+</li>
+<li><p>GTID的自动跳过功能意味着在主服务器上提交的事务只能在从服务器上应用一次。</p>
+</li>
+<li><p>GTID格式</p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">GTID = source_id:transaction_id</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="gtid集合"><a href="#gtid集合" class="headerlink" title="gtid集合"></a>gtid集合</h1><ul>
+<li><p>GTID集是包括一个或多个单个GTID或一系列GTID的集</p>
+</li>
+<li><p>MySQL系统表 mysql.gtid_executed 用于保留MySQL服务器上应用的所有事务的已分配GTID，但存储在当前活动的二进制日志文件中的事务除外；该表记录和GTID的状态。保证GTID的值记录。使用 reset master 会清空该表</p>
+<p>  <img src alt="gtid_executed"></p>
+</li>
+</ul>
+<h1 id="gtid主从自动定位"><a href="#gtid主从自动定位" class="headerlink" title="gtid主从自动定位"></a>gtid主从自动定位</h1><ul>
+<li>在主从复制中可以通过gtid来进行日志的自动定位；无需再指定日志的偏移量  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">  ...</span><br><span class="line">  master_auto_position</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="基于gtid的主从复制"><a href="#基于gtid的主从复制" class="headerlink" title="基于gtid的主从复制"></a>基于gtid的主从复制</h1><ol>
+<li><p>同时开启只读模式，让从库追上主库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> @@GLOBAL.read_only = <span class="keyword">ON</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关闭主从服务器</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mysqladmin -uusername -p shutdown</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件启动</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">gtid_mode=on</span><br><span class="line">enforce_gtid_consistency=on</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置主从复制</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span></span><br><span class="line">  MASTER_HOST = host,</span><br><span class="line">  MASTER_PORT = port,</span><br><span class="line">  MASTER_USER = <span class="keyword">user</span>,</span><br><span class="line">  MASTER_PASSWORD = <span class="keyword">password</span>,</span><br><span class="line">  MASTER_AUTO_POSITION = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置从库只读，启动复制</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> @@GLOBAL.read_only=<span class="keyword">on</span>;</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">slave</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>跳过某个事物</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SET</span> GTID_NEXT=<span class="string">'aaa-bbb-ccc-ddd:N'</span>;</span><br><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"><span class="keyword">SET</span> GTID_NEXT=<span class="string">'AUTOMATIC'</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="使用gtid的限制"><a href="#使用gtid的限制" class="headerlink" title="使用gtid的限制"></a>使用gtid的限制</h1><ul>
+<li><p><strong>涉及非事务性存储引擎的更新</strong>：在同一事务中对使用非事务性存储引擎的表的更新与对使用事务性存储引擎的表的更新混合在一起可能导致将多个GTID分配给同一事务。</p>
+</li>
+<li><p>CREATE TABLE … SELECT语句：CREATE TABLE … SELECT使用基于GTID的复制时，不允许使用这些语句</p>
+</li>
+<li><p>临时表：使用GTID（即，将系统变量设置为）时，事务，过程，函数和触发器内部不支持CREATE TEMPORARY TABLEand DROP TEMPORARY TABLE语句 。</p>
+</li>
+<li><p>跳过交易：sql_slave_skip_counter使用GTID时不支持。如果需要跳过事务，请改用master gtid_executed变量的值 。跳过空事务</p>
+</li>
+</ul>
+<p>-</p>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>从删库到跑路到恢复数据</title>
+    <url>/2020/03/28/mysql/mysql_drop_data_repair/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#删数据情况">删数据情况</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="删数据情况"><a href="#删数据情况" class="headerlink" title="删数据情况"></a>删数据情况</h1><ol>
+<li><p>使用 <strong>delete</strong> 语句误删数据行；</p>
+</li>
+<li><p>使用 <strong>drop table</strong> 或者 <strong>truncate table</strong> 语句误删数据表；</p>
+</li>
+<li><p>使用 <strong>drop database</strong> 语句误删数据库；</p>
+</li>
+<li><p>使用 <strong>rm</strong> 命令误删整个 MySQL 实例。</p>
+<ul>
+<li><h2 id="删除行数据"><a href="#删除行数据" class="headerlink" title="删除行数据"></a>删除行数据</h2><p>在进行dml操作后，如果意外的更新删除了错误的数据可以使用flashback工具进行恢复</p>
+<p><a href="https://mariadb.com/kb/en/flashback/" target="_blank" rel="noopener">flashback工具</a></p>
+<p><strong>当前仅在DML语句（INSERT，DELETE，UPDATE）上支持闪回</strong>。即将发布的MariaDB版本将通过将当前表复制或移动到保留和隐藏的数据库，然后在使用闪回时复制或移回来增加对DDL语句（DROP，TRUNCATE，ALTER)支持。</p>
+<p><strong>flashback只适用于row格式日志和full记录</strong></p>
+<pre><code><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">binlog_format=row</span><br><span class="line">binlog_row_image=full</span><br></pre></td></tr></table></figure></code></pre><p><img src="http://study.jeffqi.cn/mysql/flashback_row_full.jpg" alt="flashback_row_full.jpg"></p>
+<p><strong>工作机制</strong>：flash的实际工作由mysqlbinlog与–flashback一起完成。这将导致事件被转换：从INSERT到DELETE，从DELETE到INSERT，并且对于UPDATE，交换之前和之后的图像。</p>
+<p>避免数据的误操作，我们急需做的是预防；</p>
+<pre><code>1.  sql_safe_updates 参数设置为 on；对于语句进行检查，需要添加where才能使用
+2.  上线前对sql进行审计</code></pre></li>
+<li><h2 id="误删表-库"><a href="#误删表-库" class="headerlink" title="误删表/库"></a>误删表/库</h2><p>使用全量备份，加增量日志；<strong>这个方案要求线上有定期的全量备份，并且实时备份 binlog</strong>。</p>
+<ol>
+<li>取最近一次全量备份，假设这个库是一天一备，上次备份是当天 0 点；</li>
+<li>用备份恢复出一个临时库；从日志备份里面，取出凌晨 0 点之后的日志；</li>
+<li>把这些日志，除了误删除数据的语句外，全部应用到临时库。</li>
+</ol>
+<p><img src="http://study.jeffqi.cn/mysql/data_repair_after_drop_tables_or_databases.png" alt="data_repair_after_drop_tables_or_databases"></p>
+<ul>
+<li><p>可以在使用 mysqlbinlog 命令时，加上一个–database 参数，用来指定误删表所在的库。避免在恢复数据时还要应用其他库日志的情况。</p>
+</li>
+<li><p>使用-stop-position与-start-position来跳过误操作；或者使用GTID方案</p>
+</li>
+<li><p><strong>加速恢复</strong>：在用备份恢复出临时实例之后，将这个临时实例设置成线上备库的从库；在 start slave 之前，先通过执行﻿﻿change replication filter replicate_do_table = (tbl_name) 命令，就可以让临时库只同步误操作的表；这样做也可以用上并行复制技术，来加速整个数据恢复过程。（需要注意可能备库上没有需要的增量日志需要从备库系统下载，然后添加日志信息到master.index中，让数据库能够识别）</p>
+</li>
+</ul>
+<p><img src="http://study.jeffqi.cn/mysql/data_repair_use_replecation.png" alt="data_repair_use_replecation.png"></p>
+</li>
+<li><h2 id="延迟复制备库"><a href="#延迟复制备库" class="headerlink" title="延迟复制备库"></a>延迟复制备库</h2><p>延迟复制的备库是一种特殊的备库，通过 CHANGE MASTER TO MASTER_DELAY = N 命令，可以指定这个备库持续保持跟主库有 N 秒的延迟。</p>
+</li>
+<li><h2 id="rm-删除数据"><a href="#rm-删除数据" class="headerlink" title="rm 删除数据"></a>rm 删除数据</h2><p>集群就是做一个高可用只要不是删除了集群这个数据库的信息HA就能够工作选出新的主库</p>
+</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
     <title>高可用方案</title>
     <url>/2020/03/27/linux/hight_access/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -948,21 +1189,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Web网络安全</title>
-    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Web内容技术</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1019,6 +1245,21 @@
 <li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
       <categories>
         <category>Network</category>
       </categories>
@@ -3215,30 +3456,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Linux优秀笔记网站记录</title>
-    <url>/2020/03/19/linux/linux-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<!--moer-->
-
-<ul>
-<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
-<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
-<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
-<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
-<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
-<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
-<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
-<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
-<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>平均负载</title>
     <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3310,6 +3527,30 @@
 </ul>
 </li>
 </ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Linux优秀笔记网站记录</title>
+    <url>/2020/03/19/linux/linux-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<!--moer-->
+
+<ul>
+<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
+<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
+<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
+<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
+<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
+<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
+<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
+<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
+<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
