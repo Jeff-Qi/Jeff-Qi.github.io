@@ -139,12 +139,14 @@
 <li><p>GTID集是包括一个或多个单个GTID或一系列GTID的集</p>
 </li>
 <li><p>MySQL系统表 mysql.gtid_executed 用于保留MySQL服务器上应用的所有事务的已分配GTID，但存储在当前活动的二进制日志文件中的事务除外；该表记录和GTID的状态。保证GTID的值记录。使用 reset master 会清空该表</p>
-<p>  <img src alt="gtid_executed"></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/gtid_executed.jpg" alt="gtid_executed"></p>
 </li>
 </ul>
 <h1 id="gtid主从自动定位"><a href="#gtid主从自动定位" class="headerlink" title="gtid主从自动定位"></a>gtid主从自动定位</h1><ul>
-<li>在主从复制中可以通过gtid来进行日志的自动定位；无需再指定日志的偏移量  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">  ...</span><br><span class="line">  master_auto_position</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<li><p>在主从复制中可以通过gtid来进行日志的自动定位；无需再指定日志的偏移量</p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">  ...</span><br><span class="line">  master_auto_position</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
 
+<p>  <img src="http://study.jeffqi.cn/mysql/gtid_in_binlog.jpg" alt="gtid_in_binlog"></p>
 </li>
 </ul>
 <h1 id="基于gtid的主从复制"><a href="#基于gtid的主从复制" class="headerlink" title="基于gtid的主从复制"></a>基于gtid的主从复制</h1><ol>
@@ -178,7 +180,6 @@
 <li><p>跳过交易：sql_slave_skip_counter使用GTID时不支持。如果需要跳过事务，请改用master gtid_executed变量的值 。跳过空事务</p>
 </li>
 </ul>
-<p>-</p>
 ]]></content>
       <categories>
         <category>MySQL</category>
@@ -1155,6 +1156,21 @@
       </categories>
   </entry>
   <entry>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Web内容技术</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1211,21 +1227,6 @@
 <li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
 </ul>
 ]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Web网络安全</title>
-    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
       <categories>
         <category>Network</category>
       </categories>
@@ -3456,6 +3457,30 @@
       </categories>
   </entry>
   <entry>
+    <title>Linux优秀笔记网站记录</title>
+    <url>/2020/03/19/linux/linux-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<!--moer-->
+
+<ul>
+<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
+<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
+<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
+<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
+<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
+<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
+<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
+<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
+<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>平均负载</title>
     <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3527,30 +3552,6 @@
 </ul>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Linux优秀笔记网站记录</title>
-    <url>/2020/03/19/linux/linux-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<!--moer-->
-
-<ul>
-<li>进程线程协程：<a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">https://blog.csdn.net/daaikuaichuan/article/details/82951084</a></li>
-<li>apache MPM工作模式：<a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoyan01/p/9948092.html</a></li>
-<li>写时复制：<a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html</a></li>
-<li>linux调度：<a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">https://blog.csdn.net/qq_37375427/article/details/83046906</a></li>
-<li>centos7 开机详解：<a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></li>
-<li>linux防火墙之iptables：<a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">http://www.zsythink.net/archives/tag/iptables/page/2/</a></li>
-<li>linux各种括号：<a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">https://blog.csdn.net/taiyang1987912/article/details/39551385</a></li>
-<li>linux负载均衡lvs：<a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">https://www.cnblogs.com/yanjieli/p/10582324.html</a></li>
-<li>linux VRRP：<a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">https://www.jianshu.com/p/81115a4293c7</a></li>
-</ul>
 ]]></content>
       <categories>
         <category>Linux</category>

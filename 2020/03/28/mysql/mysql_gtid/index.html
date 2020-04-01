@@ -62,10 +62,13 @@
 <meta property="og:site_name" content="Jerqi‘s Blog">
 <meta property="og:description" content="gtid gtid集合 gtid主从自动定位 基于gtid的主从复制 使用gtid的限制">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-29T09:46:31.940Z">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/gtid_executed.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/mysql/gtid_in_binlog.jpg">
+<meta property="og:updated_time" content="2020-04-01T06:11:09.925Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL GTID">
 <meta name="twitter:description" content="gtid gtid集合 gtid主从自动定位 基于gtid的主从复制 使用gtid的限制">
+<meta name="twitter:image" content="http://study.jeffqi.cn/mysql/gtid_executed.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/28/mysql/mysql_gtid/">
 
 
@@ -295,7 +298,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 17:46:31" itemprop="dateModified" datetime="2020-03-29T17:46:31+08:00">2020-03-29</time>
+                <time title="修改时间：2020-04-01 14:11:09" itemprop="dateModified" datetime="2020-04-01T14:11:09+08:00">2020-04-01</time>
               </span>
             
           
@@ -351,12 +354,14 @@
 <li><p>GTID集是包括一个或多个单个GTID或一系列GTID的集</p>
 </li>
 <li><p>MySQL系统表 mysql.gtid_executed 用于保留MySQL服务器上应用的所有事务的已分配GTID，但存储在当前活动的二进制日志文件中的事务除外；该表记录和GTID的状态。保证GTID的值记录。使用 reset master 会清空该表</p>
-<p>  <img src alt="gtid_executed"></p>
+<p>  <img src="http://study.jeffqi.cn/mysql/gtid_executed.jpg" alt="gtid_executed"></p>
 </li>
 </ul>
 <h1 id="gtid主从自动定位"><a href="#gtid主从自动定位" class="headerlink" title="gtid主从自动定位"></a>gtid主从自动定位</h1><ul>
-<li>在主从复制中可以通过gtid来进行日志的自动定位；无需再指定日志的偏移量  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">  ...</span><br><span class="line">  master_auto_position</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<li><p>在主从复制中可以通过gtid来进行日志的自动定位；无需再指定日志的偏移量</p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span></span><br><span class="line">  ...</span><br><span class="line">  master_auto_position</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
 
+<p>  <img src="http://study.jeffqi.cn/mysql/gtid_in_binlog.jpg" alt="gtid_in_binlog"></p>
 </li>
 </ul>
 <h1 id="基于gtid的主从复制"><a href="#基于gtid的主从复制" class="headerlink" title="基于gtid的主从复制"></a>基于gtid的主从复制</h1><ol>
@@ -390,7 +395,6 @@
 <li><p>跳过交易：sql_slave_skip_counter使用GTID时不支持。如果需要跳过事务，请改用master gtid_executed变量的值 。跳过空事务</p>
 </li>
 </ul>
-<p>-</p>
 
     </div>
 
