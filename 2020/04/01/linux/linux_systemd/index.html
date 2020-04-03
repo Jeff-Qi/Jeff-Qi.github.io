@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 参考文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux systemd 机制初探">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/04/01/linux/linux_systemd/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 参考文档">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_service.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_multi-user_target.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_graphical_target.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_graphical_target.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_basic_target.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_sysinit_target.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_local-fs_target.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_enable_disable_service_unite.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_timer_unit.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_journalctl.jpg">
+<meta property="og:updated_time" content="2020-04-03T07:12:12.038Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux systemd 机制初探">
+<meta name="twitter:description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 参考文档">
+<meta name="twitter:image" content="http://study.jeffqi.cn/linux/systemd_service.jpg">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/04/01/linux/linux_systemd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Linux systemd 机制初探 | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/04/01/linux/linux_systemd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Linux systemd 机制初探
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-01 17:40:00" itemprop="dateCreated datePublished" datetime="2020-04-01T17:40:00+08:00">2020-04-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-03 15:12:12" itemprop="dateModified" datetime="2020-04-03T15:12:12+08:00">2020-04-03</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#systemd-是啥">systemd 是啥？</a></li>
+<li><a href="#为什么是用-systemd-作为开机启动进程">为什么是用 systemd 作为开机启动进程</a></li>
+<li><a href="#systemd启动过程">systemd启动过程</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="systemd-是啥？"><a href="#systemd-是啥？" class="headerlink" title="systemd 是啥？"></a>systemd 是啥？</h1><ul>
+<li><p>systemd 是 Linux 内核发起的第一个程序，并且它还扮演多种角色。它会启动系统服务、处理用户登录.</p>
+</li>
+<li><h2 id="unit-单元"><a href="#unit-单元" class="headerlink" title="unit 单元"></a>unit 单元</h2><ol>
+<li><p>systemd的核心是一个叫单元 unit的概念，它是一些存有关于服务service（在运行在后台的程序）、设备、挂载点、和操作系统其他方面信息的配置文件。</p>
+</li>
+<li><p>在/usr/lib/systemd/system下有许多，server，其中包括要被运行的二进制文件（“ExecStart”那一行），相冲突的其他单元（即不能同时进入运行的单元），以及需要在本单元执行前进入运行的单元（“After”那一行）。一些单元有附加的依赖选项，例如“Requires”（必要的依赖）和“Wants”（可选的依赖）。</p>
+<p><img src="http://study.jeffqi.cn/linux/systemd_service.jpg" alt="systemd_service"></p>
+</li>
+</ol>
+</li>
+<li><h2 id="target-目标"><a href="#target-目标" class="headerlink" title="target 目标"></a>target 目标</h2><ol>
+<li><p>启动目标 target是一种将多个单元聚合在一起以致于将它们同时启动的方式。</p>
+</li>
+<li><p>一个服务会通过 WantedBy 选项让自己成为启动目标的依赖</p>
+</li>
+<li><p>文本模式的 multi-user.target 类似于源init启动的第3运行级，graphical.target 类似于第5运行级，reboot.target 类似于第6运行级，诸如此类。</p>
+<p><img src="http://study.jeffqi.cn/linux/systemd_multi-user_target.jpg" alt="systemd_multi-user_target"></p>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="为什么是用-systemd-作为开机启动进程"><a href="#为什么是用-systemd-作为开机启动进程" class="headerlink" title="为什么是用 systemd 作为开机启动进程"></a>为什么是用 systemd 作为开机启动进程</h1><ul>
+<li><h2 id="init进程"><a href="#init进程" class="headerlink" title="init进程"></a>init进程</h2><ol>
+<li><p>内核记载完成后会马上查找/sbin下的“init”程序并执行它。从这里开始init成为了Linux系统的父进程。init读取的第一个文件是/etc/inittab，通过它init会确定我们Linux操作系统的运行级别。它会从文件/etc/fstab里查找分区表信息然后做相应的挂载。然后init会启动/etc/init.d里指定的默认启动级别的所有服务/脚本。所有服务在这里通过init一个一个被初始化。关机过程差不多是相反的过程，首先init停止所有服务，最后阶段会卸载文件系统。</p>
+</li>
+<li><p>Linux系统的启动方式有点复杂，而且总是有需要优化的地方。传统的Linux系统启动过程主要由著名的init进程（也被称为SysV init启动系统）处理，而基于init的启动系统被认为有效率不足的问题，程序启动时串行化的，init每次只启动一个服务，所有服务/守护进程都在后台执行并由init来管理。</p>
+</li>
+</ol>
+</li>
+<li><h2 id="systemd进程"><a href="#systemd进程" class="headerlink" title="systemd进程"></a>systemd进程</h2><ol>
+<li><p>systemd能够更快地启动，更简单地管理那些有依赖的服务程序，提供强大且安全的日志系统等。</p>
+</li>
+<li><p>主要是引入了并行启动的概念。它会为每个需要启动的守护进程建立一个套接字，这些套接字对于使用它们的进程来说是抽象的，这样它们可以允许不同守护进程之间进行交互。Systemd会创建新进程并为每个进程分配一个控制组（cgroup）。处于不同控制组的进程之间可以通过内核来互相通信。</p>
+</li>
+</ol>
+</li>
+<li><h2 id="systemd对于init的优化"><a href="#systemd对于init的优化" class="headerlink" title="systemd对于init的优化"></a>systemd对于init的优化</h2><ol>
+<li>和init比起来引导过程简化了很多</li>
+<li>Systemd支持并发引导过程从而可以更快启动</li>
+<li>通过控制组来追踪进程，而不是PID</li>
+<li>优化了处理引导过程和服务之间依赖的方式</li>
+<li>支持系统快照和恢复</li>
+<li>监控已启动的服务；也支持重启已崩溃服务</li>
+<li>包含了systemd-login模块用于控制用户登录</li>
+<li>支持加载和卸载组件</li>
+<li>低内存使用痕迹以及任务调度能力</li>
+<li>记录事件的Journald模块和记录系统日志的syslogd模块</li>
+</ol>
+</li>
+</ul>
+<h1 id="systemd启动过程"><a href="#systemd启动过程" class="headerlink" title="systemd启动过程"></a>systemd启动过程</h1><ol>
+<li><p>BIOS加电自检</p>
+</li>
+<li><p>开始grub引导内核加入</p>
+</li>
+<li><p><strong>启动systemd进程</strong></p>
+<ol>
+<li><p>default.target：实际上default.target是指向graphical.target的软链接。 文件Graphical.target的实际位置是/usr/lib/systemd/system/graphical.target。在这个阶段，会启动multi-user.target</p>
+<p><img src="http://study.jeffqi.cn/linux/systemd_graphical_target.jpg" alt="systemd_graphical_target"></p>
+</li>
+<li><p>multi-user.target：这个target将自己的子单元放在目录“/etc/systemd/system/multi-user.target.wants”里。这个target为多用户支持设定系统环境。非root用户会在这个阶段的引导过程中启用。防火墙相关的服务也会在这个阶段启动。”multi-user.target”会将控制权交给另一层“basic.target”。</p>
+<p><img src="http://study.jeffqi.cn/linux/systemd_graphical_target.jpg" alt="systemd_multi-user_target"></p>
+</li>
+<li><p>basic.target：用于启动普通服务特别是图形管理服务。它通过/etc/systemd/system/basic.target.wants目录来决定哪些服务会被启动，basic.target之后将控制权交给sysinit.target。</p>
+<p><img src="http://study.jeffqi.cn/linux/systemd_basic_target.jpg" alt="systemd_basic_target"></p>
+</li>
+<li><p>sysinit.target:启动重要的系统服务例如系统挂载，内存交换空间和设备，内核补充选项等等。sysinit.target在启动过程中会传递给local-fs.target。</p>
+<p> <img src="http://study.jeffqi.cn/linux/systemd_sysinit_target.jpg" alt="systemd_sysinit_target"></p>
+</li>
+<li><p>local-fs.target，这个target单元不会启动用户相关的服务，它只处理底层核心服务。这个target会根据/etc/fstab和/etc/inittab来执行相关操作。</p>
+<p> <img src="http://study.jeffqi.cn/linux/systemd_local-fs_target.jpg" alt="systemd_local-fs_target"></p>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="systemd使用"><a href="#systemd使用" class="headerlink" title="systemd使用"></a>systemd使用</h1><ul>
+<li><h2 id="systemctl"><a href="#systemctl" class="headerlink" title="systemctl"></a>systemctl</h2><p>  systemctl 是与 Systemd 交互的主要工具</p>
+<p>  启用与禁止服务：可以使用<strong>下面的命令</strong>：这种做法会为该单元创建一个符号链接，并将其放置在当前启动目标的 .wants 目录下，这些 .wants 目录在/etc/systemd/system 文件夹中。</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span>/<span class="built_in">disable</span> xxx.service</span><br></pre></td></tr></table></figure>
+
+<p>  <img src="http://study.jeffqi.cn/linux/systemd_enable_disable_service_unite.jpg" alt="systemd_enable_disable_service_unite"></p>
+<p>  服务运行与停止：</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start/restart/stop xxx.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="timer定时器单元"><a href="#timer定时器单元" class="headerlink" title="timer定时器单元"></a>timer定时器单元</h2><p>  <strong>取代cron</strong>：在很大程度上，它能够完成 cron 的工作，而且可以说是以更灵活的方式（并带有更易读的语法）。cron 是一个以规定时间间隔执行任务的程序——例如清除临时文件，刷新缓存等。</p>
+<p>  <img src="http://study.jeffqi.cn/linux/systemd_timer_unit.jpg" alt="systemd_timer_unit"></p>
+</li>
+<li><h2 id="journal日志文件"><a href="#journal日志文件" class="headerlink" title="journal日志文件"></a>journal日志文件</h2><p>  <strong>缺点</strong>：这是个<strong>二进制日志</strong>，因此您不能使用常规的命令行文本处理工具来解析它；<br>  <strong>优点</strong>：日志可以被更系统地组织，带有更多的元数据，因此可以更容易地根据可执行文件名和进程号等过滤出信息。</p>
+<p>  查看日志：</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">journalctl</span><br><span class="line"><span class="comment"># -b:至那一次启动以来的日志，默认为0最近一次启动以来，-1为上一次启动</span></span><br><span class="line"><span class="comment"># --since=”2020-04-24 16:38”:至那个时间点以来的日志</span></span><br><span class="line"><span class="comment"># -u mysql.service：某一个服务的日志</span></span><br><span class="line"><span class="comment"># _PID=890：某一个进程的日志</span></span><br></pre></td></tr></table></figure>
+
+<p>  <img src="http://study.jeffqi.cn/linux/systemd_journalctl.jpg" alt="systemd_journalctl"></p>
+</li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://linux.cn/article-5457-1.html" target="_blank" rel="noopener">走进Linux之systemd启动过程</a></li>
+<li><a href="https://linux.cn/article-6888-1.html" target="_blank" rel="noopener">systemd教程</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/29/mysql/mysql_group_replication/" rel="next" title="MySQL组复制">
+                  <i class="fa fa-chevron-left"></i> MySQL组复制
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd-是啥？"><span class="nav-number">1.</span> <span class="nav-text">systemd 是啥？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#unit-单元"><span class="nav-number">1.1.</span> <span class="nav-text">unit 单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#target-目标"><span class="nav-number">1.2.</span> <span class="nav-text">target 目标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么是用-systemd-作为开机启动进程"><span class="nav-number">2.</span> <span class="nav-text">为什么是用 systemd 作为开机启动进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init进程"><span class="nav-number">2.1.</span> <span class="nav-text">init进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd进程"><span class="nav-number">2.2.</span> <span class="nav-text">systemd进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd对于init的优化"><span class="nav-number">2.3.</span> <span class="nav-text">systemd对于init的优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd启动过程"><span class="nav-number">3.</span> <span class="nav-text">systemd启动过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd使用"><span class="nav-number">4.</span> <span class="nav-text">systemd使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#systemctl"><span class="nav-number">4.1.</span> <span class="nav-text">systemctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#timer定时器单元"><span class="nav-number">4.2.</span> <span class="nav-text">timer定时器单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#journal日志文件"><span class="nav-number">4.3.</span> <span class="nav-text">journal日志文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">5.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
