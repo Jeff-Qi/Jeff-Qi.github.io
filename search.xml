@@ -10,15 +10,6 @@
 <li><a href="#systemd启动过程">systemd启动过程</a></li>
 <li><a href="#systemd使用">systemd使用</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
-
-</li>
-</ul>
-<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#systemd-是啥">systemd 是啥？</a></li>
-<li><a href="#为什么是用-systemd-作为开机启动进程">为什么是用 systemd 作为开机启动进程</a></li>
-<li><a href="#systemd启动过程">systemd启动过程</a></li>
-<li><a href="#参考文档">参考文档</a><!-- TOC END -->
 <a id="more"></a>
 
 </li>
