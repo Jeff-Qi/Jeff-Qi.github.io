@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MySQL基本操作</title>
+    <url>/2020/04/05/mysql/mysql_base_operation/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#数据库表编码">数据库、表编码</a></li>
+<li><a href="#索引操作">索引操作</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="数据库、表编码"><a href="#数据库、表编码" class="headerlink" title="数据库、表编码"></a>数据库、表编码</h1><ol>
+<li><p>修改某一个库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 数据库中所有表被改动</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">database</span> db_name <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> charset_name <span class="keyword">collate</span> charset_name;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建库时指定</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> db_name <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> charset_name <span class="keyword">collate</span> charset_name;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改某个表</p>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把表默认的字符集和所有字符列（CHAR,VARCHAR,TEXT）改为新的字符集</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> t_name <span class="keyword">convert</span> <span class="keyword">to</span> <span class="built_in">character</span> <span class="keyword">set</span> charset_name <span class="keyword">collate</span> charset_name;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只修改表的默认字符集</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> t_name <span class="keyword">default</span> <span class="built_in">character</span> <span class="keyword">set</span> charset_name <span class="keyword">collate</span> charset_name;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改某个列</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> t_name <span class="keyword">change</span> column_name column_name 类型（必须字符类型） <span class="built_in">character</span> <span class="keyword">set</span> charset_name <span class="keyword">collate</span> charset_name;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看字符集</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">database</span> db_name;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> table_name;</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">full</span> <span class="keyword">columns</span> <span class="keyword">from</span> table_name;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="索引操作"><a href="#索引操作" class="headerlink" title="索引操作"></a>索引操作</h1><ol>
+<li><p>create table</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> TABLE_NAME</span><br><span class="line">  (</span><br><span class="line">    COLUMN_NAME <span class="keyword">type</span></span><br><span class="line">    <span class="keyword">index</span> index_name (COLUMN_NAME)</span><br><span class="line">  )<span class="keyword">engine</span>=xx <span class="keyword">default</span> <span class="keyword">charset</span>=xxx;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>create index</p>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> TABLE_NAME(COLUMN_NAME);（无法创建唯一索引）</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">index</span> index_name <span class="keyword">on</span> TABLE_NAME;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>alter table</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_name <span class="keyword">add</span> primary <span class="keyword">key</span>/fulltext/<span class="keyword">unique</span>/<span class="keyword">index</span>/ index_name (COLUMN_NAME);</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> table_name <span class="keyword">drop</span> <span class="keyword">index</span> index_name;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Linux systemd 机制初探</title>
     <url>/2020/04/01/linux/linux_systemd/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1274,21 +1317,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Web网络安全</title>
-    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Web内容技术</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1345,6 +1373,21 @@
 <li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
       <categories>
         <category>Network</category>
       </categories>
@@ -1785,6 +1828,222 @@
 ]]></content>
       <categories>
         <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MySQL数据备份</title>
+    <url>/2020/03/23/mysql/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#备份与恢复类型">备份与恢复类型</a><ul>
+<li><a href="#热备份联机备份">热备份（联机备份）</a></li>
+<li><a href="#冷备份脱机备份">冷备份（脱机备份）</a></li>
+<li><a href="#远程备份与本地备份">远程备份与本地备份</a></li>
+<li><a href="#快照备份">快照备份</a></li>
+<li><a href="#全量备份与增量备份">全量备份与增量备份</a></li>
+<li><a href="#物理备份">物理备份</a></li>
+<li><a href="#逻辑备份">逻辑备份</a></li>
+</ul>
+</li>
+<li><a href="#备份工具方法">备份工具方法</a><ul>
+<li><a href="#mysqldump备份与还原数据">mysqldump备份与还原数据</a></li>
+<li><a href="#复制文件进行备份myisam引擎">复制文件进行备份（myisam引擎）</a></li>
+<li><a href="#创建文本数据备份">创建文本数据备份</a></li>
+<li><a href="#二进制日志增量备份">二进制日志增量备份</a></li>
+</ul>
+</li>
+<li><a href="#开源热备工具">开源热备工具</a><ul>
+<li><a href="#percona-xtrabakup捉急需要了解">percona xtrabakup（捉急需要了解）</a></li>
+</ul>
+</li>
+<li><a href="#备份策略">备份策略</a><ul>
+<li><a href="#数据恢复">数据恢复</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="备份与恢复类型"><a href="#备份与恢复类型" class="headerlink" title="备份与恢复类型"></a>备份与恢复类型</h1><h2 id="热备份（联机备份）"><a href="#热备份（联机备份）" class="headerlink" title="热备份（联机备份）"></a>热备份（联机备份）</h2><ul>
+<li><p>备份 <strong>对其他客户端的干扰较小</strong>，其他客户端可以在备份期间连接到MySQL服务器，并且可以根据其需要执行的操作来访问数据。</p>
+</li>
+<li><p><strong>必须注意施加适当的锁定</strong>，以免发生会损害备份完整性的数据修改。</p>
+</li>
+</ul>
+<h2 id="冷备份（脱机备份）"><a href="#冷备份（脱机备份）" class="headerlink" title="冷备份（脱机备份）"></a>冷备份（脱机备份）</h2><ul>
+<li><p>将服务器关机，将数据复制到从服务器上。主服务器重启时会产生一个新的二进制日志文件。change master to 这个二进制日志文件。<strong>明显的缺点，关机期间服务不可用</strong>。</p>
+</li>
+<li><p>复制过程简单，数据不会受影响。但是客户端无法使用。</p>
+</li>
+</ul>
+<h2 id="远程备份与本地备份"><a href="#远程备份与本地备份" class="headerlink" title="远程备份与本地备份"></a>远程备份与本地备份</h2><ul>
+<li><p>mysqldump 可以连接到<strong>本地或远程服务器</strong>。对于SQL输出（CREATE和 INSERT语句），备份拿出来的<strong>数据文件可以在本地或远程主机上</strong>。</p>
+</li>
+<li><p>select … into outfile可以<strong>连接到本地或远程服务器</strong>，但<strong>生成的备份文件只能在服务器上</strong>。</p>
+</li>
+<li><p>物理备份方法<strong>通常在MySQL服务器主机上</strong>，以便使服务器脱机，尽管复制文件的目的地可能是远程的。</p>
+</li>
+</ul>
+<h2 id="快照备份"><a href="#快照备份" class="headerlink" title="快照备份"></a>快照备份</h2><ul>
+<li><strong>基于某一个时间点对数据的逻辑备份</strong>。MySQL本身不提供获取文件系统快照的功能。它可以通过Veritas，LVM或ZFS等第三方解决方案获得。</li>
+</ul>
+<h2 id="全量备份与增量备份"><a href="#全量备份与增量备份" class="headerlink" title="全量备份与增量备份"></a>全量备份与增量备份</h2><ul>
+<li><p>完全备份包括在给定时间点由MySQL服务器管理的所有数据。</p>
+</li>
+<li><p>增量备份包括在给定时间段（从一个时间点到另一个时间点）内对数据所做的更改。</p>
+</li>
+<li><p>MySQL有执行完全备份的方法有多重。通过启用服务器的二进制日志（服务器用于记录数据更改），可以进行增量备份。</p>
+</li>
+</ul>
+<h2 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h2><ul>
+<li><p>物理备份 <strong>由存储数据库内容的目录和文件的原始副本组成</strong>。这种类型的备份适用于 <strong>大型的重要数据库</strong>，这些数据库在出现问题时需要快速恢复。</p>
+</li>
+<li><h2 id="物理备份特点"><a href="#物理备份特点" class="headerlink" title="物理备份特点"></a>物理备份特点</h2><ul>
+<li><p>备份由数据库目录和文件的精确副本组成。通常，这是全部或部分MySQL数据目录的副本。</p>
+</li>
+<li><p>物理备份方法比逻辑备份方法快，因为它们仅涉及文件复制而不进行转换。</p>
+</li>
+<li><p>输出比逻辑备份更紧凑。</p>
+</li>
+<li><p>备份和还原的 <strong>粒度范围从整个数据目录级别到单个文件级别</strong>。是否有表级别粒度，具体取决于存储引擎。例如， InnoDB每个表可以位于单独的文件中，或与其他InnoDB表共享文件存储 ；例如，每个 MyISAM表唯一地对应于一组文件。</p>
+</li>
+<li><p>除了数据库之外，备份 <strong>还可以包括任何相关文件，例如日志或配置文件</strong>。</p>
+</li>
+<li><p>备份只能移植到具有相同或相似硬件特性的其他计算机上。</p>
+</li>
+<li><p><strong>备份工具</strong> 包括对于企业版mysql的innodb引擎或者其他表的 <strong>mysqlbackup</strong>，或者是对于备份myisam表的 <strong>系统命令(cp、scp、tar)</strong>。</p>
+</li>
+</ul>
+</li>
+<li><h2 id="还原物理备份数据"><a href="#还原物理备份数据" class="headerlink" title="还原物理备份数据"></a>还原物理备份数据</h2><ul>
+<li>mysqlbackup工具还原</li>
+<li>ndb_restore还原 NDB表。</li>
+<li>可以使用文件系统命令将在文件系统级别复制的文件复制回其原始位置。</li>
+</ul>
+</li>
+</ul>
+<h2 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h2><ul>
+<li><p>逻辑备份保存表示为 <strong>逻辑数据库结构</strong>（CREATE DATABASE， CREATE TABLE语句）和 <strong>内容</strong>（INSERT语句或定界文本文件）的信息。这种类型的备份适用于 <strong>少量数据</strong>，您可以在其中编辑数据值或表结构，或在其他计算机体系结构上重新创建数据。</p>
+</li>
+<li><h2 id="逻辑备份特点"><a href="#逻辑备份特点" class="headerlink" title="逻辑备份特点"></a>逻辑备份特点</h2><ul>
+<li><p>通过查询MySQL服务器以获得数据库结构和内容信息来完成备份。</p>
+</li>
+<li><p>备份比物理方法慢，因为服务器必须访问数据库信息并将其转换为逻辑格式。如果输出是在客户端编写的，则服务器还必须将其发送到备份程序。</p>
+</li>
+<li><p>备份产生的文件比较大</p>
+</li>
+<li><p>备份和还原粒度在服务器级别（所有数据库），数据库级别（特定数据库中的所有表）或表级别可用。无论存储引擎如何，都是如此。<strong>相比于物理备份更加细粒度</strong></p>
+</li>
+<li><p><strong>备份无日志等其他文件，至于数据库数据有关的数据才会保留</strong>。</p>
+</li>
+<li><p>可移植性更高</p>
+</li>
+<li><p>在物理机运行时可备份。</p>
+</li>
+<li><p><strong>备份工具</strong> 包括 <strong>mysqldump</strong> 和 select … into outfile。<strong>适用于任何存储引擎</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="备份工具方法"><a href="#备份工具方法" class="headerlink" title="备份工具方法"></a>备份工具方法</h1><h2 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h2><ul>
+<li><p>mysqldump创建数据库副本可以使您以一种格式捕获数据库中的所有数据，该格式可以将信息导入到MySQL Server的另一个实例中</p>
+</li>
+<li><p>由于信息的格式为SQL语句，因此在需要紧急访问数据时，可以轻松地将该文件分发并应用于正在运行的服务器。但是，如果数据集的大小很大，则mysqldump可能不切实际。</p>
+</li>
+<li><p><strong>使用mysqldump时，应在开始转储过程之前停止从属服务器上的复制，以确保转储包含一致的数据集</strong></p>
+</li>
+</ul>
+<ol>
+<li><p>备份单/多库保留建库语句</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份单库是可以忽略 --databases 参数，备份文件不会携带 create database 或者 use 语句。所以在使用该文件恢复数据是需要先 create database 和 use db_name</span></span><br><span class="line">mysqldump -uroot -p database_1_name &gt; /some/path/to/save</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以备份一库多表</span></span><br><span class="line">mysqldump -uroot -p database_1_name table_1_name table_2_name &gt; /some/path/to/save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备份全库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--all-databases &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p><img src="http://study.jeffqi.cn/mysql/mysqldump_with_gtid.jpg" alt="mysqldump_with_gtid"></p>
+<p><img src="http://study.jeffqi.cn/mysql/mysqldump_without_gtid.jpg" alt="mysqldump_without_gtid"></p>
+<ol start="3">
+<li>还原数据库<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 外部命令行</span></span><br><span class="line">mysql -uroot -p &lt; /file/to/return</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内部命令</span></span><br><span class="line">source /file/to/return</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="复制文件进行备份（myisam引擎）"><a href="#复制文件进行备份（myisam引擎）" class="headerlink" title="复制文件进行备份（myisam引擎）"></a>复制文件进行备份（myisam引擎）</h2><ul>
+<li>可以通过复制表文件（*.MYD，*.MYI文件和关联 *.sdi文件）来备份MyISAM表。要获得一致的备份，请停止服务器或锁定并刷新相关表。  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">TABLES</span> tbl_list <span class="keyword">WITH</span> <span class="keyword">READ</span> <span class="keyword">LOCK</span>; <span class="comment"># 锁表</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="创建文本数据备份"><a href="#创建文本数据备份" class="headerlink" title="创建文本数据备份"></a>创建文本数据备份</h2><ul>
+<li><p>要创建包含表数据的文本文件，来对数据进行备份。</p>
+</li>
+<li><p><strong>此方法适用于任何类型的数据文件，但仅保存表数据，而不保存表结构。</strong></p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">INTO</span> <span class="keyword">OUTFILE</span> <span class="string">'/path/to/save/file'</span> <span class="keyword">FROM</span> tbl_name</span><br></pre></td></tr></table></figure>
+
+<p>  <img src="http://study.jeffqi.cn/mysql/select_into_outfile.jpg" alt="select_into_outfile"></p>
+</li>
+<li><p>恢复数据</p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># load data命令</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">infile</span> <span class="string">'/path/for/file/to/return'</span> <span class="keyword">into</span> <span class="keyword">table</span> table_name;</span><br><span class="line"></span><br><span class="line"><span class="comment"># mysqlimport</span></span><br><span class="line">mysqlimport -u root -p <span class="comment">--local table_name /path/for/file/to/return</span></span><br></pre></td></tr></table></figure>
+
+<p>  <img src="http://study.jeffqi.cn/mysql/load_data_infile_into_table.jpg" alt="load_data_infile_into_table"></p>
+</li>
+</ul>
+<h2 id="二进制日志增量备份"><a href="#二进制日志增量备份" class="headerlink" title="二进制日志增量备份"></a>二进制日志增量备份</h2><ul>
+<li><p>二进制日志文件为您提供了将更改复制到数据库的信息，这些更改是在执行备份之后进行的。</p>
+</li>
+<li><p>开启二进制日志</p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">log_bin=/path/to/save/binlog</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><p>查看二进制日志文件</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog /binary/log</span><br><span class="line">mysqlbinlog <span class="comment">--base64-output=decode-rows --verbose /binary/log/path</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>at：可以理解为事务的执行点</li>
+</ul>
+</li>
+<li><p>选择还原点还原</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog <span class="comment">--stop-positon='point(at_point)' /binary/log/path</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="开源热备工具"><a href="#开源热备工具" class="headerlink" title="开源热备工具"></a>开源热备工具</h1><h2 id="percona-xtrabakup（捉急需要了解）"><a href="#percona-xtrabakup（捉急需要了解）" class="headerlink" title="percona xtrabakup（捉急需要了解）"></a>percona xtrabakup（捉急需要了解）</h2><h1 id="备份策略"><a href="#备份策略" class="headerlink" title="备份策略"></a>备份策略</h1><ul>
+<li>对于数据需要有周期性的备份操作。这里针对 mysqldump 展开。</li>
+</ul>
+<ol>
+<li><p>可以每天在业务低峰期对于数据进行一次定时任务进行全量备份</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump <span class="comment">--all-databases --single-transaction &gt; /some/place/to/save/file</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>首先会对于全库进行锁表操作（flash tables with read lock）。一旦或得到这个锁就会读取二进制日志坐标，并释放这个锁。如果因为有长事务更新，可能会不能获得到锁，会暂停备份，直到长事务结束。之后，转储将变为无锁状态，并且不会干扰对表的读写。</p>
+</li>
+<li><p>–single-transaction 参数使用一致的读取并保证mysqldump看到的数据 不会更改。</p>
+</li>
+</ul>
+</li>
+<li><p>全库备份是必须的，但是备份出来的文件比较大，不方便，同时也会占用性能，需要花费较长时间。所以一般采用长时间的全库备份，加上短期的增量备份。需要的额外代价是，在恢复数据时，需要使用全库备份文件和增量备份文件来恢复。</p>
+</li>
+<li><p>增量备份通过二进制日志来进行。需要告知服务器开启二进制日志。在全量备份时刷新二进制日志。</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump <span class="comment">--single-transaction --flush-logs --master-data=2 --all-databases &gt; /some/place/to/save/file</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>–flush-logs 选项导致服务器刷新其日志。–master-data选项使 mysqldump将二进制日志信息写入其输出。</li>
+</ul>
+</li>
+</ol>
+<h2 id="数据恢复"><a href="#数据恢复" class="headerlink" title="数据恢复"></a>数据恢复</h2><ol>
+<li><p>首先使用全量备份文件进行恢复数据</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p &lt; /file/to/return</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用增量binlog恢复</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog binglog_1_name [binlog_2_name] | mysql -uroot -p</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>MySQL</category>
       </categories>
   </entry>
   <entry>
@@ -2643,89 +2902,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
-<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
-</ol>
-</li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python/python_base/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3532,6 +3708,89 @@
 ]]></content>
       <categories>
         <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
+<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
+</ol>
+</li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -4746,63 +5005,6 @@
 ]]></content>
       <categories>
         <category>Docker</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>MySQL数据备份</title>
-    <url>/2019/11/26/mysql/MySQL%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#物理备份">物理备份</a><ul>
-<li><a href="#备份方式">备份方式</a></li>
-<li><a href="#热备份">热备份</a></li>
-<li><a href="#冷备份">冷备份</a></li>
-</ul>
-</li>
-<li><a href="#逻辑备份">逻辑备份</a><ul>
-<li><a href="#mysqldump备份与还原数据">mysqldump备份与还原数据</a></li>
-<li><a href="#利用mysqlbinlog备份数据">利用mysqlbinlog备份数据</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="物理备份"><a href="#物理备份" class="headerlink" title="物理备份"></a>物理备份</h1><h2 id="备份方式"><a href="#备份方式" class="headerlink" title="备份方式"></a>备份方式</h2><ul>
-<li>全量备份</li>
-<li>增量备份</li>
-</ul>
-<h2 id="热备份"><a href="#热备份" class="headerlink" title="热备份"></a>热备份</h2><h2 id="冷备份"><a href="#冷备份" class="headerlink" title="冷备份"></a>冷备份</h2><ul>
-<li>将服务器关机，将数据复制到从服务器上。主服务器重启时会产生一个新的二进制日志文件。change master to 这个二进制日志文件。<strong>明显的缺点，关机期间服务不可用</strong>。</li>
-</ul>
-<h1 id="逻辑备份"><a href="#逻辑备份" class="headerlink" title="逻辑备份"></a>逻辑备份</h1><h2 id="mysqldump备份与还原数据"><a href="#mysqldump备份与还原数据" class="headerlink" title="mysqldump备份与还原数据"></a>mysqldump备份与还原数据</h2><ol>
-<li><p>备份单/多库保留建库语句</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--databases database_1_name [database_2_name] &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>备份多库与全库</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqldump -uroot -p <span class="comment">--all-databases &gt; /some/path/to/save</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>还原数据库</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p &lt; /file/to/return</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h2 id="利用mysqlbinlog备份数据"><a href="#利用mysqlbinlog备份数据" class="headerlink" title="利用mysqlbinlog备份数据"></a>利用mysqlbinlog备份数据</h2><ol>
-<li><p>查看二进制日志文件</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog /binary/log</span><br><span class="line">mysqlbinlog <span class="comment">--base64-output=decode-rows --verbose /binary/log/path</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>at：可以理解为事务的执行点</li>
-</ul>
-</li>
-<li><p>选择还原点还原</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">mysqlbinlog <span class="comment">--stop-positon='point(at_point)' /binary/log/path</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h1 id="开源热备工具"><a href="#开源热备工具" class="headerlink" title="开源热备工具"></a>开源热备工具</h1><h2 id="percona-xtrabakup"><a href="#percona-xtrabakup" class="headerlink" title="percona xtrabakup"></a>percona xtrabakup</h2>]]></content>
-      <categories>
-        <category>MySQL</category>
       </categories>
   </entry>
   <entry>
