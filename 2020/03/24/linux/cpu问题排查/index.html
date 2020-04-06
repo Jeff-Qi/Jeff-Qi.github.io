@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   参考文档">
+  <meta name="description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   cpu高占用，却看不到高cpu引用 参考文档">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CPU性能排查实验案例">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/03/24/linux/cpu问题排查/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   参考文档">
+<meta property="og:description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   cpu高占用，却看不到高cpu引用 参考文档">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/cat_proc_stat.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/cpu_use_level.png">
@@ -71,10 +71,10 @@
 <meta property="og:image" content="http://study.jeffqi.cn/linux/perf_top.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/perf_record_perf_report.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/per_top_g.jpg">
-<meta property="og:updated_time" content="2020-03-27T15:39:52.935Z">
+<meta property="og:updated_time" content="2020-04-06T01:50:35.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CPU性能排查实验案例">
-<meta name="twitter:description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   参考文档">
+<meta name="twitter:description" content="cpu使用率高居不下，如何排查 查看cpu使用率 排查进程中占用cpu的函数   cpu高占用，却看不到高cpu引用 参考文档">
 <meta name="twitter:image" content="http://study.jeffqi.cn/linux/cat_proc_stat.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/03/24/linux/cpu问题排查/">
 
@@ -305,7 +305,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-27 23:39:52" itemprop="dateModified" datetime="2020-03-27T23:39:52+08:00">2020-03-27</time>
+                <time title="修改时间：2020-04-06 09:50:35" itemprop="dateModified" datetime="2020-04-06T09:50:35+08:00">2020-04-06</time>
               </span>
             
           
@@ -341,6 +341,7 @@
 <li><a href="#排查进程中占用cpu的函数">排查进程中占用cpu的函数</a></li>
 </ul>
 </li>
+<li><a href="#cpu高占用却看不到高cpu引用">cpu高占用，却看不到高cpu引用</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 <a id="more"></a>
 
@@ -396,8 +397,9 @@
 <li><p><strong>使用perf top和perf record时配合使用 -g 参数，可以获取调用关系</strong><br>  <img src="http://study.jeffqi.cn/linux/per_top_g.jpg" alt="per_top_g"></p>
 </li>
 </ul>
-<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
-<li><a href="https://time.geekbang.org/column/article/70476" target="_blank" rel="noopener">极客时间</a></li>
+<h1 id="cpu高占用，却看不到高cpu引用"><a href="#cpu高占用，却看不到高cpu引用" class="headerlink" title="cpu高占用，却看不到高cpu引用"></a>cpu高占用，却看不到高cpu引用</h1><h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://time.geekbang.org/column/article/70476" target="_blank" rel="noopener">CPU占用率搞</a></li>
+<li><a href="https://time.geekbang.org/column/article/70822" target="_blank" rel="noopener">CPU占用率高，却找不高CPU应用</a></li>
 </ul>
 
     </div>
@@ -473,7 +475,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cpu使用率高居不下，如何排查"><span class="nav-number">1.</span> <span class="nav-text">cpu使用率高居不下，如何排查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看cpu使用率"><span class="nav-number">1.1.</span> <span class="nav-text">查看cpu使用率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查进程中占用cpu的函数"><span class="nav-number">1.2.</span> <span class="nav-text">排查进程中占用cpu的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDB"><span class="nav-number">1.2.1.</span> <span class="nav-text">GDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#perf"><span class="nav-number">1.2.2.</span> <span class="nav-text">perf</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">2.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cpu使用率高居不下，如何排查"><span class="nav-number">1.</span> <span class="nav-text">cpu使用率高居不下，如何排查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看cpu使用率"><span class="nav-number">1.1.</span> <span class="nav-text">查看cpu使用率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查进程中占用cpu的函数"><span class="nav-number">1.2.</span> <span class="nav-text">排查进程中占用cpu的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GDB"><span class="nav-number">1.2.1.</span> <span class="nav-text">GDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#perf"><span class="nav-number">1.2.2.</span> <span class="nav-text">perf</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cpu高占用，却看不到高cpu引用"><span class="nav-number">2.</span> <span class="nav-text">cpu高占用，却看不到高cpu引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">3.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
