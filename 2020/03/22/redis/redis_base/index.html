@@ -63,7 +63,8 @@
 <meta property="og:description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/redis_base_knowledge.jpg">
-<meta property="og:updated_time" content="2020-03-26T14:16:04.780Z">
+<meta property="og:image" content="http://study.jeffqi.cn/linux/redis_reload_data.png">
+<meta property="og:updated_time" content="2020-04-11T05:05:03.442Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis基础学习">
 <meta name="twitter:description" content="redis基础 数据类型 string类型 hash类型 list类型 set类型 sort set 高级用法   事务 持久化 redis集群 主从模式 Sentinel模式（哨兵模式） cluster模式   redis失效机制与淘汰策略 被动删除 主动删除 淘汰策略 lru淘汰、ttl淘汰与随机淘汰   缓存相关 缓存穿透   参考文案">
@@ -297,7 +298,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 22:16:04" itemprop="dateModified" datetime="2020-03-26T22:16:04+08:00">2020-03-26</time>
+                <time title="修改时间：2020-04-11 13:05:03" itemprop="dateModified" datetime="2020-04-11T13:05:03+08:00">2020-04-11</time>
               </span>
             
           
@@ -370,9 +371,12 @@
 <p>这是最简单的类型，就是普通的 set 和 get，做简单的 KV 缓存</p>
 <p><strong>string适用范围较广</strong></p>
 <ul>
-<li>缓存功能：String字符串是最常用的数据类型，不仅仅是Redis，各个语言都是最基本类型，因此，利用Redis作为缓存，配合其它数据库作为存储层，利用Redis支持高并发的特点，可以大大加快系统的读写速度、以及降低后端数据库的压力。</li>
-<li>计数器：许多系统都会使用Redis作为系统的实时计数器，可以快速实现计数和查询的功能。而且最终的数据结果可以按照特定的时间落地到数据库或者其它存储介质当中进行永久保存。</li>
-<li>共享用户Session：用户重新刷新一次界面，可能需要访问一下数据进行重新登录，或者访问页面缓存Cookie，但是可以利用Redis将用户的Session集中管理，在这种模式只需要保证Redis的高可用，每次用户Session的更新和获取都可以快速完成。大大提高效率。</li>
+<li><p>缓存功能：String字符串是最常用的数据类型，不仅仅是Redis，各个语言都是最基本类型，因此，利用Redis作为缓存，配合其它数据库作为存储层，利用Redis支持高并发的特点，可以大大加快系统的读写速度、以及降低后端数据库的压力。</p>
+</li>
+<li><p>计数器：许多系统都会使用Redis作为系统的实时计数器，可以快速实现计数和查询的功能。而且最终的数据结果可以按照特定的时间落地到数据库或者其它存储介质当中进行永久保存。</p>
+</li>
+<li><p>共享用户Session：用户重新刷新一次界面，可能需要访问一下数据进行重新登录，或者访问页面缓存Cookie，但是可以利用Redis将用户的Session集中管理，在这种模式只需要保证Redis的高可用，每次用户Session的更新和获取都可以快速完成。大大提高效率。</p>
+</li>
 </ul>
 <h2 id="hash类型"><a href="#hash类型" class="headerlink" title="hash类型"></a>hash类型</h2><p>这个是类似 Map 的一种结构，这个一般就是可以将结构化的数据，比如一个对象（前提是这个对象没嵌套其他的对象）给缓存在 Redis 里，然后每次读写缓存的时候，可以就操作 Hash 里的某个字段。</p>
 <p>但是这个的场景其实还是多少单一了一些，因为现在很多对象都是比较复杂的，比如你的商品对象可能里面就包含了很多属性，其中也有对象。我自己使用的场景用得不是那么多。</p>
@@ -382,8 +386,10 @@
 <p>比如可以搞个简单的消息队列，从 List 头怼进去，从 List 屁股那里弄出来。</p>
 <p>List本身就是我们在开发过程中比较常用的数据结构了，热点数据更不用说了。</p>
 <ul>
-<li><strong>消息队列</strong>：<br>Redis的链表结构，可以轻松实现阻塞队列，可以使用左进右出的命令组成来完成队列的设计。比如：数据的生产者可以通过Lpush命令从左边插入数据，多个数据消费者，可以使用BRpop命令阻塞的“抢”列表尾部的数据。</li>
-<li><strong>文章列表或者数据分页展示</strong>：<br>比如，我们常用的博客网站的文章列表，当用户量越来越多时，而且每一个用户都有自己的文章列表，而且当文章多时，都需要分页展示，这时可以考虑使用Redis的列表，列表不但有序同时还支持按照范围内获取元素，可以完美解决分页查询功能。大大提高查询效率</li>
+<li><p><strong>消息队列</strong>：<br>Redis的链表结构，可以轻松实现阻塞队列，可以使用左进右出的命令组成来完成队列的设计。比如：数据的生产者可以通过Lpush命令从左边插入数据，多个数据消费者，可以使用BRpop命令阻塞的“抢”列表尾部的数据。</p>
+</li>
+<li><p><strong>文章列表或者数据分页展示</strong>：<br>比如，我们常用的博客网站的文章列表，当用户量越来越多时，而且每一个用户都有自己的文章列表，而且当文章多时，都需要分页展示，这时可以考虑使用Redis的列表，列表不但有序同时还支持按照范围内获取元素，可以完美解决分页查询功能。大大提高查询效率</p>
+</li>
 </ul>
 <h2 id="set类型"><a href="#set类型" class="headerlink" title="set类型"></a>set类型</h2><p><strong>Set 是无序集合，会自动去重的那种。</strong></p>
 <p>直接基于 Set 将系统里需要去重的数据扔进去，自动就给去重了；如果你的某个系统部署在多台机器上呢？得基于Redis进行全局的 Set 去重。</p>
@@ -438,11 +444,11 @@
 </tr>
 </tbody></table>
 <h2 id="高级用法"><a href="#高级用法" class="headerlink" title="高级用法"></a>高级用法</h2><ul>
-<li><h3 id="Bitmap"><a href="#Bitmap" class="headerlink" title="Bitmap"></a>Bitmap</h3><p>位图是支持按 bit 位来存储信息，可以用来实现 布隆过滤器（BloomFilter）</p>
+<li><h3 id="bitmap"><a href="#bitmap" class="headerlink" title="bitmap"></a>bitmap</h3><p>位图是支持按 bit 位来存储信息，可以用来实现 布隆过滤器（BloomFilter）</p>
 </li>
-<li><h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h3><p>不精确的去重计数功能，比较适合用来做大规模数据的去重统计</p>
+<li><h3 id="hyperLogLog"><a href="#hyperLogLog" class="headerlink" title="hyperLogLog"></a>hyperLogLog</h3><p>不精确的去重计数功能，比较适合用来做大规模数据的去重统计</p>
 </li>
-<li><h3 id="Geospatial"><a href="#Geospatial" class="headerlink" title="Geospatial"></a>Geospatial</h3><p>可以用来保存地理位置，并作位置距离计算或者根据半径计算位置等。有没有想过用Redis来实现附近的人？或者计算最优地图路径？</p>
+<li><h3 id="geospatial"><a href="#geospatial" class="headerlink" title="geospatial"></a>geospatial</h3><p>可以用来保存地理位置，并作位置距离计算或者根据半径计算位置等。有没有想过用Redis来实现附近的人？或者计算最优地图路径？</p>
 </li>
 </ul>
 <p>这三个其实也可以算作一种数据结构，不知道还有多少朋友记得，我在梦开始的地方，Redis基础中提到过，你如果只知道五种基础类型那只能拿60分，如果你能讲出高级用法，那就觉得你有点东西。</p>
@@ -452,7 +458,7 @@
 <h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>Redis 提供的不是严格的事务，Redis 只保证串行执行命令，并且能保证全部执行，但是执行命令失败时并不会回滚，而是会继续执行下去。</p>
 <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><p>Redis 提供了 RDB 和 AOF 两种持久化方式，RDB 是把<strong>内存中的数据集以快照形式写入磁盘</strong>，实际操作是通过 fork 子进程执行，采用二进制压缩存储；AOF 是<strong>以文本日志的形式记录 Redis 处理的每一个写入或删除操作</strong>。</p>
 <ul>
-<li><h2 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h2><ul>
+<li><h2 id="rdb"><a href="#rdb" class="headerlink" title="rdb"></a>rdb</h2><ul>
 <li><p><strong>工作原理及过程</strong>：RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，<strong>先将数据集写入临时文件，写入成功后，再替换之前的文件</strong>，用二进制压缩存储。RDB是Redis默认的持久化方式，会在对应的目录下生产一个dump.rdb文件，重启会通过加载dump.rdb文件恢复数据。</p>
 </li>
 <li><p>优点：</p>
@@ -471,27 +477,81 @@
 </li>
 </ul>
 </li>
-<li><h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><ul>
+<li><h2 id="aof"><a href="#aof" class="headerlink" title="aof"></a>aof</h2><ul>
 <li><p><strong>工作原理及过程</strong>：AOF持久化是以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，文件中可以看到详细的操作记录。她的出现是为了弥补RDB的不足（数据的不一致性），所以它采用日志的形式来记录每个写操作，并追加到文件中。<strong>Redis 重启的会根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作。</strong></p>
 </li>
 <li><p>优点：</p>
 <ol>
-<li>数据安全性更高，AOF持久化可以配置appendfsync属性，其中always，每一次操作做都记录到日志中</li>
-<li>通过append模式写文件，即使中途服务器宕机，可以通过redis-check-aof工具解决数据一致性问题。</li>
-<li>AOF机制的rewrite模式。(AOF文件没被rewrite之前（文件过大时会对命令进行合并重写），可以删除其中的某些命令（比如误操作的flushall）)</li>
+<li><p>数据安全性更高，AOF持久化可以配置appendfsync属性，其中always，每一次操作做都记录到日志中</p>
+</li>
+<li><p>通过append模式写文件，即使中途服务器宕机，可以通过redis-check-aof工具解决数据一致性问题。</p>
+</li>
+<li><p>AOF机制的rewrite模式。(AOF文件没被rewrite之前（文件过大时会对命令进行合并重写），可以删除其中的某些命令（比如误操作的flushall）)</p>
+</li>
 </ol>
 </li>
 <li><p>缺点：</p>
 <ol>
-<li>AOF文件较大，数据集大是效率低；启动时顺序执行日志，速度没有RDB快</li>
-<li>同步策略不同，运行的效率也会慢于RDB</li>
+<li><p>AOF文件较大，数据集大是效率低；启动时顺序执行日志，速度没有RDB快</p>
+</li>
+<li><p>同步策略不同，运行的效率也会慢于RDB</p>
+</li>
 </ol>
 </li>
 </ul>
 </li>
+<li><h2 id="redis启动加载过程"><a href="#redis启动加载过程" class="headerlink" title="redis启动加载过程"></a>redis启动加载过程</h2><ol>
+<li><p>初始化全局服务器配置</p>
+</li>
+<li><p>加载配置文件（如果指定了配置文件，否则使用默认配置）</p>
+</li>
+<li><p>初始化服务器</p>
+</li>
+<li><p>加载数据库</p>
+</li>
+<li><p>网络监听</p>
+</li>
+</ol>
+</li>
+<li><h3 id="初始化服务器配置"><a href="#初始化服务器配置" class="headerlink" title="初始化服务器配置"></a>初始化服务器配置</h3><p>  初始化全局服务器配置通过initServerConfig()函数完成，主要是初始化server变量</p>
+<ol>
+<li>网络监听相关，如绑定地址，TCP端口等</li>
+<li>虚拟内存相关，如swap文件、page大小等</li>
+<li>保存机制，多长时间内有多少次更新才进行保存</li>
+<li>复制相关，如是否是slave，master地址、端口</li>
+<li>Hash相关设置</li>
+<li>初始化命令表</li>
+</ol>
+</li>
+<li><h3 id="加载配置文件"><a href="#加载配置文件" class="headerlink" title="加载配置文件"></a>加载配置文件</h3><p>  如果指定了配置文件，Redis使用loadServerConfig()函数加载配置文件，使用标准I/O库打开配置文件，循环读取每一行然后覆盖上一步进行的默认配置。</p>
+<p>  <strong>如果不指定配置文件。redis不会使用默认配置文件的配置，而是使用上面初始化的参数皮遏制</strong></p>
+</li>
+<li><h3 id="初始化服务器"><a href="#初始化服务器" class="headerlink" title="初始化服务器"></a>初始化服务器</h3><p>  初始化服务器的工作在initServer()函数中，主要是完成前面未完成的工作，继续对server变量初始化</p>
+</li>
+<li><h3 id="加载数据库"><a href="#加载数据库" class="headerlink" title="加载数据库"></a>加载数据库</h3><p>  在完成了上面的所有的初始化工作之后，Redis开始加载数据到内存中，<strong>如果启用了appendonly了，则Redis从appendfile加载数据，否则就从dbfile加载数据</strong>。</p>
+<ol>
+<li><p>appendonly：在加载数据的时候只要重新执行一遍aof中的命令即可</p>
+</li>
+<li><p>dbfile：从数据库文件中加载数据到内存</p>
+<ol>
+<li>处理SELECT命令，即选择数据库</li>
+<li>读取key</li>
+<li>读取value</li>
+<li>检测key是否过期</li>
+<li>添加新的对象到哈希表</li>
+<li>设置过期时间（如果需要）</li>
+<li>如果开启了VM，处理swap操作</li>
+</ol>
+<p>加载流程图</p>
+<p><img src="http://study.jeffqi.cn/linux/redis_reload_data.png" alt="redis_reload_data"></p>
+</li>
+</ol>
+</li>
+<li><h3 id="网络监听"><a href="#网络监听" class="headerlink" title="网络监听"></a>网络监听</h3><p>  在完成了初始化配置和数据加载后，Redis启动监听。</p>
+</li>
 </ul>
 <h1 id="redis集群"><a href="#redis集群" class="headerlink" title="redis集群"></a>redis集群</h1><ul>
-<li><h3 id="三种模式"><a href="#三种模式" class="headerlink" title="三种模式"></a>三种模式</h3><ol>
+<li><h2 id="三种模式"><a href="#三种模式" class="headerlink" title="三种模式"></a>三种模式</h2><ol>
 <li>主从模式</li>
 <li>Sentinel模式</li>
 <li>cluster模式</li>
@@ -550,15 +610,15 @@
 </ul>
 <h1 id="redis失效机制与淘汰策略"><a href="#redis失效机制与淘汰策略" class="headerlink" title="redis失效机制与淘汰策略"></a>redis失效机制与淘汰策略</h1><h2 id="被动删除"><a href="#被动删除" class="headerlink" title="被动删除"></a>被动删除</h2><ul>
 <li>读写一个已过期的key，会触发删除操作，直接删除这个过期的key</li>
-<li><h4 id="优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"><a href="#优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查" class="headerlink" title="优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"></a>优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查</h4></li>
-<li><h4 id="缺点：内存中可能存在较多的过期的key，导致资源浪费"><a href="#缺点：内存中可能存在较多的过期的key，导致资源浪费" class="headerlink" title="缺点：内存中可能存在较多的过期的key，导致资源浪费"></a>缺点：内存中可能存在较多的过期的key，导致资源浪费</h4></li>
+<li><h3 id="优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"><a href="#优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查" class="headerlink" title="优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"></a>优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查</h3></li>
+<li><h3 id="缺点：内存中可能存在较多的过期的key，导致资源浪费"><a href="#缺点：内存中可能存在较多的过期的key，导致资源浪费" class="headerlink" title="缺点：内存中可能存在较多的过期的key，导致资源浪费"></a>缺点：内存中可能存在较多的过期的key，导致资源浪费</h3></li>
 </ul>
 <h2 id="主动删除"><a href="#主动删除" class="headerlink" title="主动删除"></a>主动删除</h2><p>被动删除会导致一些冷数据的长时间停留，所以需要使用主动删除来解决这些冷数据的key</p>
 <ul>
-<li><h4 id="工作流程："><a href="#工作流程：" class="headerlink" title="工作流程："></a>工作流程：</h4><p>  redis周期性执行这个清除计划，默认100ms。每次循环随机抽取20个key进行检查，如果少于25%的可以是过期的key，则清除这些冷数据key，然后停止执行任务。否则会当前一轮的检查结束后，会开启下一轮的检查。这个任务的执行时间超过了一定时间，就会被终止，防止消耗过多cpu</p>
+<li><h3 id="工作流程："><a href="#工作流程：" class="headerlink" title="工作流程："></a>工作流程：</h3><p>  redis周期性执行这个清除计划，默认100ms。每次循环随机抽取20个key进行检查，如果少于25%的可以是过期的key，则清除这些冷数据key，然后停止执行任务。否则会当前一轮的检查结束后，会开启下一轮的检查。这个任务的执行时间超过了一定时间，就会被终止，防止消耗过多cpu</p>
 </li>
-<li><h4 id="优点：对于冷数据的key能够及时的清理，防止占用过多内存"><a href="#优点：对于冷数据的key能够及时的清理，防止占用过多内存" class="headerlink" title="优点：对于冷数据的key能够及时的清理，防止占用过多内存"></a>优点：对于冷数据的key能够及时的清理，防止占用过多内存</h4></li>
-<li><h4 id="缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"><a href="#缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检" class="headerlink" title="缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"></a>缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检</h4></li>
+<li><h3 id="优点：对于冷数据的key能够及时的清理，防止占用过多内存"><a href="#优点：对于冷数据的key能够及时的清理，防止占用过多内存" class="headerlink" title="优点：对于冷数据的key能够及时的清理，防止占用过多内存"></a>优点：对于冷数据的key能够及时的清理，防止占用过多内存</h3></li>
+<li><h3 id="缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"><a href="#缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检" class="headerlink" title="缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"></a>缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检</h3></li>
 </ul>
 <h2 id="淘汰策略"><a href="#淘汰策略" class="headerlink" title="淘汰策略"></a>淘汰策略</h2><p>如果失效的key没有被访问，也未被主动删除随机选中，可能就会永久存在</p>
 <p>所以redis中有一个maxmemory配置，即redis最大能使用的内存，当redis的使用内存达到这个值，会根据配置的淘汰策略，对redis的key进行淘汰。</p>
@@ -620,6 +680,8 @@
 <li><a href="https://www.cnblogs.com/vieta/p/11192137.html" target="_blank" rel="noopener">redis配置</a></li>
 <li><a href="https://www.cnblogs.com/happydreamzjl/p/11322937.html" target="_blank" rel="noopener">redis哨兵机制</a></li>
 <li><a href="https://www.cnblogs.com/llaq/p/9470055.html" target="_blank" rel="noopener">redis缓存</a></li>
+<li><a href="https://blog.csdn.net/hezhiqiang1314/article/details/69396887" target="_blank" rel="noopener">redis重写原理</a></li>
+<li><a href="https://www.cnblogs.com/cuijl/p/7992433.html" target="_blank" rel="noopener">redis启动流程</a></li>
 </ul>
 
     </div>
@@ -695,7 +757,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis基础"><span class="nav-number">1.</span> <span class="nav-text">redis基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据类型"><span class="nav-number">2.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#string类型"><span class="nav-number">2.1.</span> <span class="nav-text">string类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash类型"><span class="nav-number">2.2.</span> <span class="nav-text">hash类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#list类型"><span class="nav-number">2.3.</span> <span class="nav-text">list类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set类型"><span class="nav-number">2.4.</span> <span class="nav-text">set类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sort-set"><span class="nav-number">2.5.</span> <span class="nav-text">sort set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级用法"><span class="nav-number">2.6.</span> <span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bitmap"><span class="nav-number">2.6.1.</span> <span class="nav-text">Bitmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HyperLogLog"><span class="nav-number">2.6.2.</span> <span class="nav-text">HyperLogLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geospatial"><span class="nav-number">2.6.3.</span> <span class="nav-text">Geospatial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pub-sub"><span class="nav-number">2.6.4.</span> <span class="nav-text">pub/sub</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务"><span class="nav-number">3.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持久化"><span class="nav-number">4.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDB"><span class="nav-number">4.1.</span> <span class="nav-text">RDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOF"><span class="nav-number">4.2.</span> <span class="nav-text">AOF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis集群"><span class="nav-number">5.</span> <span class="nav-text">redis集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三种模式"><span class="nav-number">5.0.1.</span> <span class="nav-text">三种模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从模式"><span class="nav-number">5.1.</span> <span class="nav-text">主从模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作机制"><span class="nav-number">5.1.1.</span> <span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">5.1.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.1.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sentinel模式（哨兵模式）"><span class="nav-number">5.2.</span> <span class="nav-text">Sentinel模式（哨兵模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作机制-1"><span class="nav-number">5.2.1.</span> <span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-1"><span class="nav-number">5.2.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">5.2.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cluster模式"><span class="nav-number">5.3.</span> <span class="nav-text">cluster模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-2"><span class="nav-number">5.3.1.</span> <span class="nav-text">特点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis失效机制与淘汰策略"><span class="nav-number">6.</span> <span class="nav-text">redis失效机制与淘汰策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#被动删除"><span class="nav-number">6.1.</span> <span class="nav-text">被动删除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"><span class="nav-number">6.1.0.1.</span> <span class="nav-text">优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点：内存中可能存在较多的过期的key，导致资源浪费"><span class="nav-number">6.1.0.2.</span> <span class="nav-text">缺点：内存中可能存在较多的过期的key，导致资源浪费</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主动删除"><span class="nav-number">6.2.</span> <span class="nav-text">主动删除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流程："><span class="nav-number">6.2.0.1.</span> <span class="nav-text">工作流程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点：对于冷数据的key能够及时的清理，防止占用过多内存"><span class="nav-number">6.2.0.2.</span> <span class="nav-text">优点：对于冷数据的key能够及时的清理，防止占用过多内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"><span class="nav-number">6.2.0.3.</span> <span class="nav-text">缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#淘汰策略"><span class="nav-number">6.3.</span> <span class="nav-text">淘汰策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#六种淘汰策略"><span class="nav-number">6.3.1.</span> <span class="nav-text">六种淘汰策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lru淘汰、ttl淘汰与随机淘汰"><span class="nav-number">6.4.</span> <span class="nav-text">lru淘汰、ttl淘汰与随机淘汰</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lru淘汰"><span class="nav-number">6.4.1.</span> <span class="nav-text">lru淘汰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ttl淘汰"><span class="nav-number">6.4.2.</span> <span class="nav-text">ttl淘汰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机淘汰"><span class="nav-number">6.4.3.</span> <span class="nav-text">随机淘汰</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存相关"><span class="nav-number">7.</span> <span class="nav-text">缓存相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存穿透"><span class="nav-number">7.1.</span> <span class="nav-text">缓存穿透</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文案"><span class="nav-number">8.</span> <span class="nav-text">参考文案</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#redis基础"><span class="nav-number">1.</span> <span class="nav-text">redis基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据类型"><span class="nav-number">2.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#string类型"><span class="nav-number">2.1.</span> <span class="nav-text">string类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash类型"><span class="nav-number">2.2.</span> <span class="nav-text">hash类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#list类型"><span class="nav-number">2.3.</span> <span class="nav-text">list类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set类型"><span class="nav-number">2.4.</span> <span class="nav-text">set类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sort-set"><span class="nav-number">2.5.</span> <span class="nav-text">sort set</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级用法"><span class="nav-number">2.6.</span> <span class="nav-text">高级用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bitmap"><span class="nav-number">2.6.1.</span> <span class="nav-text">bitmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hyperLogLog"><span class="nav-number">2.6.2.</span> <span class="nav-text">hyperLogLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geospatial"><span class="nav-number">2.6.3.</span> <span class="nav-text">geospatial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pub-sub"><span class="nav-number">2.6.4.</span> <span class="nav-text">pub/sub</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事务"><span class="nav-number">3.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持久化"><span class="nav-number">4.</span> <span class="nav-text">持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rdb"><span class="nav-number">4.1.</span> <span class="nav-text">rdb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#aof"><span class="nav-number">4.2.</span> <span class="nav-text">aof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis启动加载过程"><span class="nav-number">4.3.</span> <span class="nav-text">redis启动加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化服务器配置"><span class="nav-number">4.3.1.</span> <span class="nav-text">初始化服务器配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载配置文件"><span class="nav-number">4.3.2.</span> <span class="nav-text">加载配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化服务器"><span class="nav-number">4.3.3.</span> <span class="nav-text">初始化服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载数据库"><span class="nav-number">4.3.4.</span> <span class="nav-text">加载数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络监听"><span class="nav-number">4.3.5.</span> <span class="nav-text">网络监听</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis集群"><span class="nav-number">5.</span> <span class="nav-text">redis集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#三种模式"><span class="nav-number">5.1.</span> <span class="nav-text">三种模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从模式"><span class="nav-number">5.2.</span> <span class="nav-text">主从模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作机制"><span class="nav-number">5.2.1.</span> <span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">5.2.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sentinel模式（哨兵模式）"><span class="nav-number">5.3.</span> <span class="nav-text">Sentinel模式（哨兵模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作机制-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">5.3.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cluster模式"><span class="nav-number">5.4.</span> <span class="nav-text">cluster模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特点-2"><span class="nav-number">5.4.1.</span> <span class="nav-text">特点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redis失效机制与淘汰策略"><span class="nav-number">6.</span> <span class="nav-text">redis失效机制与淘汰策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#被动删除"><span class="nav-number">6.1.</span> <span class="nav-text">被动删除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查"><span class="nav-number">6.1.1.</span> <span class="nav-text">优点：被动删除对cpu比较友好，不需要消耗cpu资源来主动检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点：内存中可能存在较多的过期的key，导致资源浪费"><span class="nav-number">6.1.2.</span> <span class="nav-text">缺点：内存中可能存在较多的过期的key，导致资源浪费</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主动删除"><span class="nav-number">6.2.</span> <span class="nav-text">主动删除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程："><span class="nav-number">6.2.1.</span> <span class="nav-text">工作流程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优点：对于冷数据的key能够及时的清理，防止占用过多内存"><span class="nav-number">6.2.2.</span> <span class="nav-text">优点：对于冷数据的key能够及时的清理，防止占用过多内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检"><span class="nav-number">6.2.3.</span> <span class="nav-text">缺点：与被动删除相反，主动删除对cpu不友好，需要进行主动检</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#淘汰策略"><span class="nav-number">6.3.</span> <span class="nav-text">淘汰策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#六种淘汰策略"><span class="nav-number">6.3.1.</span> <span class="nav-text">六种淘汰策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lru淘汰、ttl淘汰与随机淘汰"><span class="nav-number">6.4.</span> <span class="nav-text">lru淘汰、ttl淘汰与随机淘汰</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lru淘汰"><span class="nav-number">6.4.1.</span> <span class="nav-text">lru淘汰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ttl淘汰"><span class="nav-number">6.4.2.</span> <span class="nav-text">ttl淘汰</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机淘汰"><span class="nav-number">6.4.3.</span> <span class="nav-text">随机淘汰</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存相关"><span class="nav-number">7.</span> <span class="nav-text">缓存相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存穿透"><span class="nav-number">7.1.</span> <span class="nav-text">缓存穿透</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文案"><span class="nav-number">8.</span> <span class="nav-text">参考文案</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -714,7 +776,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
