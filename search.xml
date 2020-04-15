@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MySQL分区表使用</title>
+    <url>/2020/04/15/mysql/mysql_partition_table/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
     <title>阿里yum-epel源替换</title>
     <url>/2020/04/06/linux/%E9%98%BF%E9%87%8Cyum-epel%E6%BA%90%E6%9B%BF%E6%8D%A2/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -396,6 +408,8 @@
 <p><strong>flashback只适用于row格式日志和full记录</strong></p>
 <pre><code><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">binlog_format=row</span><br><span class="line">binlog_row_image=full</span><br></pre></td></tr></table></figure></code></pre><p><img src="http://study.jeffqi.cn/mysql/flashback_row_full.jpg" alt="flashback_row_full.jpg"></p>
 <p><strong>工作机制</strong>：flash的实际工作由mysqlbinlog与–flashback一起完成。这将导致事件被转换：从INSERT到DELETE，从DELETE到INSERT，并且对于UPDATE，交换之前和之后的图像。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mysqlbinlog /path/to/binlog -vv -d db_name -T table_name \</span><br><span class="line">--start-datetime <span class="string">'2020-02-03 17:00:00'</span> --flashback &gt; flash.sql</span><br><span class="line">mysql &lt; flash.sql</span><br></pre></td></tr></table></figure>
+
 <p>避免数据的误操作，我们急需做的是预防；</p>
 <pre><code>1.  sql_safe_updates 参数设置为 on；对于语句进行检查，需要添加where才能使用
 2.  上线前对sql进行审计</code></pre></li>
@@ -1342,21 +1356,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Web网络安全</title>
-    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Web内容技术</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1413,6 +1412,21 @@
 <li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
       <categories>
         <category>Network</category>
       </categories>
@@ -2329,11 +2343,12 @@
 <a id="more"></a>
 
 <ul>
-<li>python垃圾回收算法:<a href="https://www.jianshu.com/p/1e375fb40506" target="_blank" rel="noopener">https://www.jianshu.com/p/1e375fb40506</a></li>
-<li>python与ruby垃圾回收：<a href="http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby" target="_blank" rel="noopener">http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby</a></li>
-<li>python迭代器生成器：<a href="https://www.jianshu.com/p/dcc4c1af63c7" target="_blank" rel="noopener">https://www.jianshu.com/p/dcc4c1af63c7</a></li>
-<li>python内存管理机制：<a href="https://www.jianshu.com/p/fb1d4dc8e367" target="_blank" rel="noopener">https://www.jianshu.com/p/fb1d4dc8e367</a></li>
-<li>pymysql基本使用：<a href="https://www.cnblogs.com/hanmk/p/9215387.html" target="_blank" rel="noopener">https://www.cnblogs.com/hanmk/p/9215387.html</a></li>
+<li><a href="https://www.jianshu.com/p/1e375fb40506" target="_blank" rel="noopener">python垃圾回收算法</a></li>
+<li><a href="http://patshaughnessy.net/2013/10/30/generational-gc-in-python-and-ruby" target="_blank" rel="noopener">python与ruby垃圾回收</a></li>
+<li><a href="https://www.jianshu.com/p/dcc4c1af63c7" target="_blank" rel="noopener">python迭代器生成器</a></li>
+<li><a href="https://www.jianshu.com/p/fb1d4dc8e367" target="_blank" rel="noopener">python内存管理机制</a></li>
+<li><a href="https://www.cnblogs.com/hanmk/p/9215387.html" target="_blank" rel="noopener">pymysql基本使用</a></li>
+<li><a href="https://pyecharts.org/#/zh-cn/quickstart" target="_blank" rel="noopener">pyecharts文档</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -2873,7 +2888,8 @@
 <li><a href="#快速排序">快速排序</a></li>
 <li><a href="#扩展排序">扩展排序</a></li>
 <li><a href="#二分查找">二分查找</a></li>
-<li><a href="#树的遍历">树的遍历</a><!-- TOC END -->
+<li><a href="#树的遍历">树的遍历</a></li>
+<li><a href="#单链表翻转">单链表翻转</a><!-- TOC END -->
 <a id="more"></a>
 
 </li>
@@ -2942,7 +2958,7 @@
 <h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gb</span><span class="params">(li, low, high)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> low &gt;= high:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    mid = low + (high - low) // <span class="number">2</span></span><br><span class="line">    gb(li, low, mid)</span><br><span class="line">    gb(li, mid + <span class="number">1</span>, high)</span><br><span class="line">    merger(li, low, mid, high)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">merger</span><span class="params">(li, low, mid, high)</span>:</span></span><br><span class="line">    i, j = low, mid + <span class="number">1</span></span><br><span class="line">    tmp = []</span><br><span class="line">    <span class="keyword">while</span> i &lt;= mid <span class="keyword">and</span> j &lt;= high:</span><br><span class="line">        <span class="keyword">if</span> li[i] &lt;= li[j]:</span><br><span class="line">            tmp.append(li[i])</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp.append(li[j])</span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line">    start = i <span class="keyword">if</span> i &lt;= mid <span class="keyword">else</span> j</span><br><span class="line">    end = mid <span class="keyword">if</span> i &lt;= mid <span class="keyword">else</span> high</span><br><span class="line">    tmp.extend(li[start: end + <span class="number">1</span>])</span><br><span class="line">    li[low: high + <span class="number">1</span>] = tmp</span><br></pre></td></tr></table></figure>
 
 <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><ul>
-<li><h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fast</span><span class="params">(li, low, high)</span>:</span></span><br><span class="line"><span class="keyword">if</span> low &gt;= high:</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">number = random.randrange(low, high)</span><br><span class="line">li[high], li[number] = li[number], li[high]</span><br><span class="line">p = partition(li, low, high)</span><br><span class="line">fast(li, low, p - <span class="number">1</span>)</span><br><span class="line">fast(li, p + <span class="number">1</span>, high)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(li, low, high)</span>:</span></span><br><span class="line">    i, value = low, li[high]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(low, high):</span><br><span class="line">        <span class="keyword">if</span> li[j] &lt;= value:</span><br><span class="line">            li[i], li[j] = li[j], li[i]</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">    li[i], li[high] = li[high], li[i]</span><br><span class="line">    <span class="keyword">return</span> i</span><br></pre></td></tr></table></figure>
+<li><h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现"></a>基本实现</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fast</span><span class="params">(li, low, high)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> low &gt;= high:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    number = random.randrange(low, high)</span><br><span class="line">    li[high], li[number] = li[number], li[high]</span><br><span class="line">    p = partition(li, low, high)</span><br><span class="line">    fast(li, low, p - <span class="number">1</span>)</span><br><span class="line">    fast(li, p + <span class="number">1</span>, high)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(li, low, high)</span>:</span></span><br><span class="line">    i, value = low, li[high]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(low, high):</span><br><span class="line">        <span class="keyword">if</span> li[j] &lt;= value:</span><br><span class="line">            li[i], li[j] = li[j], li[i]</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">    li[i], li[high] = li[high], li[i]</span><br><span class="line">    <span class="keyword">return</span> i</span><br></pre></td></tr></table></figure>
 </li>
 <li><h3 id="双路排序"><a href="#双路排序" class="headerlink" title="双路排序"></a>双路排序</h3></li>
 </ul>
@@ -2952,30 +2968,111 @@
 <li><h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3></li>
 </ul>
 <h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><ul>
-<li><h3 id="基本实现-1"><a href="#基本实现-1" class="headerlink" title="基本实现"></a>基本实现</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">half</span><span class="params">(li, low, high, value)</span>:</span></span><br><span class="line"><span class="keyword">while</span> low &lt;= high:</span><br><span class="line">    mid = low + (high - low) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> li[mid] &lt; value:</span><br><span class="line">        low = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> li[mid] &gt; value:</span><br><span class="line">        high = mid - <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> mid</span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
-
-
+<li><h3 id="基本实现-1"><a href="#基本实现-1" class="headerlink" title="基本实现"></a>基本实现</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">half</span><span class="params">(li, low, high, value)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> low &lt;= high:</span><br><span class="line">        mid = low + (high - low) // <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> li[mid] &lt; value:</span><br><span class="line">            low = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> li[mid] &gt; value:</span><br><span class="line">            high = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<ul>
 <li><h3 id="扩展二分"><a href="#扩展二分" class="headerlink" title="扩展二分"></a>扩展二分</h3></li>
 </ul>
 <h2 id="树的遍历"><a href="#树的遍历" class="headerlink" title="树的遍历"></a>树的遍历</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.value = value</span><br><span class="line">        self.left = <span class="literal">None</span></span><br><span class="line">        self.right = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><h3 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pre_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root:</span><br><span class="line">        print(root.value)</span><br><span class="line">        pre_order(root.left)</span><br><span class="line">        pre_order(root.right)</span><br></pre></td></tr></table></figure>
+<li><h3 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pre_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root:</span><br><span class="line">        print(root.value)</span><br><span class="line">        pre_order(root.left)</span><br><span class="line">        pre_order(root.right)</span><br><span class="line"><span class="comment"># 非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pre_order_no</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    p = root</span><br><span class="line">    stack = [p]</span><br><span class="line">    <span class="keyword">while</span> len(stack) &gt; <span class="number">0</span>:</span><br><span class="line">        print(p.value)</span><br><span class="line">        <span class="keyword">if</span> p.right:</span><br><span class="line">            stack.append(p.right)</span><br><span class="line">        <span class="keyword">if</span> p.left:</span><br><span class="line">            stack.append(p.left)</span><br><span class="line">        p = stack.pop()</span><br></pre></td></tr></table></figure>
 </li>
-<li><h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">in_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root:</span><br><span class="line">        in_order(root.left)</span><br><span class="line">        print(root.value)</span><br><span class="line">        in_order(root.right)</span><br></pre></td></tr></table></figure>
+<li><h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">in_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root:</span><br><span class="line">        in_order(root.left)</span><br><span class="line">        print(root.value)</span><br><span class="line">        in_order(root.right)</span><br><span class="line"><span class="comment"># 非递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">in_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    p = root</span><br><span class="line">    stack = []</span><br><span class="line">    <span class="keyword">while</span> p <span class="keyword">or</span> len(stack) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">if</span> p:</span><br><span class="line">            stack.append(p)</span><br><span class="line">            p = p.left</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            p = stack.pop()</span><br><span class="line">            print(p.value)</span><br><span class="line">            p = p.right</span><br></pre></td></tr></table></figure>
 </li>
-<li><h3 id="后续遍历"><a href="#后续遍历" class="headerlink" title="后续遍历"></a>后续遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root:</span><br><span class="line">        post_order(root.left)</span><br><span class="line">        post_order(root.right)</span><br><span class="line">        print(root.value)</span><br></pre></td></tr></table></figure>
+<li><h3 id="后续遍历"><a href="#后续遍历" class="headerlink" title="后续遍历"></a>后续遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 递归实现</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> root:</span><br><span class="line">        post_order(root.left)</span><br><span class="line">        post_order(root.right)</span><br><span class="line">        print(root.value)</span><br><span class="line"><span class="comment"># 非递归实现</span></span><br><span class="line"><span class="comment"># 后序打印二叉树（非递归）</span></span><br><span class="line"><span class="comment"># 使用两个栈结构</span></span><br><span class="line"><span class="comment"># 第一个栈进栈顺序：左节点-&gt;右节点-&gt;跟节点</span></span><br><span class="line"><span class="comment"># 第一个栈弹出顺序： 跟节点-&gt;右节点-&gt;左节点(先序遍历栈弹出顺序：跟-&gt;左-&gt;右)</span></span><br><span class="line"><span class="comment"># 第二个栈存储为第一个栈的每个弹出依次进栈</span></span><br><span class="line"><span class="comment"># 最后第二个栈依次出栈</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">post_order_no</span><span class="params">(node: TreeNode)</span>:</span></span><br><span class="line">    stack = [node]</span><br><span class="line">    stack2 = []</span><br><span class="line">    <span class="keyword">while</span> len(stack) &gt; <span class="number">0</span>:</span><br><span class="line">        node = stack.pop()</span><br><span class="line">        stack2.append(node)</span><br><span class="line">        <span class="keyword">if</span> node.left <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            stack.append(node.left)</span><br><span class="line">        <span class="keyword">if</span> node.right <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            stack.append(node.right)</span><br><span class="line">    <span class="keyword">while</span> len(stack2) &gt; <span class="number">0</span>:</span><br><span class="line">        print(stack2.pop().value)</span><br></pre></td></tr></table></figure>
 </li>
-<li><h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">level_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        queue = [root]</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        current = queue.pop(<span class="number">0</span>)</span><br><span class="line">        print(current.value)</span><br><span class="line">        <span class="keyword">if</span> current.left:</span><br><span class="line">            queue.append(current.left)</span><br><span class="line">        <span class="keyword">if</span> current.right:</span><br><span class="line">            queue.append(current.right)</span><br></pre></td></tr></table></figure>
+<li><h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3>  <figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">level_order</span><span class="params">(root: TreeNode)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> root:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        queue = [root]</span><br><span class="line">    <span class="keyword">for</span> current <span class="keyword">in</span> queue:</span><br><span class="line">        <span class="keyword">print</span> current.value</span><br><span class="line">        <span class="keyword">if</span> current.left:</span><br><span class="line">            queue.append(current.left)</span><br><span class="line">        <span class="keyword">if</span> current.right:</span><br><span class="line">            queue.append(current.right)</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
+<h2 id="单链表翻转"><a href="#单链表翻转" class="headerlink" title="单链表翻转"></a>单链表翻转</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LinkNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></span><br><span class="line">        self.value = value</span><br><span class="line">        self.next = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rev</span><span class="params">(root: LinkNode)</span>:</span></span><br><span class="line">    pre, now, nex = <span class="literal">None</span>, root, root.next</span><br><span class="line">    <span class="keyword">while</span> now:</span><br><span class="line">        now.next = pre</span><br><span class="line">        pre = now</span><br><span class="line">        now = nex</span><br><span class="line">        nex = nex.next</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
+<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
+</ol>
+</li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -3788,89 +3885,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
-<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
-</ol>
-</li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>网络参数</title>
     <url>/2020/03/19/linux/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -4085,6 +4099,7 @@
 <li><a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">linux负载均衡lvs</a></li>
 <li><a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">linux VRRP</a></li>
 <li><a href="https://blog.csdn.net/u014466109/article/details/68957657" target="_blank" rel="noopener">Gentoo下折腾emerge包管理器</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="noopener">cgroup原理</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -4706,6 +4721,22 @@
 ]]></content>
       <categories>
         <category>MySQL</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>docker笔记网站记录</title>
+    <url>/2020/01/22/docker/docker-network-notes/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<a id="more"></a>
+
+<ul>
+<li><a href="http://dockone.io/article/2941" target="_blank" rel="noopener">docker核心技术与实现原理</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Docker</category>
       </categories>
   </entry>
   <entry>

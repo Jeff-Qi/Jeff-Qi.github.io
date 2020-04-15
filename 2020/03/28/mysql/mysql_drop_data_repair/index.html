@@ -65,7 +65,7 @@
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/flashback_row_full.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/data_repair_after_drop_tables_or_databases.png">
 <meta property="og:image" content="http://study.jeffqi.cn/mysql/data_repair_use_replecation.png">
-<meta property="og:updated_time" content="2020-03-29T09:46:31.916Z">
+<meta property="og:updated_time" content="2020-04-15T08:50:58.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从删库到跑路到恢复数据">
 <meta name="twitter:description" content="删数据情况">
@@ -299,7 +299,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 17:46:31" itemprop="dateModified" datetime="2020-03-29T17:46:31+08:00">2020-03-29</time>
+                <time title="修改时间：2020-04-15 16:50:58" itemprop="dateModified" datetime="2020-04-15T16:50:58+08:00">2020-04-15</time>
               </span>
             
           
@@ -350,6 +350,8 @@
 <p><strong>flashback只适用于row格式日志和full记录</strong></p>
 <pre><code><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">binlog_format=row</span><br><span class="line">binlog_row_image=full</span><br></pre></td></tr></table></figure></code></pre><p><img src="http://study.jeffqi.cn/mysql/flashback_row_full.jpg" alt="flashback_row_full.jpg"></p>
 <p><strong>工作机制</strong>：flash的实际工作由mysqlbinlog与–flashback一起完成。这将导致事件被转换：从INSERT到DELETE，从DELETE到INSERT，并且对于UPDATE，交换之前和之后的图像。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog /path/to/binlog -vv -d db_name -T table_name \</span><br><span class="line">--start-datetime <span class="string">'2020-02-03 17:00:00'</span> --flashback &gt; flash.sql</span><br><span class="line">mysql &lt; flash.sql</span><br></pre></td></tr></table></figure>
+
 <p>避免数据的误操作，我们急需做的是预防；</p>
 <pre><code>1.  sql_safe_updates 参数设置为 on；对于语句进行检查，需要添加where才能使用
 2.  上线前对sql进行审计</code></pre></li>
@@ -470,7 +472,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
