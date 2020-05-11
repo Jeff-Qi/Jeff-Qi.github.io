@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux下文件描述极其作用</title>
+    <url>/2020/04/29/linux/linux%E4%B8%8B%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#pid文件">pid文件</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="pid文件"><a href="#pid文件" class="headerlink" title="pid文件"></a>pid文件</h1><ul>
+<li><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>  一般在 /var/run/ 下会有许多*.pid结尾的文件。这些文件是在程序运行后产生的。</p>
+</li>
+<li><h2 id="文件内容"><a href="#文件内容" class="headerlink" title="文件内容"></a>文件内容</h2><p>  *.pid 文件中只能看到进程号，只有一行数据</p>
+</li>
+<li><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>  防止进程启动多个副本。只有获得pid文件(固定路径固定文件名)写入权限(F_WRLCK)的进程才能正常启动并把自身的PID写入该文件中。其它同一个程序的多余进程则自动退出。</p>
+</li>
+<li><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>  调用fcntl设置pid文件的锁定F_SETLK状态，其中锁定的标志位F_WRLCK</p>
+<p>  如果成功锁定，则写入进程当前PID，进程继续往下执行。</p>
+<p>  如果锁定不成功，说明已经有同样的进程在运行了，当前进程结束退出。</p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">lock.l_type = F_WRLCK;</span><br><span class="line">lock.l_whence = SEEK_SET;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (fcntl(fd, F_SETLK, &amp;lock) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">//锁定不成功, 退出......</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sprintf</span> (buf, <span class="string">"%d\n"</span>, (<span class="keyword">int</span>) pid);</span><br><span class="line">pidsize = <span class="built_in">strlen</span>(buf);</span><br><span class="line"><span class="keyword">if</span> ((tmp = write (fd, buf, pidsize)) != (<span class="keyword">int</span>)pidsize)&#123;</span><br><span class="line">    <span class="comment">//写入不成功, 退出......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>如果进程退出，则该进程加的锁自动失效。</li>
+<li>如果进程关闭了该文件描述符fd， 则加的锁失效。(整个进程运行期间不能关闭此文件描述符)</li>
+<li>锁的状态不会被子进程继承。如果进程关闭则锁失效而不管子进程是否在运行。</li>
+</ol>
+</li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://blog.csdn.net/shanzhizi/article/details/23272437?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-8" target="_blank" rel="noopener">pid文件作用</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>jumpserver基础学习</title>
+    <url>/2020/04/21/linux/jumpserver_study/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#jumpserver简介">jumpserver简介</a></li>
+<li><a href="#jumpserver安装使用">jumpserver安装使用</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="jumpserver简介"><a href="#jumpserver简介" class="headerlink" title="jumpserver简介"></a>jumpserver简介</h1><pre><code>1. JumpServer 是全球首款完全开源的堡垒机, 使用 GNU GPL v2.0 开源协议；
+2. 使用 Python / Django 进行开发, 遵循 Web 2.0 规范
+3. JumpServer 采纳分布式架构, 支持多机房跨区域部署, 中心节点提供 API, 各机房部署登录节点, 可横向扩展、无并发访问限制
+4. JumpServer 现已支持管理 SSH、 Telnet、 RDP、 VNC 协议资产
+5. jumpserver核心功能包括身份认证、账号管理、权限控制和安全审计
+6. 同时jumpserver还具有分布式、云存储等特点；有丰富便捷的可视化图形web界面
+
+- [jumpserver官网](https://www.jumpserver.org/)</code></pre><h1 id="jumpserver安装使用"><a href="#jumpserver安装使用" class="headerlink" title="jumpserver安装使用"></a>jumpserver安装使用</h1><ul>
+<li><p>jumpserver提供多种安装方式，直接安装或者通过docker安装（后续实验我们采用docker进行安装）</p>
+</li>
+<li><p>环境要求：</p>
+<ol>
+<li>硬件配置: 2个CPU核心, 4G 内存, 50G 硬盘（最低）</li>
+<li>操作系统: Linux 发行版 x86_64</li>
+<li>Python = 3.6.x</li>
+<li>Mysql Server ≥ 5.6</li>
+<li>Mariadb Server ≥ 5.5.56</li>
+<li>Redis</li>
+</ol>
+</li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://jumpserver.readthedocs.io/zh/master/index.html" target="_blank" rel="noopener">jumpsever官方文档</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>MySQL分区表使用</title>
     <url>/2020/04/15/mysql/mysql_partition_table/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -89,6 +168,7 @@
 <li><a href="#为什么是用-systemd-作为开机启动进程">为什么是用 systemd 作为开机启动进程</a></li>
 <li><a href="#systemd启动过程">systemd启动过程</a></li>
 <li><a href="#systemd使用">systemd使用</a></li>
+<li><a href="#systemd定义开机自启动程序">systemd定义开机自启动程序</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 <a id="more"></a>
 
@@ -187,6 +267,25 @@
   <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">journalctl</span><br><span class="line"><span class="comment"># -b:至那一次启动以来的日志，默认为0最近一次启动以来，-1为上一次启动</span></span><br><span class="line"><span class="comment"># --since=”2020-04-24 16:38”:至那个时间点以来的日志</span></span><br><span class="line"><span class="comment"># -u mysql.service：某一个服务的日志</span></span><br><span class="line"><span class="comment"># _PID=890：某一个进程的日志</span></span><br></pre></td></tr></table></figure>
 
 <p>  <img src="http://study.jeffqi.cn/linux/systemd_journalctl.jpg" alt="systemd_journalctl"></p>
+</li>
+</ul>
+<h1 id="systemd定义开机自启动程序"><a href="#systemd定义开机自启动程序" class="headerlink" title="systemd定义开机自启动程序"></a>systemd定义开机自启动程序</h1><ul>
+<li><h2 id="服务权限"><a href="#服务权限" class="headerlink" title="服务权限"></a>服务权限</h2><p>  systemd有系统和用户区分；系统（/user/lib/systemd/system/）、用户（/etc/lib/systemd/user/）。一般系统管理员手工创建的单元文件建议存放在/etc/systemd/system/目录下面。</p>
+</li>
+<li><h2 id="xxx-service-文件"><a href="#xxx-service-文件" class="headerlink" title="xxx.service 文件"></a>xxx.service 文件</h2><ol>
+<li><p>实例nginx为例子</p>
+<p><img src alt="systemd_service_start"></p>
+</li>
+<li><p>参数参考</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description : 服务的简单描述</span><br><span class="line">Documentation ： 服务文档</span><br><span class="line">Before、After:定义启动顺序。Before=xxx.service,代表本服务在xxx.service启动之前启动。After=xxx.service,代表本服务在xxx.service之后启动。</span><br><span class="line">Requires：这个单元启动了，它需要的单元也会被启动；它需要的单元被停止了，这个单元也停止了。</span><br><span class="line">Wants：推荐使用。这个单元启动了，它需要的单元也会被启动；它需要的单元被停止了，对本单元没有影响。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Type=simple（默认值）：systemd认为该服务将立即启动。服务进程不会fork。如果该服务要启动其他服务，不要使用此类型启动，除非该服务是socket激活型。</span><br><span class="line">Type=forking：systemd认为当该服务进程fork，且父进程退出后服务启动成功。对于常规的守护进程（daemon），除非你确定此启动方式无法满足需求，使用此类型启动即可。使用此启动类型应同时指定 PIDFile=，以便systemd能够跟踪服务的主进程。</span><br><span class="line">Type=oneshot：这一选项适用于只执行一项任务、随后立即退出的服务。可能需要同时设置 RemainAfterExit=yes 使得 systemd 在服务进程退出之后仍然认为服务处于激活状态。</span><br><span class="line">Type=notify：与 Type=simple 相同，但约定服务会在就绪后向 systemd 发送一个信号。这一通知的实现由 libsystemd-daemon.so 提供。</span><br><span class="line">Type=dbus：若以此方式启动，当指定的 BusName 出现在DBus系统总线上时，systemd认为服务就绪。</span><br><span class="line">Type=idle: systemd会等待所有任务(Jobs)处理完成后，才开始执行idle类型的单元。除此之外，其他行为和Type=simple 类似。</span><br><span class="line">PIDFile：pid文件路径</span><br><span class="line">ExecStart：指定启动单元的命令或者脚本，ExecStartPre和ExecStartPost节指定在ExecStart之前或者之后用户自定义执行的脚本。Type=oneshot允许指定多个希望顺序执行的用户自定义命令。</span><br><span class="line">ExecReload：指定单元停止时执行的命令或者脚本。</span><br><span class="line">ExecStop：指定单元停止时执行的命令或者脚本。</span><br><span class="line">PrivateTmp：True表示给服务分配独立的临时空间</span><br><span class="line">Restart：这个选项如果被允许，服务重启的时候进程会退出，会通过systemctl命令执行清除并重启的操作。</span><br><span class="line">RemainAfterExit：如果设置这个选择为真，服务会被认为是在激活状态，即使所以的进程已经退出，默认的值为假，这个选项只有在Type=oneshot时需要被配置。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Install]</span><br><span class="line">Alias：为单元提供一个空间分离的附加名字。</span><br><span class="line">RequiredBy：单元被允许运行需要的一系列依赖单元，RequiredBy列表从Require获得依赖信息。</span><br><span class="line">WantBy：单元被允许运行需要的弱依赖性单元，Wantby从Want列表获得依赖信息。</span><br><span class="line">Also：指出和单元一起安装或者被协助的单元。</span><br><span class="line">DefaultInstance：实例单元的限制，这个选项指定如果单元被允许运行默认的实例。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加完成后可看看笔记前面systemctl使用方法</p>
+</li>
+</ol>
 </li>
 </ul>
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
@@ -1548,7 +1647,7 @@
 </li>
 </ul>
 <h1 id="临时替换"><a href="#临时替换" class="headerlink" title="临时替换"></a>临时替换</h1><ul>
-<li>使用 -i 参数添加临时下载源  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip -i source_url package</span><br></pre></td></tr></table></figure>
+<li>使用 -i 参数添加临时下载源  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">pip install package -i source_url</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -1874,16 +1973,17 @@
 </ul>
 </li>
 <li><a href="#开源热备工具">开源热备工具</a><ul>
-<li><a href="#percona-xtrabakup捉急需要了解">percona xtrabakup（捉急需要了解）</a></li>
+<li><a href="#percona-xtrabakup">percona xtrabakup</a></li>
 </ul>
 </li>
 <li><a href="#备份与恢复">备份与恢复</a><ul>
 <li><a href="#备份策略">备份策略</a></li>
-<li><a href="#数据恢复">数据恢复</a><!-- TOC END -->
+<li><a href="#数据恢复">数据恢复</a></li>
+</ul>
+</li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
 <a id="more"></a>
 
-</li>
-</ul>
 </li>
 </ul>
 <h1 id="备份与恢复类型"><a href="#备份与恢复类型" class="headerlink" title="备份与恢复类型"></a>备份与恢复类型</h1><h2 id="热备份（联机备份）"><a href="#热备份（联机备份）" class="headerlink" title="热备份（联机备份）"></a>热备份（联机备份）</h2><ul>
@@ -2037,7 +2137,100 @@
 </ol>
 </li>
 </ol>
-<h1 id="开源热备工具"><a href="#开源热备工具" class="headerlink" title="开源热备工具"></a>开源热备工具</h1><h2 id="percona-xtrabakup（捉急需要了解）"><a href="#percona-xtrabakup（捉急需要了解）" class="headerlink" title="percona xtrabakup（捉急需要了解）"></a>percona xtrabakup（捉急需要了解）</h2><h1 id="备份与恢复"><a href="#备份与恢复" class="headerlink" title="备份与恢复"></a>备份与恢复</h1><h2 id="备份策略"><a href="#备份策略" class="headerlink" title="备份策略"></a>备份策略</h2><ul>
+<h1 id="开源热备工具"><a href="#开源热备工具" class="headerlink" title="开源热备工具"></a>开源热备工具</h1><h2 id="percona-xtrabakup"><a href="#percona-xtrabakup" class="headerlink" title="percona xtrabakup"></a>percona xtrabakup</h2><ul>
+<li><h3 id="xtrabackup"><a href="#xtrabackup" class="headerlink" title="xtrabackup"></a>xtrabackup</h3><p>  <strong>工作机制</strong>：xtrabackup的工作基于<strong>innodb存储引擎的崩溃恢复功能力</strong>进行的。复制完数据库的数据之后，通过崩溃恢复的功能来进行数据的恢复。保持数据的一致性。崩溃护肤功能基于innodb的内置的redo-log日志。<strong>在恢复数据时对于已经提交的事务直接重做应用；未提交的事务进行回滚</strong>。相比于mysqldump等工具来说，xtrabackup工具是<strong>物理备份</strong>，对于数据直接拷贝。同时对系统的影响较小，基本不会阻塞线上的业务的运行。</p>
+<p>  <strong>工作流程</strong>：</p>
+<pre><code>1.  启动xtra进程开启一个子进程对redo-log进行持续复制。如果redo-log发生了改动，也会进行复制操作。
+
+2.  启动另一个子进程，对innodb存储引擎的数据库的数据和日志进行复制
+
+3.  复制完所有innodb/xtradb数据和日志后，对所有myisam和其他非innodb表执行锁定操作（LOCK BINLOG FOR BACKUP）；进行数据的复制（此阶段数据库短暂不可写）
+
+4.  非事务表复制完成后，会停止复制线程，记录日志的坐标。同时停止redo-log日志的复制。
+
+5.  对于上锁的数据进行解锁
+
+6.  完成复制</code></pre><p>  <strong>恢复数据</strong>：</p>
+<pre><code>1.  首先读取配置文件 my.cnf 检查相应的文件是否存在
+
+2.  之后会首先复制恢复非事务表和数据
+
+3.  恢复innodb表和数据
+
+4.  最后是二进制日志
+
+5.  需要修改文件的权限归属等信息</code></pre><p>  <img src="http://study.jeffqi.cn/mysql/xtrabackup-process.png" alt="xtrabakup_process"></p>
+</li>
+<li><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li><p>安装rpm包</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install https://repo.percona.com/yum/percona-release-latest.noarch.rpm</span><br><span class="line"><span class="comment"># 也可以从官网下载rpm的安装包进行直接安装</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启用存储库</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">percona-release <span class="built_in">enable</span>-only tools release</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装xtrabackup</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install percona-xtrabackup-80</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载xtrbackup</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum remove percona-xtrabackup</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3>  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup \</span><br><span class="line">--user=user_name \</span><br><span class="line">--password=password \</span><br><span class="line">--host=host_ip \</span><br><span class="line">--port=port_number \</span><br><span class="line">--socket=/path/to/socker \</span><br><span class="line">--backup \</span><br><span class="line">--target-dir=/data/bkps/</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>创建备份用户，分配必要权限</strong></p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">'bkpuser'</span>@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">with</span> <span class="string">'mysql_native_password'</span> <span class="keyword">by</span> <span class="string">'Hjqme525+'</span>;</span><br><span class="line"><span class="keyword">grant</span> reload,<span class="keyword">lock</span> <span class="keyword">tables</span>,backup_admin,<span class="keyword">replication</span> <span class="keyword">client</span>,<span class="keyword">create</span> \</span><br><span class="line"><span class="keyword">tablespace</span>,process,super,<span class="keyword">create</span>,<span class="keyword">insert</span>, <span class="keyword">select</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> <span class="string">'bkpuser'</span>@<span class="string">'%'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="全量备份"><a href="#全量备份" class="headerlink" title="全量备份"></a>全量备份</h4><p>  <strong>创建全量备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --backup \</span><br><span class="line">--host=xxx.xxx.xxx.xxx --user=bkpuser --port=3306 --password \</span><br><span class="line">--target-dir=/tmp/xtrabackup.test</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>准备备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --prepare --target-dir=/tmp/xtrabackup.test</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>恢复备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --copy-back --target-dir=/mysql/data/dir   <span class="comment"># --move-back：删除备份数据</span></span><br></pre></td></tr></table></figure>
+
+<p>  –copy-back参数与–move-back参数的区别：<strong>copyback在复制完数据后，会保存当前的文件，而moveback在复制完成后会删除备份文件</strong></p>
+<p>  <strong>重启数据库</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chmod -R mysql:mysql /mysql/data/dir</span><br><span class="line">systemctl restart mysqld</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="增量备份（基于全量备份）"><a href="#增量备份（基于全量备份）" class="headerlink" title="增量备份（基于全量备份）"></a>增量备份（基于全量备份）</h4><p>  <strong>创建全量备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --backup \</span><br><span class="line">--host=xxx.xxx.xxx.xxx --user=bkpuser --port=3306 --password \</span><br><span class="line">--target-dir=/root/data2.data</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>基于全量备份的增量备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --backup --host=192.168.80.128 --user=root --password \</span><br><span class="line">--target-dir=/root/data2.increment.data \</span><br><span class="line">--incremental-basedir=/root/data2.data/</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>增量备份时需要指定基础的文件</strong></p>
+<p>  <strong>插入</strong></p>
+  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">delimiter //</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> xtratest2()</span><br><span class="line">    <span class="keyword">begin</span></span><br><span class="line">    <span class="keyword">declare</span> i <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">declare</span> a <span class="built_in">int</span>;</span><br><span class="line">    <span class="keyword">set</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">set</span> a=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">begin</span></span><br><span class="line">        <span class="keyword">while</span> i&lt;=<span class="number">10000</span> <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">insert</span> <span class="keyword">into</span> d3.t1(<span class="keyword">id</span>,a) <span class="keyword">values</span> (i,a);</span><br><span class="line">        <span class="keyword">set</span> i=i+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">set</span> a=a+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">while</span>;</span><br><span class="line">        <span class="keyword">end</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    //</span><br><span class="line">  delimiter ;</span><br><span class="line">  <span class="keyword">call</span> xtratest2();</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>基于增量备份的增量备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --backup --host=192.168.80.128 --user=root --password \</span><br><span class="line">--target-dir=/root/data2.increment2.data \</span><br><span class="line">--incremental-basedir=/root/data2.increment.data/</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>准备全量备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --prepare --apply-log-only --target-dir=/root/dada2.data/</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>对于需要恢复增量备份的数据，其全量备份还原时需要添加 –apply-log-only 参数，否则后续增量备份不可用</strong></p>
+<p>  <strong>恢复增量备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --prepare --apply-log-only --target-dir=/root/data2.data/ \</span><br><span class="line">--incremental-dir=/root/data2.increment.data/</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --prepare --apply-log-only --target-dir=/root/data2.data/ \</span><br><span class="line">--incremental-dir=/root/data2.increment2.data/</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>一个增量备份文件只恢复一次不要重复恢复</strong></p>
+<p>  <strong>恢复备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --copy-back --target-dir=/root/dada2.data/</span><br><span class="line">chown -R mysql:mysql /var/lib/mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="压缩备份"><a href="#压缩备份" class="headerlink" title="压缩备份"></a>压缩备份</h4><p>  <strong>压缩备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">xtrabackup --backup --host=192.168.80.128 --user=root --password \</span><br><span class="line">--compress --compress-threads=2 \</span><br><span class="line">--target-dir=/root/data3.data</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>解压备份</strong></p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install qpress-11-1.el7.x86_64    <span class="comment"># 注意安装qpress软件，可以通过安装rpm来找到相应的软件</span></span><br><span class="line">xtrabackup --decompress --target-dir=/root/data3.data/</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>准备备份</strong></p>
+<p>  <strong>恢复备份</strong></p>
+</li>
+</ul>
+<h1 id="备份与恢复"><a href="#备份与恢复" class="headerlink" title="备份与恢复"></a>备份与恢复</h1><h2 id="备份策略"><a href="#备份策略" class="headerlink" title="备份策略"></a>备份策略</h2><ul>
 <li>对于数据需要有周期性的备份操作。这里针对 mysqldump 展开。</li>
 </ul>
 <ol>
@@ -2070,6 +2263,14 @@
 
 </li>
 </ol>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.cnblogs.com/linuxk/p/9372990.html" target="_blank" rel="noopener">xtrabakup备份入门</a></li>
+<li><a href="https://www.percona.com/doc/percona-xtrabackup/8.0/index.html" target="_blank" rel="noopener">percona-xtrabakup-documents</a></li>
+<li><a href="https://www.percona.com/doc/percona-xtrabackup/2.4/howtos/recipes_ibkx_stream.html" target="_blank" rel="noopener">xtrabakup流处理</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html" target="_blank" rel="noopener">mysqldump文档</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html" target="_blank" rel="noopener">mysqlbinlog文档</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/backup-and-recovery.html" target="_blank" rel="noopener">mysql数据备份</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>MySQL</category>
@@ -2993,89 +3194,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
-<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
-</ol>
-</li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python/python_base/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3885,6 +4003,89 @@
       </categories>
   </entry>
   <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
+<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
+</ol>
+</li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>网络参数</title>
     <url>/2020/03/19/linux/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -3997,6 +4198,37 @@
       </categories>
   </entry>
   <entry>
+    <title>Linux笔记网站记录</title>
+    <url>/2020/03/19/linux/linux-network-note/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+<!-- TOC END -->
+<!--moer-->
+
+<ul>
+<li><a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">进程线程协程</a></li>
+<li><a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">apache MPM工作模式</a></li>
+<li><a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">写时复制</a></li>
+<li><a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">linux调度</a></li>
+<li><a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">centos7 开机详解</a></li>
+<li><a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">linux防火墙之iptables</a></li>
+<li><a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">linux各种括号</a></li>
+<li><a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">linux负载均衡lvs</a></li>
+<li><a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">linux VRRP</a></li>
+<li><a href="https://blog.csdn.net/u014466109/article/details/68957657" target="_blank" rel="noopener">Gentoo下折腾emerge包管理器</a></li>
+<li><a href="https://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="noopener">cgroup原理</a></li>
+<li><a href="https://www.nanguoyu.com/centos%E5%8D%87%E7%BA%A7glibc" target="_blank" rel="noopener">centos7升级glibc</a></li>
+<li><a href="https://blog.csdn.net/pecovio/article/details/82348924" target="_blank" rel="noopener">openssl介绍与使用</a></li>
+<li><a href="https://www.cnblogs.com/h2zZhou/p/10984622.html" target="_blank" rel="noopener">qt5安装</a></li>
+<li><a href="https://www.cnblogs.com/hanlulu1998/p/12003845.html" target="_blank" rel="noopener">qt升级</a></li>
+<li><a href="https://www.jianshu.com/p/36a7775b04ec" target="_blank" rel="noopener">消息队列</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>平均负载</title>
     <url>/2020/03/19/linux/%E5%B9%B3%E5%9D%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -4075,32 +4307,6 @@
 </ul>
 </li>
 </ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Linux优秀笔记网站记录</title>
-    <url>/2020/03/19/linux/linux-network-note/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-<!--moer-->
-
-<ul>
-<li><a href="https://blog.csdn.net/daaikuaichuan/article/details/82951084" target="_blank" rel="noopener">进程线程协程</a></li>
-<li><a href="https://www.cnblogs.com/luoyan01/p/9948092.html" target="_blank" rel="noopener">apache MPM工作模式</a></li>
-<li><a href="https://www.cnblogs.com/biyeymyhjob/archive/2012/07/20/2601655.html" target="_blank" rel="noopener">写时复制</a></li>
-<li><a href="https://blog.csdn.net/qq_37375427/article/details/83046906" target="_blank" rel="noopener">linux调度</a></li>
-<li><a href="https://blog.csdn.net/weixin_34007906/article/details/93529347?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">centos7 开机详解</a></li>
-<li><a href="http://www.zsythink.net/archives/tag/iptables/page/2/" target="_blank" rel="noopener">linux防火墙之iptables</a></li>
-<li><a href="https://blog.csdn.net/taiyang1987912/article/details/39551385" target="_blank" rel="noopener">linux各种括号</a></li>
-<li><a href="https://www.cnblogs.com/yanjieli/p/10582324.html" target="_blank" rel="noopener">linux负载均衡lvs</a></li>
-<li><a href="https://www.jianshu.com/p/81115a4293c7" target="_blank" rel="noopener">linux VRRP</a></li>
-<li><a href="https://blog.csdn.net/u014466109/article/details/68957657" target="_blank" rel="noopener">Gentoo下折腾emerge包管理器</a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/1506_cgroup/index.html" target="_blank" rel="noopener">cgroup原理</a></li>
-</ul>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -4307,7 +4513,7 @@
 <!-- TOC END -->
 <a id="more"></a>
 
-<ol>
+<h1 id="python安装"><a href="#python安装" class="headerlink" title="python安装"></a>python安装</h1><ol>
 <li><p>安装python</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">yum install python36 python36-devel</span><br></pre></td></tr></table></figure>
 </li>
@@ -4321,6 +4527,32 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum install -y python36 python36-devel</span><br><span class="line">mv /usr/bin/python /usr/bin/python.bak</span><br><span class="line">ln -s /usr/bin/python3.6 /usr/bin/python</span><br><span class="line">sed -i <span class="string">'s/python2/python/'</span> /usr/bin/yum</span><br><span class="line">sed -i <span class="string">'s/python2/python/'</span> /usr/libexec/urlgrabber-ext-down</span><br><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="升级python版本"><a href="#升级python版本" class="headerlink" title="升级python版本"></a>升级python版本</h1><ol>
+<li><p>下载<a href="https://www.python.org/ftp/python/" target="_blank" rel="noopener">官网</a>Python安装包</p>
+</li>
+<li><p>解压并进入解压目录</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">tar -xvf xxx</span><br><span class="line"><span class="built_in">cd</span> xxx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建python安装目录</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mkdir /usr/<span class="built_in">local</span>/python3.x</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译(解压目录下)</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/python38</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备份就Python3文件</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mv /usr/bin/python3 /usr/bin/python3.backup</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/python38/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">python3 -V</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可能出现新建项目时无法使用pip，需要移动一个文件</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 报错</span></span><br><span class="line"><span class="comment"># （Error: Command '['/home/jerqi/untitled/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 2.）</span></span><br><span class="line">sudo rm /usr/bin/lsb_release</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -4441,6 +4673,9 @@
 
 </li>
 </ol>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.cnblogs.com/xuanzhi201111/p/4231412.html" target="_blank" rel="noopener">MySQL高可用之MHA搭建</a></li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -5005,6 +5240,7 @@
 <ul>
 <li><a href="#docker第一步">Docker第一步</a><ul>
 <li><a href="#安装docker">安装Docker</a></li>
+<li><a href="#deepin安装docker">deepin安装docker</a></li>
 <li><a href="#创建docker用户组">创建docker用户组</a></li>
 </ul>
 </li>
@@ -5039,14 +5275,35 @@
 </li>
 </ul>
 <h1 id="Docker第一步"><a href="#Docker第一步" class="headerlink" title="Docker第一步"></a>Docker第一步</h1><h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><ol>
-<li><p>安装必要工具</p>
+<li><p>安装必要工具，yum-utils提供yum-config-manager功能，另外两个是devicemapper驱动依赖</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install -y yum-utils \</span><br><span class="line">device-mapper-persistent-data.x86_64 \</span><br><span class="line">lvm2</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>创建yum源repo文件</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">--add-repo \</span><br><span class="line">https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># docker中央仓库</span></span><br><span class="line">yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># 阿里仓库</span></span><br><span class="line">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>更新并安装</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line">yum install docker-ce-19.03.2-3.el7</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="deepin安装docker"><a href="#deepin安装docker" class="headerlink" title="deepin安装docker"></a>deepin安装docker</h2><ol>
+<li><p>安装docker-ce与密钥管理与下载相关的工具</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https ca-certificates curl software-properties-common</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装密钥</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -   <span class="comment"># 国内的源</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证密钥</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加docker仓库</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo add-apt-repository <span class="string">"deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/debian jessie stable"</span></span><br><span class="line"><span class="comment"># 如果不行就讲引号中的内容添加到 /etc/apt/sources.list</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -5063,7 +5320,7 @@
 <li><p>选择镜像加速服务</p>
 </li>
 <li><p>启用</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="comment"># 国内镜像源</span></span><br><span class="line">　　　  <span class="comment"># "http://ovfftd6p.mirror.aliyuncs.com",</span></span><br><span class="line">　　　  <span class="comment"># "http://registry.docker-cn.com",</span></span><br><span class="line">　　　  <span class="comment"># "http://docker.mirrors.ustc.edu.cn",</span></span><br><span class="line">　　　  <span class="comment"># "http://hub-mirror.c.163.com"</span></span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -6920,6 +7177,76 @@ eg：alter table test drop index createtime;</code></pre><h3 id="8-4-mysql必备
 ]]></content>
       <categories>
         <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>MySQL数据库安装</title>
+    <url>/2019/03/12/mysql/mysql_install/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#mysql数据yum源安装">MySQL数据yum源安装</a><ul>
+<li><a href="#安装">安装</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="MySQL数据yum源安装"><a href="#MySQL数据yum源安装" class="headerlink" title="MySQL数据yum源安装"></a>MySQL数据yum源安装</h1><ul>
+<li>centos7下安装</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><h3 id="在线安装"><a href="#在线安装" class="headerlink" title="在线安装"></a>在线安装</h3></li>
+</ul>
+<ol>
+<li><p>安装mysql的rpm包<a href="https://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">rpm下载地址</a></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装rmp</span></span><br><span class="line">sudo yum localinstall mysql80-community-release-el7-&#123;version-number&#125;.noarch.rpm</span><br><span class="line"><span class="comment"># 查看enable的安装包</span></span><br><span class="line">yum repolist enabled | grep <span class="string">"mysql.*-community.*"</span></span><br><span class="line"><span class="comment"># 调整安装版本</span></span><br><span class="line">yum-config-manager --<span class="built_in">disable</span>/--<span class="built_in">enable</span> mysqlxx-community</span><br></pre></td></tr></table></figure>
+
+<p><img src alt="mysql_install_rpm_list"></p>
+</li>
+<li><p>在线安装mysql</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><h3 id="离线安装"><a href="#离线安装" class="headerlink" title="离线安装"></a>离线安装</h3></li>
+</ul>
+<ol>
+<li><p><a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">下载安装包</a></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.20-linux-glibc2.12-x86_64.tar.xz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">tar -xvf mysql-8.0.20-linux-glibc2.12-x86_64.tar.xz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建mysql用户和用户组</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">grpadd -g 27 mysql</span><br><span class="line">useradd -u 27 -g 27 -s /sbin/nologin mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改mysql文件权限</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chown -R mysql:mysql /usr/<span class="built_in">local</span>/mysql</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建配置文件</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim /etc/my.cnf</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">basedir=/usr/<span class="built_in">local</span>/mysql</span><br><span class="line">datadir=/usr/<span class="built_in">local</span>/mysql/data</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line"><span class="built_in">log</span>-error=/var/<span class="built_in">log</span>/mysqld.log</span><br><span class="line"><span class="built_in">bind</span>-address=0.0.0.0</span><br><span class="line">port=3306</span><br><span class="line"><span class="comment">#skip-grant-tables</span></span><br><span class="line">user=mysql</span><br><span class="line">tmpdir=/tmp</span><br><span class="line"><span class="built_in">log</span>-bin=master-bin</span><br><span class="line"><span class="built_in">log</span>-bin-index=master-bin.index</span><br><span class="line">server-id=1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MySQL初始化</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/usr/<span class="built_in">local</span>/mysql/bin/mysqld --initialize --user=mysql</span><br><span class="line"><span class="comment"># 网上教程坑了，不需提前创建data数据目录。初始化会自动创建</span></span><br><span class="line"><span class="comment"># 如果报错文件不存在，创建相应文件夹，修改权限，属主合所属组</span></span><br><span class="line"><span class="comment"># 报错查看错误日志</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加服务开机只启动</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">cp /usr/<span class="built_in">local</span>/mysql/support-files/mysql.server /etc/rc.d/init.d/mysqld</span><br><span class="line">systemctl <span class="built_in">enable</span> mysqld.server</span><br><span class="line"><span class="comment"># chkconfig --add mysqld</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">systemctl start mysqld.server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加mysql环境变量</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH=<span class="variable">$PATH</span>:/usr/local/mysql/bin"</span> &gt;&gt; /etc/bashrc</span><br><span class="line"><span class="built_in">source</span> /etc/bashrc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>首次登陆密码位于mysql日志中，通过查看MySQL日志来获取</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified with <span class="string">'mysql_native_password'</span> by <span class="string">'password'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>MySQL</category>
       </categories>
   </entry>
 </search>

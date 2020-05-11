@@ -55,17 +55,17 @@
   };
 </script>
 
-  <meta name="description" content="Docker第一步 安装Docker 创建docker用户组   Docker国内镜像加速 Dockerfile 定制 FROM 与 RUN 构建 FROM指定基础对象 RUN执行命令   命令 构建上下文Context   Dockerfile指令详解 copy add cmd entrypoint env与arg设置变量参数 volume expose workdir与user healt">
+  <meta name="description" content="Docker第一步 安装Docker deepin安装docker 创建docker用户组   Docker国内镜像加速 Dockerfile 定制 FROM 与 RUN 构建 FROM指定基础对象 RUN执行命令   命令 构建上下文Context   Dockerfile指令详解 copy add cmd entrypoint env与arg设置变量参数 volume expose wor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初始Docker">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2019/11/29/docker/初识Docker/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="Docker第一步 安装Docker 创建docker用户组   Docker国内镜像加速 Dockerfile 定制 FROM 与 RUN 构建 FROM指定基础对象 RUN执行命令   命令 构建上下文Context   Dockerfile指令详解 copy add cmd entrypoint env与arg设置变量参数 volume expose workdir与user healt">
+<meta property="og:description" content="Docker第一步 安装Docker deepin安装docker 创建docker用户组   Docker国内镜像加速 Dockerfile 定制 FROM 与 RUN 构建 FROM指定基础对象 RUN执行命令   命令 构建上下文Context   Dockerfile指令详解 copy add cmd entrypoint env与arg设置变量参数 volume expose wor">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-26T14:15:29.467Z">
+<meta property="og:updated_time" content="2020-05-09T05:42:05.062Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初始Docker">
-<meta name="twitter:description" content="Docker第一步 安装Docker 创建docker用户组   Docker国内镜像加速 Dockerfile 定制 FROM 与 RUN 构建 FROM指定基础对象 RUN执行命令   命令 构建上下文Context   Dockerfile指令详解 copy add cmd entrypoint env与arg设置变量参数 volume expose workdir与user healt">
+<meta name="twitter:description" content="Docker第一步 安装Docker deepin安装docker 创建docker用户组   Docker国内镜像加速 Dockerfile 定制 FROM 与 RUN 构建 FROM指定基础对象 RUN执行命令   命令 构建上下文Context   Dockerfile指令详解 copy add cmd entrypoint env与arg设置变量参数 volume expose wor">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2019/11/29/docker/初识Docker/">
 
 
@@ -295,7 +295,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 22:15:29" itemprop="dateModified" datetime="2020-03-26T22:15:29+08:00">2020-03-26</time>
+                <time title="修改时间：2020-05-09 13:42:05" itemprop="dateModified" datetime="2020-05-09T13:42:05+08:00">2020-05-09</time>
               </span>
             
           
@@ -328,6 +328,7 @@
 <ul>
 <li><a href="#docker第一步">Docker第一步</a><ul>
 <li><a href="#安装docker">安装Docker</a></li>
+<li><a href="#deepin安装docker">deepin安装docker</a></li>
 <li><a href="#创建docker用户组">创建docker用户组</a></li>
 </ul>
 </li>
@@ -362,14 +363,35 @@
 </li>
 </ul>
 <h1 id="Docker第一步"><a href="#Docker第一步" class="headerlink" title="Docker第一步"></a>Docker第一步</h1><h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><ol>
-<li><p>安装必要工具</p>
+<li><p>安装必要工具，yum-utils提供yum-config-manager功能，另外两个是devicemapper驱动依赖</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install -y yum-utils \</span><br><span class="line">device-mapper-persistent-data.x86_64 \</span><br><span class="line">lvm2</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>创建yum源repo文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum-config-manager \</span><br><span class="line">--add-repo \</span><br><span class="line">https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker中央仓库</span></span><br><span class="line">yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br><span class="line"><span class="comment"># 阿里仓库</span></span><br><span class="line">yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>更新并安装</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum update</span><br><span class="line">yum list docker-ce --showduplicates | sort -r</span><br><span class="line">yum install docker-ce-19.03.2-3.el7</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="deepin安装docker"><a href="#deepin安装docker" class="headerlink" title="deepin安装docker"></a>deepin安装docker</h2><ol>
+<li><p>安装docker-ce与密钥管理与下载相关的工具</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install apt-transport-https ca-certificates curl software-properties-common</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装密钥</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -   <span class="comment"># 国内的源</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证密钥</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加docker仓库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository <span class="string">"deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/debian jessie stable"</span></span><br><span class="line"><span class="comment"># 如果不行就讲引号中的内容添加到 /etc/apt/sources.list</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更新</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -386,7 +408,7 @@
 <li><p>选择镜像加速服务</p>
 </li>
 <li><p>启用</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /etc/docker</span><br><span class="line">sudo tee /etc/docker/daemon.json \&lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://3hijzt0l.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"><span class="comment"># 国内镜像源</span></span><br><span class="line">　　　  <span class="comment"># "http://ovfftd6p.mirror.aliyuncs.com",</span></span><br><span class="line">　　　  <span class="comment"># "http://registry.docker-cn.com",</span></span><br><span class="line">　　　  <span class="comment"># "http://docker.mirrors.ustc.edu.cn",</span></span><br><span class="line">　　　  <span class="comment"># "http://hub-mirror.c.163.com"</span></span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -536,7 +558,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker第一步"><span class="nav-number">1.</span> <span class="nav-text">Docker第一步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Docker"><span class="nav-number">1.1.</span> <span class="nav-text">安装Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建docker用户组"><span class="nav-number">1.2.</span> <span class="nav-text">创建docker用户组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker国内镜像加速"><span class="nav-number">2.</span> <span class="nav-text">Docker国内镜像加速</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dockerfile"><span class="nav-number">3.</span> <span class="nav-text">Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定制"><span class="nav-number">3.1.</span> <span class="nav-text">定制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FROM-与-RUN-构建"><span class="nav-number">3.2.</span> <span class="nav-text">FROM 与 RUN 构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM指定基础对象"><span class="nav-number">3.2.1.</span> <span class="nav-text">FROM指定基础对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN执行命令"><span class="nav-number">3.2.2.</span> <span class="nav-text">RUN执行命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">3.3.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构建上下文Context"><span class="nav-number">3.3.1.</span> <span class="nav-text">构建上下文Context</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile指令详解"><span class="nav-number">3.4.</span> <span class="nav-text">Dockerfile指令详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#copy"><span class="nav-number">3.4.1.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add"><span class="nav-number">3.4.2.</span> <span class="nav-text">add</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmd"><span class="nav-number">3.4.3.</span> <span class="nav-text">cmd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#entrypoint"><span class="nav-number">3.4.4.</span> <span class="nav-text">entrypoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#env与arg设置变量参数"><span class="nav-number">3.4.5.</span> <span class="nav-text">env与arg设置变量参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volume"><span class="nav-number">3.4.6.</span> <span class="nav-text">volume</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#expose"><span class="nav-number">3.4.7.</span> <span class="nav-text">expose</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#workdir与user"><span class="nav-number">3.4.8.</span> <span class="nav-text">workdir与user</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#healthcheck"><span class="nav-number">3.4.9.</span> <span class="nav-text">healthcheck</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker第一步"><span class="nav-number">1.</span> <span class="nav-text">Docker第一步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Docker"><span class="nav-number">1.1.</span> <span class="nav-text">安装Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deepin安装docker"><span class="nav-number">1.2.</span> <span class="nav-text">deepin安装docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建docker用户组"><span class="nav-number">1.3.</span> <span class="nav-text">创建docker用户组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker国内镜像加速"><span class="nav-number">2.</span> <span class="nav-text">Docker国内镜像加速</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dockerfile"><span class="nav-number">3.</span> <span class="nav-text">Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定制"><span class="nav-number">3.1.</span> <span class="nav-text">定制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FROM-与-RUN-构建"><span class="nav-number">3.2.</span> <span class="nav-text">FROM 与 RUN 构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FROM指定基础对象"><span class="nav-number">3.2.1.</span> <span class="nav-text">FROM指定基础对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN执行命令"><span class="nav-number">3.2.2.</span> <span class="nav-text">RUN执行命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">3.3.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构建上下文Context"><span class="nav-number">3.3.1.</span> <span class="nav-text">构建上下文Context</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dockerfile指令详解"><span class="nav-number">3.4.</span> <span class="nav-text">Dockerfile指令详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#copy"><span class="nav-number">3.4.1.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add"><span class="nav-number">3.4.2.</span> <span class="nav-text">add</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cmd"><span class="nav-number">3.4.3.</span> <span class="nav-text">cmd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#entrypoint"><span class="nav-number">3.4.4.</span> <span class="nav-text">entrypoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#env与arg设置变量参数"><span class="nav-number">3.4.5.</span> <span class="nav-text">env与arg设置变量参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volume"><span class="nav-number">3.4.6.</span> <span class="nav-text">volume</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#expose"><span class="nav-number">3.4.7.</span> <span class="nav-text">expose</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#workdir与user"><span class="nav-number">3.4.8.</span> <span class="nav-text">workdir与user</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#healthcheck"><span class="nav-number">3.4.9.</span> <span class="nav-text">healthcheck</span></a></li></ol></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -555,7 +577,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

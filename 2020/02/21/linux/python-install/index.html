@@ -60,7 +60,7 @@
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/02/21/linux/python-install/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-26T14:15:39.048Z">
+<meta property="og:updated_time" content="2020-05-09T05:42:05.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux替换python3">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/02/21/linux/python-install/">
@@ -292,7 +292,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 22:15:39" itemprop="dateModified" datetime="2020-03-26T22:15:39+08:00">2020-03-26</time>
+                <time title="修改时间：2020-05-09 13:42:05" itemprop="dateModified" datetime="2020-05-09T13:42:05+08:00">2020-05-09</time>
               </span>
             
           
@@ -313,7 +313,7 @@
 <!-- TOC END -->
 <a id="more"></a>
 
-<ol>
+<h1 id="python安装"><a href="#python安装" class="headerlink" title="python安装"></a>python安装</h1><ol>
 <li><p>安装python</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release</span><br><span class="line">yum install python36 python36-devel</span><br></pre></td></tr></table></figure>
 </li>
@@ -327,6 +327,32 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum install -y python36 python36-devel</span><br><span class="line">mv /usr/bin/python /usr/bin/python.bak</span><br><span class="line">ln -s /usr/bin/python3.6 /usr/bin/python</span><br><span class="line">sed -i <span class="string">'s/python2/python/'</span> /usr/bin/yum</span><br><span class="line">sed -i <span class="string">'s/python2/python/'</span> /usr/libexec/urlgrabber-ext-down</span><br><span class="line">wget https://bootstrap.pypa.io/get-pip.py</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="升级python版本"><a href="#升级python版本" class="headerlink" title="升级python版本"></a>升级python版本</h1><ol>
+<li><p>下载<a href="https://www.python.org/ftp/python/" target="_blank" rel="noopener">官网</a>Python安装包</p>
+</li>
+<li><p>解压并进入解压目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf xxx</span><br><span class="line"><span class="built_in">cd</span> xxx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建python安装目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/<span class="built_in">local</span>/python3.x</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译(解压目录下)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/usr/<span class="built_in">local</span>/python38</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>备份就Python3文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv /usr/bin/python3 /usr/bin/python3.backup</span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/python38/bin/python3 /usr/bin/python3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -V</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可能出现新建项目时无法使用pip，需要移动一个文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 报错</span></span><br><span class="line"><span class="comment"># （Error: Command '['/home/jerqi/untitled/bin/python3', '-Im', 'ensurepip', '--upgrade', '--default-pip']' returned non-zero exit status 2.）</span></span><br><span class="line">sudo rm /usr/bin/lsb_release</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
@@ -404,6 +430,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python安装"><span class="nav-number">1.</span> <span class="nav-text">python安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#升级python版本"><span class="nav-number">2.</span> <span class="nav-text">升级python版本</span></a></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -421,7 +449,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

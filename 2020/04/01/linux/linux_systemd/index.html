@@ -55,12 +55,12 @@
   };
 </script>
 
-  <meta name="description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 systemd使用 参考文档">
+  <meta name="description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 systemd使用 systemd定义开机自启动程序 参考文档">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux systemd 机制初探">
 <meta property="og:url" content="http://Jeff-Qi.github.io/2020/04/01/linux/linux_systemd/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 systemd使用 参考文档">
+<meta property="og:description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 systemd使用 systemd定义开机自启动程序 参考文档">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_service.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_multi-user_target.jpg">
@@ -72,10 +72,10 @@
 <meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_enable_disable_service_unite.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_timer_unit.jpg">
 <meta property="og:image" content="http://study.jeffqi.cn/linux/systemd_journalctl.jpg">
-<meta property="og:updated_time" content="2020-04-03T07:16:51.401Z">
+<meta property="og:updated_time" content="2020-05-09T05:42:05.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux systemd 机制初探">
-<meta name="twitter:description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 systemd使用 参考文档">
+<meta name="twitter:description" content="systemd 是啥？ 为什么是用 systemd 作为开机启动进程 systemd启动过程 systemd使用 systemd定义开机自启动程序 参考文档">
 <meta name="twitter:image" content="http://study.jeffqi.cn/linux/systemd_service.jpg">
   <link rel="canonical" href="http://Jeff-Qi.github.io/2020/04/01/linux/linux_systemd/">
 
@@ -306,7 +306,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-03 15:16:51" itemprop="dateModified" datetime="2020-04-03T15:16:51+08:00">2020-04-03</time>
+                <time title="修改时间：2020-05-09 13:42:05" itemprop="dateModified" datetime="2020-05-09T13:42:05+08:00">2020-05-09</time>
               </span>
             
           
@@ -341,6 +341,7 @@
 <li><a href="#为什么是用-systemd-作为开机启动进程">为什么是用 systemd 作为开机启动进程</a></li>
 <li><a href="#systemd启动过程">systemd启动过程</a></li>
 <li><a href="#systemd使用">systemd使用</a></li>
+<li><a href="#systemd定义开机自启动程序">systemd定义开机自启动程序</a></li>
 <li><a href="#参考文档">参考文档</a><!-- TOC END -->
 <a id="more"></a>
 
@@ -441,6 +442,25 @@
 <p>  <img src="http://study.jeffqi.cn/linux/systemd_journalctl.jpg" alt="systemd_journalctl"></p>
 </li>
 </ul>
+<h1 id="systemd定义开机自启动程序"><a href="#systemd定义开机自启动程序" class="headerlink" title="systemd定义开机自启动程序"></a>systemd定义开机自启动程序</h1><ul>
+<li><h2 id="服务权限"><a href="#服务权限" class="headerlink" title="服务权限"></a>服务权限</h2><p>  systemd有系统和用户区分；系统（/user/lib/systemd/system/）、用户（/etc/lib/systemd/user/）。一般系统管理员手工创建的单元文件建议存放在/etc/systemd/system/目录下面。</p>
+</li>
+<li><h2 id="xxx-service-文件"><a href="#xxx-service-文件" class="headerlink" title="xxx.service 文件"></a>xxx.service 文件</h2><ol>
+<li><p>实例nginx为例子</p>
+<p><img src alt="systemd_service_start"></p>
+</li>
+<li><p>参数参考</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description : 服务的简单描述</span><br><span class="line">Documentation ： 服务文档</span><br><span class="line">Before、After:定义启动顺序。Before=xxx.service,代表本服务在xxx.service启动之前启动。After=xxx.service,代表本服务在xxx.service之后启动。</span><br><span class="line">Requires：这个单元启动了，它需要的单元也会被启动；它需要的单元被停止了，这个单元也停止了。</span><br><span class="line">Wants：推荐使用。这个单元启动了，它需要的单元也会被启动；它需要的单元被停止了，对本单元没有影响。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Type=simple（默认值）：systemd认为该服务将立即启动。服务进程不会fork。如果该服务要启动其他服务，不要使用此类型启动，除非该服务是socket激活型。</span><br><span class="line">Type=forking：systemd认为当该服务进程fork，且父进程退出后服务启动成功。对于常规的守护进程（daemon），除非你确定此启动方式无法满足需求，使用此类型启动即可。使用此启动类型应同时指定 PIDFile=，以便systemd能够跟踪服务的主进程。</span><br><span class="line">Type=oneshot：这一选项适用于只执行一项任务、随后立即退出的服务。可能需要同时设置 RemainAfterExit=yes 使得 systemd 在服务进程退出之后仍然认为服务处于激活状态。</span><br><span class="line">Type=notify：与 Type=simple 相同，但约定服务会在就绪后向 systemd 发送一个信号。这一通知的实现由 libsystemd-daemon.so 提供。</span><br><span class="line">Type=dbus：若以此方式启动，当指定的 BusName 出现在DBus系统总线上时，systemd认为服务就绪。</span><br><span class="line">Type=idle: systemd会等待所有任务(Jobs)处理完成后，才开始执行idle类型的单元。除此之外，其他行为和Type=simple 类似。</span><br><span class="line">PIDFile：pid文件路径</span><br><span class="line">ExecStart：指定启动单元的命令或者脚本，ExecStartPre和ExecStartPost节指定在ExecStart之前或者之后用户自定义执行的脚本。Type=oneshot允许指定多个希望顺序执行的用户自定义命令。</span><br><span class="line">ExecReload：指定单元停止时执行的命令或者脚本。</span><br><span class="line">ExecStop：指定单元停止时执行的命令或者脚本。</span><br><span class="line">PrivateTmp：True表示给服务分配独立的临时空间</span><br><span class="line">Restart：这个选项如果被允许，服务重启的时候进程会退出，会通过systemctl命令执行清除并重启的操作。</span><br><span class="line">RemainAfterExit：如果设置这个选择为真，服务会被认为是在激活状态，即使所以的进程已经退出，默认的值为假，这个选项只有在Type=oneshot时需要被配置。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Install]</span><br><span class="line">Alias：为单元提供一个空间分离的附加名字。</span><br><span class="line">RequiredBy：单元被允许运行需要的一系列依赖单元，RequiredBy列表从Require获得依赖信息。</span><br><span class="line">WantBy：单元被允许运行需要的弱依赖性单元，Wantby从Want列表获得依赖信息。</span><br><span class="line">Also：指出和单元一起安装或者被协助的单元。</span><br><span class="line">DefaultInstance：实例单元的限制，这个选项指定如果单元被允许运行默认的实例。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加完成后可看看笔记前面systemctl使用方法</p>
+</li>
+</ol>
+</li>
+</ul>
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
 <li><a href="https://linux.cn/article-5457-1.html" target="_blank" rel="noopener">走进Linux之systemd启动过程</a></li>
 <li><a href="https://linux.cn/article-6888-1.html" target="_blank" rel="noopener">systemd教程</a></li>
@@ -519,7 +539,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd-是啥？"><span class="nav-number">1.</span> <span class="nav-text">systemd 是啥？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#unit-单元"><span class="nav-number">1.1.</span> <span class="nav-text">unit 单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#target-目标"><span class="nav-number">1.2.</span> <span class="nav-text">target 目标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么是用-systemd-作为开机启动进程"><span class="nav-number">2.</span> <span class="nav-text">为什么是用 systemd 作为开机启动进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init进程"><span class="nav-number">2.1.</span> <span class="nav-text">init进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd进程"><span class="nav-number">2.2.</span> <span class="nav-text">systemd进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd对于init的优化"><span class="nav-number">2.3.</span> <span class="nav-text">systemd对于init的优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd启动过程"><span class="nav-number">3.</span> <span class="nav-text">systemd启动过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd使用"><span class="nav-number">4.</span> <span class="nav-text">systemd使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#systemctl"><span class="nav-number">4.1.</span> <span class="nav-text">systemctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#timer定时器单元"><span class="nav-number">4.2.</span> <span class="nav-text">timer定时器单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#journal日志文件"><span class="nav-number">4.3.</span> <span class="nav-text">journal日志文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">5.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd-是啥？"><span class="nav-number">1.</span> <span class="nav-text">systemd 是啥？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#unit-单元"><span class="nav-number">1.1.</span> <span class="nav-text">unit 单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#target-目标"><span class="nav-number">1.2.</span> <span class="nav-text">target 目标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么是用-systemd-作为开机启动进程"><span class="nav-number">2.</span> <span class="nav-text">为什么是用 systemd 作为开机启动进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#init进程"><span class="nav-number">2.1.</span> <span class="nav-text">init进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd进程"><span class="nav-number">2.2.</span> <span class="nav-text">systemd进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemd对于init的优化"><span class="nav-number">2.3.</span> <span class="nav-text">systemd对于init的优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd启动过程"><span class="nav-number">3.</span> <span class="nav-text">systemd启动过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd使用"><span class="nav-number">4.</span> <span class="nav-text">systemd使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#systemctl"><span class="nav-number">4.1.</span> <span class="nav-text">systemctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#timer定时器单元"><span class="nav-number">4.2.</span> <span class="nav-text">timer定时器单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#journal日志文件"><span class="nav-number">4.3.</span> <span class="nav-text">journal日志文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#systemd定义开机自启动程序"><span class="nav-number">5.</span> <span class="nav-text">systemd定义开机自启动程序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务权限"><span class="nav-number">5.1.</span> <span class="nav-text">服务权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xxx-service-文件"><span class="nav-number">5.2.</span> <span class="nav-text">xxx.service 文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
@@ -538,7 +558,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

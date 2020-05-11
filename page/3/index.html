@@ -255,6 +255,194 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/27/network/图解HTTP_11/图解HTTP_11/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/27/network/图解HTTP_11/图解HTTP_11/" class="post-title-link" itemprop="url">Web网络安全</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-27 15:42:44" itemprop="dateCreated datePublished" datetime="2020-03-27T15:42:44+08:00">2020-03-27</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END --></li></ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/27/network/图解HTTP_11/图解HTTP_11/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/27/network/图解HTTP_1/图解HTTP_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/27/network/图解HTTP_1/图解HTTP_1/" class="post-title-link" itemprop="url">HTTP简介</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-27 15:42:44" itemprop="dateCreated datePublished" datetime="2020-03-27T15:42:44+08:00">2020-03-27</time>
+            </span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#简单的http协议">简单的HTTP协议</a><ul>
+<li><a href="#http-协议用于客户端和服务器端之间的通信">HTTP 协议用于客户端和服务器端之间的通信</a></li>
+<li><a href="#通过请求和响应的交换达成通信">通过请求和响应的交换达成通信</a></li>
+<li><a href="#http-是不保存状态的协议">HTTP 是不保存状态的协议</a></li>
+<li><a href="#请求uri-定位资源">请求URI 定位资源</a></li>
+<li><a href="#告知服务器意图的http-方法">告知服务器意图的HTTP 方法</a></li>
+<li><a href="#持久连接">持久连接</a></li>
+<li><a href="#管线化">管线化</a></li>
+<li><a href="#使用cookie-的状态管理">使用Cookie 的状态管理</a><!-- TOC END --></li></ul></li></ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/27/network/图解HTTP_1/图解HTTP_1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/27/python/python_pip_change_source/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -295,7 +483,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-03 15:13:46" itemprop="dateModified" datetime="2020-04-03T15:13:46+08:00">2020-04-03</time>
+                <time title="修改时间：2020-05-09 13:42:07" itemprop="dateModified" datetime="2020-05-09T13:42:07+08:00">2020-05-09</time>
               </span>
             
           
@@ -893,7 +1081,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-06 09:50:35" itemprop="dateModified" datetime="2020-04-06T09:50:35+08:00">2020-04-06</time>
+                <time title="修改时间：2020-05-09 13:42:06" itemprop="dateModified" datetime="2020-05-09T13:42:06+08:00">2020-05-09</time>
               </span>
             
           
@@ -942,12 +1130,15 @@
 </ul>
 </li>
 <li><a href="#开源热备工具">开源热备工具</a><ul>
-<li><a href="#percona-xtrabakup捉急需要了解">percona xtrabakup（捉急需要了解）</a></li>
+<li><a href="#percona-xtrabakup">percona xtrabakup</a></li>
 </ul>
 </li>
 <li><a href="#备份与恢复">备份与恢复</a><ul>
 <li><a href="#备份策略">备份策略</a></li>
-<li><a href="#数据恢复">数据恢复</a><!-- TOC END --></li></ul></li></ul>
+<li><a href="#数据恢复">数据恢复</a></li>
+</ul>
+</li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END --></li></ul>
           <!--noindex-->
           
             <div class="post-button">
@@ -1100,223 +1291,6 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/22/linux/CDN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/03/22/linux/CDN/" class="post-title-link" itemprop="url">初始CDN</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-22 22:07:00" itemprop="dateCreated datePublished" datetime="2020-03-22T22:07:00+08:00">2020-03-22</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 22:15:39" itemprop="dateModified" datetime="2020-03-26T22:15:39+08:00">2020-03-26</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#cdn">CDN</a></li>
-<li><a href="#cdn是个what">CDN是个what？</a><ul>
-<li><a href="#cdn工作流程">CDN工作流程</a></li>
-</ul>
-</li>
-<li><a href="#cdn相关技术">CDN相关技术</a><ul>
-<li><a href="#负载均衡技术">负载均衡技术</a></li>
-<li><a href="#动态内容分发与复制技术">动态内容分发与复制技术</a></li>
-<li><a href="#缓存技术">缓存技术</a></li>
-</ul>
-</li>
-<li><a href="#cdn的应用场景">CDN的应用场景</a></li>
-<li><a href="#cdn的不足">CDN的不足</a></li>
-<li><a href="#参考文档">参考文档</a><!-- TOC END --></li></ul>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2020/03/22/linux/CDN/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/22/python/python-network-note/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/03/22/python/python-network-note/" class="post-title-link" itemprop="url">python笔记网站记录</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-22 22:00:00" itemprop="dateCreated datePublished" datetime="2020-03-22T22:00:00+08:00">2020-03-22</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-15 16:50:59" itemprop="dateModified" datetime="2020-04-15T16:50:59+08:00">2020-04-15</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2020/03/22/python/python-network-note/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
@@ -1369,7 +1343,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">60</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
