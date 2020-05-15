@@ -1312,7 +1312,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/linux/上下文切换/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/python/python_base/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -1326,7 +1326,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2020/03/20/linux/上下文切换/" class="post-title-link" itemprop="url">上下文切换</a>
+            <a href="/2020/03/20/python/python_base/" class="post-title-link" itemprop="url">Python基础</a>
           
         </h1>
 
@@ -1352,7 +1352,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 11:46:04" itemprop="dateModified" datetime="2020-03-26T11:46:04+08:00">2020-03-26</time>
+                <time title="修改时间：2020-03-27 21:36:04" itemprop="dateModified" datetime="2020-03-27T21:36:04+08:00">2020-03-27</time>
               </span>
             
           
@@ -1362,7 +1362,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
 
                 
                 
@@ -1381,31 +1381,42 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#文件操作">文件操作</a></li>
+<li><a href="#函数">函数</a></li>
+<li><a href="#命名空间和作用域">命名空间和作用域</a></li>
+<li><a href="#函数-1">函数</a></li>
+<li><a href="#装饰器">装饰器</a></li>
+<li><a href="#迭代器生成器">迭代器生成器</a></li>
+<li><a href="#推导式">推导式</a></li>
+<li><a href="#内置函数和匿名函数">内置函数和匿名函数</a></li>
+<li><a href="#模块和包">模块和包</a></li>
+<li><a href="#常用的模块">常用的模块</a><ul>
+<li><a href="#json模块">json模块</a></li>
+<li><a href="#pickle模块">pickle模块</a></li>
+<li><a href="#hashlib模块">hashlib模块</a></li>
+<li><a href="#logging模块">logging模块</a></li>
+<li><a href="#collections模块">collections模块</a></li>
+<li><a href="#时间模块">时间模块</a></li>
+<li><a href="#random模块">random模块</a></li>
+<li><a href="#os模块">os模块</a></li>
+<li><a href="#sys模块">sys模块</a></li>
+<li><a href="#re正则模块">re正则模块</a></li>
 </ul>
 </li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol>
+<li><a href="#异常处理">异常处理</a></li>
+<li><a href="#面向对象编程">面向对象编程</a></li>
+<li><a href="#类空间问题以及类之间的关系">类空间问题以及类之间的关系</a></li>
+<li><a href="#继承">继承</a></li>
+<li><a href="#面向对象编程特性继承封装多态">面向对象编程特性：继承，封装，多态</a></li>
+<li><a href="#类的成员">类的成员</a></li>
+<li><a href="#对象反射">对象反射</a></li>
+<li><a href="#序列化">序列化</a><!-- TOC END --></li></ul>
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2020/03/20/linux/上下文切换/#more" rel="contents">
+              <a class="btn" href="/2020/03/20/python/python_base/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
