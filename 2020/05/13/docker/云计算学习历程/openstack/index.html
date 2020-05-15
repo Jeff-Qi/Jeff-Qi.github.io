@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="多平台 云平台 openstack openstack基础环境搭建 实验准备 环境构建   openstack keystone认证服务 概念 keystone认证过程 openstack keystone 认证服务部署   openstack glance镜像服务 概念 核心架构 安装部署   openstack后续服务 参考文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openstack起步">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/05/13/docker/云计算学习历程/openstack/index.html">
+<meta property="og:site_name" content="Jerqi‘s Blog">
+<meta property="og:description" content="多平台 云平台 openstack openstack基础环境搭建 实验准备 环境构建   openstack keystone认证服务 概念 keystone认证过程 openstack keystone 认证服务部署   openstack glance镜像服务 概念 核心架构 安装部署   openstack后续服务 参考文档">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://study.jeffqi.cn/cloud/openstack-core.jpg">
+<meta property="og:image" content="http://study.jeffqi.cn/cloud/openstack-glance.jpg">
+<meta property="og:updated_time" content="2020-05-15T02:39:12.692Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="openstack起步">
+<meta name="twitter:description" content="多平台 云平台 openstack openstack基础环境搭建 实验准备 环境构建   openstack keystone认证服务 概念 keystone认证过程 openstack keystone 认证服务部署   openstack glance镜像服务 概念 核心架构 安装部署   openstack后续服务 参考文档">
+<meta name="twitter:image" content="http://study.jeffqi.cn/cloud/openstack-core.jpg">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/05/13/docker/云计算学习历程/openstack/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>openstack起步 | Jerqi‘s Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jerqi‘s Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Nice to see you!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/05/13/docker/云计算学习历程/openstack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">openstack起步
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-13 23:00:00" itemprop="dateCreated datePublished" datetime="2020-05-13T23:00:00+08:00">2020-05-13</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-15 10:39:12" itemprop="dateModified" datetime="2020-05-15T10:39:12+08:00">2020-05-15</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Cloud/" itemprop="url" rel="index"><span itemprop="name">Cloud</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- TOC -->
+
+<ul>
+<li><a href="#多平台">多平台</a></li>
+<li><a href="#云平台">云平台</a></li>
+<li><a href="#openstack">openstack</a></li>
+<li><a href="#openstack基础环境搭建">openstack基础环境搭建</a><ul>
+<li><a href="#实验准备">实验准备</a></li>
+<li><a href="#环境构建">环境构建</a></li>
+</ul>
+</li>
+<li><a href="#openstack-keystone认证服务">openstack keystone认证服务</a><ul>
+<li><a href="#概念">概念</a></li>
+<li><a href="#keystone认证过程">keystone认证过程</a></li>
+<li><a href="#openstack-keystone-认证服务部署">openstack keystone 认证服务部署</a></li>
+</ul>
+</li>
+<li><a href="#openstack-glance镜像服务">openstack glance镜像服务</a><ul>
+<li><a href="#概念-1">概念</a></li>
+<li><a href="#核心架构">核心架构</a></li>
+<li><a href="#安装部署">安装部署</a></li>
+</ul>
+</li>
+<li><a href="#openstack后续服务">openstack后续服务</a></li>
+<li><a href="#参考文档">参考文档</a></li>
+</ul>
+<!-- /TOC -->
+<a id="more"></a>
+
+<h1 id="多平台"><a href="#多平台" class="headerlink" title="多平台"></a>多平台</h1><ol>
+<li><p>多主机/多用户：资源相互依赖影响，无隔离</p>
+</li>
+<li><p>多单机/多虚拟机：资源共享，虚拟机相互隔离</p>
+</li>
+<li><p>多主机/多虚拟机：资源调度、业务流程、用户和权限管理</p>
+</li>
+</ol>
+<h1 id="云平台"><a href="#云平台" class="headerlink" title="云平台"></a>云平台</h1><ul>
+<li><h2 id="IaaS（基础设施即服务）"><a href="#IaaS（基础设施即服务）" class="headerlink" title="IaaS（基础设施即服务）"></a>IaaS（基础设施即服务）</h2><ol>
+<li><p>laaS负责管理虚机的生命周期，包括创建、修改、备份、起停、销毁等</p>
+</li>
+<li><p>使用者需要关心虚机的类型（OS）和配置（CPU、内存、磁盘），并且自己负责部署上层的中间件及用</p>
+</li>
+</ol>
+</li>
+<li><h2 id="PaaS（平台即服务）"><a href="#PaaS（平台即服务）" class="headerlink" title="PaaS（平台即服务）"></a>PaaS（平台即服务）</h2><ol>
+<li><p>提供的服务是应用的运行环境和一系列中间件服务（比如数据库、消息日志）使用着只需要专注应用的开发，并将自己的应用和数据部署到PaaS环境中</p>
+</li>
+<li><p>面向开发人员</p>
+</li>
+</ol>
+</li>
+<li><h2 id="SaaS（软件即服务）"><a href="#SaaS（软件即服务）" class="headerlink" title="SaaS（软件即服务）"></a>SaaS（软件即服务）</h2><ol>
+<li>使用者只需要登录使用应用，无需关心应用使用什么技术实现，也不需要关系应用部署在哪里</li>
+</ol>
+</li>
+</ul>
+<h1 id="openstack"><a href="#openstack" class="headerlink" title="openstack"></a>openstack</h1><ul>
+<li><p>定义：OpenStack对数据中心的计算、存储和网络资源进行同一管理，由此可见，OpenStack针对IT基础设施、是laaS这个层次的云操作系统。</p>
+</li>
+<li><p>OpenStack为虚拟机提供并管理三大类资源：计算、网络和存储</p>
+</li>
+<li><p>openstack 核心架构</p>
+<p>  <img src="http://study.jeffqi.cn/cloud/openstack-core.jpg" alt="openstack-core"></p>
+</li>
+<li><h2 id="核心服务"><a href="#核心服务" class="headerlink" title="核心服务"></a>核心服务</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Keystone</td>
+<td>认证服务，为各种服务提供认证和权限管理服务</td>
+</tr>
+<tr>
+<td>Glance</td>
+<td>镜像服务，管理VM启动时的镜像</td>
+</tr>
+<tr>
+<td>Nova</td>
+<td>计算服务，管理VM的生命周期</td>
+</tr>
+<tr>
+<td>Neutron</td>
+<td>网络服务，提供网络连接服务，负责为VM创建L2和L3网络</td>
+</tr>
+<tr>
+<td>Cinder</td>
+<td>块存储服务，Cinder的每一个Volume对于VM都像一块Disk</td>
+</tr>
+<tr>
+<td>Swift</td>
+<td>对象存储服务，VM通过Restful API存储对象数据（可选）</td>
+</tr>
+</tbody></table>
+</li>
+<li><h2 id="可选服务"><a href="#可选服务" class="headerlink" title="可选服务"></a>可选服务</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ceilometer</td>
+<td>监控计量服务，为报警、统计或计费提供</td>
+</tr>
+<tr>
+<td>Heat</td>
+<td>编排服务，管理编排资源，完成编排</td>
+</tr>
+<tr>
+<td>Horizon</td>
+<td>为Openstack用户提供一个Web的自服务Port</td>
+</tr>
+<tr>
+<td>Trove</td>
+<td>数据库服务，为数据库引擎提供云部署的</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>收集服务，对计量数据进行</td>
+</tr>
+</tbody></table>
+</li>
+<li><h2 id="neutron组成架构"><a href="#neutron组成架构" class="headerlink" title="neutron组成架构"></a>neutron组成架构</h2><ol>
+<li><p>服务各个组成部分以及组件之间的逻辑关系，各个组件也能部署到不同的物理节点上</p>
+</li>
+<li><p>Openstack本身是一个分布式系统，不仅各服务可以分布部署，服务中的各个组件也可以分布部署。</p>
+</li>
+<li><p>极大的灵活性、伸缩性和高可用性，学习难度变大</p>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="openstack基础环境搭建"><a href="#openstack基础环境搭建" class="headerlink" title="openstack基础环境搭建"></a>openstack基础环境搭建</h1><h2 id="实验准备"><a href="#实验准备" class="headerlink" title="实验准备"></a>实验准备</h2><ol>
+<li>centos7 * 2,每台两张网卡</li>
+<li>修改 /etc/hosts 文件，主机名解析<ol>
+<li>node1 controller</li>
+<li>node2 computer</li>
+</ol>
+</li>
+<li>关闭防火墙与selinux</li>
+<li>配置yum阿里源</li>
+</ol>
+<h2 id="环境构建"><a href="#环境构建" class="headerlink" title="环境构建"></a>环境构建</h2><ol>
+<li><p>设置时间同步</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">yum install -y chrony</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件（控制节点）</span></span><br><span class="line">vim /etc/chrony.conf</span><br><span class="line">server time1.aliyun.com iburst</span><br><span class="line">server 210.72.145.44 iburst</span><br><span class="line">server s1a.time.edu.cn iburst</span><br><span class="line">allow  192.168.31.0/24</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件（计算节点）</span></span><br><span class="line">server controller iburst</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> chronyd &amp;&amp; systemctl restart chronyd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试同步</span></span><br><span class="line">chronyc sources</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改时区命令</span></span><br><span class="line">时区修改命令：timedatectl <span class="built_in">set</span>-timezone <span class="string">'Asia/Shanghai'</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>安装Opnestack包（Q版本）： 所有节点</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">yum install centos-release-openstack-queens</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑配置文件修改baseurl国内源</span></span><br><span class="line">vim /etc/yum.repo.d/centos-openstack-queens</span><br><span class="line">[centos-openstack-queens]</span><br><span class="line">name=CentOS-7 - OpenStack queens</span><br><span class="line"><span class="comment">#baseurl=http://mirror.centos.org/$contentdir/$releasever/cloud/$basearch/openstack-queens/</span></span><br><span class="line">baseurl=https://mirrors.aliyun.com/centos/7/cloud/x86_64/openstack-queens/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装客户端</span></span><br><span class="line">yum install python-openstackclient</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装数据库（控制节点）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mariadb mariadb-server python2-PyMySQL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改编辑mariadb配置文件</span></span><br><span class="line">vim /etc/my.cnf.d/openstack.cnf</span><br><span class="line">[mysqld]</span><br><span class="line"><span class="built_in">bind</span>-address = 0.0.0.0 // 绑定IP地址选择管理网络IP地址</span><br><span class="line">default-storage-engine = innodb</span><br><span class="line">innodb_file_per_table = on</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行数据库</span></span><br><span class="line">systemctl <span class="built_in">enable</span> mariadb &amp;&amp; systemctl start mariadb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化数据库</span></span><br><span class="line">mysql_secure_installation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录验证</span></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装消息队列（控制节点）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">   yum install -y rabbitmq-server</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 启动服务</span></span><br><span class="line">   systemctl <span class="built_in">enable</span> rabbitmq-server.service &amp;&amp; systemctl start rabbitmq-server.service</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 添加openstack用户（密码为openstack）</span></span><br><span class="line">rabbitmqctl add_user openstack openstack</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 对openstack进行授权（rwx）</span></span><br><span class="line">rabbitmqctl set_permissions openstack <span class="string">".*"</span> <span class="string">".*"</span> <span class="string">".*"</span></span><br><span class="line"></span><br><span class="line">   <span class="comment"># 检查默认监听的5672端口</span></span><br><span class="line">   ss -ant | grep 5672</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装缓存服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">yum install -y memcached python-memcached</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">vim /etc/sysconfig/memcached</span><br><span class="line">OPTIONS=<span class="string">"-l 127.0.0.1,::1,controller"</span>       <span class="comment"># 启用其他节点访问</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> memcached.service &amp;&amp; systemctl start memcached.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查监听默认11211端口</span></span><br><span class="line">ss -ant | grep 11211</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装etcd服务</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">yum install etcd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">vim /etc/etcd/etcd.conf</span><br><span class="line">ETCD_DATA_DIR=<span class="string">"/var/lib/etcd/default.etcd"</span></span><br><span class="line">ETCD_LISTEN_PEER_URLS=<span class="string">"http://192.168.100.10:2380"</span></span><br><span class="line">ETCD_LISTEN_CLIENT_URLS=<span class="string">"http://192.168.100.10:2379"</span></span><br><span class="line">ETCD_NAME=<span class="string">"controller"</span></span><br><span class="line">ETCD_INITIAL_ADVERTISE_PEER_URLS=<span class="string">"http://192.168.100.10:2380"</span></span><br><span class="line">ETCD_ADVERTISE_CLIENT_URLS=<span class="string">"http://192.168.100.10:2379"</span></span><br><span class="line">ETCD_INITIAL_CLUSTER=<span class="string">"controller=http://192.168.100.10:2380"</span></span><br><span class="line">ETCD_INITIAL_CLUSTER_TOKEN=<span class="string">"etcd-cluster"</span></span><br><span class="line">ETCD_INITIAL_CLUSTER_STATE=<span class="string">"new"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> etcd &amp;&amp; systemctl start etcd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查默认端口2379和2380</span></span><br><span class="line">ss -ant | grep -E <span class="string">'2379|2380'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="openstack-keystone认证服务"><a href="#openstack-keystone认证服务" class="headerlink" title="openstack keystone认证服务"></a>openstack keystone认证服务</h1><ul>
+<li>keystone主要为openstack提供认证授权服务</li>
+</ul>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ol>
+<li><p>User</p>
+<ul>
+<li>指代任何使用OpenStack 的实体，可以是真正的用户，其他系统或者服务</li>
+</ul>
+</li>
+<li><p>Credentials</p>
+<ul>
+<li>User 用来证明自己身份的信息，类比身份证。可以是：1. 用户名/密码2. Token 3. API Key 4. 其他高级方式</li>
+</ul>
+</li>
+<li><p>Authentication</p>
+<ul>
+<li>Keystone 验证User 身份的过程</li>
+</ul>
+</li>
+<li><p>Token</p>
+<ul>
+<li>token是由数字和字母组成的字符串，User 成功Authentication 后由Keystone 分配给User。类比通行证</li>
+</ul>
+</li>
+<li><p>Project</p>
+<ul>
+<li><p>用于将OpenStack 的资源（计算、存储和网络）进行分组和隔离</p>
+</li>
+<li><p>资源的所有权属于project</p>
+</li>
+<li><p>每个user必须挂载在一个project上才能访问里面的资源</p>
+</li>
+</ul>
+</li>
+<li><p>Service</p>
+<ul>
+<li><p>OpenStack 的Service 包括Compute (Nova)、Block Storage (Cinder)、bject Storage (Swift)、Image Service(Glance) 、Networking Service (Neutron) 等。</p>
+</li>
+<li><p>每个Service 都会提供若干个Endpoint，User 通过Endpoint 访问资源和执行操作</p>
+</li>
+</ul>
+</li>
+<li><p>Endpoint</p>
+<ul>
+<li>是一个网络上可访问的地址，通常是一个URL。Service 通过Endpoint 暴露自己的API</li>
+</ul>
+</li>
+<li><p>Role</p>
+<ul>
+<li><p>安全包含两部分：Authentication（认证）和Authorization（鉴权）Authentication 解决的是“你是谁？”的问题Authorization 解决的是“你能干什么？”的问题</p>
+</li>
+<li><p>一个用户可被分配多个角色</p>
+</li>
+<li><p>Service 决定每个Role 能做什么事情Service 通过各自的policy.json 文件对Role 进行访问控制</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="keystone认证过程"><a href="#keystone认证过程" class="headerlink" title="keystone认证过程"></a>keystone认证过程</h2><ol>
+<li>用户使用credentials想keystone服务发起认证</li>
+<li>keystone认证完成后，返回token</li>
+<li>用户询问可以访问的project，keystone返回可访问的清单</li>
+<li>用户询问访问service的入口endpoint，keystone查询后返回结果</li>
+<li>用户拿着token去访问endpoint的服务</li>
+<li>service向keystone询问改token是否合法，然后提供或拒绝服务请求</li>
+</ol>
+<h2 id="openstack-keystone-认证服务部署"><a href="#openstack-keystone-认证服务部署" class="headerlink" title="openstack keystone 认证服务部署"></a>openstack keystone 认证服务部署</h2><ol>
+<li><p>创建keyston用户和keystone库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line"></span><br><span class="line">create database keystone;</span><br><span class="line">GRANT ALL PRIVILEGES ON keystone.* TO <span class="string">'keystone'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON keystone.* TO <span class="string">'keystone'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装openstack-keystone httpd mod_wsgi</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">yum install openstack-keystone httpd mod_wsgi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改keystone配置文件</span></span><br><span class="line">[database]</span><br><span class="line">...</span><br><span class="line">connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone</span><br><span class="line">[memcache]</span><br><span class="line">...</span><br><span class="line">servers = localhost:11211</span><br><span class="line">[token]</span><br><span class="line">...</span><br><span class="line">provider = fernet</span><br><span class="line">[revoke]</span><br><span class="line">...</span><br><span class="line">driver = sql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 认证身份初始化数据库</span></span><br><span class="line">su -s /bin/sh -c <span class="string">"keystone-manage db_sync"</span> keystone</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录查看数据库</span></span><br><span class="line">mysql -ukeystone -p</span><br><span class="line">use keystone;</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置http服务</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line">ServerName controller</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改http配置</span></span><br><span class="line">ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> httpd.service &amp;&amp; systemctl start httpd.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化fernet秘钥存储库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone</span><br><span class="line">keystone-manage credential_setup --keystone-user keystone --keystone-group keystone</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引导身份认证（设置admin密码）（也可向官网那样，创建访问点endpoint，然后创建用户）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">keystone-manage bootstrap --bootstrap-password 000000 \</span><br><span class="line">--bootstrap-admin-url http://controller:5000/v3/ \</span><br><span class="line">--bootstrap-internal-url http://controller:5000/v3/ \</span><br><span class="line">--bootstrap-public-url http://controller:5000/v3/ \</span><br><span class="line">--bootstrap-region-id RegionOne</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入系统变量</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> OS_USERNAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_PASSWORD=0        <span class="comment"># （设置的admin的密码）</span></span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_NAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_USER_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_AUTH_URL=http://controller:5000/v3</span><br><span class="line"><span class="built_in">export</span> OS_IDENTITY_API_VERSION=3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建project</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment"># 创建service project</span></span><br><span class="line">openstack project create --domain default --description <span class="string">"Service Project"</span> service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建demo project</span></span><br><span class="line">openstack project create --domain default --description <span class="string">"Demo Project"</span> demo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建demo用户,user角色</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建demo用户</span></span><br><span class="line">openstack user create --domain default \</span><br><span class="line">    --password-prompt demo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 闯将user角色</span></span><br><span class="line">openstack role create user</span><br><span class="line"></span><br><span class="line"><span class="comment"># 授予user角色到demo项目和用户</span></span><br><span class="line">openstack role add --project demo --user demo user</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack token issue       <span class="comment"># 确保环境变量导入真确</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>扩展（通过脚本导入变量验证）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vim admin-openstack-env.sh</span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_USER_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_NAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_USERNAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_PASSWORD=1        <span class="comment"># 你设置的admin用户的密码</span></span><br><span class="line"><span class="built_in">export</span> OS_AUTH_URL=http://controller:5000/v3</span><br><span class="line"><span class="built_in">export</span> OS_IDENTITY_API_VERSION=3</span><br><span class="line"><span class="built_in">export</span> OS_IMAGE_API_VERSION=2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line"><span class="built_in">source</span> admin-openstack-env.sh &amp;&amp; openstack token issue</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="openstack-glance镜像服务"><a href="#openstack-glance镜像服务" class="headerlink" title="openstack glance镜像服务"></a>openstack glance镜像服务</h1><h2 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>OpenStack 的镜像服务 (glance) 允许用户发现、注册和恢复虚拟机镜像。它提供了一个 REST API，允许您查询虚拟机镜像的 metadata 并恢复一个实际的镜像。您可以存储虚拟机镜像通过不同位置的镜像服务使其可用，就像 OpenStack 对象存储那样从简单的文件系统到对象存储系统。</p>
+</li>
+<li><p>镜像：Image 是一个模板，里面包含了基本的操作系统和其他的软件</p>
+</li>
+</ul>
+<h2 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h2><ul>
+<li><p>核心架构图</p>
+<p>  <img src="http://study.jeffqi.cn/cloud/openstack-glance.jpg" alt="openstack-glance"></p>
+</li>
+</ul>
+<ol>
+<li><p>glance api</p>
+<ul>
+<li><p>glance-api 是系统后台运行的服务进程。对外提供REST API，响应image 查询、获取和存储的调用</p>
+</li>
+<li><p>不会真正处理请求。如果是与image metadata（元数据）相关的操作，glance-api 会把请求转发给glance-registry；如果是与image 自身存取相关的操作，glance-api 会把请求转发给该image 的store backend。</p>
+</li>
+</ul>
+</li>
+<li><p>glance-registry</p>
+<ul>
+<li><p>glance-registry 是系统后台运行的服务进程。负责处理和存取image 的metadata，例如image 的大小和类型</p>
+</li>
+<li><p>支持多种image格式</p>
+</li>
+</ul>
+</li>
+<li><p>Database</p>
+<ul>
+<li>Image 的metadata会保持到database中</li>
+</ul>
+</li>
+<li><p>Store backend</p>
+<ul>
+<li>存放image的地方</li>
+</ul>
+</li>
+</ol>
+<h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><ol>
+<li><p>创建glance数据库和glance用户</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">create database glance;</span><br><span class="line">GRANT ALL PRIVILEGES ON glance.* TO <span class="string">'glance'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON glance.* TO <span class="string">'glance'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入环境变量获取admin用户权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> admin-openstack-env.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建glance用户,添加admin角色</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openstack user create --domain default --password-prompt glance</span><br><span class="line">openstack role add --project service --user glance admin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建服务实体</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建service</span></span><br><span class="line">openstack service create --name glance --description <span class="string">"OpenStack Image service"</span> image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建endpoint</span></span><br><span class="line">openstack endpoint create --region RegionOne image public http://controller:9292</span><br><span class="line">openstack endpoint create --region RegionOne image internal http://controller:9292</span><br><span class="line">openstack endpoint create --region RegionOne image admin http://controller:9292</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查endpoint</span></span><br><span class="line">openstack endpoint list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装openstack-glance python-glance python-glanceclient</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">yum install openstack-glance python-glance python-glanceclient</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改/etc/glance/glance-api.conf配置文件</span></span><br><span class="line">vim /etc/glance/glance-api.conf</span><br><span class="line">[database]</span><br><span class="line">...</span><br><span class="line">connection = mysql://glance:1@controller/glance</span><br><span class="line">[keystone_authtoken]</span><br><span class="line">...</span><br><span class="line">auth_uri = http://controller:5000</span><br><span class="line">auth_url = http://controller:35357</span><br><span class="line">auth_plugin = password</span><br><span class="line">project_domain_id = default</span><br><span class="line">user_domain_id = default</span><br><span class="line">project_name = service</span><br><span class="line">username = glance</span><br><span class="line">password = 123      <span class="comment"># 用户设置的openstack中glance用户的密码</span></span><br><span class="line">[paste_deploy]</span><br><span class="line">...</span><br><span class="line">flavor = keystone</span><br><span class="line">[glance_store]</span><br><span class="line">...</span><br><span class="line">default_store = file</span><br><span class="line">filesystem_store_datadir = /var/lib/glance/images/</span><br><span class="line">[DEFAULT]</span><br><span class="line">...</span><br><span class="line">notification_driver = noop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑/etc/glance/glance-registry.conf配置文件</span></span><br><span class="line">vim /etc/glance/glance-registry.conf</span><br><span class="line">[database]</span><br><span class="line">...</span><br><span class="line">connection = mysql://glance:1@controller/glance</span><br><span class="line">[keystone_authtoken]</span><br><span class="line">...</span><br><span class="line">auth_uri = http://controller:5000</span><br><span class="line">auth_url = http://controller:35357</span><br><span class="line">auth_plugin = password</span><br><span class="line">project_domain_id = default</span><br><span class="line">user_domain_id = default</span><br><span class="line">project_name = service</span><br><span class="line">username = glance</span><br><span class="line">password = 123      <span class="comment"># 用户设置的openstack中glance用户的密码</span></span><br><span class="line">[paste_deploy]</span><br><span class="line">...</span><br><span class="line">flavor = keystone</span><br><span class="line">[DEFAULT]</span><br><span class="line">...</span><br><span class="line">notification_driver = noop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步数据库    </span></span><br><span class="line">su -s /bin/sh -c <span class="string">"glance-manage db_sync"</span> glance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录验证数据库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> openstack-glance-api.service openstack-glance-registry.service</span><br><span class="line">systemctl start openstack-glance-api.service openstack-glance-registry.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入环境变量</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> OS_IMAGE_API_VERSION=2   <span class="comment"># 可加入前面的脚本中</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载实验镜像</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.5-x86_64-disk.img</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上传镜像</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack image create <span class="string">"cirros"</span> --file cirros-0.3.5-x86_64-disk.img --disk-format qcow2 --container-format bare --public</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openstack image list</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="openstack后续服务"><a href="#openstack后续服务" class="headerlink" title="openstack后续服务"></a>openstack后续服务</h1><h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.openstack.org/" target="_blank" rel="noopener">openstack官方网站</a></li>
+<li><a href="https://docs.openstack.or" target="_blank" rel="noopener">openstack官方文档</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/05/12/linux/sed/" rel="next" title="sed使用">
+                  <i class="fa fa-chevron-left"></i> sed使用
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/05/15/redis/redis-install/" rel="prev" title="redis 安装">
+                  redis 安装 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#多平台"><span class="nav-number">1.</span> <span class="nav-text">多平台</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#云平台"><span class="nav-number">2.</span> <span class="nav-text">云平台</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IaaS（基础设施即服务）"><span class="nav-number">2.1.</span> <span class="nav-text">IaaS（基础设施即服务）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PaaS（平台即服务）"><span class="nav-number">2.2.</span> <span class="nav-text">PaaS（平台即服务）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SaaS（软件即服务）"><span class="nav-number">2.3.</span> <span class="nav-text">SaaS（软件即服务）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#openstack"><span class="nav-number">3.</span> <span class="nav-text">openstack</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心服务"><span class="nav-number">3.1.</span> <span class="nav-text">核心服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可选服务"><span class="nav-number">3.2.</span> <span class="nav-text">可选服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#neutron组成架构"><span class="nav-number">3.3.</span> <span class="nav-text">neutron组成架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#openstack基础环境搭建"><span class="nav-number">4.</span> <span class="nav-text">openstack基础环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验准备"><span class="nav-number">4.1.</span> <span class="nav-text">实验准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境构建"><span class="nav-number">4.2.</span> <span class="nav-text">环境构建</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#openstack-keystone认证服务"><span class="nav-number">5.</span> <span class="nav-text">openstack keystone认证服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-number">5.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keystone认证过程"><span class="nav-number">5.2.</span> <span class="nav-text">keystone认证过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#openstack-keystone-认证服务部署"><span class="nav-number">5.3.</span> <span class="nav-text">openstack keystone 认证服务部署</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#openstack-glance镜像服务"><span class="nav-number">6.</span> <span class="nav-text">openstack glance镜像服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念-1"><span class="nav-number">6.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心架构"><span class="nav-number">6.2.</span> <span class="nav-text">核心架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装部署"><span class="nav-number">6.3.</span> <span class="nav-text">安装部署</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#openstack后续服务"><span class="nav-number">7.</span> <span class="nav-text">openstack后续服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">8.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/cool.jpg"
+      alt="Jerqi">
+  <p class="site-author-name" itemprop="name">Jerqi</p>
+  <div class="site-description" itemprop="description">good good study, day day up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/Jeff-Qi" title="GitHub &rarr; https://github.com/Jeff-Qi" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/270352195@qq.com" title="E-Mail &rarr; 270352195@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jerqi</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

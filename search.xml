@@ -1,6 +1,581 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>redis 安装</title>
+    <url>/2020/05/15/redis/redis-install/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#install-redis-on-centos7">install redis on centos7</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="install-redis-on-centos7"><a href="#install-redis-on-centos7" class="headerlink" title="install redis on centos7"></a>install redis on centos7</h1><ol>
+<li><p>下载安装包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis官网：http://download.redis.io/</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.7.tar.gz</span><br><span class="line">tar -xzvf redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">make</span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
+
+<p>安装报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">make[1]: Entering directory `/root/softwares/redis-5.0.8/src&apos;</span><br><span class="line">You need tcl 8.5 or newer in order to run the Redis test</span><br><span class="line">make[1]: *** [test] Error 1</span><br><span class="line">解决：更新tcl</span><br><span class="line">wget http://downloads.sourceforge.net/tcl/tcl8.6.1-src.tar.gz  </span><br><span class="line">sudo tar xzvf tcl8.6.1-src.tar.gz  -C /usr/local/  </span><br><span class="line">cd  /usr/local/tcl8.6.1/unix/  </span><br><span class="line">sudo ./configure  </span><br><span class="line">sudo make  </span><br><span class="line">sudo make install   </span><br><span class="line"></span><br><span class="line">或者直接安装tcl</span><br><span class="line">yum install -y tcl(注意版本要满足要求)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /src</span><br><span class="line">./redis-server  # 默认配置启动</span><br><span class="line">./redis-server &amp;  # 后台启动</span><br><span class="line"># ./redis-server ../redis.conf  # redis.conf 为默认配置文件，可以修改</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./redis-cli</span><br><span class="line">commond</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://blog.csdn.net/zhangshu123321/java/article/details/51440106" target="_blank" rel="noopener">tcl报错</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>openstack起步</title>
+    <url>/2020/05/13/docker/%E4%BA%91%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B/openstack/</url>
+    <content><![CDATA[<!-- TOC -->
+
+<ul>
+<li><a href="#多平台">多平台</a></li>
+<li><a href="#云平台">云平台</a></li>
+<li><a href="#openstack">openstack</a></li>
+<li><a href="#openstack基础环境搭建">openstack基础环境搭建</a><ul>
+<li><a href="#实验准备">实验准备</a></li>
+<li><a href="#环境构建">环境构建</a></li>
+</ul>
+</li>
+<li><a href="#openstack-keystone认证服务">openstack keystone认证服务</a><ul>
+<li><a href="#概念">概念</a></li>
+<li><a href="#keystone认证过程">keystone认证过程</a></li>
+<li><a href="#openstack-keystone-认证服务部署">openstack keystone 认证服务部署</a></li>
+</ul>
+</li>
+<li><a href="#openstack-glance镜像服务">openstack glance镜像服务</a><ul>
+<li><a href="#概念-1">概念</a></li>
+<li><a href="#核心架构">核心架构</a></li>
+<li><a href="#安装部署">安装部署</a></li>
+</ul>
+</li>
+<li><a href="#openstack后续服务">openstack后续服务</a></li>
+<li><a href="#参考文档">参考文档</a></li>
+</ul>
+<!-- /TOC -->
+<a id="more"></a>
+
+<h1 id="多平台"><a href="#多平台" class="headerlink" title="多平台"></a>多平台</h1><ol>
+<li><p>多主机/多用户：资源相互依赖影响，无隔离</p>
+</li>
+<li><p>多单机/多虚拟机：资源共享，虚拟机相互隔离</p>
+</li>
+<li><p>多主机/多虚拟机：资源调度、业务流程、用户和权限管理</p>
+</li>
+</ol>
+<h1 id="云平台"><a href="#云平台" class="headerlink" title="云平台"></a>云平台</h1><ul>
+<li><h2 id="IaaS（基础设施即服务）"><a href="#IaaS（基础设施即服务）" class="headerlink" title="IaaS（基础设施即服务）"></a>IaaS（基础设施即服务）</h2><ol>
+<li><p>laaS负责管理虚机的生命周期，包括创建、修改、备份、起停、销毁等</p>
+</li>
+<li><p>使用者需要关心虚机的类型（OS）和配置（CPU、内存、磁盘），并且自己负责部署上层的中间件及用</p>
+</li>
+</ol>
+</li>
+<li><h2 id="PaaS（平台即服务）"><a href="#PaaS（平台即服务）" class="headerlink" title="PaaS（平台即服务）"></a>PaaS（平台即服务）</h2><ol>
+<li><p>提供的服务是应用的运行环境和一系列中间件服务（比如数据库、消息日志）使用着只需要专注应用的开发，并将自己的应用和数据部署到PaaS环境中</p>
+</li>
+<li><p>面向开发人员</p>
+</li>
+</ol>
+</li>
+<li><h2 id="SaaS（软件即服务）"><a href="#SaaS（软件即服务）" class="headerlink" title="SaaS（软件即服务）"></a>SaaS（软件即服务）</h2><ol>
+<li>使用者只需要登录使用应用，无需关心应用使用什么技术实现，也不需要关系应用部署在哪里</li>
+</ol>
+</li>
+</ul>
+<h1 id="openstack"><a href="#openstack" class="headerlink" title="openstack"></a>openstack</h1><ul>
+<li><p>定义：OpenStack对数据中心的计算、存储和网络资源进行同一管理，由此可见，OpenStack针对IT基础设施、是laaS这个层次的云操作系统。</p>
+</li>
+<li><p>OpenStack为虚拟机提供并管理三大类资源：计算、网络和存储</p>
+</li>
+<li><p>openstack 核心架构</p>
+<p>  <img src="http://study.jeffqi.cn/cloud/openstack-core.jpg" alt="openstack-core"></p>
+</li>
+<li><h2 id="核心服务"><a href="#核心服务" class="headerlink" title="核心服务"></a>核心服务</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Keystone</td>
+<td>认证服务，为各种服务提供认证和权限管理服务</td>
+</tr>
+<tr>
+<td>Glance</td>
+<td>镜像服务，管理VM启动时的镜像</td>
+</tr>
+<tr>
+<td>Nova</td>
+<td>计算服务，管理VM的生命周期</td>
+</tr>
+<tr>
+<td>Neutron</td>
+<td>网络服务，提供网络连接服务，负责为VM创建L2和L3网络</td>
+</tr>
+<tr>
+<td>Cinder</td>
+<td>块存储服务，Cinder的每一个Volume对于VM都像一块Disk</td>
+</tr>
+<tr>
+<td>Swift</td>
+<td>对象存储服务，VM通过Restful API存储对象数据（可选）</td>
+</tr>
+</tbody></table>
+</li>
+<li><h2 id="可选服务"><a href="#可选服务" class="headerlink" title="可选服务"></a>可选服务</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ceilometer</td>
+<td>监控计量服务，为报警、统计或计费提供</td>
+</tr>
+<tr>
+<td>Heat</td>
+<td>编排服务，管理编排资源，完成编排</td>
+</tr>
+<tr>
+<td>Horizon</td>
+<td>为Openstack用户提供一个Web的自服务Port</td>
+</tr>
+<tr>
+<td>Trove</td>
+<td>数据库服务，为数据库引擎提供云部署的</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>收集服务，对计量数据进行</td>
+</tr>
+</tbody></table>
+</li>
+<li><h2 id="neutron组成架构"><a href="#neutron组成架构" class="headerlink" title="neutron组成架构"></a>neutron组成架构</h2><ol>
+<li><p>服务各个组成部分以及组件之间的逻辑关系，各个组件也能部署到不同的物理节点上</p>
+</li>
+<li><p>Openstack本身是一个分布式系统，不仅各服务可以分布部署，服务中的各个组件也可以分布部署。</p>
+</li>
+<li><p>极大的灵活性、伸缩性和高可用性，学习难度变大</p>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="openstack基础环境搭建"><a href="#openstack基础环境搭建" class="headerlink" title="openstack基础环境搭建"></a>openstack基础环境搭建</h1><h2 id="实验准备"><a href="#实验准备" class="headerlink" title="实验准备"></a>实验准备</h2><ol>
+<li>centos7 * 2,每台两张网卡</li>
+<li>修改 /etc/hosts 文件，主机名解析<ol>
+<li>node1 controller</li>
+<li>node2 computer</li>
+</ol>
+</li>
+<li>关闭防火墙与selinux</li>
+<li>配置yum阿里源</li>
+</ol>
+<h2 id="环境构建"><a href="#环境构建" class="headerlink" title="环境构建"></a>环境构建</h2><ol>
+<li><p>设置时间同步</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install -y chrony</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件（控制节点）</span></span><br><span class="line">vim /etc/chrony.conf</span><br><span class="line">server time1.aliyun.com iburst</span><br><span class="line">server 210.72.145.44 iburst</span><br><span class="line">server s1a.time.edu.cn iburst</span><br><span class="line">allow  192.168.31.0/24</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件（计算节点）</span></span><br><span class="line">server controller iburst</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置开机启动</span></span><br><span class="line">systemctl <span class="built_in">enable</span> chronyd &amp;&amp; systemctl restart chronyd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试同步</span></span><br><span class="line">chronyc sources</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改时区命令</span></span><br><span class="line">时区修改命令：timedatectl <span class="built_in">set</span>-timezone <span class="string">'Asia/Shanghai'</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>安装Opnestack包（Q版本）： 所有节点</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install centos-release-openstack-queens</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑配置文件修改baseurl国内源</span></span><br><span class="line">vim /etc/yum.repo.d/centos-openstack-queens</span><br><span class="line">[centos-openstack-queens]</span><br><span class="line">name=CentOS-7 - OpenStack queens</span><br><span class="line"><span class="comment">#baseurl=http://mirror.centos.org/$contentdir/$releasever/cloud/$basearch/openstack-queens/</span></span><br><span class="line">baseurl=https://mirrors.aliyun.com/centos/7/cloud/x86_64/openstack-queens/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装客户端</span></span><br><span class="line">yum install python-openstackclient</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装数据库（控制节点）</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install -y mariadb mariadb-server python2-PyMySQL</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改编辑mariadb配置文件</span></span><br><span class="line">vim /etc/my.cnf.d/openstack.cnf</span><br><span class="line">[mysqld]</span><br><span class="line"><span class="built_in">bind</span>-address = 0.0.0.0 // 绑定IP地址选择管理网络IP地址</span><br><span class="line">default-storage-engine = innodb</span><br><span class="line">innodb_file_per_table = on</span><br><span class="line">max_connections = 4096</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">character-set-server = utf8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行数据库</span></span><br><span class="line">systemctl <span class="built_in">enable</span> mariadb &amp;&amp; systemctl start mariadb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化数据库</span></span><br><span class="line">mysql_secure_installation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录验证</span></span><br><span class="line">mysql -uroot -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装消息队列（控制节点）</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">   yum install -y rabbitmq-server</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 启动服务</span></span><br><span class="line">   systemctl <span class="built_in">enable</span> rabbitmq-server.service &amp;&amp; systemctl start rabbitmq-server.service</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 添加openstack用户（密码为openstack）</span></span><br><span class="line">rabbitmqctl add_user openstack openstack</span><br><span class="line"></span><br><span class="line">   <span class="comment"># 对openstack进行授权（rwx）</span></span><br><span class="line">rabbitmqctl set_permissions openstack <span class="string">".*"</span> <span class="string">".*"</span> <span class="string">".*"</span></span><br><span class="line"></span><br><span class="line">   <span class="comment"># 检查默认监听的5672端口</span></span><br><span class="line">   ss -ant | grep 5672</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装缓存服务</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install -y memcached python-memcached</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">vim /etc/sysconfig/memcached</span><br><span class="line">OPTIONS=<span class="string">"-l 127.0.0.1,::1,controller"</span>       <span class="comment"># 启用其他节点访问</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> memcached.service &amp;&amp; systemctl start memcached.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查监听默认11211端口</span></span><br><span class="line">ss -ant | grep 11211</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装etcd服务</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install etcd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">vim /etc/etcd/etcd.conf</span><br><span class="line">ETCD_DATA_DIR=<span class="string">"/var/lib/etcd/default.etcd"</span></span><br><span class="line">ETCD_LISTEN_PEER_URLS=<span class="string">"http://192.168.100.10:2380"</span></span><br><span class="line">ETCD_LISTEN_CLIENT_URLS=<span class="string">"http://192.168.100.10:2379"</span></span><br><span class="line">ETCD_NAME=<span class="string">"controller"</span></span><br><span class="line">ETCD_INITIAL_ADVERTISE_PEER_URLS=<span class="string">"http://192.168.100.10:2380"</span></span><br><span class="line">ETCD_ADVERTISE_CLIENT_URLS=<span class="string">"http://192.168.100.10:2379"</span></span><br><span class="line">ETCD_INITIAL_CLUSTER=<span class="string">"controller=http://192.168.100.10:2380"</span></span><br><span class="line">ETCD_INITIAL_CLUSTER_TOKEN=<span class="string">"etcd-cluster"</span></span><br><span class="line">ETCD_INITIAL_CLUSTER_STATE=<span class="string">"new"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> etcd &amp;&amp; systemctl start etcd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查默认端口2379和2380</span></span><br><span class="line">ss -ant | grep -E <span class="string">'2379|2380'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="openstack-keystone认证服务"><a href="#openstack-keystone认证服务" class="headerlink" title="openstack keystone认证服务"></a>openstack keystone认证服务</h1><ul>
+<li>keystone主要为openstack提供认证授权服务</li>
+</ul>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ol>
+<li><p>User</p>
+<ul>
+<li>指代任何使用OpenStack 的实体，可以是真正的用户，其他系统或者服务</li>
+</ul>
+</li>
+<li><p>Credentials</p>
+<ul>
+<li>User 用来证明自己身份的信息，类比身份证。可以是：1. 用户名/密码2. Token 3. API Key 4. 其他高级方式</li>
+</ul>
+</li>
+<li><p>Authentication</p>
+<ul>
+<li>Keystone 验证User 身份的过程</li>
+</ul>
+</li>
+<li><p>Token</p>
+<ul>
+<li>token是由数字和字母组成的字符串，User 成功Authentication 后由Keystone 分配给User。类比通行证</li>
+</ul>
+</li>
+<li><p>Project</p>
+<ul>
+<li><p>用于将OpenStack 的资源（计算、存储和网络）进行分组和隔离</p>
+</li>
+<li><p>资源的所有权属于project</p>
+</li>
+<li><p>每个user必须挂载在一个project上才能访问里面的资源</p>
+</li>
+</ul>
+</li>
+<li><p>Service</p>
+<ul>
+<li><p>OpenStack 的Service 包括Compute (Nova)、Block Storage (Cinder)、bject Storage (Swift)、Image Service(Glance) 、Networking Service (Neutron) 等。</p>
+</li>
+<li><p>每个Service 都会提供若干个Endpoint，User 通过Endpoint 访问资源和执行操作</p>
+</li>
+</ul>
+</li>
+<li><p>Endpoint</p>
+<ul>
+<li>是一个网络上可访问的地址，通常是一个URL。Service 通过Endpoint 暴露自己的API</li>
+</ul>
+</li>
+<li><p>Role</p>
+<ul>
+<li><p>安全包含两部分：Authentication（认证）和Authorization（鉴权）Authentication 解决的是“你是谁？”的问题Authorization 解决的是“你能干什么？”的问题</p>
+</li>
+<li><p>一个用户可被分配多个角色</p>
+</li>
+<li><p>Service 决定每个Role 能做什么事情Service 通过各自的policy.json 文件对Role 进行访问控制</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="keystone认证过程"><a href="#keystone认证过程" class="headerlink" title="keystone认证过程"></a>keystone认证过程</h2><ol>
+<li>用户使用credentials想keystone服务发起认证</li>
+<li>keystone认证完成后，返回token</li>
+<li>用户询问可以访问的project，keystone返回可访问的清单</li>
+<li>用户询问访问service的入口endpoint，keystone查询后返回结果</li>
+<li>用户拿着token去访问endpoint的服务</li>
+<li>service向keystone询问改token是否合法，然后提供或拒绝服务请求</li>
+</ol>
+<h2 id="openstack-keystone-认证服务部署"><a href="#openstack-keystone-认证服务部署" class="headerlink" title="openstack keystone 认证服务部署"></a>openstack keystone 认证服务部署</h2><ol>
+<li><p>创建keyston用户和keystone库</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line"></span><br><span class="line">create database keystone;</span><br><span class="line">GRANT ALL PRIVILEGES ON keystone.* TO <span class="string">'keystone'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON keystone.* TO <span class="string">'keystone'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装openstack-keystone httpd mod_wsgi</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install openstack-keystone httpd mod_wsgi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改keystone配置文件</span></span><br><span class="line">[database]</span><br><span class="line">...</span><br><span class="line">connection = mysql://keystone:KEYSTONE_DBPASS@controller/keystone</span><br><span class="line">[memcache]</span><br><span class="line">...</span><br><span class="line">servers = localhost:11211</span><br><span class="line">[token]</span><br><span class="line">...</span><br><span class="line">provider = fernet</span><br><span class="line">[revoke]</span><br><span class="line">...</span><br><span class="line">driver = sql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 认证身份初始化数据库</span></span><br><span class="line">su -s /bin/sh -c <span class="string">"keystone-manage db_sync"</span> keystone</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录查看数据库</span></span><br><span class="line">mysql -ukeystone -p</span><br><span class="line">use keystone;</span><br><span class="line">show tables;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置http服务</span></span><br><span class="line">vim /etc/httpd/conf/httpd.conf</span><br><span class="line">ServerName controller</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改http配置</span></span><br><span class="line">ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> httpd.service &amp;&amp; systemctl start httpd.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始化fernet秘钥存储库</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone</span><br><span class="line">keystone-manage credential_setup --keystone-user keystone --keystone-group keystone</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引导身份认证（设置admin密码）（也可向官网那样，创建访问点endpoint，然后创建用户）</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">keystone-manage bootstrap --bootstrap-password 000000 \</span><br><span class="line">--bootstrap-admin-url http://controller:5000/v3/ \</span><br><span class="line">--bootstrap-internal-url http://controller:5000/v3/ \</span><br><span class="line">--bootstrap-public-url http://controller:5000/v3/ \</span><br><span class="line">--bootstrap-region-id RegionOne</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入系统变量</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> OS_USERNAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_PASSWORD=0        <span class="comment"># （设置的admin的密码）</span></span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_NAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_USER_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_AUTH_URL=http://controller:5000/v3</span><br><span class="line"><span class="built_in">export</span> OS_IDENTITY_API_VERSION=3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建project</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">   <span class="comment"># 创建service project</span></span><br><span class="line">openstack project create --domain default --description <span class="string">"Service Project"</span> service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建demo project</span></span><br><span class="line">openstack project create --domain default --description <span class="string">"Demo Project"</span> demo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建demo用户,user角色</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建demo用户</span></span><br><span class="line">openstack user create --domain default \</span><br><span class="line">    --password-prompt demo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 闯将user角色</span></span><br><span class="line">openstack role create user</span><br><span class="line"></span><br><span class="line"><span class="comment"># 授予user角色到demo项目和用户</span></span><br><span class="line">openstack role add --project demo --user demo user</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">openstack token issue       <span class="comment"># 确保环境变量导入真确</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>扩展（通过脚本导入变量验证）</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">vim admin-openstack-env.sh</span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_USER_DOMAIN_NAME=Default</span><br><span class="line"><span class="built_in">export</span> OS_PROJECT_NAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_USERNAME=admin</span><br><span class="line"><span class="built_in">export</span> OS_PASSWORD=1        <span class="comment"># 你设置的admin用户的密码</span></span><br><span class="line"><span class="built_in">export</span> OS_AUTH_URL=http://controller:5000/v3</span><br><span class="line"><span class="built_in">export</span> OS_IDENTITY_API_VERSION=3</span><br><span class="line"><span class="built_in">export</span> OS_IMAGE_API_VERSION=2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证</span></span><br><span class="line"><span class="built_in">source</span> admin-openstack-env.sh &amp;&amp; openstack token issue</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="openstack-glance镜像服务"><a href="#openstack-glance镜像服务" class="headerlink" title="openstack glance镜像服务"></a>openstack glance镜像服务</h1><h2 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h2><ul>
+<li><p>OpenStack 的镜像服务 (glance) 允许用户发现、注册和恢复虚拟机镜像。它提供了一个 REST API，允许您查询虚拟机镜像的 metadata 并恢复一个实际的镜像。您可以存储虚拟机镜像通过不同位置的镜像服务使其可用，就像 OpenStack 对象存储那样从简单的文件系统到对象存储系统。</p>
+</li>
+<li><p>镜像：Image 是一个模板，里面包含了基本的操作系统和其他的软件</p>
+</li>
+</ul>
+<h2 id="核心架构"><a href="#核心架构" class="headerlink" title="核心架构"></a>核心架构</h2><ul>
+<li><p>核心架构图</p>
+<p>  <img src="http://study.jeffqi.cn/cloud/openstack-glance.jpg" alt="openstack-glance"></p>
+</li>
+</ul>
+<ol>
+<li><p>glance api</p>
+<ul>
+<li><p>glance-api 是系统后台运行的服务进程。对外提供REST API，响应image 查询、获取和存储的调用</p>
+</li>
+<li><p>不会真正处理请求。如果是与image metadata（元数据）相关的操作，glance-api 会把请求转发给glance-registry；如果是与image 自身存取相关的操作，glance-api 会把请求转发给该image 的store backend。</p>
+</li>
+</ul>
+</li>
+<li><p>glance-registry</p>
+<ul>
+<li><p>glance-registry 是系统后台运行的服务进程。负责处理和存取image 的metadata，例如image 的大小和类型</p>
+</li>
+<li><p>支持多种image格式</p>
+</li>
+</ul>
+</li>
+<li><p>Database</p>
+<ul>
+<li>Image 的metadata会保持到database中</li>
+</ul>
+</li>
+<li><p>Store backend</p>
+<ul>
+<li>存放image的地方</li>
+</ul>
+</li>
+</ol>
+<h2 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h2><ol>
+<li><p>创建glance数据库和glance用户</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">create database glance;</span><br><span class="line">GRANT ALL PRIVILEGES ON glance.* TO <span class="string">'glance'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br><span class="line">GRANT ALL PRIVILEGES ON glance.* TO <span class="string">'glance'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'1'</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入环境变量获取admin用户权限</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> admin-openstack-env.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建glance用户,添加admin角色</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">openstack user create --domain default --password-prompt glance</span><br><span class="line">openstack role add --project service --user glance admin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建服务实体</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建service</span></span><br><span class="line">openstack service create --name glance --description <span class="string">"OpenStack Image service"</span> image</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建endpoint</span></span><br><span class="line">openstack endpoint create --region RegionOne image public http://controller:9292</span><br><span class="line">openstack endpoint create --region RegionOne image internal http://controller:9292</span><br><span class="line">openstack endpoint create --region RegionOne image admin http://controller:9292</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查endpoint</span></span><br><span class="line">openstack endpoint list</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装openstack-glance python-glance python-glanceclient</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install openstack-glance python-glance python-glanceclient</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改/etc/glance/glance-api.conf配置文件</span></span><br><span class="line">vim /etc/glance/glance-api.conf</span><br><span class="line">[database]</span><br><span class="line">...</span><br><span class="line">connection = mysql://glance:1@controller/glance</span><br><span class="line">[keystone_authtoken]</span><br><span class="line">...</span><br><span class="line">auth_uri = http://controller:5000</span><br><span class="line">auth_url = http://controller:35357</span><br><span class="line">auth_plugin = password</span><br><span class="line">project_domain_id = default</span><br><span class="line">user_domain_id = default</span><br><span class="line">project_name = service</span><br><span class="line">username = glance</span><br><span class="line">password = 123      <span class="comment"># 用户设置的openstack中glance用户的密码</span></span><br><span class="line">[paste_deploy]</span><br><span class="line">...</span><br><span class="line">flavor = keystone</span><br><span class="line">[glance_store]</span><br><span class="line">...</span><br><span class="line">default_store = file</span><br><span class="line">filesystem_store_datadir = /var/lib/glance/images/</span><br><span class="line">[DEFAULT]</span><br><span class="line">...</span><br><span class="line">notification_driver = noop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编辑/etc/glance/glance-registry.conf配置文件</span></span><br><span class="line">vim /etc/glance/glance-registry.conf</span><br><span class="line">[database]</span><br><span class="line">...</span><br><span class="line">connection = mysql://glance:1@controller/glance</span><br><span class="line">[keystone_authtoken]</span><br><span class="line">...</span><br><span class="line">auth_uri = http://controller:5000</span><br><span class="line">auth_url = http://controller:35357</span><br><span class="line">auth_plugin = password</span><br><span class="line">project_domain_id = default</span><br><span class="line">user_domain_id = default</span><br><span class="line">project_name = service</span><br><span class="line">username = glance</span><br><span class="line">password = 123      <span class="comment"># 用户设置的openstack中glance用户的密码</span></span><br><span class="line">[paste_deploy]</span><br><span class="line">...</span><br><span class="line">flavor = keystone</span><br><span class="line">[DEFAULT]</span><br><span class="line">...</span><br><span class="line">notification_driver = noop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步数据库    </span></span><br><span class="line">su -s /bin/sh -c <span class="string">"glance-manage db_sync"</span> glance</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录验证数据库</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">systemctl <span class="built_in">enable</span> openstack-glance-api.service openstack-glance-registry.service</span><br><span class="line">systemctl start openstack-glance-api.service openstack-glance-registry.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入环境变量</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> OS_IMAGE_API_VERSION=2   <span class="comment"># 可加入前面的脚本中</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载实验镜像</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.5-x86_64-disk.img</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上传镜像</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">openstack image create <span class="string">"cirros"</span> --file cirros-0.3.5-x86_64-disk.img --disk-format qcow2 --container-format bare --public</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">openstack image list</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="openstack后续服务"><a href="#openstack后续服务" class="headerlink" title="openstack后续服务"></a>openstack后续服务</h1><h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.openstack.org/" target="_blank" rel="noopener">openstack官方网站</a></li>
+<li><a href="https://docs.openstack.or" target="_blank" rel="noopener">openstack官方文档</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Cloud</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>sed使用</title>
+    <url>/2020/05/12/linux/sed/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#sed基础使用">sed基础使用</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="sed基础使用"><a href="#sed基础使用" class="headerlink" title="sed基础使用"></a>sed基础使用</h1><ul>
+<li><p>行编辑器，sed是一种流编辑器</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sed 参数 <span class="string">'匹配、正则、动作'</span> 源文件</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-n</td>
+<td>不输出模式空间内容到屏幕</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>多点编辑</td>
+</tr>
+<tr>
+<td>-f /path/to/script_file</td>
+<td>从指定文件中读取编辑脚本</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>支持使用扩展正则表达式</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>原处编辑</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>动作</p>
+<table>
+<thead>
+<tr>
+<th>动作</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>新增， a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)</td>
+</tr>
+<tr>
+<td>i</td>
+<td>插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)</td>
+</tr>
+<tr>
+<td>c</td>
+<td>取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！</td>
+</tr>
+<tr>
+<td>d</td>
+<td>删除，因为是删除啊，所以 d 后面通常不接任何咚咚；</td>
+</tr>
+<tr>
+<td>p</td>
+<td>打印，亦即将某个选择的数据印出。通常 p 会与参数 sed -n 一起运行～</td>
+</tr>
+<tr>
+<td>s</td>
+<td>取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正规表示法！例如 1,20s/old/new/g 就是啦！</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>锚定符</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>默认</td>
+<td>全文</td>
+</tr>
+<tr>
+<td>#</td>
+<td>第#行</td>
+</tr>
+<tr>
+<td>$</td>
+<td>最后一行</td>
+</tr>
+<tr>
+<td>#,#</td>
+<td>第#行到第 # 行</td>
+</tr>
+<tr>
+<td>#,+#</td>
+<td>第#行到第 # + # 行</td>
+</tr>
+<tr>
+<td>~</td>
+<td>步进 1<del>2 奇数行；2</del>2 偶数行</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>正则</p>
+<table>
+<thead>
+<tr>
+<th>匹配符</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>开头匹配</td>
+</tr>
+<tr>
+<td>$</td>
+<td>末尾匹配</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配单个字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>0到多个前面的字符</td>
+</tr>
+<tr>
+<td>+</td>
+<td>1到多个前面的字符</td>
+</tr>
+<tr>
+<td>?</td>
+<td>0或一次</td>
+</tr>
+<tr>
+<td>\</td>
+<td>转义字符</td>
+</tr>
+<tr>
+<td>[0-9]</td>
+<td>0～9字符</td>
+</tr>
+<tr>
+<td>[a-z],[A-Z]</td>
+<td>大小写字符</td>
+</tr>
+<tr>
+<td>|</td>
+<td>或操作</td>
+</tr>
+<tr>
+<td>\{m\}</td>
+<td>匹配前面的m次（{n,m}，匹配n到m次）</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>用来匹配单词开头（\bxx）或（xx\b）的任意字符，因此\bthe\b将匹配the，但不匹配they，\bthe将匹配the或they</td>
+</tr>
+<tr>
+<td>\(\)</td>
+<td>（）中的内容可以在后续通过 \number 来引用</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>表示引用前面引用的字段</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://www.cnblogs.com/bulh/articles/11071783.html" target="_blank" rel="noopener">sed指定位置添加</a></li>
+<li><a href="https://www.cnblogs.com/zd520pyx1314/p/6061339.html" target="_blank" rel="noopener">sed正则使用</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Linux下文件描述极其作用</title>
     <url>/2020/04/29/linux/linux%E4%B8%8B%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -39,6 +614,26 @@
       </categories>
   </entry>
   <entry>
+    <title>Django起步</title>
+    <url>/2020/04/27/python/Django3.0/Django%E5%9F%BA%E7%A1%80/%E5%AE%89%E8%A3%85%E5%8F%8A%E7%AC%AC%E4%B8%80%E4%B8%AAapp/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#安装">安装</a></li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://docs.djangoproject.com/en/3.0/" target="_blank" rel="noopener">Django官方文档</a></li>
+<li><a href="https://www.youtube.com/watch?v=F5mRW0jo-U4&t=2944s" target="_blank" rel="noopener">youtube视频教学</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+  </entry>
+  <entry>
     <title>jumpserver基础学习</title>
     <url>/2020/04/21/linux/jumpserver_study/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -70,9 +665,48 @@
 <li>Redis</li>
 </ol>
 </li>
+<li><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li><p>安装python3 mysql redis</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">自行查阅文档安装</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建Python虚拟环境</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">python3 -m venv /opt/py3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>载入虚拟环境</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /opt/py3</span><br><span class="line"><span class="comment"># 注意，以后每次操作jumpserver的时候都需要载入python的这个虚拟环境</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>git获取jumpserver代码</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/jumpserver/jumpserver.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装环境依赖</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/jumpserver/requirements</span><br><span class="line">pip3 install wheel &amp;&amp; pip3 install --upgrade pip setuptools &amp;&amp; pip3 install -r requirements.txt</span><br><span class="line"><span class="comment"># 被反复折磨，网络超时，还是清华源；反复折磨知道去世</span></span><br><span class="line"><span class="comment"># 如有依赖问题可google</span></span><br></pre></td></tr></table></figure>
+
+<p>下面我遇到的几个报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">报错：No package &apos;gss&apos; found Command &quot;python setup.py egg_info&quot; failed with error</span><br><span class="line">解决：yum install krb5-devel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">报错：安装python-ldap模块报错无法找到 lber.h 文件</span><br><span class="line">解决：yum install openldap-devel</span><br><span class="line"></span><br><span class="line">报错：gcc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件（参考官网）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># SECURITY WARNING: keep the secret key used in production secret!</span><br><span class="line"># 加密秘钥 生产环境中请修改为随机字符串，请勿外泄, 可使用命令生成</span><br><span class="line"># cat /dev/urandom | tr -dc A-Za-z0-9 | head -c 49;echo</span><br><span class="line">SECRET_KEY: W5Ic3fMXNZ0p5RIy5DhJYJllppTfcfkW8Yuf94VBMfpcssbfu</span><br><span class="line"></span><br><span class="line"># SECURITY WARNING: keep the bootstrap token used in production secret!</span><br><span class="line"># 预共享Token coco和guacamole用来注册服务账号，不在使用原来的注册接受机制</span><br><span class="line">BOOTSTRAP_TOKEN: zxffNymGjP79j6BN</span><br><span class="line"></span><br><span class="line"># Development env open this, when error occur display the full process track, Production disable it</span><br><span class="line"># DEBUG 模式 开启DEBUG后遇到错误时可以看到更多日志</span><br><span class="line">DEBUG: false</span><br><span class="line"></span><br><span class="line"># DEBUG, INFO, WARNING, ERROR, CRITICAL can set. See https://docs.djangoproject.com/en/1.10/topics/logging/</span><br><span class="line"># 日志级别</span><br><span class="line">LOG_LEVEL: ERROR</span><br><span class="line"># LOG_DIR:</span><br><span class="line"></span><br><span class="line"># Session expiration setting, Default 24 hour, Also set expired on on browser close</span><br><span class="line"># 浏览器Session过期时间，默认24小时, 也可以设置浏览器关闭则过期</span><br><span class="line"># SESSION_COOKIE_AGE: 86400</span><br><span class="line">SESSION_EXPIRE_AT_BROWSER_CLOSE: true</span><br><span class="line"></span><br><span class="line"># Database setting, Support sqlite3, mysql, postgres ....</span><br><span class="line"># 数据库设置</span><br><span class="line"># See https://docs.djangoproject.com/en/1.10/ref/settings/#databases</span><br><span class="line"></span><br><span class="line"># SQLite setting:</span><br><span class="line"># 使用单文件sqlite数据库</span><br><span class="line"># DB_ENGINE: sqlite3</span><br><span class="line"># DB_NAME:</span><br><span class="line"></span><br><span class="line"># MySQL or postgres setting like:</span><br><span class="line"># 使用Mysql作为数据库</span><br><span class="line">DB_ENGINE: mysql</span><br><span class="line">DB_HOST: 127.0.0.1</span><br><span class="line">DB_PORT: 3306</span><br><span class="line">DB_USER: jumpserver</span><br><span class="line">DB_PASSWORD: rBi41SrDqlX4zsx9e1L0cqTP</span><br><span class="line">DB_NAME: jumpserver</span><br><span class="line"></span><br><span class="line"># When Django start it will bind this host and port</span><br><span class="line"># ./manage.py runserver 127.0.0.1:8080</span><br><span class="line"># 运行时绑定端口</span><br><span class="line">HTTP_BIND_HOST: 0.0.0.0</span><br><span class="line">HTTP_LISTEN_PORT: 8080</span><br><span class="line">WS_LISTEN_PORT: 8070</span><br><span class="line"></span><br><span class="line"># Use Redis as broker for celery and web socket</span><br><span class="line"># Redis配置</span><br><span class="line">REDIS_HOST: 127.0.0.1</span><br><span class="line">REDIS_PORT: 6379</span><br><span class="line">REDIS_PASSWORD: ZhYnLrodpmPncovxJTnRyiBs</span><br><span class="line"># REDIS_DB_CELERY: 3</span><br><span class="line"># REDIS_DB_CACHE: 4</span><br><span class="line"></span><br><span class="line"># Use OpenID authorization</span><br><span class="line"># 使用OpenID 来进行认证设置</span><br><span class="line"># BASE_SITE_URL: http://localhost:8080</span><br><span class="line"># AUTH_OPENID: false  # True or False</span><br><span class="line"># AUTH_OPENID_SERVER_URL: https://openid-auth-server.com/</span><br><span class="line"># AUTH_OPENID_REALM_NAME: realm-name</span><br><span class="line"># AUTH_OPENID_CLIENT_ID: client-id</span><br><span class="line"># AUTH_OPENID_CLIENT_SECRET: client-secret</span><br><span class="line"># AUTH_OPENID_IGNORE_SSL_VERIFICATION: True</span><br><span class="line"># AUTH_OPENID_SHARE_SESSION: True</span><br><span class="line"></span><br><span class="line"># Use Radius authorization</span><br><span class="line"># 使用Radius来认证</span><br><span class="line"># AUTH_RADIUS: false</span><br><span class="line"># RADIUS_SERVER: localhost</span><br><span class="line"># RADIUS_PORT: 1812</span><br><span class="line"># RADIUS_SECRET:</span><br><span class="line"></span><br><span class="line"># CAS 配置</span><br><span class="line"># AUTH_CAS&apos;: False,</span><br><span class="line"># CAS_SERVER_URL&apos;: &quot;http://host/cas/&quot;,</span><br><span class="line"># CAS_ROOT_PROXIED_AS&apos;: &apos;http://jumpserver-host:port&apos;,  </span><br><span class="line"># CAS_LOGOUT_COMPLETELY&apos;: True,</span><br><span class="line"># CAS_VERSION&apos;: 3,</span><br><span class="line"></span><br><span class="line"># LDAP/AD settings</span><br><span class="line"># LDAP 搜索分页数量</span><br><span class="line"># AUTH_LDAP_SEARCH_PAGED_SIZE: 1000</span><br><span class="line">#</span><br><span class="line"># 定时同步用户</span><br><span class="line"># 启用 / 禁用</span><br><span class="line"># AUTH_LDAP_SYNC_IS_PERIODIC: True</span><br><span class="line"># 同步间隔 (单位: 时) (优先）</span><br><span class="line"># AUTH_LDAP_SYNC_INTERVAL: 12</span><br><span class="line"># Crontab 表达式</span><br><span class="line"># AUTH_LDAP_SYNC_CRONTAB: * 6 * * *</span><br><span class="line">#</span><br><span class="line"># LDAP 用户登录时仅允许在用户列表中的用户执行 LDAP Server 认证</span><br><span class="line"># AUTH_LDAP_USER_LOGIN_ONLY_IN_USERS: False</span><br><span class="line">#</span><br><span class="line"># LDAP 认证时如果日志中出现以下信息将参数设置为 0 (详情参见：https://www.python-ldap.org/en/latest/faq.html)</span><br><span class="line"># In order to perform this operation a successful bind must be completed on the connection</span><br><span class="line"># AUTH_LDAP_OPTIONS_OPT_REFERRALS: -1</span><br><span class="line"></span><br><span class="line"># OTP settings</span><br><span class="line"># OTP/MFA 配置</span><br><span class="line"># OTP_VALID_WINDOW: 0</span><br><span class="line"># OTP_ISSUER_NAME: Jumpserver</span><br><span class="line"></span><br><span class="line"># Perm show single asset to ungrouped node</span><br><span class="line"># 是否把未授权节点资产放入到 未分组 节点中</span><br><span class="line"># PERM_SINGLE_ASSET_TO_UNGROUP_NODE: false</span><br><span class="line">#</span><br><span class="line"># 启用定时任务</span><br><span class="line"># PERIOD_TASK_ENABLE: True</span><br><span class="line">#</span><br><span class="line"># 启用二次复合认证配置</span><br><span class="line"># LOGIN_CONFIRM_ENABLE: False</span><br><span class="line">#</span><br><span class="line"># Windows 登录跳过手动输入密码</span><br><span class="line">WINDOWS_SKIP_ALL_MANUAL_PASSWORD: True</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动jumpserver</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt/jumpserver</span><br><span class="line">./jms start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>部署koko组件</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line"><span class="comment"># 下载koko的release压缩包</span></span><br><span class="line">wget https://github.com/jumpserver/koko/releases/download/1.5.8/koko-master-linux-amd64.tar.gz</span><br><span class="line">tar -xf koko-master-linux-amd64.tar.gz &amp;&amp; \  </span><br><span class="line">chown -R root:root kokodir &amp;&amp; \  </span><br><span class="line"><span class="built_in">cd</span> kokodir</span><br><span class="line"></span><br><span class="line">cp config_example.yml config.yml &amp;&amp; \  </span><br><span class="line">vim config.yml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置内容</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 项目名称, 会用来向Jumpserver注册, 识别而已, 不能重复</span><br><span class="line"># NAME: &#123;&#123; Hostname &#125;&#125;</span><br><span class="line"></span><br><span class="line"># Jumpserver项目的url, api请求注册会使用</span><br><span class="line">CORE_HOST: http://127.0.0.1:8080</span><br><span class="line"></span><br><span class="line"># Bootstrap Token, 预共享秘钥, 用来注册coco使用的service account和terminal</span><br><span class="line"># 请和jumpserver 配置文件中保持一致，注册完成后可以删除</span><br><span class="line">BOOTSTRAP_TOKEN: zxffNymGjP79j6BN</span><br><span class="line"></span><br><span class="line"># 启动时绑定的ip, 默认 0.0.0.0</span><br><span class="line"># BIND_HOST: 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 监听的SSH端口号, 默认2222</span><br><span class="line"># SSHD_PORT: 2222</span><br><span class="line"></span><br><span class="line"># 监听的HTTP/WS端口号，默认5000</span><br><span class="line"># HTTPD_PORT: 5000</span><br><span class="line"></span><br><span class="line"># 项目使用的ACCESS KEY, 默认会注册,并保存到 ACCESS_KEY_STORE中,</span><br><span class="line"># 如果有需求, 可以写到配置文件中, 格式 access_key_id:access_key_secret</span><br><span class="line"># ACCESS_KEY: null</span><br><span class="line"></span><br><span class="line"># ACCESS KEY 保存的地址, 默认注册后会保存到该文件中</span><br><span class="line"># ACCESS_KEY_FILE: data/keys/.access_key</span><br><span class="line"></span><br><span class="line"># 设置日志级别 [DEBUG, INFO, WARN, ERROR, FATAL, CRITICAL]</span><br><span class="line">LOG_LEVEL: ERROR</span><br><span class="line"></span><br><span class="line"># SSH连接超时时间 (default 15 seconds)</span><br><span class="line"># SSH_TIMEOUT: 15</span><br><span class="line"></span><br><span class="line"># 语言 [en,zh]</span><br><span class="line"># LANG: zh</span><br><span class="line"></span><br><span class="line"># SFTP的根目录, 可选 /tmp, Home其他自定义目录</span><br><span class="line"># SFTP_ROOT: /tmp</span><br><span class="line"></span><br><span class="line"># SFTP是否显示隐藏文件</span><br><span class="line"># SFTP_SHOW_HIDDEN_FILE: false</span><br><span class="line"></span><br><span class="line"># 是否复用和用户后端资产已建立的连接(用户不会复用其他用户的连接)</span><br><span class="line"># REUSE_CONNECTION: true</span><br><span class="line"></span><br><span class="line"># 资产加载策略, 可根据资产规模自行调整. 默认异步加载资产, 异步搜索分页; 如果为all, 则资产全部加载, 本地搜索分页.</span><br><span class="line"># ASSET_LOAD_POLICY:</span><br><span class="line"></span><br><span class="line"># zip压缩的最大额度 (单位: M)</span><br><span class="line"># ZIP_MAX_SIZE: 1024M</span><br><span class="line"></span><br><span class="line"># zip压缩存放的临时目录 /tmp</span><br><span class="line"># ZIP_TMP_PATH: /tmp</span><br><span class="line"></span><br><span class="line"># 向 SSH Client 连接发送心跳的时间间隔 (单位: 秒)，默认为30, 0则表示不发送</span><br><span class="line"># CLIENT_ALIVE_INTERVAL: 30</span><br><span class="line"></span><br><span class="line"># 向资产发送心跳包的重试次数，默认为3</span><br><span class="line"># RETRY_ALIVE_COUNT_MAX: 3</span><br><span class="line"></span><br><span class="line"># 会话共享使用的类型 [local, redis], 默认local</span><br><span class="line">SHARE_ROOM_TYPE: redis</span><br><span class="line"></span><br><span class="line"># Redis配置</span><br><span class="line">REDIS_HOST: 127.0.0.1</span><br><span class="line">REDIS_PORT: 6379</span><br><span class="line">REDIS_PASSWORD: ZhYnLrodpmPncovxJTnRyiBs</span><br><span class="line"># REDIS_CLUSTERS:</span><br><span class="line">REDIS_DB_ROOM: 6</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>docker部署koko</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker run --name jms_koko -d \</span><br><span class="line">-p 2222:2222 -p 127.0.0.1:5000:5000 \</span><br><span class="line">-e CORE_HOST=http://&lt;Jumpserver_url&gt; \</span><br><span class="line">-e BOOTSTRAP_TOKEN=&lt;Jumpserver_BOOTSTRAP_TOKEN&gt; \</span><br><span class="line">-e LOG_LEVEL=ERROR \</span><br><span class="line">--restart=always \</span><br><span class="line">jumpserver/jms_koko:&lt;Tag&gt;</span><br><span class="line"><span class="comment"># &lt;Jumpserver_url&gt; 为 jumpserver 的 url 地址, &lt;Jumpserver_BOOTSTRAP_TOKEN&gt; 需要从 jumpserver/config.yml 里面获取, 保证一致, &lt;Tag&gt; 是版本</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
 </ul>
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
 <li><a href="https://jumpserver.readthedocs.io/zh/master/index.html" target="_blank" rel="noopener">jumpsever官方文档</a></li>
+<li><a href="https://blog.csdn.net/weixin_39269896/article/details/89486357" target="_blank" rel="noopener">gss报错解决网址</a></li>
+<li><a href="https://blog.csdn.net/qq_20105831/article/details/89361472" target="_blank" rel="noopener">python-ldap报错解决网址</a></li>
 </ul>
 ]]></content>
       <categories>
@@ -1455,6 +2089,21 @@
       </categories>
   </entry>
   <entry>
+    <title>Web网络安全</title>
+    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
+    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
+<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
+      <categories>
+        <category>Network</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Web内容技术</title>
     <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_10/%E5%9B%BE%E8%A7%A3HTTP_10/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -1511,21 +2160,6 @@
 <li>以JavaScript（ECMAScript）的对象表示法为基础的轻量级数据标记语言</li>
 </ul>
 ]]></content>
-      <categories>
-        <category>Network</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>Web网络安全</title>
-    <url>/2020/03/27/network/%E5%9B%BE%E8%A7%A3HTTP_11/%E5%9B%BE%E8%A7%A3HTTP_11/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#web网络攻击">Web网络攻击</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="Web网络攻击"><a href="#Web网络攻击" class="headerlink" title="Web网络攻击"></a>Web网络攻击</h1>]]></content>
       <categories>
         <category>Network</category>
       </categories>
@@ -1688,36 +2322,6 @@
 ]]></content>
       <categories>
         <category>MySQL</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>redis 安装</title>
-    <url>/2020/03/26/redis/redis-install/</url>
-    <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#install-redis-on-centos7">install redis on centos7</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-<h1 id="install-redis-on-centos7"><a href="#install-redis-on-centos7" class="headerlink" title="install redis on centos7"></a>install redis on centos7</h1><ol>
-<li><p>下载安装包</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">redis官网：http://download.redis.io/</span><br><span class="line">wget http://download.redis.io/releases/redis-5.0.7.tar.gz</span><br><span class="line">tar -xzvf redis-5.0.7.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编译安装</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd redis-5.0.7</span><br><span class="line">make</span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>运行</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /src</span><br><span class="line">./redis-server  # 默认配置启动</span><br><span class="line">./redis-server &amp;  # 后台启动</span><br><span class="line"># ./redis-server ../redis.conf  # redis.conf 为默认配置文件，可以修改</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">./redis-cli</span><br><span class="line">commond</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Redis</category>
       </categories>
   </entry>
   <entry>
@@ -3194,6 +3798,89 @@
       </categories>
   </entry>
   <entry>
+    <title>上下文切换</title>
+    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
+    <content><![CDATA[<ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
+</li>
+</ul>
+</li>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+
+
+<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
+<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
+<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
+<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
+<li>进程上下文切换是在不同进程之间</li>
+<li>系统调用只在一个进程中</li>
+<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
+</ol>
+</li>
+<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
+<li>进程切换场景<ol>
+<li>时间片轮转结束，或进程执行完成</li>
+<li>调用sleep函数</li>
+<li>等待系统资源</li>
+<li>更高优先级进程抢占</li>
+<li>硬件中断</li>
+</ol>
+</li>
+</ol>
+<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
+<li>线程属于不同的进程，与进程上下文切换一致</li>
+<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
+<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
+</ol>
+<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
+<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
+<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
+<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
+</ol>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
+<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
+<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
+<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
+<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
+<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
+</ol>
+</li>
+<li><strong>实验</strong></li>
+<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
+<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
+<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
+<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
+<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
+</ol>
+</li>
+<li>总结<ol>
+<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
+<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Python基础</title>
     <url>/2020/03/20/python/python_base/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -4003,89 +4690,6 @@
       </categories>
   </entry>
   <entry>
-    <title>上下文切换</title>
-    <url>/2020/03/20/linux/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2/</url>
-    <content><![CDATA[<ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol><a id="more"></a><!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-
-<h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><ol>
-<li>内核空间（Ring 0）具有最高权限，可以直接访问所有资源；</li>
-<li>用户空间（Ring 3）只能访问受限资源，不能直接访问内存等硬件设备，必须通过系统调用陷入到内核中，才能访问这些特权资源。<br><img src="http://study.jeffqi.cn/linux/linux-source-space.png" alt></li>
-<li>进程在用户空间运行时，被称为进程的用户态，而陷入内核空间的时候，被称为进程的内核态。从用户态到内核态的转变，需要通过系统调用来完成；<strong>一次系统调用的过程，其实是发生了两次 CPU 上下文切换；系统调用过程中，并不会涉及到虚拟内存等进程用户态的资源，也不会切换进程</strong><ol>
-<li>进程上下文切换是在不同进程之间</li>
-<li>系统调用只在一个进程中</li>
-<li><strong>系统调用过程通常称为特权模式切换，而不是上下文切换；但是也不可避免CPU的上下文切换</strong></li>
-</ol>
-</li>
-<li><strong>进程是由内核来管理和调度的，进程的切换只能发生在内核态</strong>；进程的上下文不仅包括了虚拟内存、栈、全局变量等用户空间的资源，还包括了内核堆栈、寄存器等内核空间的状态。</li>
-<li>进程切换场景<ol>
-<li>时间片轮转结束，或进程执行完成</li>
-<li>调用sleep函数</li>
-<li>等待系统资源</li>
-<li>更高优先级进程抢占</li>
-<li>硬件中断</li>
-</ol>
-</li>
-</ol>
-<h2 id="线程上下文切换"><a href="#线程上下文切换" class="headerlink" title="线程上下文切换"></a>线程上下文切换</h2><ol>
-<li>线程属于不同的进程，与进程上下文切换一致</li>
-<li>当进程拥有多个线程时，这些线程会<strong>共享</strong>相同的虚拟内存和全局变量等资源。这些资源在上下文切换时是不需要修改的。</li>
-<li><strong>线程也有自己的私有数据</strong>，比如栈和寄存器等，这些在上下文切换时也是需要保存的。</li>
-</ol>
-<h2 id="中断上下文切换"><a href="#中断上下文切换" class="headerlink" title="中断上下文切换"></a>中断上下文切换</h2><ol>
-<li>为了快速响应硬件的事件，<strong>中断处理会打断进程的正常调度和执行</strong></li>
-<li><strong>终端上下文不涉及用户空间</strong>；中断过程打断了一个正处在用户态的进程，不会保存和恢复用户空间的虚拟内存、全局变量等；只包含内核空间的栈、CPU寄存器等</li>
-<li>中断处理比进程拥有更高的优先级；中断上下文切换也需要消耗 CPU，切换次数过多也会耗费大量的 CPU，甚至严重降低系统的整体性能</li>
-</ol>
-<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><ol>
-<li>使用vmstat查看内存使用情况;vmstat 只给出了系统总体的上下文切换情况<br><img src="http://study.jeffqi.cn/linux/vmstat.jpg" alt="vmstat"></li>
-<li>pid查看进程详细情况；-w 选项，你就可以查看每个进程上下文切换的情况；<br><img src="http://study.jeffqi.cn/linux/pidstat_w.jpg" alt="pidstat_w"></li>
-<li>上图中：cswch，表示每秒<strong>自愿</strong>上下文切换（voluntary context switches）的次数； nvcswch ，表示每秒<strong>非自愿</strong>上下文切换（non voluntary context switches）的次数<ol>
-<li>自愿上下文切换，是指进程无法获取所需资源，导致的上下文切换。比如说， I/O、内存等系统资源不足时，就会发生自愿上下文切换。</li>
-<li>非自愿上下文切换，则是指进程由于时间片已到等原因，被系统强制调度，进而发生的上下文切换。比如说，大量进程都在争抢 CPU 时，就容易发生非自愿上下文切换</li>
-</ol>
-</li>
-<li><strong>实验</strong></li>
-<li>sysbench：是一个多线程的基准测试工具，一般用来评估不同系统参数下的数据库负载情况；sysstat<br><img src="http://study.jeffqi.cn/linux/sysbench_threads=5.jpg" alt="sysbench_threads=5"></li>
-<li>vmstat查看实验前上下文切换情况；对比上面实验前的结果；r、in、cs、us、sy参数激增<br><img src="http://study.jeffqi.cn/linux/vmstat_sysbench.jpg" alt="vmstat_sysbench"></li>
-<li>pidstat查看进程线程的上下文切换情况；sysbench基于多线程工作模式，需要使用-t参数查看<br><img src="http://study.jeffqi.cn/linux/pidstat_w_u_sysbench.jpg" alt="pidstat_w_u_sysbench"><br><img src="http://study.jeffqi.cn/linux/pidstat_w_t_sysbench.jpg" alt="pidstat_w_t_sysbench"></li>
-<li>查看中断上下文切换通过查看/proc/interrupt文件（<strong>单核服务器中看不出变化，需要在多核服务器上RES明显变化</strong>）<br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts.jpg" alt="cat_proc_interrupt"><br><img src="http://study.jeffqi.cn/linux/cat_proc_interrupts_mulits.jpg" alt="cat_proc_interrupt_mulit"><ol>
-<li>重调度中断（RES），这个中断类型表示，唤醒空闲状态的 CPU 来调度新的任务运行。这是多处理器系统（SMP）中，调度器用来分散任务到不同 CPU 的机制，通常也被称为处理器间中断</li>
-</ol>
-</li>
-<li>总结<ol>
-<li>自愿上下文切换变多了，说明进程都在等待资源，有可能发生了 I/O 等其他问题；</li>
-<li>非自愿上下文切换变多了，说明进程都在被强制调度，也就是都在争抢 CPU，说明 CPU 的确成了瓶颈；</li>
-<li>中断次数变多了，说明 CPU 被中断处理程序占用，还需要通过查看 /proc/interrupts 文件来分析具体的中断类型。</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>网络参数</title>
     <url>/2020/03/19/linux/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
@@ -4434,7 +5038,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>Docker</category>
+        <category>Cloud</category>
       </categories>
   </entry>
   <entry>
@@ -4502,7 +5106,7 @@
 </ol>
 ]]></content>
       <categories>
-        <category>Docker</category>
+        <category>Cloud</category>
       </categories>
   </entry>
   <entry>
@@ -4971,7 +5575,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>Docker</category>
+        <category>Cloud</category>
       </categories>
   </entry>
   <entry>
@@ -5398,7 +6002,7 @@
 </ul>
 ]]></content>
       <categories>
-        <category>Docker</category>
+        <category>Cloud</category>
       </categories>
   </entry>
   <entry>
@@ -5484,7 +6088,7 @@
   </entry>
   <entry>
     <title>HTML5基础</title>
-    <url>/2019/11/20/python/Django2.0/HTML%E5%9F%BA%E7%A1%80/HTML5%E5%9F%BA%E7%A1%80/</url>
+    <url>/2019/11/20/python/Django3.0/HTML%E5%9F%BA%E7%A1%80/HTML5%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
 <li><a href="#html5基础">HTML5基础</a><ul>
@@ -5584,9 +6188,9 @@
 </ol>
 </li>
 </ol>
-<h2 id="HTML格式化"><a href="#HTML格式化" class="headerlink" title="HTML格式化"></a>HTML格式化</h2><p><img src="/2019/11/20/python/Django2.0/HTML基础/HTML5基础/%E6%A0%BC%E5%BC%8F%E5%8C%96.png" alt></p>
-<h2 id="HTML列表"><a href="#HTML列表" class="headerlink" title="HTML列表"></a>HTML列表</h2><p><img src="/2019/11/20/python/Django2.0/HTML基础/HTML5基础/HTML%E5%88%97%E8%A1%A8.png" alt></p>
-<h3 id="HTML块"><a href="#HTML块" class="headerlink" title="HTML块"></a>HTML块</h3><p><img src="/2019/11/20/python/Django2.0/HTML基础/HTML5基础/HTML%E5%9D%97.png" alt></p>
+<h2 id="HTML格式化"><a href="#HTML格式化" class="headerlink" title="HTML格式化"></a>HTML格式化</h2><p><img src="/2019/11/20/python/Django3.0/HTML基础/HTML5基础/%E6%A0%BC%E5%BC%8F%E5%8C%96.png" alt></p>
+<h2 id="HTML列表"><a href="#HTML列表" class="headerlink" title="HTML列表"></a>HTML列表</h2><p><img src="/2019/11/20/python/Django3.0/HTML基础/HTML5基础/HTML%E5%88%97%E8%A1%A8.png" alt></p>
+<h3 id="HTML块"><a href="#HTML块" class="headerlink" title="HTML块"></a>HTML块</h3><p><img src="/2019/11/20/python/Django3.0/HTML基础/HTML5基础/HTML%E5%9D%97.png" alt></p>
 <h2 id="HTML样式"><a href="#HTML样式" class="headerlink" title="HTML样式"></a>HTML样式</h2><ol>
 <li><p>标签</p>
 <ul>
@@ -7235,6 +7839,11 @@ eg：alter table test drop index createtime;</code></pre><h3 id="8-4-mysql必备
 </li>
 <li><p>启动服务</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">systemctl start mysqld.server</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>中间报错信息  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">无法更新pid文件到时服务器启动失败。</span><br><span class="line">1.  权限不正确，需要讲mysql需要的文件全部改为 mysql:mysql 属性</span><br><span class="line">2.  无法创建pid文件上级目录。通过手工创建临时解决。永久解决修改/etc/rc.d/init.d/mysqld文件。</span><br><span class="line">    vim /etc/rc.d/init.d/mysqld</span><br><span class="line"></span><br><span class="line">    mkdir -p /path/to/pidfile</span><br><span class="line">    chown -R mysql:mysql /path/to/pidfile</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 <li><p>添加mysql环境变量</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"export PATH=<span class="variable">$PATH</span>:/usr/local/mysql/bin"</span> &gt;&gt; /etc/bashrc</span><br><span class="line"><span class="built_in">source</span> /etc/bashrc</span><br></pre></td></tr></table></figure>
