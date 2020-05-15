@@ -55,18 +55,18 @@
   };
 </script>
 
-  <meta name="description" content="MySQL日志模块 redo-log（重做日志） binlog（归档日志） 两种日志比较 两阶段提交 小结">
+  <meta name="description" content="HTML基础                   Hello Html5!          here is title!          可编辑          在右边哟,不是在左边          这是显示id的作用!          这是标题     这也是标题     标题          Baidu     Aliyun">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL日志">
-<meta property="og:url" content="http://Jeff-Qi.github.io/2019/12/08/mysql/MySQL日志/index.html">
+<meta property="og:title" content="Jerqi‘s Blog">
+<meta property="og:url" content="http://Jeff-Qi.github.io/2020/05/15/python/Django3.0/HTML基础/first/index.html">
 <meta property="og:site_name" content="Jerqi‘s Blog">
-<meta property="og:description" content="MySQL日志模块 redo-log（重做日志） binlog（归档日志） 两种日志比较 两阶段提交 小结">
+<meta property="og:description" content="HTML基础                   Hello Html5!          here is title!          可编辑          在右边哟,不是在左边          这是显示id的作用!          这是标题     这也是标题     标题          Baidu     Aliyun">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-26T14:16:50.197Z">
+<meta property="og:updated_time" content="2020-01-18T12:46:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL日志">
-<meta name="twitter:description" content="MySQL日志模块 redo-log（重做日志） binlog（归档日志） 两种日志比较 两阶段提交 小结">
-  <link rel="canonical" href="http://Jeff-Qi.github.io/2019/12/08/mysql/MySQL日志/">
+<meta name="twitter:title" content="Jerqi‘s Blog">
+<meta name="twitter:description" content="HTML基础                   Hello Html5!          here is title!          可编辑          在右边哟,不是在左边          这是显示id的作用!          这是标题     这也是标题     标题          Baidu     Aliyun">
+  <link rel="canonical" href="http://Jeff-Qi.github.io/2020/05/15/python/Django3.0/HTML基础/first/">
 
 
 <script id="page-configurations">
@@ -80,7 +80,7 @@
   };
 </script>
 
-  <title>MySQL日志 | Jerqi‘s Blog</title>
+  <title> | Jerqi‘s Blog</title>
   
 
 
@@ -256,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2019/12/08/mysql/MySQL日志/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/05/15/python/Django3.0/HTML基础/first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -268,7 +268,7 @@
       <meta itemprop="name" content="Jerqi‘s Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">MySQL日志
+        <h1 class="post-title" itemprop="name headline">
 
           
         </h1>
@@ -284,7 +284,7 @@
                 
               
 
-              <time title="创建时间：2019-12-08 21:33:00" itemprop="dateCreated datePublished" datetime="2019-12-08T21:33:00+08:00">2019-12-08</time>
+              <time title="创建时间：2020-05-15 11:41:16" itemprop="dateCreated datePublished" datetime="2020-05-15T11:41:16+08:00">2020-05-15</time>
             </span>
           
             
@@ -295,22 +295,9 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 22:16:50" itemprop="dateModified" datetime="2020-03-26T22:16:50+08:00">2020-03-26</time>
+                <time title="修改时间：2020-01-18 20:46:38" itemprop="dateModified" datetime="2020-01-18T20:46:38+08:00">2020-01-18</time>
               </span>
             
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -324,54 +311,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#mysql日志模块">MySQL日志模块</a><ul>
-<li><a href="#redo-log重做日志">redo-log（重做日志）</a></li>
-<li><a href="#binlog归档日志">binlog（归档日志）</a></li>
-<li><a href="#两种日志比较">两种日志比较</a></li>
-<li><a href="#两阶段提交">两阶段提交</a></li>
-<li><a href="#小结">小结</a><!-- TOC END -->
-<a id="more"></a>
-
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="MySQL日志模块"><a href="#MySQL日志模块" class="headerlink" title="MySQL日志模块"></a>MySQL日志模块</h1><h2 id="redo-log（重做日志）"><a href="#redo-log（重做日志）" class="headerlink" title="redo-log（重做日志）"></a>redo-log（重做日志）</h2><ul>
-<li><p>MySQL如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高</p>
-</li>
-<li><p>MySQL 里经常说到的 WAL 技术，WAL 的全称是 Write-Ahead Logging，它的关键点就是先写日志，再写磁盘。InnoDB 引擎就会先把记录写到 redo log（粉板）里面，并更新内存，在系统不是那么繁忙时再将内存中数据写入磁盘</p>
-</li>
-<li><p>redo-log大小固定，类似循环队列</p>
-</li>
-<li><p>为MySQL提供cache-safe功能，中途crash也能恢复</p>
-</li>
-</ul>
-<h2 id="binlog（归档日志）"><a href="#binlog（归档日志）" class="headerlink" title="binlog（归档日志）"></a>binlog（归档日志）</h2><ul>
-<li>MySQL 整体来看，其实就有两块：一块是 Server 层，它主要做的是 MySQL 功能层面的事情；还有一块是引擎层，负责存储相关的具体事宜。上面我们聊到的粉板 redo log 是 InnoDB 引擎特有的日志，而 Server 层也有自己的日志，称为 binlog（归档日志</li>
-</ul>
-<h2 id="两种日志比较"><a href="#两种日志比较" class="headerlink" title="两种日志比较"></a>两种日志比较</h2><ol>
-<li><p>redo-log是innodb存储引擎的日志系统；binlog是MySQL的server层的日志系统</p>
-</li>
-<li><p>redo-log是物理日志，记录数据库那个页上发生了改变；binlog是逻辑日志，记录某一条具体的数据库操作</p>
-</li>
-<li><p>redo-log大小固定，循环写，类似循环队列；binlog采用追加方式，写满后跳转下一个日志文件，不会覆盖前面的文件</p>
-</li>
-</ol>
-<h2 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h2><ul>
-<li><p>prepare状态与commit状态</p>
-</li>
-<li><p>如果不使用“两阶段提交”，那么数据库的状态就有可能和用它的日志恢复出来的库的状态不一致</p>
-</li>
-</ul>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
-<li><p>redo log 用于保证 crash-safe 能力</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">innodb_flush_log_at_trx_commit=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘</span><br><span class="line"></span><br><span class="line">sync_binlog=1</span><br><span class="line">#这个参数设置成 1 的时候，表示每次事务的 binlog 都持久化到磁盘</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>两阶段提交保证两个日志保持逻辑上一致</p>
-</li>
-</ul>
+        <!-- 文档类型说明 -->
+<!Doctype html>
+<!--根节点-->
+<html>
+  <!--头部信息-->
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <!--元信息-->
+    <meta charset="utf-8">
+    <!--标题-->
+    <title>HTML基础</title>
+  </head>
+  <!--包含页面内的所有主体内容-->
+  <body>
+    <!--直接显示文本-->
+    Hello Html5!
+    <!-- class:给元素添加一个或多个样式表类名 -->
+    <p class="header">here is title!</p>
+    <!-- contenteditable:表示文件是否可编辑 -->
+    <p contenteditable="true">可编辑</p>
+    <!-- 显示内容的开始位置 -->
+    <p dir="rtl">在右边哟,不是在左边</p>
+    <!-- id：元素的唯一标识 -->
+    <h1 id="myheader">这是显示id的作用!</h1>
+    <!-- style：行内元素的样式 -->
+    <p style="color: blue;text-align: center">这是标题</p>
+    <p style="color:red">这也是标题</p>
+    <p style="color: yellow;text-align: center;">标题</p>
+    <!-- tabindex：tab键的选取顺序 -->
+    <a href="http://www.baidu.com/" tabindex="1" target="_blank" rel="noopener">Baidu</a>
+    <a href="http://www.aliyun.com/" tabindex="3" target="_blank" rel="noopener">Aliyun</a>
+    <a href="http://www.tencent.com/" tabindex="2" target="_blank" rel="noopener">Tencent</a>
+    <!-- title：鼠标悬停时显示的信息 -->
+    <span title="http://www.jd.com/">JD</span>
+  </body>
+</html>
 
     </div>
 
@@ -388,8 +362,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/11/29/docker/初识Docker/" rel="next" title="初始Docker">
-                  <i class="fa fa-chevron-left"></i> 初始Docker
+                <a href="/2020/05/15/redis/redis-install/" rel="next" title="redis 安装">
+                  <i class="fa fa-chevron-left"></i> redis 安装
                 </a>
               
             </div>
@@ -398,8 +372,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/12/09/mysql/MySQL隔离级别/" rel="prev" title="MySQL隔离级别">
-                  MySQL隔离级别 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/05/15/python/Django3.0/HTML基础/first/" rel="prev" title="nice">
+                  nice <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -446,7 +420,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL日志模块"><span class="nav-number">1.</span> <span class="nav-text">MySQL日志模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#redo-log（重做日志）"><span class="nav-number">1.1.</span> <span class="nav-text">redo-log（重做日志）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#binlog（归档日志）"><span class="nav-number">1.2.</span> <span class="nav-text">binlog（归档日志）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两种日志比较"><span class="nav-number">1.3.</span> <span class="nav-text">两种日志比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两阶段提交"><span class="nav-number">1.4.</span> <span class="nav-text">两阶段提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.5.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#myheader"><span class="nav-number">1.</span> <span class="nav-text">这是显示id的作用!</span></a></li></ol></div>
         
       </div>
       <!--/noindex-->
