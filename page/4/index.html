@@ -255,6 +255,134 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/23/mysql/MySQL数据备份/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/23/mysql/MySQL数据备份/" class="post-title-link" itemprop="url">MySQL数据备份</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-23 19:00:00" itemprop="dateCreated datePublished" datetime="2020-03-23T19:00:00+08:00">2020-03-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-09 13:42:06" itemprop="dateModified" datetime="2020-05-09T13:42:06+08:00">2020-05-09</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#备份与恢复类型">备份与恢复类型</a><ul>
+<li><a href="#热备份联机备份">热备份（联机备份）</a></li>
+<li><a href="#冷备份脱机备份">冷备份（脱机备份）</a></li>
+<li><a href="#远程备份与本地备份">远程备份与本地备份</a></li>
+<li><a href="#快照备份">快照备份</a></li>
+<li><a href="#全量备份与增量备份">全量备份与增量备份</a></li>
+<li><a href="#物理备份">物理备份</a></li>
+<li><a href="#逻辑备份">逻辑备份</a></li>
+</ul>
+</li>
+<li><a href="#备份工具方法">备份工具方法</a><ul>
+<li><a href="#mysqldump备份与还原数据">mysqldump备份与还原数据</a></li>
+<li><a href="#复制文件进行备份myisam引擎">复制文件进行备份（myisam引擎）</a></li>
+<li><a href="#创建文本数据备份">创建文本数据备份</a></li>
+<li><a href="#二进制日志增量备份">二进制日志增量备份</a></li>
+</ul>
+</li>
+<li><a href="#开源热备工具">开源热备工具</a><ul>
+<li><a href="#percona-xtrabakup">percona xtrabakup</a></li>
+</ul>
+</li>
+<li><a href="#备份与恢复">备份与恢复</a><ul>
+<li><a href="#备份策略">备份策略</a></li>
+<li><a href="#数据恢复">数据恢复</a></li>
+</ul>
+</li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END --></li></ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/23/mysql/MySQL数据备份/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/23/mysql/mysql主从复制原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1076,126 +1204,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/linux/上下文切换/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/03/20/linux/上下文切换/" class="post-title-link" itemprop="url">上下文切换</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-03-20 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-20T00:15:00+08:00">2020-03-20</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-26 11:46:04" itemprop="dateModified" datetime="2020-03-26T11:46:04+08:00">2020-03-26</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><a href="#上下文切换">上下文切换</a><ul>
-<li><a href="#进程上下文切换">进程上下文切换</a></li>
-<li><a href="#线程上下文切换">线程上下文切换</a></li>
-<li><a href="#中断上下文切换">中断上下文切换</a></li>
-<li><a href="#案例分析">案例分析</a><!-- TOC END -->
-
-</li>
-</ul>
-</li>
-</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
-<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
-<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
-<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
-<li>上下文切换类型<ol>
-<li>进程上下文切换</li>
-<li>线程上下文切换</li>
-<li>中断上下文切换</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2020/03/20/linux/上下文切换/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/python/python_base/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1327,7 +1335,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/linux/网络性能/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/20/linux/上下文切换/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -1341,7 +1349,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2020/03/19/linux/网络性能/" class="post-title-link" itemprop="url">网络参数</a>
+            <a href="/2020/03/20/linux/上下文切换/" class="post-title-link" itemprop="url">上下文切换</a>
           
         </h1>
 
@@ -1356,7 +1364,7 @@
                 
               
 
-              <time title="创建时间：2020-03-19 22:15:00" itemprop="dateCreated datePublished" datetime="2020-03-19T22:15:00+08:00">2020-03-19</time>
+              <time title="创建时间：2020-03-20 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-20T00:15:00+08:00">2020-03-20</time>
             </span>
           
             
@@ -1367,7 +1375,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-11 13:05:01" itemprop="dateModified" datetime="2020-04-11T13:05:01+08:00">2020-04-11</time>
+                <time title="修改时间：2020-03-26 11:46:04" itemprop="dateModified" datetime="2020-03-26T11:46:04+08:00">2020-03-26</time>
               </span>
             
           
@@ -1396,21 +1404,31 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-<ul>
-<li><a href="#零碎知识点">零碎知识点</a><ul>
-<li><a href="#网络内核参数">网络内核参数</a><ul>
-<li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a></li>
-<li><a href="#关于过多time-wait参数调优">关于过多time-wait参数调优</a></li>
-</ul>
+          <ul>
+<li><a href="#上下文切换">上下文切换</a><ul>
+<li><a href="#进程上下文切换">进程上下文切换</a></li>
+<li><a href="#线程上下文切换">线程上下文切换</a></li>
+<li><a href="#中断上下文切换">中断上下文切换</a></li>
+<li><a href="#案例分析">案例分析</a><!-- TOC END -->
+
 </li>
 </ul>
 </li>
-<li><a href="#参考文档">参考文档</a><!-- TOC END --></li></ul>
+</ul><h1 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h1><ol>
+<li>CPU 寄存器：CPU 内置的容量小、但速度极快的内存</li>
+<li>程序计数器：用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置</li>
+<li>CPU寄存器和程序计数器是运行任何任务的前提，必须依赖的环境也称为CPU上下文</li>
+<li>上下文切换类型<ol>
+<li>进程上下文切换</li>
+<li>线程上下文切换</li>
+<li>中断上下文切换</li>
+</ol>
+</li>
+</ol>
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2020/03/19/linux/网络性能/#more" rel="contents">
+              <a class="btn" href="/2020/03/20/linux/上下文切换/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1485,7 +1503,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

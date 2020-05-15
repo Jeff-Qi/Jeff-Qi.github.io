@@ -255,7 +255,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/linux/平均负载均衡/">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/linux/网络性能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jerqi">
@@ -269,7 +269,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2020/03/19/linux/平均负载均衡/" class="post-title-link" itemprop="url">平均负载</a>
+            <a href="/2020/03/19/linux/网络性能/" class="post-title-link" itemprop="url">网络参数</a>
           
         </h1>
 
@@ -284,7 +284,7 @@
                 
               
 
-              <time title="创建时间：2020-03-19 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-19T00:15:00+08:00">2020-03-19</time>
+              <time title="创建时间：2020-03-19 22:15:00" itemprop="dateCreated datePublished" datetime="2020-03-19T22:15:00+08:00">2020-03-19</time>
             </span>
           
             
@@ -295,7 +295,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-12 14:03:06" itemprop="dateModified" datetime="2020-04-12T14:03:06+08:00">2020-04-12</time>
+                <time title="修改时间：2020-04-11 13:05:01" itemprop="dateModified" datetime="2020-04-11T13:05:01+08:00">2020-04-11</time>
               </span>
             
           
@@ -326,12 +326,19 @@
       
           <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
 <ul>
-<li><a href="#平均负载均衡">平均负载均衡</a><ul>
-<li><a href="#案例分析">案例分析</a><!-- TOC END --></li></ul></li></ul>
+<li><a href="#零碎知识点">零碎知识点</a><ul>
+<li><a href="#网络内核参数">网络内核参数</a><ul>
+<li><a href="#arp_ignore与arp_announce">arp_ignore与arp_announce</a></li>
+<li><a href="#关于过多time-wait参数调优">关于过多time-wait参数调优</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#参考文档">参考文档</a><!-- TOC END --></li></ul>
           <!--noindex-->
           
             <div class="post-button">
-              <a class="btn" href="/2020/03/19/linux/平均负载均衡/#more" rel="contents">
+              <a class="btn" href="/2020/03/19/linux/网络性能/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -451,6 +458,109 @@
 <li><a href="https://www.jianshu.com/p/36a7775b04ec" target="_blank" rel="noopener">消息队列</a></li>
 </ul>
 
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </article>
+  
+  
+  
+
+    
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/03/19/linux/平均负载均衡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jerqi">
+      <meta itemprop="description" content="good good study, day day up!">
+      <meta itemprop="image" content="/images/cool.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerqi‘s Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/03/19/linux/平均负载均衡/" class="post-title-link" itemprop="url">平均负载</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-19 00:15:00" itemprop="dateCreated datePublished" datetime="2020-03-19T00:15:00+08:00">2020-03-19</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-12 14:03:06" itemprop="dateModified" datetime="2020-04-12T14:03:06+08:00">2020-04-12</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
+<ul>
+<li><a href="#平均负载均衡">平均负载均衡</a><ul>
+<li><a href="#案例分析">案例分析</a><!-- TOC END --></li></ul></li></ul>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2020/03/19/linux/平均负载均衡/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1209,108 +1319,6 @@
   
 
     
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://Jeff-Qi.github.io/2020/01/22/docker/docker-network-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jerqi">
-      <meta itemprop="description" content="good good study, day day up!">
-      <meta itemprop="image" content="/images/cool.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jerqi‘s Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2020/01/22/docker/docker-network-notes/" class="post-title-link" itemprop="url">docker笔记网站记录</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2020-01-22 22:00:00" itemprop="dateCreated datePublished" datetime="2020-01-22T22:00:00+08:00">2020-01-22</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-15 10:39:12" itemprop="dateModified" datetime="2020-05-15T10:39:12+08:00">2020-05-15</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Cloud/" itemprop="url" rel="index"><span itemprop="name">Cloud</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!-- TOC START min:1 max:3 link:true asterisk:false update:true -->
-
-<!-- TOC END -->
-          <!--noindex-->
-          
-            <div class="post-button">
-              <a class="btn" href="/2020/01/22/docker/docker-network-notes/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </article>
-  
-  
-  
-
-    
   </div>
 
   
@@ -1363,7 +1371,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
